@@ -1,0 +1,173 @@
+/* Resume & cover letter document themes */
+
+.resume,
+.cover-letter {
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 2px);
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  box-shadow: var(--shadow);
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.resume-header h1,
+.letter-from strong {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.resume-title {
+  margin: 0.35rem 0 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.resume-contact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.resume-contact a {
+  color: inherit;
+}
+
+.resume-company-tag {
+  margin: 0.85rem 0 0;
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.resume-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.resume-section h2 {
+  margin: 0 0 0.55rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.resume-body p,
+.letter-body p {
+  margin: 0 0 0.75rem;
+}
+
+.resume-body p:last-child,
+.letter-body p:last-child {
+  margin-bottom: 0;
+}
+
+.letter-from {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.letter-from span {
+  color: var(--muted);
+}
+
+.letter-company {
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+/* Classic */
+.theme-classic .resume-header,
+.theme-classic .letter-from {
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Modern */
+.theme-modern.resume,
+.theme-modern.cover-letter {
+  border: none;
+  border-left: 6px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.theme-modern .resume-section h2 {
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  text-transform: none;
+  font-family: var(--display);
+  font-weight: 400;
+}
+
+/* Compact */
+.theme-compact.resume,
+.theme-compact.cover-letter {
+  padding: 1.25rem 1.5rem;
+  font-size: 0.92rem;
+}
+
+.theme-compact .resume-header h1,
+.theme-compact .letter-from strong {
+  font-size: 1.75rem;
+}
+
+.theme-compact .resume-section {
+  margin-top: 0.9rem;
+  padding-top: 0.65rem;
+}
+
+/* Company tint */
+.theme-company.resume,
+.theme-company.cover-letter {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 10%, white), var(--paper) 38%);
+}
+
+.theme-company .resume-header h1 {
+  color: color-mix(in srgb, var(--accent) 55%, var(--ink));
+}
+
+/* PDF / print optimization */
+.pdf-mode .resume,
+.pdf-mode .cover-letter,
+.resume.pdf-ready,
+.cover-letter.pdf-ready {
+  box-shadow: none;
+  border-radius: 0;
+  max-width: 100%;
+}
+
+@media print {
+  .resume,
+  .cover-letter {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  .resume-section {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}

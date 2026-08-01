@@ -1,0 +1,26 @@
+.env
+.env.*
+!.env.example
+
+# DDEV local / generated
+.ddev/.dbimageBuild/
+.ddev/.webimageBuild/
+.ddev/.homeadditions/
+.ddev/mutagen/
+.ddev/xhprof/
+.ddev/apache/apache-site.conf
+.ddev/nginx_full/nginx-site.conf
+.ddev/traefik/
+.ddev/*.txt
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Runtime
+/vendor/
+/node_modules/
+*.log
