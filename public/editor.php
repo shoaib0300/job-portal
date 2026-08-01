@@ -111,14 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'save_design') {
-        $theme = (string) ($_POST['theme'] ?? 'classic');
-        if (!array_key_exists($theme, App::themes())) {
-            $theme = 'classic';
-        }
-        $color = trim((string) ($_POST['accent_color'] ?? '#1a5f4a'));
-        if (!preg_match('/^#[0-9A-Fa-f]{6}$/', $color)) {
-            $color = '#1a5f4a';
-        }
+        $theme = App::resolveTheme($_POST['theme'] ?? null);
+        $color = App::resolveAccent($_POST['accent_color'] ?? null);
         App::setSetting('theme', $theme);
         App::setSetting('accent_color', $color);
         App::setSetting('pdf_mode', isset($_POST['pdf_mode']) ? '1' : '0');
@@ -166,13 +160,15 @@ layout_header('Editor');
     <div class="editor-main">
       <section class="editor-block" id="design">
         <h2>Design &amp; PDF</h2>
-        <form method="post" class="form">
+        <p class="empty" style="margin-top:0">Choose a visual style, preview live, then print or download PDF.</p>
+        <p><a class="btn btn-primary" href="/design.php">Open design studio</a></p>
+        <form method="post" class="form" style="margin-top:1.25rem">
           <input type="hidden" name="action" value="save_design">
           <label>
             Theme
             <select name="theme">
-              <?php foreach (App::themes() as $key => $label): ?>
-                <option value="<?= App::e($key) ?>"<?= $theme === $key ? ' selected' : '' ?>><?= App::e($label) ?></option>
+              <?php foreach (App::themes() as $key => $meta): ?>
+                <option value="<?= App::e($key) ?>"<?= $theme === $key ? ' selected' : '' ?>><?= App::e($meta['label']) ?></option>
               <?php endforeach; ?>
             </select>
           </label>

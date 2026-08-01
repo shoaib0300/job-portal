@@ -4,28 +4,42 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
+require_once dirname(__DIR__) . '/src/doc.php';
 
+$opts = doc_view_options();
 $profile = App::profile();
 $sections = App::sections(true);
-$theme = App::setting('theme', 'classic') ?: 'classic';
-$pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1';
-$company = App::setting('active_company', '') ?: '';
+$theme = $opts['theme'];
+$accent = $opts['accent'];
+$embed = $opts['embed'];
+$pdfMode = $opts['pdfMode'];
+$company = $opts['company'];
 
 layout_header($profile['full_name'] . ' — Resume', [
-    'body_class' => 'page-doc theme-' . $theme,
+    'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
+    'theme' => $theme,
+    'accent' => $accent,
+    'pdf_mode' => $pdfMode,
+    'hide_nav' => $embed,
+    'hide_flash' => $embed,
 ]);
+
+if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
   <div class="doc-toolbar-inner">
-    <a href="/">&larr; Portal</a>
+    <a href="/design.php?doc=resume">&larr; Design studio</a>
     <div class="doc-actions">
-      <a class="btn btn-small" href="/editor.php">Edit</a>
-      <button type="button" class="btn btn-small btn-primary" data-print>Print / Save PDF</button>
+      <a class="btn btn-small" href="/editor.php">Edit content</a>
+      <a class="btn btn-small" href="/design.php?doc=resume">Change style</a>
+      <button type="button" class="btn btn-small btn-primary" data-print>Print</button>
+      <button type="button" class="btn btn-small btn-secondary" data-download-pdf>Download PDF</button>
     </div>
   </div>
 </main>
+<?php endif; ?>
 
-<article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>">
+<article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>" data-doc="resume">
   <header class="resume-header">
     <h1><?= App::e($profile['full_name']) ?></h1>
     <?php if ($profile['title'] !== ''): ?>
@@ -41,7 +55,7 @@ layout_header($profile['full_name'] . ' — Resume', [
         <?php endif; ?>
       <?php endforeach; ?>
     </ul>
-    <?php if ($company !== ''): ?>
+    <?php if ($company !== '' && !$embed): ?>
       <p class="resume-company-tag no-print">Tailored for <?= App::e($company) ?></p>
     <?php endif; ?>
   </header>

@@ -132,6 +132,93 @@
   padding-top: 0.65rem;
 }
 
+/* Sidebar */
+.theme-sidebar.resume {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: 0 1.75rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.theme-sidebar .resume-header {
+  grid-column: 1;
+  grid-row: 1 / span 50;
+  background: var(--accent);
+  color: #fff;
+  padding: 1.75rem 1.25rem;
+  min-height: 100%;
+}
+
+.theme-sidebar .resume-title,
+.theme-sidebar .resume-contact,
+.theme-sidebar .resume-contact a {
+  color: color-mix(in srgb, #fff 88%, var(--accent));
+}
+
+.theme-sidebar .resume-section {
+  grid-column: 2;
+  margin-top: 0;
+  padding: 1.5rem 1.5rem 0 0;
+  border-top: none;
+}
+
+.theme-sidebar .resume-section:first-of-type {
+  padding-top: 1.75rem;
+}
+
+.theme-sidebar .resume-section:last-of-type {
+  padding-bottom: 1.75rem;
+}
+
+.theme-sidebar.cover-letter .letter-from {
+  background: var(--accent);
+  color: #fff;
+  margin: -1.5rem -1.5rem 1.5rem;
+  padding: 1.5rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.theme-sidebar.cover-letter .letter-from span,
+.theme-sidebar.cover-letter .resume-contact {
+  color: color-mix(in srgb, #fff 88%, var(--accent));
+}
+
+@media (max-width: 700px) {
+  .theme-sidebar.resume {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-sidebar .resume-header,
+  .theme-sidebar .resume-section {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .theme-sidebar .resume-section {
+    padding: 1rem 1.25rem;
+  }
+}
+
+/* Executive */
+.theme-executive .resume-header,
+.theme-executive .letter-from {
+  text-align: center;
+  border-top: 3px double var(--accent);
+  border-bottom: 3px double var(--accent);
+  padding: 1.1rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.theme-executive .resume-contact {
+  justify-content: center;
+}
+
+.theme-executive .resume-section h2 {
+  text-align: center;
+  letter-spacing: 0.18em;
+}
+
 /* Company tint */
 .theme-company.resume,
 .theme-company.cover-letter {
@@ -143,7 +230,16 @@
   color: color-mix(in srgb, var(--accent) 55%, var(--ink));
 }
 
-/* PDF / print optimization */
+/* Embed / PDF */
+.site-shell-embed {
+  width: min(900px, 100%);
+  padding: 1rem;
+}
+
+body.is-embed {
+  background: #ece8df;
+}
+
 .pdf-mode .resume,
 .pdf-mode .cover-letter,
 .resume.pdf-ready,
@@ -154,12 +250,33 @@
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
   .resume,
   .cover-letter {
     border: none !important;
     box-shadow: none !important;
     padding: 0 !important;
     max-width: none !important;
+  }
+
+  .theme-sidebar.resume {
+    padding: 0 !important;
+  }
+
+  .theme-sidebar.cover-letter .letter-from {
+    margin: 0 0 1rem !important;
+    border-radius: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .theme-sidebar .resume-header {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .resume-section {

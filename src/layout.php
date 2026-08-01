@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 function layout_header(string $title, array $opts = []): void
 {
-    $theme = App::setting('theme', 'classic') ?: 'classic';
-    $accent = App::setting('accent_color', '#1a5f4a') ?: '#1a5f4a';
-    $pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1';
+    $theme = App::resolveTheme($opts['theme'] ?? null);
+    $accent = App::resolveAccent($opts['accent'] ?? null);
+    $pdfMode = array_key_exists('pdf_mode', $opts)
+        ? (bool) $opts['pdf_mode']
+        : ((App::setting('pdf_mode', '0') ?: '0') === '1');
     $bodyClass = trim(($opts['body_class'] ?? '') . ($pdfMode ? ' pdf-mode' : ''));
-    $flash = App::flash();
+    $flash = empty($opts['hide_flash']) ? App::flash() : null;
+    $hideNav = !empty($opts['hide_nav']);
     ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,14 +27,15 @@ function layout_header(string $title, array $opts = []): void
   <style>:root { --accent: <?= App::e($accent) ?>; }</style>
 </head>
 <body class="<?= App::e($bodyClass) ?>" data-theme="<?= App::e($theme) ?>">
-  <div class="site-shell">
-    <?php if (empty($opts['hide_nav'])): ?>
+  <div class="site-shell<?= $hideNav ? ' site-shell-embed' : '' ?>">
+    <?php if (!$hideNav): ?>
     <header class="site-nav">
       <a class="brand" href="/">MNK</a>
       <nav>
         <a href="/">Home</a>
-        <a href="/resume.php">Resume</a>
-        <a href="/cover-letter.php">Cover letter</a>
+        <a href="/design.php?doc=resume">Resume</a>
+        <a href="/design.php?doc=cover">Cover letter</a>
+        <a href="/design.php">Design</a>
         <a href="/editor.php">Editor</a>
         <a href="/applications.php">Applications</a>
         <a href="/history.php">History</a>

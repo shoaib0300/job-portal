@@ -4,27 +4,41 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
+require_once dirname(__DIR__) . '/src/doc.php';
 
+$opts = doc_view_options();
 $profile = App::profile();
 $letter = App::activeCoverLetter();
-$theme = App::setting('theme', 'classic') ?: 'classic';
-$pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1';
+$theme = $opts['theme'];
+$accent = $opts['accent'];
+$embed = $opts['embed'];
+$pdfMode = $opts['pdfMode'];
 
 layout_header(($letter['title'] ?? 'Cover Letter'), [
-    'body_class' => 'page-doc theme-' . $theme,
+    'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
+    'theme' => $theme,
+    'accent' => $accent,
+    'pdf_mode' => $pdfMode,
+    'hide_nav' => $embed,
+    'hide_flash' => $embed,
 ]);
+
+if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
   <div class="doc-toolbar-inner">
-    <a href="/">&larr; Portal</a>
+    <a href="/design.php?doc=cover">&larr; Design studio</a>
     <div class="doc-actions">
-      <a class="btn btn-small" href="/editor.php#cover">Edit</a>
-      <button type="button" class="btn btn-small btn-primary" data-print>Print / Save PDF</button>
+      <a class="btn btn-small" href="/editor.php#cover">Edit content</a>
+      <a class="btn btn-small" href="/design.php?doc=cover">Change style</a>
+      <button type="button" class="btn btn-small btn-primary" data-print>Print</button>
+      <button type="button" class="btn btn-small btn-secondary" data-download-pdf>Download PDF</button>
     </div>
   </div>
 </main>
+<?php endif; ?>
 
-<article class="cover-letter theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>">
+<article class="cover-letter theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>" data-doc="cover">
   <header class="letter-from">
     <strong><?= App::e($profile['full_name']) ?></strong>
     <?php if ($profile['title'] !== ''): ?>

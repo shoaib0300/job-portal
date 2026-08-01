@@ -133,10 +133,64 @@ final class App
     public static function themes(): array
     {
         return [
-            'classic' => 'Classic',
-            'modern' => 'Modern',
-            'compact' => 'Compact',
-            'company' => 'Company tint',
+            'classic' => [
+                'label' => 'Classic',
+                'blurb' => 'Serif name, accent underline — clean and traditional.',
+            ],
+            'modern' => [
+                'label' => 'Modern',
+                'blurb' => 'Bold left accent bar and open spacing.',
+            ],
+            'compact' => [
+                'label' => 'Compact',
+                'blurb' => 'Tighter type for one-page applications.',
+            ],
+            'sidebar' => [
+                'label' => 'Sidebar',
+                'blurb' => 'Colored side column for contact and name.',
+            ],
+            'executive' => [
+                'label' => 'Executive',
+                'blurb' => 'Centered header with strong horizontal rules.',
+            ],
+            'company' => [
+                'label' => 'Company tint',
+                'blurb' => 'Soft brand wash using your accent color.',
+            ],
+        ];
+    }
+
+    public static function themeKeys(): array
+    {
+        return array_keys(self::themes());
+    }
+
+    public static function themeLabel(string $key): string
+    {
+        return self::themes()[$key]['label'] ?? ucfirst($key);
+    }
+
+    public static function resolveTheme(?string $theme): string
+    {
+        $theme = $theme ?: (self::setting('theme', 'classic') ?: 'classic');
+        return in_array($theme, self::themeKeys(), true) ? $theme : 'classic';
+    }
+
+    public static function resolveAccent(?string $accent): string
+    {
+        $accent = $accent ?: (self::setting('accent_color', '#1a5f4a') ?: '#1a5f4a');
+        return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#1a5f4a';
+    }
+
+    public static function colorPresets(): array
+    {
+        return [
+            '#1a5f4a' => 'Forest',
+            '#1e3a5f' => 'Navy',
+            '#6b2d3c' => 'Wine',
+            '#3d4f2f' => 'Olive',
+            '#0f4c5c' => 'Teal',
+            '#4a3728' => 'Espresso',
         ];
     }
 

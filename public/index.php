@@ -22,10 +22,10 @@ layout_header('Job Search Portal');
     <h1 class="hero-brand">MNK</h1>
     <p class="hero-lead">Track applications, tailor your resume, and keep cover letters ready.</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/resume.php">Show Resume</a>
-      <a class="btn btn-secondary" href="/cover-letter.php">Show Cover Letter</a>
+      <a class="btn btn-primary" href="/design.php?doc=resume">Show Resume</a>
+      <a class="btn btn-secondary" href="/design.php?doc=cover">Show Cover Letter</a>
     </div>
-    <p class="hero-meta">Editing as <?= App::e($profile['full_name']) ?> · <a href="/editor.php">Open editor</a></p>
+    <p class="hero-meta">Editing as <?= App::e($profile['full_name']) ?> · <a href="/editor.php">Open editor</a> · <a href="/design.php">Design studio</a></p>
   </section>
 
   <section class="apps-panel">
