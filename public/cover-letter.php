@@ -12,6 +12,7 @@ $profile = App::profile();
 $letter = App::activeCoverLetter();
 $theme = $opts['theme'];
 $accent = $opts['accent'];
+$font = $opts['font'];
 $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
 
@@ -19,6 +20,7 @@ layout_header(($letter['title'] ?? 'Cover Letter'), [
     'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
     'theme' => $theme,
     'accent' => $accent,
+    'font' => $font,
     'pdf_mode' => $pdfMode,
     'hide_nav' => $embed,
     'hide_flash' => $embed,

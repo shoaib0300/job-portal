@@ -192,8 +192,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'save_design') {
         $theme = App::resolveTheme($_POST['theme'] ?? null);
         $color = App::resolveAccent($_POST['accent_color'] ?? null);
+        $font = App::resolveFont($_POST['font_family'] ?? null);
         App::setSetting('theme', $theme);
         App::setSetting('accent_color', $color);
+        App::setSetting('font_family', $font);
         App::setSetting('pdf_mode', isset($_POST['pdf_mode']) ? '1' : '0');
         App::setSetting('active_company', trim((string) ($_POST['active_company'] ?? '')));
         App::flash('Design settings saved.');
@@ -209,6 +211,7 @@ $sections = App::sections(false);
 $letter = App::activeCoverLetter();
 $theme = App::setting('theme', 'classic') ?: 'classic';
 $accent = App::setting('accent_color', '#1a5f4a') ?: '#1a5f4a';
+$font = App::resolveFont(null);
 $pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1';
 $activeCompany = App::setting('active_company', '') ?: '';
 $links = $profile['links'];
@@ -248,6 +251,14 @@ layout_header('Editor');
             <select name="theme">
               <?php foreach (App::themes() as $key => $meta): ?>
                 <option value="<?= App::e($key) ?>"<?= $theme === $key ? ' selected' : '' ?>><?= App::e($meta['label']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </label>
+          <label>
+            Font
+            <select name="font_family">
+              <?php foreach (App::fonts() as $key => $meta): ?>
+                <option value="<?= App::e($key) ?>"<?= $font === $key ? ' selected' : '' ?>><?= App::e($meta['label']) ?></option>
               <?php endforeach; ?>
             </select>
           </label>

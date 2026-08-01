@@ -1,5 +1,7 @@
 (() => {
   const themeLabels = {
+    midnight: "Midnight",
+    sage: "Sage",
     classic: "Classic",
     modern: "Modern",
     compact: "Compact",
@@ -124,9 +126,31 @@
   const studio = document.querySelector("[data-design-studio]");
   if (!studio) return;
 
+  const fontLabels = {
+    arial: "Arial",
+    aptos: "Aptos",
+    candara: "Candara",
+    helvetica: "Helvetica",
+    georgia: "Georgia",
+    times: "Times New Roman",
+    garamond: "Garamond",
+    palatino: "Palatino",
+    playfair: "Playfair Display",
+    lora: "Lora",
+    cormorant: "Cormorant",
+    baskerville: "Baskerville",
+    source_serif: "Source Serif",
+    montserrat: "Montserrat",
+    calibri: "Calibri",
+    cosmo: "Cosmo",
+    didot: "Didot",
+    verdana: "Verdana",
+  };
+
   const frame = studio.querySelector("[data-preview-frame]");
   const themeInput = studio.querySelector("[data-theme-input]");
   const accentInput = studio.querySelector("[data-accent-input]");
+  const fontInput = studio.querySelector("[data-font-input]");
   const labelEl = studio.querySelector("[data-preview-label]");
   const openFull = studio.querySelector("[data-open-full]");
   const form = studio.querySelector("[data-design-form]");
@@ -134,6 +158,7 @@
 
   let theme = studio.dataset.theme || "classic";
   let accent = studio.dataset.accent || "#1a5f4a";
+  let font = studio.dataset.font || "georgia";
   const doc = studio.dataset.doc || "resume";
   const basePath = doc === "cover" ? "/cover-letter.php" : "/resume.php";
 
@@ -142,28 +167,36 @@
       embed: "1",
       theme,
       accent,
+      font,
       pdf: "1",
     });
     return `${basePath}?${q.toString()}`;
   }
 
   function fullUrl() {
-    const q = new URLSearchParams({ theme, accent, pdf: "1" });
+    const q = new URLSearchParams({ theme, accent, font, pdf: "1" });
     return `${basePath}?${q.toString()}`;
   }
 
   function syncUi() {
     if (themeInput) themeInput.value = theme;
     if (accentInput) accentInput.value = accent;
+    if (fontInput) fontInput.value = font;
     if (customColor) customColor.value = accent;
     if (frame) frame.src = previewUrl();
     if (openFull) openFull.href = fullUrl();
     if (labelEl) {
-      labelEl.textContent = `Preview · ${themeLabels[theme] || theme}`;
+      labelEl.textContent = `Preview · ${themeLabels[theme] || theme} · ${fontLabels[font] || font}`;
     }
 
     studio.querySelectorAll("[data-theme-pick]").forEach((btn) => {
       const on = btn.getAttribute("data-theme-pick") === theme;
+      btn.classList.toggle("is-selected", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+
+    studio.querySelectorAll("[data-font-pick]").forEach((btn) => {
+      const on = btn.getAttribute("data-font-pick") === font;
       btn.classList.toggle("is-selected", on);
       btn.setAttribute("aria-pressed", on ? "true" : "false");
     });
@@ -178,12 +211,20 @@
     url.searchParams.set("doc", doc);
     url.searchParams.set("theme", theme);
     url.searchParams.set("accent", accent);
+    url.searchParams.set("font", font);
     window.history.replaceState({}, "", url);
   }
 
   studio.querySelectorAll("[data-theme-pick]").forEach((btn) => {
     btn.addEventListener("click", () => {
       theme = btn.getAttribute("data-theme-pick") || theme;
+      syncUi();
+    });
+  });
+
+  studio.querySelectorAll("[data-font-pick]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      font = btn.getAttribute("data-font-pick") || font;
       syncUi();
     });
   });
@@ -228,6 +269,7 @@
       data.set("ajax", "1");
       data.set("theme", theme);
       data.set("accent_color", accent);
+      data.set("font_family", font);
       try {
         const res = await fetch(form.action || window.location.pathname, {
           method: "POST",
@@ -238,7 +280,7 @@
         if (json.ok) {
           const flash = document.createElement("div");
           flash.className = "flash";
-          flash.textContent = `Style applied: ${json.label}. You can print or download PDF now.`;
+          flash.textContent = `Style applied: ${json.label} · ${json.font_label || font}. You can print or download PDF now.`;
           studio.prepend(flash);
           window.setTimeout(() => flash.remove(), 3500);
         }

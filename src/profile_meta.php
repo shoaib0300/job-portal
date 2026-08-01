@@ -9,11 +9,11 @@ function render_profile_details(array $profile, bool $includeLinks = true): void
 {
     $dob = App::formatDate(isset($profile['date_of_birth']) ? (string) $profile['date_of_birth'] : null);
     $contact = [];
-    if (App::filled($profile['email'] ?? null)) {
-        $contact[] = ['text' => (string) $profile['email']];
-    }
     if (App::filled($profile['phone'] ?? null)) {
         $contact[] = ['text' => (string) $profile['phone']];
+    }
+    if (App::filled($profile['email'] ?? null)) {
+        $contact[] = ['text' => (string) $profile['email']];
     }
     if (App::filled($profile['location'] ?? null)) {
         $contact[] = ['text' => (string) $profile['location']];

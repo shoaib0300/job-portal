@@ -76,8 +76,9 @@ CREATE TABLE search_history (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO settings (`key`, `value`) VALUES
-  ('accent_color', '#1a5f4a'),
-  ('theme', 'classic'),
+  ('accent_color', '#4E6351'),
+  ('theme', 'sage'),
+  ('font_family', 'candara'),
   ('pdf_mode', '0'),
   ('active_company', '');
 

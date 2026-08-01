@@ -159,6 +159,14 @@ final class App
     public static function themes(): array
     {
         return [
+            'midnight' => [
+                'label' => 'Midnight',
+                'blurb' => 'Word-style dark letter — large caps name, Aptos/Arial, pipe contacts.',
+            ],
+            'sage' => [
+                'label' => 'Sage',
+                'blurb' => 'Word-style sage letter — centered name, Candara, contact between thin rules.',
+            ],
             'classic' => [
                 'label' => 'Classic',
                 'blurb' => 'Serif name, accent underline — clean and traditional.',
@@ -177,7 +185,7 @@ final class App
             ],
             'executive' => [
                 'label' => 'Executive',
-                'blurb' => 'Centered header with strong horizontal rules.',
+                'blurb' => 'Clean left-aligned layout with refined rules — formal and sharp.',
             ],
             'company' => [
                 'label' => 'Company tint',
@@ -243,6 +251,16 @@ final class App
             'arial' => [
                 'label' => 'Arial',
                 'stack' => 'Arial, Helvetica, sans-serif',
+                'google' => null,
+            ],
+            'aptos' => [
+                'label' => 'Aptos',
+                'stack' => 'Aptos, "Segoe UI", Arial, Helvetica, sans-serif',
+                'google' => null,
+            ],
+            'candara' => [
+                'label' => 'Candara',
+                'stack' => 'Candara, Calibri, "Segoe UI", sans-serif',
                 'google' => null,
             ],
             'helvetica' => [
@@ -335,8 +353,8 @@ final class App
 
     public static function resolveFont(?string $font): string
     {
-        $font = $font ?: (self::setting('font_family', 'georgia') ?: 'georgia');
-        return in_array($font, self::fontKeys(), true) ? $font : 'georgia';
+        $font = $font ?: (self::setting('font_family', 'candara') ?: 'candara');
+        return in_array($font, self::fontKeys(), true) ? $font : 'candara';
     }
 
     public static function fontStack(string $key): string
@@ -362,25 +380,27 @@ final class App
 
     public static function resolveTheme(?string $theme): string
     {
-        $theme = $theme ?: (self::setting('theme', 'classic') ?: 'classic');
-        return in_array($theme, self::themeKeys(), true) ? $theme : 'classic';
+        $theme = $theme ?: (self::setting('theme', 'sage') ?: 'sage');
+        return in_array($theme, self::themeKeys(), true) ? $theme : 'sage';
     }
 
     public static function resolveAccent(?string $accent): string
     {
-        $accent = $accent ?: (self::setting('accent_color', '#1a5f4a') ?: '#1a5f4a');
-        return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#1a5f4a';
+        $accent = $accent ?: (self::setting('accent_color', '#4E6351') ?: '#4E6351');
+        return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#4E6351';
     }
 
     public static function colorPresets(): array
     {
         return [
-            '#1a5f4a' => 'Forest',
+            '#4E6351' => 'Sage',
+            '#313E32' => 'Forest ink',
+            '#1a1a1a' => 'Midnight',
+            '#B85A22' => 'Terracotta',
+            '#DD8047' => 'Copper',
             '#1e3a5f' => 'Navy',
             '#6b2d3c' => 'Wine',
-            '#3d4f2f' => 'Olive',
             '#0f4c5c' => 'Teal',
-            '#4a3728' => 'Espresso',
         ];
     }
 

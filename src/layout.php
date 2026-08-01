@@ -6,6 +6,8 @@ function layout_header(string $title, array $opts = []): void
 {
     $theme = App::resolveTheme($opts['theme'] ?? null);
     $accent = App::resolveAccent($opts['accent'] ?? null);
+    $font = App::resolveFont($opts['font'] ?? null);
+    $fontStack = App::fontStack($font);
     $pdfMode = array_key_exists('pdf_mode', $opts)
         ? (bool) $opts['pdf_mode']
         : ((App::setting('pdf_mode', '0') ?: '0') === '1');
@@ -21,12 +23,12 @@ function layout_header(string $title, array $opts = []): void
   <title><?= App::e($title) ?> · MNK</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/app.css">
   <link rel="stylesheet" href="/assets/css/resume-themes.css">
-  <style>:root { --accent: <?= App::e($accent) ?>; }</style>
+  <style>:root { --accent: <?= App::e($accent) ?>; --doc-font: <?= App::e($fontStack) ?>; }</style>
 </head>
-<body class="<?= App::e($bodyClass) ?>" data-theme="<?= App::e($theme) ?>">
+<body class="<?= App::e($bodyClass) ?>" data-theme="<?= App::e($theme) ?>" data-font="<?= App::e($font) ?>">
   <div class="site-shell<?= $hideNav ? ' site-shell-embed' : '' ?>">
     <?php if (!$hideNav): ?>
     <header class="site-nav">

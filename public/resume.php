@@ -12,6 +12,7 @@ $profile = App::profile();
 $sections = App::sections(true);
 $theme = $opts['theme'];
 $accent = $opts['accent'];
+$font = $opts['font'];
 $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
 $company = $opts['company'];
@@ -20,6 +21,7 @@ layout_header($profile['full_name'] . ' — Resume', [
     'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
     'theme' => $theme,
     'accent' => $accent,
+    'font' => $font,
     'pdf_mode' => $pdfMode,
     'hide_nav' => $embed,
     'hide_flash' => $embed,

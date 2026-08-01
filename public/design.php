@@ -12,8 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'save_design') {
         $theme = App::resolveTheme($_POST['theme'] ?? null);
         $accent = App::resolveAccent($_POST['accent_color'] ?? null);
+        $font = App::resolveFont($_POST['font_family'] ?? null);
         App::setSetting('theme', $theme);
         App::setSetting('accent_color', $accent);
+        App::setSetting('font_family', $font);
         App::setSetting('pdf_mode', isset($_POST['pdf_mode']) ? '1' : '0');
         App::setSetting('active_company', trim((string) ($_POST['active_company'] ?? '')));
 
@@ -25,13 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'ok' => true,
                 'theme' => $theme,
                 'accent' => $accent,
+                'font' => $font,
                 'label' => App::themeLabel($theme),
+                'font_label' => App::fontLabel($font),
             ]);
             exit;
         }
 
         $doc = ($_POST['doc'] ?? 'resume') === 'cover' ? 'cover' : 'resume';
-        App::flash('Style saved — preview uses ' . App::themeLabel($theme) . '.');
+        App::flash('Style saved — ' . App::themeLabel($theme) . ' · ' . App::fontLabel($font) . '.');
         App::redirect('/design.php?doc=' . $doc);
     }
 }
@@ -39,22 +43,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $doc = ($_GET['doc'] ?? 'resume') === 'cover' ? 'cover' : 'resume';
 $theme = App::resolveTheme($_GET['theme'] ?? null);
 $accent = App::resolveAccent($_GET['accent'] ?? null);
+$font = App::resolveFont($_GET['font'] ?? null);
 $pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1';
 $activeCompany = App::setting('active_company', '') ?: '';
 $previewPath = $doc === 'cover' ? '/cover-letter.php' : '/resume.php';
 $profile = App::profile();
+$q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' . urlencode($font);
 
 layout_header('Design studio', [
     'pdf_mode' => false,
+    'font' => $font,
+    'accent' => $accent,
+    'theme' => $theme,
 ]);
 ?>
 <main class="design-studio" data-design-studio
       data-doc="<?= App::e($doc) ?>"
       data-theme="<?= App::e($theme) ?>"
-      data-accent="<?= App::e($accent) ?>">
+      data-accent="<?= App::e($accent) ?>"
+      data-font="<?= App::e($font) ?>">
   <header class="page-head">
     <h1>Design studio</h1>
-    <p>Pick a style, preview it live, then print or download a PDF in that look.</p>
+    <p>Pick a style and font, preview it live, then print or download a PDF in that look.</p>
   </header>
 
   <div class="studio-layout">
@@ -62,8 +72,8 @@ layout_header('Design studio', [
       <div class="studio-block">
         <h2>Document</h2>
         <div class="doc-toggle" role="tablist">
-          <a class="chip<?= $doc === 'resume' ? ' is-active' : '' ?>" href="/design.php?doc=resume&amp;theme=<?= urlencode($theme) ?>&amp;accent=<?= urlencode($accent) ?>">Resume</a>
-          <a class="chip<?= $doc === 'cover' ? ' is-active' : '' ?>" href="/design.php?doc=cover&amp;theme=<?= urlencode($theme) ?>&amp;accent=<?= urlencode($accent) ?>">Cover letter</a>
+          <a class="chip<?= $doc === 'resume' ? ' is-active' : '' ?>" href="/design.php?doc=resume&amp;<?= App::e($q) ?>">Resume</a>
+          <a class="chip<?= $doc === 'cover' ? ' is-active' : '' ?>" href="/design.php?doc=cover&amp;<?= App::e($q) ?>">Cover letter</a>
         </div>
       </div>
 
@@ -92,6 +102,22 @@ layout_header('Design studio', [
       </div>
 
       <div class="studio-block">
+        <h2>Font</h2>
+        <div class="font-grid" role="listbox" aria-label="Document fonts">
+          <?php foreach (App::fonts() as $key => $meta): ?>
+            <button type="button"
+                    class="font-card<?= $font === $key ? ' is-selected' : '' ?>"
+                    data-font-pick="<?= App::e($key) ?>"
+                    aria-pressed="<?= $font === $key ? 'true' : 'false' ?>"
+                    style="font-family: <?= App::e($meta['stack']) ?>">
+              <strong><?= App::e($meta['label']) ?></strong>
+              <span>Aa Bb Cc · The quick brown fox</span>
+            </button>
+          <?php endforeach; ?>
+        </div>
+      </div>
+
+      <div class="studio-block">
         <h2>Accent color</h2>
         <div class="color-presets">
           <?php foreach (App::colorPresets() as $hex => $name): ?>
@@ -113,6 +139,7 @@ layout_header('Design studio', [
         <input type="hidden" name="doc" value="<?= App::e($doc) ?>">
         <input type="hidden" name="theme" data-theme-input value="<?= App::e($theme) ?>">
         <input type="hidden" name="accent_color" data-accent-input value="<?= App::e($accent) ?>">
+        <input type="hidden" name="font_family" data-font-input value="<?= App::e($font) ?>">
         <label>
           Active company tag
           <input type="text" name="active_company" value="<?= App::e($activeCompany) ?>" placeholder="Optional">
@@ -133,15 +160,15 @@ layout_header('Design studio', [
 
     <section class="studio-preview">
       <div class="preview-bar no-print">
-        <span data-preview-label>Preview · <?= App::e(App::themeLabel($theme)) ?></span>
-        <a data-open-full href="<?= App::e($previewPath) ?>?theme=<?= urlencode($theme) ?>&amp;accent=<?= urlencode($accent) ?>&amp;pdf=1" target="_blank" rel="noopener">Open full page</a>
+        <span data-preview-label>Preview · <?= App::e(App::themeLabel($theme)) ?> · <?= App::e(App::fontLabel($font)) ?></span>
+        <a data-open-full href="<?= App::e($previewPath) ?>?<?= App::e($q) ?>&amp;pdf=1" target="_blank" rel="noopener">Open full page</a>
       </div>
       <div class="preview-frame-wrap">
         <iframe
           title="Document preview"
           class="preview-frame"
           data-preview-frame
-          src="<?= App::e($previewPath) ?>?embed=1&amp;theme=<?= urlencode($theme) ?>&amp;accent=<?= urlencode($accent) ?>&amp;pdf=1"></iframe>
+          src="<?= App::e($previewPath) ?>?embed=1&amp;<?= App::e($q) ?>&amp;pdf=1"></iframe>
       </div>
     </section>
   </div>
