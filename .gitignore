@@ -24,3 +24,6 @@ Thumbs.db
 /vendor/
 /node_modules/
 *.log
+/public/uploads/photos/*
+!/public/uploads/photos/.gitkeep
+!/public/uploads/photos/.gitignore

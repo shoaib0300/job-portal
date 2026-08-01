@@ -35,6 +35,12 @@ final class App
                 'email' => '',
                 'phone' => '',
                 'location' => '',
+                'gender' => '',
+                'date_of_birth' => null,
+                'country' => '',
+                'nationality' => '',
+                'photo_path' => '',
+                'show_photo' => 1,
                 'links' => [],
             ];
         }
@@ -45,7 +51,27 @@ final class App
         } elseif (!is_array($links)) {
             $row['links'] = [];
         }
+        $row['show_photo'] = (int) ($row['show_photo'] ?? 1);
+        $row['photo_path'] = (string) ($row['photo_path'] ?? '');
         return $row;
+    }
+
+    public static function photoUrl(array $profile): string
+    {
+        $path = (string) ($profile['photo_path'] ?? '');
+        if ($path === '' || !preg_match('#^uploads/photos/[A-Za-z0-9._-]+$#', $path)) {
+            return '';
+        }
+        $full = dirname(__DIR__) . '/public/' . $path;
+        if (!is_file($full)) {
+            return '';
+        }
+        return '/' . $path;
+    }
+
+    public static function shouldShowPhoto(array $profile): bool
+    {
+        return (int) ($profile['show_photo'] ?? 0) === 1 && self::photoUrl($profile) !== '';
     }
 
     public static function sections(bool $visibleOnly = false): array
@@ -157,7 +183,48 @@ final class App
                 'label' => 'Company tint',
                 'blurb' => 'Soft brand wash using your accent color.',
             ],
+            'banner' => [
+                'label' => 'Banner',
+                'blurb' => 'Full-width accent header band with white name.',
+            ],
+            'split' => [
+                'label' => 'Split',
+                'blurb' => 'Two-tone header with name left and contacts right.',
+            ],
+            'minimal' => [
+                'label' => 'Minimal',
+                'blurb' => 'Quiet typography, almost no decoration.',
+            ],
+            'slate' => [
+                'label' => 'Slate',
+                'blurb' => 'Dark slate header strip for strong contrast.',
+            ],
+            'serif' => [
+                'label' => 'Editorial',
+                'blurb' => 'Large serif headlines with editorial section titles.',
+            ],
+            'cards' => [
+                'label' => 'Cards',
+                'blurb' => 'Each section sits in a soft bordered card.',
+            ],
         ];
+    }
+
+    public static function filled(?string $value): bool
+    {
+        return $value !== null && trim($value) !== '';
+    }
+
+    public static function formatDate(?string $date): string
+    {
+        if ($date === null || trim($date) === '' || $date === '0000-00-00') {
+            return '';
+        }
+        $ts = strtotime($date);
+        if ($ts === false) {
+            return $date;
+        }
+        return date('j M Y', $ts);
     }
 
     public static function themeKeys(): array
@@ -168,6 +235,129 @@ final class App
     public static function themeLabel(string $key): string
     {
         return self::themes()[$key]['label'] ?? ucfirst($key);
+    }
+
+    public static function fonts(): array
+    {
+        return [
+            'arial' => [
+                'label' => 'Arial',
+                'stack' => 'Arial, Helvetica, sans-serif',
+                'google' => null,
+            ],
+            'helvetica' => [
+                'label' => 'Helvetica',
+                'stack' => '"Helvetica Neue", Helvetica, Arial, sans-serif',
+                'google' => null,
+            ],
+            'georgia' => [
+                'label' => 'Georgia',
+                'stack' => 'Georgia, "Times New Roman", Times, serif',
+                'google' => null,
+            ],
+            'times' => [
+                'label' => 'Times New Roman',
+                'stack' => '"Times New Roman", Times, serif',
+                'google' => null,
+            ],
+            'garamond' => [
+                'label' => 'Garamond',
+                'stack' => '"EB Garamond", Garamond, "Times New Roman", serif',
+                'google' => 'EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400',
+            ],
+            'palatino' => [
+                'label' => 'Palatino',
+                'stack' => 'Palatino, "Palatino Linotype", "Book Antiqua", serif',
+                'google' => null,
+            ],
+            'playfair' => [
+                'label' => 'Playfair Display',
+                'stack' => '"Playfair Display", Georgia, serif',
+                'google' => 'Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400',
+            ],
+            'lora' => [
+                'label' => 'Lora',
+                'stack' => 'Lora, Georgia, serif',
+                'google' => 'Lora:ital,wght@0,400;0,500;0,600;0,700;1,400',
+            ],
+            'cormorant' => [
+                'label' => 'Cormorant',
+                'stack' => '"Cormorant Garamond", Garamond, serif',
+                'google' => 'Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400',
+            ],
+            'baskerville' => [
+                'label' => 'Baskerville',
+                'stack' => '"Libre Baskerville", Baskerville, Georgia, serif',
+                'google' => 'Libre+Baskerville:ital,wght@0,400;0,700;1,400',
+            ],
+            'source_serif' => [
+                'label' => 'Source Serif',
+                'stack' => '"Source Serif 4", Georgia, serif',
+                'google' => 'Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400',
+            ],
+            'montserrat' => [
+                'label' => 'Montserrat',
+                'stack' => 'Montserrat, Arial, sans-serif',
+                'google' => 'Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400',
+            ],
+            'calibri' => [
+                'label' => 'Calibri',
+                'stack' => 'Calibri, Carlito, Candara, sans-serif',
+                'google' => 'Carlito:ital,wght@0,400;0,700;1,400',
+            ],
+            'cosmo' => [
+                'label' => 'Cosmo',
+                'stack' => 'Outfit, "Segoe UI", Arial, sans-serif',
+                'google' => 'Outfit:wght@400;500;600;700',
+            ],
+            'didot' => [
+                'label' => 'Didot',
+                'stack' => '"Bodoni Moda", Didot, "Times New Roman", serif',
+                'google' => 'Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;1,6..96,400',
+            ],
+            'verdana' => [
+                'label' => 'Verdana',
+                'stack' => 'Verdana, Geneva, sans-serif',
+                'google' => null,
+            ],
+        ];
+    }
+
+    public static function fontKeys(): array
+    {
+        return array_keys(self::fonts());
+    }
+
+    public static function fontLabel(string $key): string
+    {
+        return self::fonts()[$key]['label'] ?? ucfirst($key);
+    }
+
+    public static function resolveFont(?string $font): string
+    {
+        $font = $font ?: (self::setting('font_family', 'georgia') ?: 'georgia');
+        return in_array($font, self::fontKeys(), true) ? $font : 'georgia';
+    }
+
+    public static function fontStack(string $key): string
+    {
+        return self::fonts()[$key]['stack'] ?? 'Georgia, serif';
+    }
+
+    public static function googleFontsHref(?string $selected = null): string
+    {
+        $families = [
+            'DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400',
+            'Instrument+Serif:ital@0;1',
+        ];
+        foreach (self::fonts() as $key => $meta) {
+            if (!empty($meta['google'])) {
+                // Always load selectable Google fonts so the picker and preview work immediately.
+                $families[] = $meta['google'];
+            }
+        }
+        $families = array_values(array_unique($families));
+        return 'https://fonts.googleapis.com/css2?family=' . implode('&family=', $families) . '&display=swap';
     }
 
     public static function resolveTheme(?string $theme): string

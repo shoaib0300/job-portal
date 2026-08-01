@@ -6,6 +6,12 @@
     sidebar: "Sidebar",
     executive: "Executive",
     company: "Company tint",
+    banner: "Banner",
+    split: "Split",
+    minimal: "Minimal",
+    slate: "Slate",
+    serif: "Editorial",
+    cards: "Cards",
   };
 
   function printNow() {
@@ -38,6 +44,82 @@
       fieldset.insertBefore(row, btn);
     });
   });
+
+  // Section reorder (arrows + drag)
+  const sorter = document.querySelector("[data-section-sorter]");
+  if (sorter) {
+    const list = sorter.querySelector("[data-sort-list]");
+
+    function items() {
+      return Array.from(list.querySelectorAll("[data-sort-item]"));
+    }
+
+    function refreshButtons() {
+      const rows = items();
+      rows.forEach((row, index) => {
+        const up = row.querySelector("[data-move-up]");
+        const down = row.querySelector("[data-move-down]");
+        if (up) up.disabled = index === 0;
+        if (down) down.disabled = index === rows.length - 1;
+      });
+    }
+
+    list.addEventListener("click", (event) => {
+      const up = event.target.closest("[data-move-up]");
+      const down = event.target.closest("[data-move-down]");
+      if (!up && !down) return;
+      const row = event.target.closest("[data-sort-item]");
+      if (!row) return;
+      if (up && row.previousElementSibling) {
+        list.insertBefore(row, row.previousElementSibling);
+      }
+      if (down && row.nextElementSibling) {
+        list.insertBefore(row.nextElementSibling, row);
+      }
+      refreshButtons();
+    });
+
+    let dragItem = null;
+    list.querySelectorAll("[data-sort-item]").forEach((row) => {
+      row.addEventListener("dragstart", (event) => {
+        dragItem = row;
+        row.classList.add("is-dragging");
+        if (event.dataTransfer) {
+          event.dataTransfer.effectAllowed = "move";
+          event.dataTransfer.setData("text/plain", row.id || "section");
+        }
+      });
+      row.addEventListener("dragend", () => {
+        row.classList.remove("is-dragging");
+        list.querySelectorAll(".is-drag-over").forEach((el) => el.classList.remove("is-drag-over"));
+        dragItem = null;
+        refreshButtons();
+      });
+      row.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        const target = event.currentTarget;
+        if (!dragItem || target === dragItem) return;
+        target.classList.add("is-drag-over");
+        const rect = target.getBoundingClientRect();
+        const before = event.clientY < rect.top + rect.height / 2;
+        if (before) {
+          list.insertBefore(dragItem, target);
+        } else {
+          list.insertBefore(dragItem, target.nextElementSibling);
+        }
+      });
+      row.addEventListener("dragleave", (event) => {
+        event.currentTarget.classList.remove("is-drag-over");
+      });
+      row.addEventListener("drop", (event) => {
+        event.preventDefault();
+        event.currentTarget.classList.remove("is-drag-over");
+        refreshButtons();
+      });
+    });
+
+    refreshButtons();
+  }
 
   const studio = document.querySelector("[data-design-studio]");
   if (!studio) return;

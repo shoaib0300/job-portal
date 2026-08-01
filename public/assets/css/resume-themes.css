@@ -22,6 +22,44 @@
   line-height: 1.1;
 }
 
+.resume-header {
+  display: grid;
+  gap: 1rem 1.25rem;
+  align-items: start;
+}
+
+.resume.has-photo .resume-header {
+  grid-template-columns: auto 1fr;
+}
+
+.resume-intro {
+  min-width: 0;
+}
+
+.resume-photo {
+  width: 112px;
+  height: 112px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, white);
+  flex-shrink: 0;
+}
+
+.resume-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 560px) {
+  .resume.has-photo .resume-header {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}
+
 .resume-title {
   margin: 0.35rem 0 0.75rem;
   color: var(--accent);
@@ -42,6 +80,23 @@
 
 .resume-contact a {
   color: inherit;
+}
+
+.resume-meta {
+  list-style: none;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.resume-meta span {
+  font-weight: 600;
+  color: color-mix(in srgb, var(--ink) 70%, var(--muted));
+  margin-right: 0.25rem;
 }
 
 .resume-company-tag {
@@ -148,11 +203,38 @@
   color: #fff;
   padding: 1.75rem 1.25rem;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.theme-sidebar.has-photo .resume-header {
+  grid-template-columns: 1fr;
+}
+
+.theme-sidebar .resume-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  border-color: color-mix(in srgb, #fff 55%, var(--accent));
+  margin-inline: auto;
+}
+
+.theme-sidebar .resume-intro {
+  text-align: center;
+}
+
+.theme-sidebar .resume-contact,
+.theme-sidebar .resume-meta {
+  justify-content: center;
 }
 
 .theme-sidebar .resume-title,
 .theme-sidebar .resume-contact,
-.theme-sidebar .resume-contact a {
+.theme-sidebar .resume-contact a,
+.theme-sidebar .resume-meta,
+.theme-sidebar .resume-meta span {
   color: color-mix(in srgb, #fff 88%, var(--accent));
 }
 
@@ -210,7 +292,21 @@
   margin-bottom: 0.5rem;
 }
 
+.theme-executive.has-photo .resume-header {
+  justify-items: center;
+  grid-template-columns: 1fr;
+}
+
+.theme-executive .resume-photo {
+  margin-inline: auto;
+  border-radius: 999px;
+}
+
 .theme-executive .resume-contact {
+  justify-content: center;
+}
+
+.theme-executive .resume-meta {
   justify-content: center;
 }
 
@@ -228,6 +324,164 @@
 
 .theme-company .resume-header h1 {
   color: color-mix(in srgb, var(--accent) 55%, var(--ink));
+}
+
+/* Banner */
+.theme-banner.resume,
+.theme-banner.cover-letter {
+  padding-top: 0;
+  overflow: hidden;
+}
+
+.theme-banner .resume-header,
+.theme-banner .letter-from {
+  background: var(--accent);
+  color: #fff;
+  margin: 0 calc(-1 * clamp(1.5rem, 4vw, 2.75rem));
+  padding: 1.75rem clamp(1.5rem, 4vw, 2.75rem);
+  margin-bottom: 1.25rem;
+}
+
+.theme-banner .resume-photo {
+  border-color: color-mix(in srgb, #fff 60%, var(--accent));
+}
+
+.theme-banner .resume-title,
+.theme-banner .resume-contact,
+.theme-banner .resume-contact a,
+.theme-banner .resume-meta,
+.theme-banner .resume-meta span,
+.theme-banner .letter-from span {
+  color: color-mix(in srgb, #fff 90%, var(--accent));
+}
+
+/* Split */
+.theme-split .resume-header {
+  align-items: start;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.theme-split .resume-intro {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 0.75rem 1.5rem;
+  align-items: end;
+}
+
+.theme-split .resume-intro h1,
+.theme-split .resume-title {
+  grid-column: 1;
+}
+
+.theme-split .resume-contact,
+.theme-split .resume-meta {
+  grid-column: 2;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.theme-split .resume-meta {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+@media (max-width: 700px) {
+  .theme-split .resume-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-split .resume-contact,
+  .theme-split .resume-meta {
+    grid-column: 1;
+    justify-content: flex-start;
+    text-align: left;
+    align-items: flex-start;
+  }
+}
+
+/* Minimal */
+.theme-minimal.resume,
+.theme-minimal.cover-letter {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.theme-minimal .resume-section {
+  border-top: none;
+  padding-top: 0.35rem;
+}
+
+.theme-minimal .resume-section h2 {
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.theme-minimal .resume-title {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Slate */
+.theme-slate .resume-header,
+.theme-slate .letter-from {
+  background: #243038;
+  color: #f4f1ea;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.theme-slate .resume-photo {
+  border-color: color-mix(in srgb, #fff 35%, #243038);
+}
+
+.theme-slate .resume-title {
+  color: color-mix(in srgb, var(--accent) 70%, white);
+}
+
+.theme-slate .resume-contact,
+.theme-slate .resume-contact a,
+.theme-slate .resume-meta,
+.theme-slate .letter-from span {
+  color: color-mix(in srgb, #f4f1ea 78%, #243038);
+}
+
+.theme-slate .resume-meta span {
+  color: #fff;
+}
+
+/* Editorial / serif */
+.theme-serif .resume-header h1,
+.theme-serif .letter-from strong {
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+}
+
+.theme-serif .resume-section h2 {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  padding-bottom: 0.25rem;
+}
+
+/* Cards */
+.theme-cards .resume-section {
+  border: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  margin-top: 0.85rem;
+  background: color-mix(in srgb, var(--paper) 70%, white);
+}
+
+.theme-cards .resume-section h2 {
+  margin-bottom: 0.4rem;
 }
 
 /* Embed / PDF */
@@ -275,6 +529,11 @@ body.is-embed {
   }
 
   .theme-sidebar .resume-header {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .resume-photo img {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }

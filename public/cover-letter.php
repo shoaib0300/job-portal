@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/doc.php';
+require_once dirname(__DIR__) . '/src/profile_meta.php';
 
 $opts = doc_view_options();
 $profile = App::profile();
@@ -41,19 +42,15 @@ if (!$embed):
 <article class="cover-letter theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>" data-doc="cover">
   <header class="letter-from">
     <strong><?= App::e($profile['full_name']) ?></strong>
-    <?php if ($profile['title'] !== ''): ?>
+    <?php if (App::filled($profile['title'] ?? null)): ?>
       <span><?= App::e($profile['title']) ?></span>
     <?php endif; ?>
-    <ul class="resume-contact">
-      <?php if ($profile['email'] !== ''): ?><li><?= App::e($profile['email']) ?></li><?php endif; ?>
-      <?php if ($profile['phone'] !== ''): ?><li><?= App::e($profile['phone']) ?></li><?php endif; ?>
-      <?php if ($profile['location'] !== ''): ?><li><?= App::e($profile['location']) ?></li><?php endif; ?>
-    </ul>
+    <?php render_profile_details($profile, false); ?>
   </header>
 
   <?php if ($letter): ?>
-    <?php if ($letter['company'] !== ''): ?>
-      <p class="letter-company">Re: <?= App::e($letter['company']) ?><?= $letter['title'] !== '' ? ' — ' . App::e($letter['title']) : '' ?></p>
+    <?php if (App::filled($letter['company'] ?? null)): ?>
+      <p class="letter-company">Re: <?= App::e($letter['company']) ?><?= App::filled($letter['title'] ?? null) ? ' — ' . App::e($letter['title']) : '' ?></p>
     <?php endif; ?>
     <div class="letter-body"><?= App::nl2p($letter['body']) ?></div>
   <?php else: ?>

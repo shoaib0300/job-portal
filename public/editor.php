@@ -21,8 +21,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $links[] = ['label' => $label !== '' ? $label : $url, 'url' => $url];
             }
         }
+
+        $profileId = (int) ($_POST['id'] ?? 0);
+        $current = App::profile();
+        $photoPath = (string) ($current['photo_path'] ?? '');
+        $uploadDir = dirname(__DIR__) . '/public/uploads/photos';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0775, true);
+        }
+
+        if (isset($_POST['remove_photo']) && $_POST['remove_photo'] === '1') {
+            if ($photoPath !== '') {
+                $old = dirname(__DIR__) . '/public/' . $photoPath;
+                if (is_file($old)) {
+                    @unlink($old);
+                }
+            }
+            $photoPath = '';
+        }
+
+        if (!empty($_FILES['photo']['name']) && (int) ($_FILES['photo']['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+            $tmp = (string) $_FILES['photo']['tmp_name'];
+            $size = (int) ($_FILES['photo']['size'] ?? 0);
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $mime = $finfo->file($tmp) ?: '';
+            $map = [
+                'image/jpeg' => 'jpg',
+                'image/png' => 'png',
+                'image/webp' => 'webp',
+            ];
+            if ($size > 0 && $size <= 3 * 1024 * 1024 && isset($map[$mime])) {
+                $name = 'photo_' . $profileId . '_' . time() . '.' . $map[$mime];
+                $dest = $uploadDir . '/' . $name;
+                if (move_uploaded_file($tmp, $dest)) {
+                    if ($photoPath !== '') {
+                        $old = dirname(__DIR__) . '/public/' . $photoPath;
+                        if (is_file($old)) {
+                            @unlink($old);
+                        }
+                    }
+                    $photoPath = 'uploads/photos/' . $name;
+                }
+            } else {
+                App::flash('Photo must be JPG, PNG, or WebP under 3MB.', 'error');
+                App::redirect('/editor.php#profile');
+            }
+        }
+
+        $dobRaw = trim((string) ($_POST['date_of_birth'] ?? ''));
+        $dob = $dobRaw !== '' ? $dobRaw : null;
         $stmt = $pdo->prepare(
-            'UPDATE resume_profile SET full_name = ?, title = ?, email = ?, phone = ?, location = ?, links = ? WHERE id = ?'
+            'UPDATE resume_profile SET full_name = ?, title = ?, email = ?, phone = ?, location = ?, gender = ?, date_of_birth = ?, country = ?, nationality = ?, photo_path = ?, show_photo = ?, links = ? WHERE id = ?'
         );
         $stmt->execute([
             trim((string) ($_POST['full_name'] ?? '')),
@@ -30,28 +79,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             trim((string) ($_POST['email'] ?? '')),
             trim((string) ($_POST['phone'] ?? '')),
             trim((string) ($_POST['location'] ?? '')),
+            trim((string) ($_POST['gender'] ?? '')),
+            $dob,
+            trim((string) ($_POST['country'] ?? '')),
+            trim((string) ($_POST['nationality'] ?? '')),
+            $photoPath,
+            isset($_POST['show_photo']) ? 1 : 0,
             json_encode($links, JSON_UNESCAPED_SLASHES),
-            (int) ($_POST['id'] ?? 0),
+            $profileId,
         ]);
         App::flash('Profile saved.');
         App::redirect('/editor.php#profile');
     }
 
-    if ($action === 'save_section') {
-        $id = (int) ($_POST['id'] ?? 0);
-        $visible = isset($_POST['visible']) ? 1 : 0;
+    if ($action === 'save_sections') {
+        $ids = $_POST['section_id'] ?? [];
+        if (!is_array($ids)) {
+            $ids = [];
+        }
+        $titles = $_POST['title'] ?? [];
+        $bodies = $_POST['body'] ?? [];
+        $visibles = $_POST['visible'] ?? [];
+        if (!is_array($titles)) {
+            $titles = [];
+        }
+        if (!is_array($bodies)) {
+            $bodies = [];
+        }
+        if (!is_array($visibles)) {
+            $visibles = [];
+        }
+
         $stmt = $pdo->prepare(
-            'UPDATE resume_sections SET title = ?, body = ?, sort_order = ?, visible = ? WHERE id = ?'
+            'UPDATE resume_sections SET title = ?, body = ?, visible = ?, sort_order = ? WHERE id = ?'
         );
-        $stmt->execute([
-            trim((string) ($_POST['title'] ?? '')),
-            (string) ($_POST['body'] ?? ''),
-            (int) ($_POST['sort_order'] ?? 0),
-            $visible,
-            $id,
-        ]);
-        App::flash('Section saved.');
-        App::redirect('/editor.php#section-' . $id);
+        $order = 10;
+        foreach ($ids as $rawId) {
+            $id = (int) $rawId;
+            if ($id <= 0) {
+                continue;
+            }
+            $key = (string) $id;
+            $stmt->execute([
+                trim((string) ($titles[$key] ?? '')),
+                (string) ($bodies[$key] ?? ''),
+                isset($visibles[$key]) ? 1 : 0,
+                $order,
+                $id,
+            ]);
+            $order += 10;
+        }
+        App::flash('Sections saved.');
+        App::redirect('/editor.php#sections');
     }
 
     if ($action === 'add_section') {
@@ -190,7 +269,7 @@ layout_header('Editor');
 
       <section class="editor-block" id="profile">
         <h2>Profile</h2>
-        <form method="post" class="form">
+        <form method="post" class="form" enctype="multipart/form-data">
           <input type="hidden" name="action" value="save_profile">
           <input type="hidden" name="id" value="<?= (int) $profile['id'] ?>">
           <label>Full name <input type="text" name="full_name" required value="<?= App::e($profile['full_name']) ?>"></label>
@@ -198,6 +277,45 @@ layout_header('Editor');
           <label>Email <input type="email" name="email" value="<?= App::e($profile['email']) ?>"></label>
           <label>Phone <input type="text" name="phone" value="<?= App::e($profile['phone']) ?>"></label>
           <label>Location <input type="text" name="location" value="<?= App::e($profile['location']) ?>"></label>
+          <label>Gender
+            <select name="gender">
+              <?php
+              $gender = (string) ($profile['gender'] ?? '');
+              $genders = ['' => '— Prefer not to say / hide —', 'Male' => 'Male', 'Female' => 'Female', 'Non-binary' => 'Non-binary', 'Other' => 'Other'];
+              foreach ($genders as $val => $label):
+              ?>
+                <option value="<?= App::e($val) ?>"<?= $gender === $val ? ' selected' : '' ?>><?= App::e($label) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </label>
+          <label>Date of birth <input type="date" name="date_of_birth" value="<?= App::e((string) ($profile['date_of_birth'] ?? '')) ?>"></label>
+          <label>Country <input type="text" name="country" value="<?= App::e((string) ($profile['country'] ?? '')) ?>"></label>
+          <label>Nationality <input type="text" name="nationality" value="<?= App::e((string) ($profile['nationality'] ?? '')) ?>"></label>
+
+          <fieldset class="photo-fieldset">
+            <legend>Profile picture</legend>
+            <?php $photoUrl = App::photoUrl($profile); ?>
+            <?php if ($photoUrl !== ''): ?>
+              <div class="photo-preview">
+                <img src="<?= App::e($photoUrl) ?>" alt="Current profile photo">
+              </div>
+            <?php endif; ?>
+            <label>Upload photo
+              <input type="file" name="photo" accept="image/jpeg,image/png,image/webp">
+            </label>
+            <label class="check">
+              <input type="checkbox" name="show_photo" value="1"<?= (int) ($profile['show_photo'] ?? 1) === 1 ? ' checked' : '' ?>>
+              Show picture on resume templates
+            </label>
+            <?php if ($photoUrl !== ''): ?>
+              <label class="check">
+                <input type="checkbox" name="remove_photo" value="1">
+                Remove picture
+              </label>
+            <?php endif; ?>
+            <p class="empty" style="margin:0">JPG, PNG, or WebP · max 3MB. Uncheck “Show picture” to hide it without deleting.</p>
+          </fieldset>
+
           <fieldset class="links-fieldset">
             <legend>Links</legend>
             <?php foreach ($links as $link): ?>
@@ -208,32 +326,56 @@ layout_header('Editor');
             <?php endforeach; ?>
             <button type="button" class="btn btn-small" data-add-link>Add link</button>
           </fieldset>
+          <p class="empty" style="margin:0">Empty fields are hidden on the resume and cover letter.</p>
           <button type="submit" class="btn btn-primary">Save profile</button>
         </form>
       </section>
 
       <section class="editor-block" id="sections">
         <h2>Resume sections</h2>
+        <p class="empty" style="margin-top:0">Use the arrows (or drag) to reorder, then click <strong>Save</strong> to keep content and order.</p>
+
+        <form method="post" class="section-order-form" data-section-sorter>
+          <input type="hidden" name="action" value="save_sections">
+          <div class="section-sort-list" data-sort-list>
+            <?php foreach ($sections as $section): ?>
+              <?php $sid = (int) $section['id']; ?>
+              <div class="section-sort-item" data-sort-item draggable="true" id="section-<?= $sid ?>">
+                <input type="hidden" name="section_id[]" value="<?= $sid ?>">
+                <div class="section-sort-controls">
+                  <button type="button" class="btn btn-small sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
+                  <button type="button" class="btn btn-small sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
+                  <span class="drag-hint" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
+                </div>
+                <div class="section-sort-body">
+                  <div class="section-form-head">
+                    <label class="grow">Title
+                      <input type="text" name="title[<?= $sid ?>]" value="<?= App::e($section['title']) ?>">
+                    </label>
+                    <label class="check">
+                      <input type="checkbox" name="visible[<?= $sid ?>]" value="1"<?= (int) $section['visible'] === 1 ? ' checked' : '' ?>>
+                      Visible
+                    </label>
+                  </div>
+                  <label>Body
+                    <textarea name="body[<?= $sid ?>]" rows="8"><?= App::e($section['body']) ?></textarea>
+                  </label>
+                  <div class="form-actions">
+                    <button type="submit" form="section-delete-<?= $sid ?>" class="btn btn-small btn-danger" onclick="return confirm('Delete this section?');">Delete</button>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+          <div class="form-actions section-order-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+
         <?php foreach ($sections as $section): ?>
-          <form method="post" class="form section-form" id="section-<?= (int) $section['id'] ?>">
-            <input type="hidden" name="action" value="save_section">
-            <input type="hidden" name="id" value="<?= (int) $section['id'] ?>">
-            <div class="section-form-head">
-              <label class="grow">Title <input type="text" name="title" value="<?= App::e($section['title']) ?>"></label>
-              <label>Order <input type="number" name="sort_order" value="<?= (int) $section['sort_order'] ?>"></label>
-              <label class="check"><input type="checkbox" name="visible" value="1"<?= (int) $section['visible'] === 1 ? ' checked' : '' ?>> Visible</label>
-            </div>
-            <label>Body
-              <textarea name="body" rows="8"><?= App::e($section['body']) ?></textarea>
-            </label>
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Save section</button>
-            </div>
-          </form>
-          <form method="post" class="inline-delete" onsubmit="return confirm('Delete this section?');">
+          <form method="post" id="section-delete-<?= (int) $section['id'] ?>" hidden>
             <input type="hidden" name="action" value="delete_section">
             <input type="hidden" name="id" value="<?= (int) $section['id'] ?>">
-            <button type="submit" class="btn btn-small btn-danger">Delete</button>
           </form>
         <?php endforeach; ?>
 

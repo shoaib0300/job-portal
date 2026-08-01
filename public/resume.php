@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/doc.php';
+require_once dirname(__DIR__) . '/src/profile_meta.php';
 
 $opts = doc_view_options();
 $profile = App::profile();
@@ -39,25 +40,23 @@ if (!$embed):
 </main>
 <?php endif; ?>
 
-<article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>" data-doc="resume">
+<article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?><?= App::shouldShowPhoto($profile) ? ' has-photo' : ' no-photo' ?>" data-doc="resume">
   <header class="resume-header">
-    <h1><?= App::e($profile['full_name']) ?></h1>
-    <?php if ($profile['title'] !== ''): ?>
-      <p class="resume-title"><?= App::e($profile['title']) ?></p>
+    <?php if (App::shouldShowPhoto($profile)): ?>
+      <div class="resume-photo">
+        <img src="<?= App::e(App::photoUrl($profile)) ?>" alt="<?= App::e($profile['full_name']) ?>">
+      </div>
     <?php endif; ?>
-    <ul class="resume-contact">
-      <?php if ($profile['email'] !== ''): ?><li><?= App::e($profile['email']) ?></li><?php endif; ?>
-      <?php if ($profile['phone'] !== ''): ?><li><?= App::e($profile['phone']) ?></li><?php endif; ?>
-      <?php if ($profile['location'] !== ''): ?><li><?= App::e($profile['location']) ?></li><?php endif; ?>
-      <?php foreach ($profile['links'] as $link): ?>
-        <?php if (!empty($link['url'])): ?>
-          <li><a href="<?= App::e($link['url']) ?>"><?= App::e($link['label'] ?? $link['url']) ?></a></li>
-        <?php endif; ?>
-      <?php endforeach; ?>
-    </ul>
-    <?php if ($company !== '' && !$embed): ?>
-      <p class="resume-company-tag no-print">Tailored for <?= App::e($company) ?></p>
-    <?php endif; ?>
+    <div class="resume-intro">
+      <h1><?= App::e($profile['full_name']) ?></h1>
+      <?php if (App::filled($profile['title'] ?? null)): ?>
+        <p class="resume-title"><?= App::e($profile['title']) ?></p>
+      <?php endif; ?>
+      <?php render_profile_details($profile, true); ?>
+      <?php if (App::filled($company) && !$embed): ?>
+        <p class="resume-company-tag no-print">Tailored for <?= App::e($company) ?></p>
+      <?php endif; ?>
+    </div>
   </header>
 
   <?php foreach ($sections as $section): ?>
