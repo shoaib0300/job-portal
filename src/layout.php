@@ -24,8 +24,8 @@ function layout_header(string $title, array $opts = []): void
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/app.css">
-  <link rel="stylesheet" href="/assets/css/resume-themes.css">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260802g">
+  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260802g">
   <style>:root { --accent: <?= App::e($accent) ?>; --doc-font: <?= App::e($fontStack) ?>; }</style>
 </head>
 <body class="<?= App::e($bodyClass) ?>" data-theme="<?= App::e($theme) ?>" data-font="<?= App::e($font) ?>">
@@ -55,7 +55,7 @@ function layout_footer(bool $withJs = true): void
     ?>
   </div>
   <?php if ($withJs): ?>
-  <script src="/assets/js/app.js"></script>
+  <script src="/assets/js/app.js?v=20260802b"></script>
   <?php endif; ?>
 </body>
 </html>

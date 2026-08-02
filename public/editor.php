@@ -110,6 +110,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $visibles = [];
         }
 
+        $keysStmt = $pdo->query('SELECT id, section_key FROM resume_sections');
+        $keyById = [];
+        foreach ($keysStmt->fetchAll() as $row) {
+            $keyById[(int) $row['id']] = (string) $row['section_key'];
+        }
+
         $stmt = $pdo->prepare(
             'UPDATE resume_sections SET title = ?, body = ?, visible = ?, sort_order = ? WHERE id = ?'
         );
@@ -120,9 +126,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 continue;
             }
             $key = (string) $id;
+            $body = (string) ($bodies[$key] ?? '');
+            if (($keyById[$id] ?? '') === 'experience') {
+                $body = '';
+            }
             $stmt->execute([
                 trim((string) ($titles[$key] ?? '')),
-                (string) ($bodies[$key] ?? ''),
+                $body,
                 isset($visibles[$key]) ? 1 : 0,
                 $order,
                 $id,
@@ -131,6 +141,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         App::flash('Sections saved.');
         App::redirect('/editor.php#sections');
+    }
+
+    if ($action === 'save_experiences') {
+        $ids = $_POST['experience_id'] ?? [];
+        if (!is_array($ids)) {
+            $ids = [];
+        }
+        $companies = $_POST['company'] ?? [];
+        $positions = $_POST['position'] ?? [];
+        $locations = $_POST['location'] ?? [];
+        $starts = $_POST['start_date'] ?? [];
+        $ends = $_POST['end_date'] ?? [];
+        $bullets = $_POST['bullets'] ?? [];
+        $visibles = $_POST['visible'] ?? [];
+
+        $stmt = $pdo->prepare(
+            'UPDATE experience_entries
+             SET company = ?, position = ?, location = ?, start_date = ?, end_date = ?, bullets = ?, visible = ?, sort_order = ?
+             WHERE id = ?'
+        );
+        $order = 10;
+        foreach ($ids as $rawId) {
+            $id = (int) $rawId;
+            if ($id <= 0) {
+                continue;
+            }
+            $key = (string) $id;
+            $stmt->execute([
+                trim((string) ($companies[$key] ?? '')),
+                trim((string) ($positions[$key] ?? '')),
+                trim((string) ($locations[$key] ?? '')),
+                trim((string) ($starts[$key] ?? '')),
+                trim((string) ($ends[$key] ?? '')),
+                (string) ($bullets[$key] ?? ''),
+                isset($visibles[$key]) ? 1 : 0,
+                $order,
+                $id,
+            ]);
+            $order += 10;
+        }
+        App::flash('Experience saved.');
+        App::redirect('/editor.php#experience');
+    }
+
+    if ($action === 'add_experience') {
+        $max = (int) $pdo->query('SELECT COALESCE(MAX(sort_order), 0) FROM experience_entries')->fetchColumn();
+        $stmt = $pdo->prepare(
+            'INSERT INTO experience_entries (company, position, location, start_date, end_date, bullets, sort_order, visible)
+             VALUES (?, ?, ?, ?, ?, ?, ?, 1)'
+        );
+        $stmt->execute([
+            trim((string) ($_POST['company'] ?? '')),
+            trim((string) ($_POST['position'] ?? '')),
+            trim((string) ($_POST['location'] ?? '')),
+            trim((string) ($_POST['start_date'] ?? '')),
+            trim((string) ($_POST['end_date'] ?? '')),
+            (string) ($_POST['bullets'] ?? ''),
+            $max + 10,
+        ]);
+        App::flash('Experience entry added.');
+        App::redirect('/editor.php#experience');
+    }
+
+    if ($action === 'delete_experience') {
+        $stmt = $pdo->prepare('DELETE FROM experience_entries WHERE id = ?');
+        $stmt->execute([(int) ($_POST['id'] ?? 0)]);
+        App::flash('Experience entry deleted.');
+        App::redirect('/editor.php#experience');
     }
 
     if ($action === 'add_section') {
@@ -208,6 +286,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $profile = App::profile();
 $sections = App::sections(false);
+$experiences = App::experiences(false);
 $letter = App::activeCoverLetter();
 $theme = App::setting('theme', 'classic') ?: 'classic';
 $accent = App::setting('accent_color', '#1a5f4a') ?: '#1a5f4a';
@@ -235,6 +314,7 @@ layout_header('Editor');
     <aside class="editor-nav">
       <a href="#design">Design</a>
       <a href="#profile">Profile</a>
+      <a href="#experience">Experience</a>
       <a href="#sections">Sections</a>
       <a href="#cover">Cover letter</a>
     </aside>
@@ -286,7 +366,7 @@ layout_header('Editor');
           <label>Full name <input type="text" name="full_name" required value="<?= App::e($profile['full_name']) ?>"></label>
           <label>Title <input type="text" name="title" value="<?= App::e($profile['title']) ?>"></label>
           <label>Email <input type="email" name="email" value="<?= App::e($profile['email']) ?>"></label>
-          <label>Phone <input type="text" name="phone" value="<?= App::e($profile['phone']) ?>"></label>
+          <label>Mobile <input type="text" name="phone" value="<?= App::e($profile['phone']) ?>" placeholder="+1 555 0100"></label>
           <label>Location <input type="text" name="location" value="<?= App::e($profile['location']) ?>"></label>
           <label>Gender
             <select name="gender">
@@ -342,15 +422,95 @@ layout_header('Editor');
         </form>
       </section>
 
+      <section class="editor-block" id="experience">
+        <h2>Experience</h2>
+        <p class="empty" style="margin-top:0">Add each company as its own entry. Position is bold on the resume. Company and dates sit on the left/right layout.</p>
+
+        <form method="post" class="section-order-form" data-section-sorter>
+          <input type="hidden" name="action" value="save_experiences">
+          <div class="section-sort-list" data-sort-list>
+            <?php foreach ($experiences as $job): ?>
+              <?php $jid = (int) $job['id']; ?>
+              <div class="section-sort-item experience-edit-item" data-sort-item draggable="true" id="experience-<?= $jid ?>">
+                <input type="hidden" name="experience_id[]" value="<?= $jid ?>">
+                <div class="section-sort-controls">
+                  <button type="button" class="btn btn-small sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
+                  <button type="button" class="btn btn-small sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
+                  <span class="drag-hint" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
+                </div>
+                <div class="section-sort-body">
+                  <div class="experience-fields">
+                    <label>Company
+                      <input type="text" name="company[<?= $jid ?>]" value="<?= App::e($job['company']) ?>" required>
+                    </label>
+                    <label>Position (bold)
+                      <input type="text" name="position[<?= $jid ?>]" value="<?= App::e($job['position']) ?>" required>
+                    </label>
+                    <label>Location
+                      <input type="text" name="location[<?= $jid ?>]" value="<?= App::e($job['location']) ?>" placeholder="City, Country">
+                    </label>
+                    <label>Start date
+                      <input type="text" name="start_date[<?= $jid ?>]" value="<?= App::e($job['start_date']) ?>" placeholder="Oct 2025">
+                    </label>
+                    <label>End date
+                      <input type="text" name="end_date[<?= $jid ?>]" value="<?= App::e($job['end_date']) ?>" placeholder="Dec 2025 or Present">
+                    </label>
+                    <label class="check exp-visible">
+                      <input type="checkbox" name="visible[<?= $jid ?>]" value="1"<?= (int) $job['visible'] === 1 ? ' checked' : '' ?>>
+                      Visible
+                    </label>
+                  </div>
+                  <label>Bullets / details
+                    <textarea name="bullets[<?= $jid ?>]" rows="6" placeholder="• Achievement one&#10;• Achievement two"><?= App::e($job['bullets']) ?></textarea>
+                  </label>
+                  <div class="form-actions">
+                    <button type="submit" form="experience-delete-<?= $jid ?>" class="btn btn-small btn-danger" onclick="return confirm('Delete this experience entry?');">Delete</button>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+          <div class="form-actions section-order-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+
+        <?php foreach ($experiences as $job): ?>
+          <form method="post" id="experience-delete-<?= (int) $job['id'] ?>" hidden>
+            <input type="hidden" name="action" value="delete_experience">
+            <input type="hidden" name="id" value="<?= (int) $job['id'] ?>">
+          </form>
+        <?php endforeach; ?>
+
+        <form method="post" class="form add-section">
+          <h3>Add company / role</h3>
+          <input type="hidden" name="action" value="add_experience">
+          <div class="experience-fields">
+            <label>Company <input type="text" name="company" required placeholder="Company name"></label>
+            <label>Position <input type="text" name="position" required placeholder="Job title"></label>
+            <label>Location <input type="text" name="location" placeholder="City, Country"></label>
+            <label>Start date <input type="text" name="start_date" placeholder="Oct 2025"></label>
+            <label>End date <input type="text" name="end_date" placeholder="Present"></label>
+          </div>
+          <label>Bullets / details
+            <textarea name="bullets" rows="5" placeholder="• First achievement&#10;• Second achievement"></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary">Add experience</button>
+        </form>
+      </section>
+
       <section class="editor-block" id="sections">
         <h2>Resume sections</h2>
-        <p class="empty" style="margin-top:0">Use the arrows (or drag) to reorder, then click <strong>Save</strong> to keep content and order.</p>
+        <p class="empty" style="margin-top:0">Use the arrows (or drag) to reorder, then click <strong>Save</strong>. Experience content is edited in the <a href="#experience">Experience</a> tab.</p>
 
         <form method="post" class="section-order-form" data-section-sorter>
           <input type="hidden" name="action" value="save_sections">
           <div class="section-sort-list" data-sort-list>
             <?php foreach ($sections as $section): ?>
-              <?php $sid = (int) $section['id']; ?>
+              <?php
+              $sid = (int) $section['id'];
+              $isExperience = ($section['section_key'] ?? '') === 'experience';
+              ?>
               <div class="section-sort-item" data-sort-item draggable="true" id="section-<?= $sid ?>">
                 <input type="hidden" name="section_id[]" value="<?= $sid ?>">
                 <div class="section-sort-controls">
@@ -368,9 +528,14 @@ layout_header('Editor');
                       Visible
                     </label>
                   </div>
-                  <label>Body
-                    <textarea name="body[<?= $sid ?>]" rows="8"><?= App::e($section['body']) ?></textarea>
-                  </label>
+                  <?php if ($isExperience): ?>
+                    <p class="empty" style="margin:0">Company roles are managed under <a href="#experience">Experience</a>.</p>
+                    <input type="hidden" name="body[<?= $sid ?>]" value="">
+                  <?php else: ?>
+                    <label>Body
+                      <textarea name="body[<?= $sid ?>]" rows="8"><?= App::e($section['body']) ?></textarea>
+                    </label>
+                  <?php endif; ?>
                   <div class="form-actions">
                     <button type="submit" form="section-delete-<?= $sid ?>" class="btn btn-small btn-danger" onclick="return confirm('Delete this section?');">Delete</button>
                   </div>

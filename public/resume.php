@@ -6,10 +6,12 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/doc.php';
 require_once dirname(__DIR__) . '/src/profile_meta.php';
+require_once dirname(__DIR__) . '/src/experience.php';
 
 $opts = doc_view_options();
 $profile = App::profile();
 $sections = App::sections(true);
+$experiences = App::experiences(true);
 $theme = $opts['theme'];
 $accent = $opts['accent'];
 $font = $opts['font'];
@@ -64,7 +66,11 @@ if (!$embed):
   <?php foreach ($sections as $section): ?>
     <section class="resume-section">
       <h2><?= App::e($section['title']) ?></h2>
-      <div class="resume-body"><?= App::nl2p($section['body']) ?></div>
+      <?php if (($section['section_key'] ?? '') === 'experience'): ?>
+        <?php render_experience_entries($experiences); ?>
+      <?php else: ?>
+        <div class="resume-body"><?= App::nl2p($section['body']) ?></div>
+      <?php endif; ?>
     </section>
   <?php endforeach; ?>
 </article>

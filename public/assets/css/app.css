@@ -595,6 +595,22 @@ a:hover {
   border-top: 1px solid var(--line);
 }
 
+.experience-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.experience-fields .exp-visible {
+  align-self: end;
+}
+
+@media (max-width: 700px) {
+  .experience-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
 .inline-delete {
   margin: 0 0 1.25rem;
 }
@@ -1046,14 +1062,24 @@ body.page-doc .site-nav {
 }
 
 @media print {
+  html,
   body {
-    background: white;
+    min-height: 0 !important;
+    height: auto !important;
+    background: transparent !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
-  .site-shell {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  .site-shell,
+  .site-shell-embed {
+    min-height: 0 !important;
+    height: auto !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .no-print,
@@ -1061,13 +1087,33 @@ body.page-doc .site-nav {
   .flash,
   .doc-toolbar,
   .studio-controls,
-  .preview-bar {
+  .studio-layout > aside,
+  .preview-bar,
+  .page-head,
+  .hero,
+  .apps-panel,
+  .editor-nav,
+  .editor-block,
+  header.site-nav {
     display: none !important;
   }
 
   .preview-frame-wrap {
-    border: none;
-    box-shadow: none;
-    min-height: 0;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+    background: transparent !important;
+  }
+
+  .preview-frame {
+    display: none !important;
+  }
+
+  /* When printing the design studio itself, only the iframe content should print via JS.
+     Hide studio chrome completely. */
+  .design-studio,
+  .studio-layout,
+  .studio-preview {
+    display: contents;
   }
 }

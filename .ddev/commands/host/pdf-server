@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+## Description: Start the host PDF export helper (uses local Chrome, no print headers)
+## Usage: pdf-server
+## Example: ddev pdf-server
+## HostBinary: true
+
+set -euo pipefail
+cd "$(dirname "$0")/../../.." >/dev/null 2>&1 || cd "$DDEV_APPROOT"
+
+PORT="${MNK_PDF_PORT:-18477}"
+if curl -fsS "http://127.0.0.1:${PORT}/health" >/dev/null 2>&1; then
+  echo "PDF server already running on http://127.0.0.1:${PORT}"
+  exit 0
+fi
+
+mkdir -p storage/pdfs
+echo "Starting PDF server on http://127.0.0.1:${PORT} ..."
+exec node scripts/pdf-server.mjs

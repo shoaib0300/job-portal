@@ -1,0 +1,9 @@
+services:
+  web:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - MNK_PDF_BASE_URL=http://127.0.0.1
+      - MNK_PDF_SERVICE=http://host.docker.internal:18477
+      - CHROME_PATH=/usr/bin/google-chrome-stable
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable

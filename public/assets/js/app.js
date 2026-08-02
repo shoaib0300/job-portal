@@ -16,14 +16,91 @@
     cards: "Cards",
   };
 
-  function printNow() {
-    window.print();
+  function cleanTitleForPrint(win) {
+    const doc = win.document;
+    const heading = doc.querySelector(".resume-header h1, .letter-from strong");
+    if (heading && heading.textContent.trim()) {
+      doc.title = heading.textContent.trim();
+    }
   }
 
-  function downloadPdfHint() {
-    document.body.classList.add("pdf-mode");
-    window.print();
-    window.setTimeout(() => document.body.classList.remove("pdf-mode"), 500);
+  function openPrintWindow(path) {
+    const url = new URL(path, window.location.origin);
+    url.searchParams.set("embed", "1");
+    url.searchParams.set("pdf", "1");
+    const win = window.open(url.pathname + url.search, "_blank", "noopener,noreferrer,width=900,height=1200");
+    if (!win) {
+      printDocument(window);
+      return;
+    }
+    const tryPrint = () => {
+      try {
+        cleanTitleForPrint(win);
+        win.focus();
+        win.print();
+      } catch (_err) {
+        // wait for load
+      }
+    };
+    win.addEventListener("load", () => {
+      window.setTimeout(tryPrint, 300);
+    });
+    window.setTimeout(tryPrint, 900);
+  }
+
+  function printDocument(win = window) {
+    cleanTitleForPrint(win);
+    win.document.body.classList.add("pdf-mode", "is-printing");
+    const restore = () => {
+      win.document.body.classList.remove("is-printing");
+    };
+    win.addEventListener("afterprint", restore, { once: true });
+    win.focus();
+    win.print();
+    window.setTimeout(restore, 1000);
+  }
+
+  function buildPdfDownloadUrl(doc, params = {}, inline = false) {
+    const url = new URL("/pdf.php", window.location.origin);
+    url.searchParams.set("doc", doc);
+    if (inline) url.searchParams.set("inline", "1");
+    ["theme", "font", "accent"].forEach((key) => {
+      const value = params[key] || new URLSearchParams(window.location.search).get(key);
+      if (value) url.searchParams.set(key, value);
+    });
+    return url.pathname + url.search;
+  }
+
+  function downloadCleanPdf(doc = null, params = {}) {
+    let kind = doc;
+    if (!kind) {
+      if (window.location.pathname.includes("cover")) kind = "cover";
+      else kind = "resume";
+    }
+    window.location.href = buildPdfDownloadUrl(kind, params, false);
+  }
+
+  function printCleanPdf(doc = null, params = {}) {
+    let kind = doc;
+    if (!kind) {
+      if (window.location.pathname.includes("cover")) kind = "cover";
+      else kind = "resume";
+    }
+    const pdfUrl = buildPdfDownloadUrl(kind, params, true);
+    const win = window.open(pdfUrl, "_blank", "noopener,noreferrer");
+    if (!win) {
+      window.location.href = pdfUrl;
+      return;
+    }
+    // PDF viewers: user prints from there — no HTML title/URL chrome.
+  }
+
+  function printNow() {
+    if (window.location.pathname.includes("resume") || window.location.pathname.includes("cover")) {
+      printCleanPdf();
+      return;
+    }
+    printDocument(window);
   }
 
   document.querySelectorAll("[data-print]").forEach((btn) => {
@@ -31,7 +108,7 @@
   });
 
   document.querySelectorAll("[data-download-pdf]").forEach((btn) => {
-    btn.addEventListener("click", downloadPdfHint);
+    btn.addEventListener("click", () => downloadCleanPdf());
   });
 
   document.querySelectorAll("[data-add-link]").forEach((btn) => {
@@ -47,10 +124,10 @@
     });
   });
 
-  // Section reorder (arrows + drag)
-  const sorter = document.querySelector("[data-section-sorter]");
-  if (sorter) {
+  // Section / experience reorder (arrows + drag)
+  document.querySelectorAll("[data-section-sorter]").forEach((sorter) => {
     const list = sorter.querySelector("[data-sort-list]");
+    if (!list) return;
 
     function items() {
       return Array.from(list.querySelectorAll("[data-sort-item]"));
@@ -71,7 +148,7 @@
       const down = event.target.closest("[data-move-down]");
       if (!up && !down) return;
       const row = event.target.closest("[data-sort-item]");
-      if (!row) return;
+      if (!row || !list.contains(row)) return;
       if (up && row.previousElementSibling) {
         list.insertBefore(row, row.previousElementSibling);
       }
@@ -88,7 +165,7 @@
         row.classList.add("is-dragging");
         if (event.dataTransfer) {
           event.dataTransfer.effectAllowed = "move";
-          event.dataTransfer.setData("text/plain", row.id || "section");
+          event.dataTransfer.setData("text/plain", row.id || "item");
         }
       });
       row.addEventListener("dragend", () => {
@@ -100,7 +177,7 @@
       row.addEventListener("dragover", (event) => {
         event.preventDefault();
         const target = event.currentTarget;
-        if (!dragItem || target === dragItem) return;
+        if (!dragItem || target === dragItem || !list.contains(dragItem)) return;
         target.classList.add("is-drag-over");
         const rect = target.getBoundingClientRect();
         const before = event.clientY < rect.top + rect.height / 2;
@@ -121,7 +198,7 @@
     });
 
     refreshButtons();
-  }
+  });
 
   const studio = document.querySelector("[data-design-studio]");
   if (!studio) return;
@@ -243,22 +320,15 @@
     });
   }
 
-  function printFrame() {
-    if (!frame || !frame.contentWindow) {
-      printNow();
-      return;
-    }
-    frame.contentWindow.focus();
-    frame.contentWindow.print();
-  }
-
   studio.querySelectorAll("[data-studio-print]").forEach((btn) => {
-    btn.addEventListener("click", printFrame);
+    btn.addEventListener("click", () => {
+      printCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent });
+    });
   });
 
   studio.querySelectorAll("[data-studio-pdf]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      printFrame();
+      downloadCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent });
     });
   });
 

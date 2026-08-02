@@ -23,6 +23,9 @@ Thumbs.db
 # Runtime
 /vendor/
 /node_modules/
+/bin/browsers/
+/storage/pdfs/*
+!/storage/pdfs/.gitkeep
 *.log
 /public/uploads/photos/*
 !/public/uploads/photos/.gitkeep

@@ -16,7 +16,7 @@ $font = $opts['font'];
 $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
 
-layout_header(($letter['title'] ?? 'Cover Letter'), [
+layout_header($profile['full_name'], [
     'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
     'theme' => $theme,
     'accent' => $accent,
@@ -47,7 +47,7 @@ if (!$embed):
     <?php if (App::filled($profile['title'] ?? null)): ?>
       <span><?= App::e($profile['title']) ?></span>
     <?php endif; ?>
-    <?php render_profile_details($profile, false); ?>
+    <?php render_profile_details($profile, true, false); ?>
   </header>
 
   <?php if ($letter): ?>

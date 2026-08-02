@@ -143,6 +143,72 @@
   margin-bottom: 0;
 }
 
+/* Structured experience entries */
+.experience-list {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.experience-item {
+  break-inside: avoid;
+}
+
+.experience-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 1rem;
+  align-items: start;
+}
+
+.experience-company {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.experience-position {
+  margin: 0.15rem 0 0;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--accent);
+}
+
+.experience-right {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.experience-dates,
+.experience-location {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.experience-location {
+  margin-top: 0.15rem;
+}
+
+.experience-bullets {
+  margin-top: 0.45rem;
+}
+
+.experience-bullets p {
+  margin: 0 0 0.35rem;
+}
+
+@media (max-width: 640px) {
+  .experience-top {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-right {
+    text-align: left;
+    white-space: normal;
+  }
+}
+
 .letter-from {
   display: grid;
   gap: 0.25rem;
@@ -737,6 +803,7 @@
   font-weight: 700;
   color: #313e32;
   gap: 0.35rem 0.5rem;
+  background: transparent;
 }
 
 .theme-sage .resume-contact a {
@@ -778,9 +845,20 @@
   line-height: 1.6;
 }
 
-.theme-sage .letter-company {
+.theme-midnight .experience-company,
+.theme-midnight .experience-position,
+.theme-midnight .experience-dates,
+.theme-midnight .experience-location,
+.theme-midnight .experience-bullets {
+  color: #fff;
+}
+
+.theme-sage .experience-position {
   color: #4e6351;
-  font-weight: 700;
+}
+
+.theme-sage .experience-company {
+  color: #313e32;
 }
 
 /* Embed / PDF */
@@ -804,16 +882,112 @@ body.is-embed {
 
 @media print {
   @page {
-    size: A4;
-    margin: 14mm;
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html,
+  body {
+    width: 210mm;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  .site-shell,
+  .site-shell-embed {
+    width: 210mm !important;
+    max-width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
 
   .resume,
   .cover-letter {
     border: none !important;
     box-shadow: none !important;
-    padding: 0 !important;
+    border-radius: 0 !important;
     max-width: none !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 18mm 16mm !important;
+    box-sizing: border-box !important;
+    /* Clone padding + background onto every page fragment (fixes page-2 top flush) */
+    -webkit-box-decoration-break: clone !important;
+    box-decoration-break: clone !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    overflow: visible !important;
+    page-break-after: avoid !important;
+    background-clip: padding-box !important;
+  }
+
+  /* Full-page theme fills — fixed layer paints on every printed page */
+  body.theme-sage::before,
+  body.theme-midnight::before,
+  body.theme-company::before,
+  body:not(.theme-sage):not(.theme-midnight):not(.theme-company)::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body.theme-sage::before {
+    background: #f3f1ec !important;
+  }
+
+  body.theme-midnight::before {
+    background: #1a1a1a !important;
+  }
+
+  body.theme-company::before {
+    background: color-mix(in srgb, var(--accent) 12%, #fff) !important;
+  }
+
+  body:not(.theme-sage):not(.theme-midnight):not(.theme-company)::before {
+    background: #fff !important;
+  }
+
+  body.theme-sage,
+  body.theme-sage .site-shell,
+  body.theme-sage .site-shell-embed,
+  .theme-sage.resume,
+  .theme-sage.cover-letter {
+    background: #f3f1ec !important;
+  }
+
+  body.theme-midnight,
+  body.theme-midnight .site-shell,
+  body.theme-midnight .site-shell-embed,
+  .theme-midnight.resume,
+  .theme-midnight.cover-letter {
+    background: #1a1a1a !important;
+    color: #fff !important;
+  }
+
+  body.theme-company,
+  body.theme-company .site-shell,
+  body.theme-company .site-shell-embed {
+    background: color-mix(in srgb, var(--accent) 12%, #fff) !important;
+  }
+
+  body:not(.theme-sage):not(.theme-midnight):not(.theme-company),
+  body:not(.theme-sage):not(.theme-midnight):not(.theme-company) .site-shell,
+  body:not(.theme-sage):not(.theme-midnight):not(.theme-company) .site-shell-embed {
+    background: #fff !important;
   }
 
   .theme-sidebar.resume {
@@ -823,34 +997,60 @@ body.is-embed {
   .theme-sidebar.cover-letter .letter-from {
     margin: 0 0 1rem !important;
     border-radius: 0 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
   }
 
-  .theme-sidebar .resume-header {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  .theme-banner .resume-header,
+  .theme-banner .letter-from {
+    margin-left: -14mm !important;
+    margin-right: -14mm !important;
+    padding-left: 14mm !important;
+    padding-right: 14mm !important;
   }
 
-  .resume-photo img {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  .theme-slate .resume-header,
+  .theme-slate .letter-from,
+  .theme-banner .resume-header,
+  .theme-banner .letter-from,
+  .theme-sidebar .resume-header,
+  .theme-sidebar.cover-letter .letter-from,
+  .theme-company.resume,
+  .theme-company.cover-letter,
+  .resume-photo img,
+  .experience-item {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
-  .theme-midnight.resume,
-  .theme-midnight.cover-letter,
-  .theme-sage.resume,
-  .theme-sage.cover-letter {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .resume-section {
+  .resume-section,
+  .experience-item {
     break-inside: avoid;
   }
 
-  a {
-    text-decoration: none;
-    color: inherit;
+  /* Keep link text, never print the raw URL */
+  a,
+  a:link,
+  a:visited {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  a[href]::after,
+  a[href]::before {
+    content: none !important;
+  }
+
+  .cover-letter .resume-meta,
+  .cover-letter .letter-company {
+    display: none !important;
+  }
+
+  .cover-letter .letter-from {
+    margin-bottom: 1rem !important;
+  }
+
+  .cover-letter .letter-body p {
+    margin-bottom: 0.65rem !important;
+    line-height: 1.45 !important;
   }
 }

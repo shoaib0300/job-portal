@@ -84,6 +84,26 @@ final class App
         return Db::pdo()->query($sql)->fetchAll();
     }
 
+    public static function experiences(bool $visibleOnly = false): array
+    {
+        $sql = 'SELECT * FROM experience_entries';
+        if ($visibleOnly) {
+            $sql .= ' WHERE visible = 1';
+        }
+        $sql .= ' ORDER BY sort_order ASC, id ASC';
+        return Db::pdo()->query($sql)->fetchAll();
+    }
+
+    public static function experienceDateRange(array $entry): string
+    {
+        $start = trim((string) ($entry['start_date'] ?? ''));
+        $end = trim((string) ($entry['end_date'] ?? ''));
+        if ($start !== '' && $end !== '') {
+            return $start . ' – ' . $end;
+        }
+        return $start !== '' ? $start : $end;
+    }
+
     public static function activeCoverLetter(): ?array
     {
         $row = Db::pdo()->query(

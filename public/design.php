@@ -155,7 +155,7 @@ layout_header('Design studio', [
         <button type="button" class="btn btn-secondary" data-studio-print>Print</button>
         <button type="button" class="btn btn-primary" data-studio-pdf>Download PDF</button>
       </div>
-      <p class="studio-hint">Download PDF opens the print dialog — choose <strong>Save as PDF</strong> as the printer. Filename: <?= App::e($profile['full_name']) ?>.</p>
+      <p class="studio-hint"><strong>Download PDF</strong> and <strong>Print</strong> both use a clean A4 file (no title, URL, page date). Hard-refresh (Ctrl+Shift+R) if buttons still open the old browser print dialog.</p>
     </aside>
 
     <section class="studio-preview">

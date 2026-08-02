@@ -277,5 +277,14 @@ corepack_enable: false
 # "pre-composer", "post-composer"
 # See https://ddev.readthedocs.io/en/stable/users/extend/custom-commands/ for more
 # information on the commands that can be extended and the tasks you can define
-# for them. Example:
-#hooks:
+# for them.
+hooks:
+  post-start:
+    - exec-host: |
+        if ! curl -fsS http://127.0.0.1:18477/health >/dev/null 2>&1; then
+          mkdir -p storage/pdfs
+          nohup node scripts/pdf-server.mjs > storage/pdfs/pdf-server.log 2>&1 &
+          echo "Started MNK PDF server on :18477"
+        else
+          echo "MNK PDF server already running on :18477"
+        fi

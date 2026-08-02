@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 /**
  * Render profile contact + demographic lines; skips empty values.
+ *
+ * @param array $profile
+ * @param bool $includeLinks
+ * @param bool $includeMeta  gender / DOB / country / nationality
  */
-function render_profile_details(array $profile, bool $includeLinks = true): void
+function render_profile_details(array $profile, bool $includeLinks = true, bool $includeMeta = true): void
 {
     $dob = App::formatDate(isset($profile['date_of_birth']) ? (string) $profile['date_of_birth'] : null);
     $contact = [];
@@ -30,17 +34,19 @@ function render_profile_details(array $profile, bool $includeLinks = true): void
     }
 
     $meta = [];
-    if (App::filled($profile['gender'] ?? null)) {
-        $meta[] = ['label' => 'Gender', 'text' => (string) $profile['gender']];
-    }
-    if ($dob !== '') {
-        $meta[] = ['label' => 'Date of birth', 'text' => $dob];
-    }
-    if (App::filled($profile['country'] ?? null)) {
-        $meta[] = ['label' => 'Country', 'text' => (string) $profile['country']];
-    }
-    if (App::filled($profile['nationality'] ?? null)) {
-        $meta[] = ['label' => 'Nationality', 'text' => (string) $profile['nationality']];
+    if ($includeMeta) {
+        if (App::filled($profile['gender'] ?? null)) {
+            $meta[] = ['label' => 'Gender', 'text' => (string) $profile['gender']];
+        }
+        if ($dob !== '') {
+            $meta[] = ['label' => 'Date of birth', 'text' => $dob];
+        }
+        if (App::filled($profile['country'] ?? null)) {
+            $meta[] = ['label' => 'Country', 'text' => (string) $profile['country']];
+        }
+        if (App::filled($profile['nationality'] ?? null)) {
+            $meta[] = ['label' => 'Nationality', 'text' => (string) $profile['nationality']];
+        }
     }
 
     if ($contact): ?>
