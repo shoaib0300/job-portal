@@ -44,7 +44,7 @@ $pdo->prepare(
 )->execute([
     'Muqaddas Khan',
     'QA Engineer | Manual, API & Performance Testing',
-    'muqaddasnasimkhan04@gmail.com',
+    'mnkmuqaddaskhanajk@gmail.com',
     '+49 163 9064691',
     'Germany',
     'Female',
