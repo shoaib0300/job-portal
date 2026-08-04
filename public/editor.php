@@ -6,6 +6,7 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 
 $pdo = Db::pdo();
+Versions::ensureSchema();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -237,34 +238,223 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'save_cover') {
         $id = (int) ($_POST['id'] ?? 0);
-        $makeActive = isset($_POST['is_active']);
-        if ($makeActive) {
+        $isActive = isset($_POST['is_active']) ? 1 : 0;
+        $isBase = isset($_POST['is_base']) ? 1 : 0;
+        if ($isActive) {
             $pdo->exec('UPDATE cover_letters SET is_active = 0');
+        }
+        if ($isBase) {
+            $pdo->exec('UPDATE cover_letters SET is_base = 0');
         }
         if ($id > 0) {
             $stmt = $pdo->prepare(
-                'UPDATE cover_letters SET title = ?, body = ?, company = ?, is_active = ? WHERE id = ?'
+                'UPDATE cover_letters SET title = ?, body = ?, company = ?, is_active = ?, is_base = ? WHERE id = ?'
             );
             $stmt->execute([
                 trim((string) ($_POST['title'] ?? '')),
                 (string) ($_POST['body'] ?? ''),
                 trim((string) ($_POST['company'] ?? '')),
-                $makeActive ? 1 : 0,
+                $isActive,
+                $isBase,
                 $id,
             ]);
         } else {
             $stmt = $pdo->prepare(
-                'INSERT INTO cover_letters (title, body, company, is_active) VALUES (?, ?, ?, ?)'
+                'INSERT INTO cover_letters (title, body, company, is_active, is_base) VALUES (?, ?, ?, ?, ?)'
             );
             $stmt->execute([
                 trim((string) ($_POST['title'] ?? 'Cover letter')) ?: 'Cover letter',
                 (string) ($_POST['body'] ?? ''),
                 trim((string) ($_POST['company'] ?? '')),
-                $makeActive ? 1 : 1,
+                1,
+                $isBase,
             ]);
+            if ($isBase) {
+                // already set on insert; ensure others cleared
+                $pdo->exec('UPDATE cover_letters SET is_base = 0 WHERE id <> LAST_INSERT_ID()');
+            }
         }
         App::flash('Cover letter saved.');
         App::redirect('/editor.php#cover');
+    }
+
+    if ($action === 'activate_cover') {
+        $id = (int) ($_POST['id'] ?? 0);
+        Versions::activateCover($id);
+        App::flash('Now editing this cover letter.');
+        App::redirect('/editor.php?cover=' . $id . '#cover');
+    }
+
+    if ($action === 'new_job_cover') {
+        $company = trim((string) ($_POST['company'] ?? ''));
+        $title = trim((string) ($_POST['title'] ?? ''));
+        $location = trim((string) ($_POST['location'] ?? ''));
+        if ($company === '') {
+            App::flash('Enter a company name first.', 'error');
+            App::redirect('/editor.php#cover');
+        }
+        $base = Versions::baseCoverLetter();
+        if ($base === null) {
+            App::flash('No Main cover letter to copy from.', 'error');
+            App::redirect('/editor.php#cover');
+        }
+        if ($title === '') {
+            $title = 'Cover letter — ' . $company;
+        }
+        $companyLine = $location !== '' ? ($company . ' · ' . $location) : $company;
+        $newId = Versions::duplicateCover((int) $base['id'], $title);
+        $pdo->prepare('UPDATE cover_letters SET company = ? WHERE id = ?')->execute([$companyLine, $newId]);
+        App::flash('Created cover letter #' . $newId . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . '). Edit it below.');
+        App::redirect('/editor.php?cover=' . $newId . '#cover');
+    }
+
+    if ($action === 'mark_cover_base') {
+        $id = (int) ($_POST['id'] ?? 0);
+        Versions::markCoverBase($id);
+        App::flash('Marked as Main cover letter.');
+        App::redirect('/editor.php#cover');
+    }
+
+    if ($action === 'delete_cover') {
+        $id = (int) ($_POST['id'] ?? 0);
+        try {
+            Versions::deleteCover($id);
+            App::flash('Cover letter deleted.');
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+        }
+        App::redirect('/editor.php#cover');
+    }
+
+    if ($action === 'save_resume_version') {
+        $title = trim((string) ($_POST['title'] ?? ''));
+        $company = trim((string) ($_POST['company'] ?? ''));
+        $note = trim((string) ($_POST['note'] ?? ''));
+        $asBase = isset($_POST['as_base']);
+        $id = (int) ($_POST['id'] ?? 0);
+        if ($asBase) {
+            $base = Versions::baseResumeVersion();
+            if ($base) {
+                $id = (int) $base['id'];
+            }
+            if ($title === '') {
+                $title = 'Main resume';
+            }
+        } elseif ($title === '') {
+            $title = $company !== '' ? $company . ' resume' : 'Tailored resume';
+        }
+        $snapshot = Versions::captureSnapshot();
+        $versionId = Versions::saveResumeVersion(
+            $title,
+            $snapshot,
+            $company,
+            $note,
+            $asBase,
+            $id > 0 ? $id : null,
+            true
+        );
+        if ($company !== '') {
+            App::setSetting('active_company', $company);
+        }
+        App::flash($asBase ? 'Main resume saved.' : 'Resume saved.');
+        App::redirect('/editor.php#versions');
+    }
+
+    if ($action === 'save_open_resume') {
+        $active = Versions::activeResumeVersion();
+        $base = Versions::baseResumeVersion();
+        $target = $active ?: $base;
+        $snapshot = Versions::captureSnapshot();
+        if ($target) {
+            Versions::saveResumeVersion(
+                (string) $target['title'],
+                $snapshot,
+                (string) ($target['company'] ?? ''),
+                (string) ($target['note'] ?? ''),
+                (int) ($target['is_base'] ?? 0) === 1,
+                (int) $target['id'],
+                true
+            );
+            $name = (int) ($target['is_base'] ?? 0) === 1 ? 'Main resume' : (string) $target['title'];
+            App::flash('Saved: ' . $name);
+        } else {
+            Versions::updateBaseFromLive('Main resume');
+            App::flash('Saved as Main resume.');
+        }
+        App::redirect('/editor.php#versions');
+    }
+
+    if ($action === 'new_job_resume') {
+        $company = trim((string) ($_POST['company'] ?? ''));
+        $role = trim((string) ($_POST['role'] ?? ''));
+        $location = trim((string) ($_POST['location'] ?? ''));
+        if ($company === '') {
+            App::flash('Enter a company name first.', 'error');
+            App::redirect('/editor.php#versions');
+        }
+        $base = Versions::baseResumeVersion();
+        if ($base === null) {
+            App::flash('No Main resume to copy from. Save Main first.', 'error');
+            App::redirect('/editor.php#versions');
+        }
+        // Always clone Main (never the currently open tailored copy).
+        $snapshot = Versions::decodeSnapshot((string) $base['snapshot']);
+        if ($location !== '') {
+            $snapshot['location'] = $location;
+        }
+        $title = $role !== '' ? $role . ' — ' . $company : $company;
+        $id = Versions::saveResumeVersion(
+            $title,
+            $snapshot,
+            $company,
+            'Copy of Main resume' . ($location !== '' ? ' · ' . $location : ''),
+            false,
+            null,
+            true
+        );
+        Versions::loadResumeVersion($id);
+        App::flash('Created resume #' . $id . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . '). Change it, then Save.');
+        App::redirect('/editor.php#versions');
+    }
+
+    if ($action === 'load_resume_version') {
+        $id = (int) ($_POST['id'] ?? 0);
+        try {
+            Versions::loadResumeVersion($id);
+            $row = Versions::resumeVersion($id);
+            $name = $row && (int) ($row['is_base'] ?? 0) === 1 ? 'Main resume' : ($row['title'] ?? 'resume');
+            App::flash('Now editing: ' . $name);
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+        }
+        App::redirect('/editor.php#versions');
+    }
+
+    if ($action === 'reset_to_main_resume') {
+        $base = Versions::baseResumeVersion();
+        if (!$base) {
+            App::flash('No Main resume yet.', 'error');
+            App::redirect('/editor.php#versions');
+        }
+        try {
+            Versions::loadResumeVersion((int) $base['id']);
+            App::setSetting('active_company', '');
+            App::flash('Now editing: Main resume');
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+        }
+        App::redirect('/editor.php#versions');
+    }
+
+    if ($action === 'delete_resume_version') {
+        $id = (int) ($_POST['id'] ?? 0);
+        try {
+            Versions::deleteResumeVersion($id);
+            App::flash('Resume deleted.');
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+        }
+        App::redirect('/editor.php#versions');
     }
 
     if ($action === 'save_design') {
@@ -288,6 +478,35 @@ $profile = App::profile();
 $sections = App::sections(false);
 $experiences = App::experiences(false);
 $letter = App::activeCoverLetter();
+$coverLetters = App::coverLetters();
+$resumeVersions = Versions::resumeVersions();
+$baseResume = Versions::baseResumeVersion();
+$activeResume = Versions::activeResumeVersion();
+$editingResumeName = 'Main resume';
+if ($activeResume) {
+    $editingResumeName = (int) ($activeResume['is_base'] ?? 0) === 1
+        ? 'Main resume'
+        : (string) $activeResume['title'];
+} elseif ($baseResume) {
+    $editingResumeName = 'Main resume';
+}
+$editCoverId = isset($_GET['cover']) ? (int) $_GET['cover'] : 0;
+$newCover = isset($_GET['new']) && (string) $_GET['new'] === '1';
+if ($newCover) {
+    $letter = [
+        'id' => 0,
+        'title' => 'Cover letter',
+        'body' => '',
+        'company' => '',
+        'is_active' => 1,
+        'is_base' => 0,
+    ];
+} elseif ($editCoverId > 0) {
+    $picked = Versions::coverLetterById($editCoverId);
+    if ($picked) {
+        $letter = $picked;
+    }
+}
 $theme = App::setting('theme', 'classic') ?: 'classic';
 $accent = App::setting('accent_color', '#1a5f4a') ?: '#1a5f4a';
 $font = App::resolveFont(null);
@@ -303,7 +522,7 @@ layout_header('Editor');
 <main class="editor">
   <header class="page-head">
     <h1>Editor</h1>
-    <p>Edit resume sections, cover letter text, and design. Preview with the links on the right.</p>
+    <p>Edit your resume and cover letter. Use <a href="#versions">My resumes</a> when you need a copy for one company.</p>
     <div class="preview-links">
       <a class="btn btn-small" href="/resume.php" target="_blank" rel="noopener">Preview resume</a>
       <a class="btn btn-small" href="/cover-letter.php" target="_blank" rel="noopener">Preview cover letter</a>
@@ -312,14 +531,95 @@ layout_header('Editor');
 
   <div class="editor-grid">
     <aside class="editor-nav">
+      <a href="#versions">My resumes</a>
       <a href="#design">Design</a>
       <a href="#profile">Profile</a>
       <a href="#experience">Experience</a>
       <a href="#sections">Sections</a>
-      <a href="#cover">Cover letter</a>
+      <a href="#cover">Cover letters</a>
     </aside>
 
     <div class="editor-main">
+      <section class="editor-block" id="versions">
+        <h2>My resumes</h2>
+
+        <ol class="simple-steps">
+          <li><strong>Main</strong> = your normal CV.</li>
+          <li>For a job: <strong>Add resume</strong>, change it, then Download that one.</li>
+          <li>Each resume has a unique ID (shown below).</li>
+        </ol>
+
+        <div class="now-editing">
+          <p>
+            Now editing:
+            <?php if ($activeResume): ?>
+              <span class="doc-id">#<?= (int) $activeResume['id'] ?></span>
+            <?php endif; ?>
+            <strong><?= App::e($editingResumeName) ?></strong>
+          </p>
+          <form method="post" class="form form-inline-actions">
+            <input type="hidden" name="action" value="save_open_resume">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+
+        <form method="post" class="form new-job-form" id="add-resume">
+          <h3>Add resume</h3>
+          <p class="empty" style="margin:0 0 0.75rem">Always a copy of Main. Give it a company name.</p>
+          <input type="hidden" name="action" value="new_job_resume">
+          <label>Company <input type="text" name="company" required placeholder="e.g. SAP"></label>
+          <label>Job title <input type="text" name="role" placeholder="e.g. QA Engineer"></label>
+          <label>Job location <input type="text" name="location" placeholder="e.g. München, Germany" required></label>
+          <button type="submit" class="btn btn-primary">Add resume</button>
+        </form>
+
+        <?php if (!$resumeVersions): ?>
+          <p class="empty">No resumes yet. <a href="#add-resume">Add resume</a>.</p>
+        <?php else: ?>
+          <ul class="version-list doc-card-list">
+            <?php foreach ($resumeVersions as $ver): ?>
+              <?php
+              $rid = (int) $ver['id'];
+              $isMain = (int) $ver['is_base'] === 1;
+              $isOpen = (int) $ver['is_active'] === 1;
+              $label = $isMain ? 'Main resume' : (string) $ver['title'];
+              ?>
+              <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
+                <div class="doc-card-main">
+                  <span class="doc-id" title="Unique resume ID">#<?= $rid ?></span>
+                  <div class="doc-card-text">
+                    <strong>
+                      <?php if ($isMain): ?><span class="badge-main">Main</span> <?php endif; ?>
+                      <?php if ($isOpen): ?><span class="badge-active">Editing</span> <?php endif; ?>
+                      <?= App::e($label) ?>
+                    </strong>
+                    <?php if (!$isMain && $ver['company'] !== ''): ?>
+                      <span class="muted"><?= App::e((string) $ver['company']) ?></span>
+                    <?php endif; ?>
+                  </div>
+                </div>
+                <div class="version-list-actions doc-card-actions">
+                  <form method="post">
+                    <input type="hidden" name="action" value="load_resume_version">
+                    <input type="hidden" name="id" value="<?= $rid ?>">
+                    <button type="submit" class="btn btn-small btn-primary">Edit</button>
+                  </form>
+                  <a class="btn btn-small btn-secondary" href="/pdf.php?doc=resume&amp;version=<?= $rid ?>">Download</a>
+                  <a class="btn btn-small" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
+                  <?php if (!$isMain): ?>
+                    <form method="post" onsubmit="return confirm('Delete resume #<?= $rid ?>?');">
+                      <input type="hidden" name="action" value="delete_resume_version">
+                      <input type="hidden" name="id" value="<?= $rid ?>">
+                      <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                    </form>
+                  <?php endif; ?>
+                </div>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        <?php endif; ?>
+      </section>
+
       <section class="editor-block" id="design">
         <h2>Design &amp; PDF</h2>
         <p class="empty" style="margin-top:0">Choose a visual style, preview live, then print or download PDF.</p>
@@ -566,21 +866,88 @@ layout_header('Editor');
       </section>
 
       <section class="editor-block" id="cover">
-        <h2>Cover letter</h2>
-        <form method="post" class="form">
+        <h2>Cover letters</h2>
+        <ol class="simple-steps">
+          <li><strong>Main</strong> = your normal letter.</li>
+          <li>For a job: <strong>Add cover letter</strong>, change it, then Download that one.</li>
+          <li>Each letter has a unique ID (shown below).</li>
+        </ol>
+
+        <form method="post" class="form new-job-form" id="add-cover">
+          <h3>Add cover letter</h3>
+          <p class="empty" style="margin:0 0 0.75rem">Always a copy of Main cover letter.</p>
+          <input type="hidden" name="action" value="new_job_cover">
+          <label>Company <input type="text" name="company" required placeholder="e.g. SAP"></label>
+          <label>Job location <input type="text" name="location" placeholder="e.g. München, Germany" required></label>
+          <label>Name <input type="text" name="title" placeholder="e.g. QA Engineer — SAP"></label>
+          <button type="submit" class="btn btn-primary">Add cover letter</button>
+        </form>
+
+        <?php if (!$coverLetters): ?>
+          <p class="empty">No cover letters yet. <a href="#add-cover">Add cover letter</a>.</p>
+        <?php else: ?>
+          <ul class="version-list doc-card-list">
+            <?php foreach ($coverLetters as $cl): ?>
+              <?php
+              $cid = (int) $cl['id'];
+              $isMain = (int) ($cl['is_base'] ?? 0) === 1;
+              $isOpen = (int) ($letter['id'] ?? 0) === $cid;
+              $label = $isMain ? 'Main cover letter' : (string) $cl['title'];
+              ?>
+              <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
+                <div class="doc-card-main">
+                  <span class="doc-id" title="Unique cover letter ID">#<?= $cid ?></span>
+                  <div class="doc-card-text">
+                    <strong>
+                      <?php if ($isMain): ?><span class="badge-main">Main</span> <?php endif; ?>
+                      <?php if ($isOpen): ?><span class="badge-active">Editing</span> <?php endif; ?>
+                      <?= App::e($label) ?>
+                    </strong>
+                    <?php if (!$isMain && $cl['company'] !== ''): ?>
+                      <span class="muted"><?= App::e((string) $cl['company']) ?></span>
+                    <?php endif; ?>
+                  </div>
+                </div>
+                <div class="version-list-actions doc-card-actions">
+                  <form method="post">
+                    <input type="hidden" name="action" value="activate_cover">
+                    <input type="hidden" name="id" value="<?= $cid ?>">
+                    <button type="submit" class="btn btn-small btn-primary">Edit</button>
+                  </form>
+                  <a class="btn btn-small btn-secondary" href="/pdf.php?doc=cover&amp;id=<?= $cid ?>">Download</a>
+                  <a class="btn btn-small" href="/cover-letter.php?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
+                  <?php if (!$isMain): ?>
+                    <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">
+                      <input type="hidden" name="action" value="delete_cover">
+                      <input type="hidden" name="id" value="<?= $cid ?>">
+                      <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                    </form>
+                  <?php endif; ?>
+                </div>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        <?php endif; ?>
+
+        <?php if (!empty($letter['id'])): ?>
+        <form method="post" class="form" style="margin-top:1.25rem">
+          <h3>Edit letter <span class="doc-id">#<?= (int) $letter['id'] ?></span></h3>
           <input type="hidden" name="action" value="save_cover">
-          <input type="hidden" name="id" value="<?= (int) ($letter['id'] ?? 0) ?>">
-          <label>Title <input type="text" name="title" value="<?= App::e($letter['title'] ?? 'Cover letter') ?>"></label>
-          <label>Company <input type="text" name="company" value="<?= App::e($letter['company'] ?? '') ?>"></label>
-          <label>Body
+          <input type="hidden" name="id" value="<?= (int) $letter['id'] ?>">
+          <input type="hidden" name="is_active" value="1">
+          <?php if ((int) ($letter['is_base'] ?? 0) === 1): ?>
+            <input type="hidden" name="is_base" value="1">
+          <?php endif; ?>
+          <label>Name <input type="text" name="title" value="<?= App::e($letter['title'] ?? 'Cover letter') ?>"></label>
+          <label>Company <input type="text" name="company" value="<?= App::e($letter['company'] ?? '') ?>" placeholder="Optional"></label>
+          <label>Letter text
             <textarea name="body" rows="16"><?= App::e($letter['body'] ?? '') ?></textarea>
           </label>
-          <label class="check">
-            <input type="checkbox" name="is_active" value="1"<?= empty($letter) || (int) ($letter['is_active'] ?? 0) === 1 ? ' checked' : '' ?>>
-            Active cover letter
-          </label>
-          <button type="submit" class="btn btn-primary">Save cover letter</button>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save letter</button>
+          </div>
         </form>
+        <?php endif; ?>
       </section>
     </div>
   </div>

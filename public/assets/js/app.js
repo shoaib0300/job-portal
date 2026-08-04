@@ -14,6 +14,7 @@
     slate: "Slate",
     serif: "Editorial",
     cards: "Cards",
+    timeline: "Timeline",
   };
 
   function cleanTitleForPrint(win) {
@@ -64,51 +65,166 @@
     const url = new URL("/pdf.php", window.location.origin);
     url.searchParams.set("doc", doc);
     if (inline) url.searchParams.set("inline", "1");
-    ["theme", "font", "accent"].forEach((key) => {
-      const value = params[key] || new URLSearchParams(window.location.search).get(key);
-      if (value) url.searchParams.set(key, value);
+    const search = new URLSearchParams(window.location.search);
+    ["theme", "font", "accent", "version", "id"].forEach((key) => {
+      let value;
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        value = params[key];
+      } else if (key === "theme" || key === "font" || key === "accent") {
+        value = search.get(key);
+      } else {
+        value = null;
+      }
+      if (value !== undefined && value !== null && String(value) !== "") {
+        url.searchParams.set(key, String(value));
+      }
     });
     return url.pathname + url.search;
   }
 
-  function downloadCleanPdf(doc = null, params = {}) {
-    let kind = doc;
-    if (!kind) {
-      if (window.location.pathname.includes("cover")) kind = "cover";
-      else kind = "resume";
+  function parseExportOptions(el) {
+    if (!el) return [];
+    const raw = el.getAttribute("data-export-options");
+    if (!raw) {
+      const studio = document.querySelector("[data-design-studio]");
+      if (studio) return parseExportOptions(studio);
+      return [];
     }
-    window.location.href = buildPdfDownloadUrl(kind, params, false);
+    try {
+      const list = JSON.parse(raw);
+      return Array.isArray(list) ? list : [];
+    } catch (_err) {
+      return [];
+    }
   }
 
-  function printCleanPdf(doc = null, params = {}) {
+  function closeExportPicker() {
+    const existing = document.querySelector("[data-export-picker]");
+    if (existing) existing.remove();
+  }
+
+  function chooseExportOption(doc, options) {
+    return new Promise((resolve) => {
+      if (!options || options.length <= 1) {
+        resolve(options && options[0] ? options[0] : null);
+        return;
+      }
+      closeExportPicker();
+      const overlay = document.createElement("div");
+      overlay.className = "export-picker-overlay";
+      overlay.setAttribute("data-export-picker", "1");
+      overlay.innerHTML =
+        '<div class="export-picker" role="dialog" aria-modal="true" aria-labelledby="export-picker-title">' +
+        '<div class="export-picker-head">' +
+        '<h2 id="export-picker-title">Which ' +
+        (doc === "cover" ? "cover letter" : "resume") +
+        " do you want?</h2>" +
+        '<button type="button" class="btn btn-small" data-export-cancel aria-label="Cancel">×</button>' +
+        "</div>" +
+        '<p class="export-picker-lead">Pick Main, or a copy you made for a company.</p>' +
+        '<ul class="export-picker-list"></ul>' +
+        '<div class="export-picker-foot"><button type="button" class="btn btn-secondary" data-export-cancel>Cancel</button></div>' +
+        "</div>";
+      const list = overlay.querySelector(".export-picker-list");
+      options.forEach((opt) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "export-picker-option";
+        const tags = [];
+        if (opt.base) tags.push("Main");
+        if (opt.active && !opt.base) tags.push(doc === "cover" ? "Active" : "Loaded");
+        btn.innerHTML =
+          "<strong>" +
+          (opt.label || "Untitled") +
+          "</strong>" +
+          (tags.length ? '<span class="export-tags">' + tags.join(" · ") + "</span>" : "") +
+          (opt.company ? '<span class="export-company">' + opt.company + "</span>" : "");
+        btn.addEventListener("click", () => {
+          closeExportPicker();
+          resolve(opt);
+        });
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+          closeExportPicker();
+          resolve(null);
+        }
+      });
+      overlay.querySelectorAll("[data-export-cancel]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          closeExportPicker();
+          resolve(null);
+        });
+      });
+      document.body.appendChild(overlay);
+      const first = overlay.querySelector(".export-picker-option");
+      if (first) first.focus();
+    });
+  }
+
+  async function resolveExportParams(doc, params = {}, triggerEl = null) {
+    const options = parseExportOptions(triggerEl) || parseExportOptions(document.querySelector("[data-design-studio]"));
+    const chosen = await chooseExportOption(doc, options);
+    if (chosen === null && options.length > 1) {
+      return null;
+    }
+    const next = { ...params };
+    if (doc === "resume") {
+      if (chosen && chosen.id) next.version = String(chosen.id);
+      else delete next.version;
+    } else if (doc === "cover") {
+      if (chosen && chosen.id) next.id = String(chosen.id);
+      else delete next.id;
+    }
+    return next;
+  }
+
+  async function downloadCleanPdf(doc = null, params = {}, triggerEl = null) {
     let kind = doc;
     if (!kind) {
       if (window.location.pathname.includes("cover")) kind = "cover";
       else kind = "resume";
     }
-    const pdfUrl = buildPdfDownloadUrl(kind, params, true);
+    const resolved = await resolveExportParams(kind, params, triggerEl);
+    if (resolved === null) return;
+    window.location.href = buildPdfDownloadUrl(kind, resolved, false);
+  }
+
+  async function printCleanPdf(doc = null, params = {}, triggerEl = null) {
+    let kind = doc;
+    if (!kind) {
+      if (window.location.pathname.includes("cover")) kind = "cover";
+      else kind = "resume";
+    }
+    const resolved = await resolveExportParams(kind, params, triggerEl);
+    if (resolved === null) return;
+    const pdfUrl = buildPdfDownloadUrl(kind, resolved, true);
     const win = window.open(pdfUrl, "_blank", "noopener,noreferrer");
     if (!win) {
       window.location.href = pdfUrl;
-      return;
     }
-    // PDF viewers: user prints from there — no HTML title/URL chrome.
   }
 
-  function printNow() {
+  function printNow(triggerEl = null) {
     if (window.location.pathname.includes("resume") || window.location.pathname.includes("cover")) {
-      printCleanPdf();
+      printCleanPdf(null, {}, triggerEl);
       return;
     }
     printDocument(window);
   }
 
   document.querySelectorAll("[data-print]").forEach((btn) => {
-    btn.addEventListener("click", printNow);
+    btn.addEventListener("click", () => printNow(btn));
   });
 
   document.querySelectorAll("[data-download-pdf]").forEach((btn) => {
-    btn.addEventListener("click", () => downloadCleanPdf());
+    btn.addEventListener("click", () => {
+      const doc = btn.getAttribute("data-doc") || null;
+      downloadCleanPdf(doc, {}, btn);
+    });
   });
 
   document.querySelectorAll("[data-add-link]").forEach((btn) => {
@@ -198,6 +314,25 @@
     });
 
     refreshButtons();
+  });
+
+  // Applications: Show / Hide JD
+  document.querySelectorAll("[data-toggle-jd]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-jd-target");
+      const row = targetId ? document.getElementById(targetId) : null;
+      if (!row) return;
+      const open = row.hasAttribute("hidden");
+      if (open) {
+        row.removeAttribute("hidden");
+        btn.setAttribute("aria-expanded", "true");
+        btn.textContent = "Hide JD";
+      } else {
+        row.setAttribute("hidden", "");
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = "Show JD";
+      }
+    });
   });
 
   const studio = document.querySelector("[data-design-studio]");
@@ -295,6 +430,10 @@
   studio.querySelectorAll("[data-theme-pick]").forEach((btn) => {
     btn.addEventListener("click", () => {
       theme = btn.getAttribute("data-theme-pick") || theme;
+      if (theme === "timeline" && (!accent || accent === "#4E6351" || accent === "#4e6351")) {
+        accent = "#8B1A1A";
+        if (customColor) customColor.value = accent;
+      }
       syncUi();
     });
   });
@@ -322,13 +461,13 @@
 
   studio.querySelectorAll("[data-studio-print]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      printCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent });
+      printCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent }, btn);
     });
   });
 
   studio.querySelectorAll("[data-studio-pdf]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      downloadCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent });
+      downloadCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent }, btn);
     });
   });
 

@@ -647,6 +647,56 @@ a:hover {
   color: var(--muted);
 }
 
+.app-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.app-jd-row > td {
+  padding: 0 1rem 1rem;
+  background: color-mix(in srgb, var(--accent) 5%, #faf9f7);
+  border-bottom: 1px solid var(--line);
+}
+
+.app-jd-panel {
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, #d8d4cc);
+  background: #fff;
+}
+
+.app-jd-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.app-jd-body {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.app-jd-body p {
+  margin: 0 0 0.65rem;
+}
+
+.app-jd-body p:last-child {
+  margin-bottom: 0;
+}
+
+.app-jd-notes {
+  margin: 0.85rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  color: #555;
+}
+
 .history-list {
   list-style: none;
   margin: 0;
@@ -874,7 +924,7 @@ body.page-doc .site-nav {
 }
 
 .style-thumb.theme-sage {
-  background: #f3f1ec;
+  background: #fff;
 }
 
 .style-thumb.theme-sage .thumb-name {
@@ -886,6 +936,35 @@ body.page-doc .site-nav {
 .style-thumb.theme-sage .thumb-sub {
   margin-inline: auto;
   background: #313e32;
+}
+
+.style-thumb.theme-timeline {
+  background: #fff;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.style-thumb.theme-timeline::before {
+  content: "";
+  position: absolute;
+  left: 28%;
+  top: 38%;
+  bottom: 12%;
+  width: 1px;
+  background: #222;
+}
+
+.style-thumb.theme-timeline .thumb-name {
+  margin-inline: auto;
+  width: 70%;
+  background: #111;
+}
+
+.style-thumb.theme-timeline .thumb-sub {
+  margin-inline: auto;
+  width: 40%;
+  height: 3px;
+  background: #8b1a1a;
 }
 
 .style-thumb.theme-executive .thumb-name {
@@ -1061,6 +1140,244 @@ body.page-doc .site-nav {
   background: transparent;
 }
 
+.simple-steps {
+  margin: 0 0 1.25rem;
+  padding-left: 1.2rem;
+  color: #444;
+  line-height: 1.45;
+}
+
+.simple-steps li + li {
+  margin-top: 0.35rem;
+}
+
+.now-editing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, #d8d4cc);
+  background: color-mix(in srgb, var(--accent) 8%, #fff);
+}
+
+.now-editing p {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.new-job-form {
+  margin-bottom: 1.5rem;
+  padding-top: 0.25rem;
+}
+
+.doc-id {
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, #fff);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, #d8d4cc);
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+  min-width: 2.4rem;
+  text-align: center;
+}
+
+.doc-card-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.doc-card-text {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.doc-card-actions {
+  flex-shrink: 0;
+}
+
+.version-list-item.is-open {
+  border-color: var(--accent);
+}
+
+.version-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.form-inline-actions {
+  display: inline-flex;
+  margin: 0;
+}
+
+.version-list {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.version-list-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, #d8d4cc);
+  background: color-mix(in srgb, var(--accent) 4%, #fff);
+}
+
+.version-list-item p {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
+}
+
+.version-list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: flex-start;
+}
+
+.version-list-actions form {
+  margin: 0;
+}
+
+.badge-main,
+.badge-active,
+.version-pill {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.45rem;
+  border-radius: 2px;
+}
+
+.badge-main {
+  background: var(--accent);
+  color: #fff;
+}
+
+.badge-active {
+  background: color-mix(in srgb, var(--accent) 18%, #eee);
+  color: #222;
+}
+
+.version-pill {
+  align-self: center;
+  background: color-mix(in srgb, var(--accent) 12%, #f4f2ee);
+  color: #333;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.muted {
+  color: #666;
+  font-size: 0.88rem;
+}
+
+.export-picker-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(20, 22, 20, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.export-picker {
+  width: min(420px, 100%);
+  max-height: min(80vh, 560px);
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #d8d4cc;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.export-picker-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.export-picker-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.export-picker-lead {
+  margin: 0.55rem 0 0.9rem;
+  color: #555;
+  font-size: 0.92rem;
+}
+
+.export-picker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.export-picker-option {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #d8d4cc;
+  background: #faf9f7;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+  display: grid;
+  gap: 0.2rem;
+  font: inherit;
+}
+
+.export-picker-option:hover,
+.export-picker-option:focus {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, #fff);
+  outline: none;
+}
+
+.export-picker-option strong {
+  font-size: 0.95rem;
+}
+
+.export-tags,
+.export-company {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.export-picker-foot {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media print {
   html,
   body {
@@ -1094,6 +1411,7 @@ body.page-doc .site-nav {
   .apps-panel,
   .editor-nav,
   .editor-block,
+  .export-picker-overlay,
   header.site-nav {
     display: none !important;
   }

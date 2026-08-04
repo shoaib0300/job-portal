@@ -6,6 +6,7 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 
 $pdo = Db::pdo();
+Versions::ensureSchema();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -49,6 +50,8 @@ $activeCompany = App::setting('active_company', '') ?: '';
 $previewPath = $doc === 'cover' ? '/cover-letter.php' : '/resume.php';
 $profile = App::profile();
 $q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' . urlencode($font);
+$exportOptions = $doc === 'cover' ? Versions::coverExportOptions() : Versions::resumeExportOptions();
+$exportJson = App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]');
 
 layout_header('Design studio', [
     'pdf_mode' => false,
@@ -61,10 +64,11 @@ layout_header('Design studio', [
       data-doc="<?= App::e($doc) ?>"
       data-theme="<?= App::e($theme) ?>"
       data-accent="<?= App::e($accent) ?>"
-      data-font="<?= App::e($font) ?>">
+      data-font="<?= App::e($font) ?>"
+      data-export-options="<?= $exportJson ?>">
   <header class="page-head">
     <h1>Design studio</h1>
-    <p>Pick a style and font, preview it live, then print or download a PDF in that look.</p>
+    <p>Pick a style, then download PDF — you’ll choose which resume or letter to send.</p>
   </header>
 
   <div class="studio-layout">
@@ -152,10 +156,14 @@ layout_header('Design studio', [
       </form>
 
       <div class="studio-actions">
-        <button type="button" class="btn btn-secondary" data-studio-print>Print</button>
-        <button type="button" class="btn btn-primary" data-studio-pdf>Download PDF</button>
+        <button type="button" class="btn btn-secondary" data-studio-print
+                data-doc="<?= App::e($doc) ?>"
+                data-export-options="<?= $exportJson ?>">Print</button>
+        <button type="button" class="btn btn-primary" data-studio-pdf
+                data-doc="<?= App::e($doc) ?>"
+                data-export-options="<?= $exportJson ?>">Download PDF</button>
       </div>
-      <p class="studio-hint"><strong>Download PDF</strong> and <strong>Print</strong> both use a clean A4 file (no title, URL, page date). Hard-refresh (Ctrl+Shift+R) if buttons still open the old browser print dialog.</p>
+      <p class="studio-hint">Download asks which resume/letter to send.</p>
     </aside>
 
     <section class="studio-preview">

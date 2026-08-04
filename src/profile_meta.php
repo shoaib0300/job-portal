@@ -14,10 +14,19 @@ function render_profile_details(array $profile, bool $includeLinks = true, bool 
     $dob = App::formatDate(isset($profile['date_of_birth']) ? (string) $profile['date_of_birth'] : null);
     $contact = [];
     if (App::filled($profile['phone'] ?? null)) {
-        $contact[] = ['text' => (string) $profile['phone']];
+        $phone = (string) $profile['phone'];
+        $tel = preg_replace('/[^\d+]/', '', $phone) ?: $phone;
+        $contact[] = [
+            'text' => $phone,
+            'url' => 'tel:' . $tel,
+        ];
     }
     if (App::filled($profile['email'] ?? null)) {
-        $contact[] = ['text' => (string) $profile['email']];
+        $email = (string) $profile['email'];
+        $contact[] = [
+            'text' => $email,
+            'url' => 'mailto:' . $email,
+        ];
     }
     if (App::filled($profile['location'] ?? null)) {
         $contact[] = ['text' => (string) $profile['location']];

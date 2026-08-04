@@ -106,6 +106,7 @@ final class App
 
     public static function activeCoverLetter(): ?array
     {
+        Versions::ensureSchema();
         $row = Db::pdo()->query(
             'SELECT * FROM cover_letters WHERE is_active = 1 ORDER BY updated_at DESC LIMIT 1'
         )->fetch();
@@ -114,8 +115,9 @@ final class App
 
     public static function coverLetters(): array
     {
+        Versions::ensureSchema();
         return Db::pdo()->query(
-            'SELECT * FROM cover_letters ORDER BY is_active DESC, updated_at DESC'
+            'SELECT * FROM cover_letters ORDER BY is_base DESC, is_active DESC, updated_at DESC'
         )->fetchAll();
     }
 
@@ -131,6 +133,73 @@ final class App
         return Db::pdo()->query(
             'SELECT * FROM applications ORDER BY applied_date DESC, id DESC'
         )->fetchAll();
+    }
+
+    /**
+     * Log / update an application when a JD is tailored.
+     * Default status is "applied". Pass another allowed status if needed.
+     *
+     * @return int application id
+     */
+    public static function logJdApplication(
+        string $company,
+        string $role,
+        string $jdSnippet = '',
+        string $status = 'applied',
+        string $notes = '',
+        string $link = '',
+        ?string $appliedDate = null
+    ): int {
+        $allowed = ['applied', 'rejected', 'interview', 'offer', 'custom'];
+        if (!in_array($status, $allowed, true)) {
+            $status = 'applied';
+        }
+        $company = trim($company);
+        $role = trim($role);
+        if ($company === '' || $role === '') {
+            throw new InvalidArgumentException('Company and role are required');
+        }
+        $date = $appliedDate !== null && trim($appliedDate) !== ''
+            ? trim($appliedDate)
+            : date('Y-m-d');
+
+        $pdo = Db::pdo();
+        $existing = $pdo->prepare(
+            'SELECT id FROM applications WHERE company = ? AND role = ? ORDER BY id DESC LIMIT 1'
+        );
+        $existing->execute([$company, $role]);
+        $row = $existing->fetch();
+
+        if ($row) {
+            $id = (int) $row['id'];
+            $pdo->prepare(
+                'UPDATE applications
+                 SET status = ?, applied_date = ?, notes = ?, jd_snippet = ?, link = ?, updated_at = CURRENT_TIMESTAMP
+                 WHERE id = ?'
+            )->execute([
+                $status,
+                $date,
+                $notes !== '' ? $notes : null,
+                $jdSnippet !== '' ? $jdSnippet : null,
+                $link !== '' ? $link : null,
+                $id,
+            ]);
+            return $id;
+        }
+
+        $pdo->prepare(
+            'INSERT INTO applications (company, role, status, applied_date, notes, jd_snippet, link)
+             VALUES (?, ?, ?, ?, ?, ?, ?)'
+        )->execute([
+            $company,
+            $role,
+            $status,
+            $date,
+            $notes !== '' ? $notes : null,
+            $jdSnippet !== '' ? $jdSnippet : null,
+            $link !== '' ? $link : null,
+        ]);
+        return (int) $pdo->lastInsertId();
     }
 
     public static function searchHistory(int $limit = 50): array
@@ -235,6 +304,11 @@ final class App
                 'label' => 'Cards',
                 'blurb' => 'Each section sits in a soft bordered card.',
             ],
+            'timeline' => [
+                'label' => 'Timeline',
+                'blurb' => 'Centered header, vertical rail with icons, dates on the left — burgundy accents.',
+                'accent' => '#8B1A1A',
+            ],
         ];
     }
 
@@ -252,7 +326,7 @@ final class App
         if ($ts === false) {
             return $date;
         }
-        return date('j M Y', $ts);
+        return date('d.m.Y', $ts);
     }
 
     public static function themeKeys(): array
@@ -415,6 +489,7 @@ final class App
         return [
             '#4E6351' => 'Sage',
             '#313E32' => 'Forest ink',
+            '#8B1A1A' => 'Burgundy',
             '#1a1a1a' => 'Midnight',
             '#B85A22' => 'Terracotta',
             '#DD8047' => 'Copper',

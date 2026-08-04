@@ -26,3 +26,4 @@ if (is_readable($envFile)) {
 
 require_once $root . '/src/Db.php';
 require_once $root . '/src/App.php';
+require_once $root . '/src/Versions.php';

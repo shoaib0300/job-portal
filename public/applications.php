@@ -109,7 +109,7 @@ if ($action === 'new' || $action === 'edit') {
         </label>
         <label>Applied date <input type="date" name="applied_date" value="<?= App::e((string) $row['applied_date']) ?>"></label>
         <label>Link <input type="url" name="link" value="<?= App::e((string) $row['link']) ?>" placeholder="https://"></label>
-        <label>JD snippet <textarea name="jd_snippet" rows="4"><?= App::e((string) $row['jd_snippet']) ?></textarea></label>
+        <label>JD / job description <textarea name="jd_snippet" rows="10" placeholder="Paste the full job description here"><?= App::e((string) $row['jd_snippet']) ?></textarea></label>
         <label>Notes <textarea name="notes" rows="3"><?= App::e((string) $row['notes']) ?></textarea></label>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Save</button>
@@ -144,7 +144,7 @@ layout_header('Applications');
     <p class="empty">No applications yet.</p>
   <?php else: ?>
     <div class="table-wrap">
-      <table class="data-table">
+      <table class="data-table apps-table">
         <thead>
           <tr>
             <th>Company</th>
@@ -156,12 +156,49 @@ layout_header('Applications');
         </thead>
         <tbody>
           <?php foreach ($apps as $app): ?>
-            <tr>
+            <?php
+            $appId = (int) $app['id'];
+            $jd = trim((string) ($app['jd_snippet'] ?? ''));
+            $notes = trim((string) ($app['notes'] ?? ''));
+            $link = trim((string) ($app['link'] ?? ''));
+            $hasJd = $jd !== '';
+            ?>
+            <tr class="app-row">
               <td><?= App::e($app['company']) ?></td>
               <td><?= App::e($app['role']) ?></td>
               <td><span class="badge status-<?= App::e($app['status']) ?>"><?= App::e(App::statusLabel($app['status'])) ?></span></td>
               <td><?= App::e((string) $app['applied_date']) ?></td>
-              <td><a href="/applications.php?action=edit&amp;id=<?= (int) $app['id'] ?>">Edit</a></td>
+              <td class="app-row-actions">
+                <?php if ($hasJd): ?>
+                  <button type="button"
+                          class="btn btn-small"
+                          data-toggle-jd
+                          data-jd-target="jd-<?= $appId ?>"
+                          aria-expanded="false"
+                          aria-controls="jd-<?= $appId ?>">Show JD</button>
+                <?php else: ?>
+                  <span class="muted">No JD</span>
+                <?php endif; ?>
+                <a class="btn btn-small" href="/applications.php?action=edit&amp;id=<?= $appId ?>">Edit</a>
+              </td>
+            </tr>
+            <tr id="jd-<?= $appId ?>" class="app-jd-row" hidden>
+              <td colspan="5">
+                <div class="app-jd-panel">
+                  <div class="app-jd-head">
+                    <strong>Job description</strong>
+                    <?php if ($link !== ''): ?>
+                      <a href="<?= App::e($link) ?>" target="_blank" rel="noopener">Open link</a>
+                    <?php endif; ?>
+                  </div>
+                  <?php if ($hasJd): ?>
+                    <div class="app-jd-body"><?= App::nl2p($jd) ?></div>
+                  <?php endif; ?>
+                  <?php if ($notes !== ''): ?>
+                    <p class="app-jd-notes"><strong>Notes:</strong> <?= App::e($notes) ?></p>
+                  <?php endif; ?>
+                </div>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>

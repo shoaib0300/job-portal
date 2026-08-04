@@ -1,0 +1,21 @@
+---
+description: When a JD is tailored, always log Applications and set job location on resume/cover
+alwaysApply: true
+---
+
+# JD → resume, cover letter, Applications
+
+Whenever the user pastes a job description or asks to edit/tailor a resume or cover letter for a company/role:
+
+1. Create a **new resume copy from Main** (never overwrite Main unless asked).
+2. Create a **new cover letter copy from Main** (unless they only asked for one of the two).
+3. **Always set the job location** on both:
+   - Resume snapshot `location` (e.g. `München, Germany`, `Berlin, Germany`)
+   - Cover letter: mention the location in the letter body and/or company line (e.g. `Company · München`)
+4. Light-tailor title/summary/skills from the JD; keep experience mostly intact unless asked.
+5. **Always** log the job in Applications via `App::logJdApplication(...)`.
+   - Default **status**: `applied` (unless the user names another: rejected / interview / offer / custom).
+   - Include full-ish `jd_snippet`, `notes` with resume/cover IDs + location, and `link` if available.
+6. Tell the user: resume ID, cover ID, location, and Applications status.
+
+Do this every time they say things like “edit JD”, “tailor for …”, “make cover letter for …”, or paste a full JD.

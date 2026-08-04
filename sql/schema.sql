@@ -4,6 +4,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS search_history;
 DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS cover_letters;
+DROP TABLE IF EXISTS resume_versions;
+DROP TABLE IF EXISTS experience_entries;
 DROP TABLE IF EXISTS resume_sections;
 DROP TABLE IF EXISTS resume_profile;
 DROP TABLE IF EXISTS settings;
@@ -54,12 +56,28 @@ CREATE TABLE experience_entries (
   visible TINYINT(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE resume_versions (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  company VARCHAR(160) NOT NULL DEFAULT '',
+  is_base TINYINT(1) NOT NULL DEFAULT 0,
+  is_active TINYINT(1) NOT NULL DEFAULT 0,
+  profile_title VARCHAR(200) NOT NULL DEFAULT '',
+  snapshot MEDIUMTEXT NOT NULL,
+  note TEXT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_base (is_base),
+  KEY idx_active (is_active)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE cover_letters (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(200) NOT NULL,
   body MEDIUMTEXT NOT NULL,
   company VARCHAR(160) NOT NULL DEFAULT '',
   is_active TINYINT(1) NOT NULL DEFAULT 0,
+  is_base TINYINT(1) NOT NULL DEFAULT 0,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -144,11 +162,12 @@ INSERT INTO resume_sections (section_key, title, body, sort_order, visible) VALU
   1
 );
 
-INSERT INTO cover_letters (title, body, company, is_active) VALUES
+INSERT INTO cover_letters (title, body, company, is_active, is_base) VALUES
 (
-  'General Cover Letter',
+  'Main cover letter',
   "Dear Hiring Manager,\n\nI am writing to express my interest in the open role on your team. I bring hands-on experience building reliable web applications, collaborating across product and design, and shipping features that matter to users.\n\nIn my recent work I have focused on clean PHP/MySQL backends, clear front-end interfaces, and practical tooling that keeps delivery predictable. I am especially drawn to teams that value craft, ownership, and continuous improvement.\n\nI would welcome the chance to discuss how my background fits your needs. Thank you for your time and consideration.\n\nSincerely,\nYour Name",
   '',
+  1,
   1
 );
 

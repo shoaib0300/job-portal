@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Shared query overrides for live preview / design studio.
  *
- * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, company: string}
+ * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, company: string, versionId: int, coverId: int}
  */
 function doc_view_options(): array
 {
@@ -23,5 +23,7 @@ function doc_view_options(): array
         'embed' => $embed,
         'pdfMode' => $pdfMode,
         'company' => App::setting('active_company', '') ?: '',
+        'versionId' => isset($_GET['version']) ? (int) $_GET['version'] : 0,
+        'coverId' => isset($_GET['id']) ? (int) $_GET['id'] : 0,
     ];
 }

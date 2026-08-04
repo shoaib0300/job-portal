@@ -8,16 +8,24 @@ require_once dirname(__DIR__) . '/src/doc.php';
 require_once dirname(__DIR__) . '/src/profile_meta.php';
 require_once dirname(__DIR__) . '/src/experience.php';
 
+Versions::ensureSchema();
+
 $opts = doc_view_options();
-$profile = App::profile();
-$sections = App::sections(true);
-$experiences = App::experiences(true);
+$versionId = (int) ($opts['versionId'] ?? 0);
+$payload = Versions::resumePayloadForView($versionId > 0 ? $versionId : null);
+$profile = $payload['profile'];
+$sections = $payload['sections'];
+$experiences = $payload['experiences'];
+$version = $payload['version'];
 $theme = $opts['theme'];
 $accent = $opts['accent'];
 $font = $opts['font'];
 $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
-$company = $opts['company'];
+$company = $versionId > 0
+    ? (string) ($payload['company'] ?? '')
+    : ($opts['company'] ?? '');
+$exportOptions = Versions::resumeExportOptions();
 
 layout_header($profile['full_name'] . ' — Resume', [
     'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
@@ -35,10 +43,17 @@ if (!$embed):
   <div class="doc-toolbar-inner">
     <a href="/design.php?doc=resume">&larr; Design studio</a>
     <div class="doc-actions">
-      <a class="btn btn-small" href="/editor.php">Edit content</a>
+      <?php if ($version): ?>
+        <span class="version-pill"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= (int) $version['is_base'] === 1 ? 'Main resume' : App::e((string) $version['title']) ?></span>
+      <?php else: ?>
+        <span class="version-pill">Resume</span>
+      <?php endif; ?>
+      <a class="btn btn-small" href="/editor.php#versions">My resumes</a>
       <a class="btn btn-small" href="/design.php?doc=resume">Change style</a>
-      <button type="button" class="btn btn-small btn-primary" data-print>Print</button>
-      <button type="button" class="btn btn-small btn-secondary" data-download-pdf>Download PDF</button>
+      <button type="button" class="btn btn-small btn-primary" data-print data-doc="resume"
+              data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
+      <button type="button" class="btn btn-small btn-secondary" data-download-pdf data-doc="resume"
+              data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Download PDF</button>
     </div>
   </div>
 </main>
@@ -57,22 +72,25 @@ if (!$embed):
         <p class="resume-title"><?= App::e($profile['title']) ?></p>
       <?php endif; ?>
       <?php render_profile_details($profile, true); ?>
-      <?php if (App::filled($company) && !$embed): ?>
-        <p class="resume-company-tag no-print">Tailored for <?= App::e($company) ?></p>
-      <?php endif; ?>
     </div>
   </header>
 
+  <div class="resume-sections">
   <?php foreach ($sections as $section): ?>
-    <section class="resume-section">
+    <section class="resume-section" data-section="<?= App::e((string) ($section['section_key'] ?? '')) ?>">
       <h2><?= App::e($section['title']) ?></h2>
       <?php if (($section['section_key'] ?? '') === 'experience'): ?>
         <?php render_experience_entries($experiences); ?>
+      <?php elseif (($section['section_key'] ?? '') === 'skills'): ?>
+        <div class="resume-body"><?php render_skills_body((string) ($section['body'] ?? '')); ?></div>
+      <?php elseif (($section['section_key'] ?? '') === 'education'): ?>
+        <div class="resume-body"><?php render_education_body((string) ($section['body'] ?? '')); ?></div>
       <?php else: ?>
         <div class="resume-body"><?= App::nl2p($section['body']) ?></div>
       <?php endif; ?>
     </section>
   <?php endforeach; ?>
+  </div>
 </article>
 <?php
 layout_footer();

@@ -7,14 +7,18 @@ require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/doc.php';
 require_once dirname(__DIR__) . '/src/profile_meta.php';
 
+Versions::ensureSchema();
+
 $opts = doc_view_options();
 $profile = App::profile();
-$letter = App::activeCoverLetter();
+$coverId = (int) ($opts['coverId'] ?? 0);
+$letter = $coverId > 0 ? Versions::coverLetterById($coverId) : App::activeCoverLetter();
 $theme = $opts['theme'];
 $accent = $opts['accent'];
 $font = $opts['font'];
 $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
+$exportOptions = Versions::coverExportOptions();
 
 layout_header($profile['full_name'], [
     'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
@@ -32,10 +36,15 @@ if (!$embed):
   <div class="doc-toolbar-inner">
     <a href="/design.php?doc=cover">&larr; Design studio</a>
     <div class="doc-actions">
+      <?php if ($letter): ?>
+        <span class="version-pill"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= (int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : App::e((string) ($letter['title'] ?? 'Cover letter')) ?></span>
+      <?php endif; ?>
       <a class="btn btn-small" href="/editor.php#cover">Edit content</a>
       <a class="btn btn-small" href="/design.php?doc=cover">Change style</a>
-      <button type="button" class="btn btn-small btn-primary" data-print>Print</button>
-      <button type="button" class="btn btn-small btn-secondary" data-download-pdf>Download PDF</button>
+      <button type="button" class="btn btn-small btn-primary" data-print data-doc="cover"
+              data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
+      <button type="button" class="btn btn-small btn-secondary" data-download-pdf data-doc="cover"
+              data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Download PDF</button>
     </div>
   </div>
 </main>
@@ -47,12 +56,16 @@ if (!$embed):
     <?php if (App::filled($profile['title'] ?? null)): ?>
       <span><?= App::e($profile['title']) ?></span>
     <?php endif; ?>
-    <?php render_profile_details($profile, true, false); ?>
+    <?php render_profile_details($profile, true, true); ?>
   </header>
 
   <?php if ($letter): ?>
-    <?php if (App::filled($letter['company'] ?? null)): ?>
-      <p class="letter-company">Re: <?= App::e($letter['company']) ?><?= App::filled($letter['title'] ?? null) ? ' — ' . App::e($letter['title']) : '' ?></p>
+    <?php
+    $companyLine = trim((string) ($letter['company'] ?? ''));
+    // Don't repeat the letter title in the header line.
+    ?>
+    <?php if ($companyLine !== ''): ?>
+      <p class="letter-company"><?= App::e($companyLine) ?></p>
     <?php endif; ?>
     <div class="letter-body"><?= App::nl2p($letter['body']) ?></div>
   <?php else: ?>
