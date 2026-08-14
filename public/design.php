@@ -58,7 +58,7 @@ $q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' .
 $exportOptions = $doc === 'cover' ? Versions::coverExportOptions() : Versions::resumeExportOptions();
 $exportJson = App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]');
 
-layout_header('Design studio', [
+layout_header('Style', [
     'pdf_mode' => false,
     'font' => $font,
     'accent' => $accent,
@@ -74,8 +74,8 @@ layout_header('Design studio', [
       data-spacing="<?= App::e($spacing) ?>"
       data-export-options="<?= $exportJson ?>">
   <header class="page-head">
-    <h1>Design studio</h1>
-    <p>Pick a style, then download PDF — you’ll choose which resume or letter to send.</p>
+    <h1>Style</h1>
+    <p>Pick a look, then download the PDF.</p>
   </header>
 
   <div class="studio-layout">

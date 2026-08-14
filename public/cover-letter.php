@@ -34,7 +34,7 @@ if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
   <div class="doc-toolbar-inner">
-    <a href="/design.php?doc=cover">&larr; Design studio</a>
+    <a href="/design.php?doc=cover">&larr; Style</a>
     <div class="doc-actions">
       <?php if ($letter): ?>
         <span class="version-pill"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= (int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : App::e((string) ($letter['title'] ?? 'Cover letter')) ?></span>

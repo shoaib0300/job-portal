@@ -316,7 +316,7 @@
     refreshButtons();
   });
 
-  // Applications: Show / Hide JD
+  // Applications: Show / Hide job text
     document.querySelectorAll("[data-toggle-jd]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-jd-target");
@@ -326,11 +326,11 @@
       if (open) {
         row.removeAttribute("hidden");
         btn.setAttribute("aria-expanded", "true");
-        btn.textContent = "Hide JD";
+        btn.textContent = "Hide job";
       } else {
         row.setAttribute("hidden", "");
         btn.setAttribute("aria-expanded", "false");
-        btn.textContent = "Show JD";
+        btn.textContent = "Show job";
       }
     });
   });

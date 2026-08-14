@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (string) ($_POST['email'] ?? ''),
             (string) ($_POST['password'] ?? '')
         );
-        App::flash('Account created. This workspace is yours.');
+        App::flash('Account created.');
         App::redirect('/');
     } catch (Throwable $e) {
         $error = $e->getMessage();
@@ -30,9 +30,7 @@ layout_header('Create account', [
 ]);
 ?>
 <main class="auth-card panel">
-  <p class="eyebrow">MNK</p>
   <h1>Create account</h1>
-  <p class="muted">You’ll get an empty resume workspace. Other people’s applications stay private.</p>
   <?php if ($error !== ''): ?>
     <div class="flash flash-error"><?= App::e($error) ?></div>
   <?php endif; ?>
@@ -42,7 +40,7 @@ layout_header('Create account', [
     <label>Password <input type="password" name="password" required minlength="8"></label>
     <button type="submit" class="btn btn-primary">Create account</button>
   </form>
-  <p class="muted">Already have an account? <a href="/login.php">Sign in</a></p>
+  <p class="auth-switch">Already have an account? <a href="/login.php">Sign in</a></p>
 </main>
 <?php
 layout_footer();

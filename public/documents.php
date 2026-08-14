@@ -15,11 +15,10 @@ layout_header('Documents');
   <header class="page-head row">
     <div>
       <h1>Documents</h1>
-      <p>Every resume and cover letter copy stored in the database. Main stays stable; job copies are listed here.</p>
+      <p>Every resume and letter copy. Main stays stable.</p>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/tailor.php">Apply from a JD</a>
-      <a class="btn btn-secondary" href="/editor.php#versions">Edit in editor</a>
+      <a class="btn btn-primary" href="/editor.php">Open resume</a>
     </div>
   </header>
 

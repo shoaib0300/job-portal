@@ -532,22 +532,24 @@ if (count($links) < 2) {
     $links[] = ['label' => '', 'url' => ''];
 }
 
-layout_header('Editor');
+layout_header('Resume');
 ?>
 <main class="editor">
   <header class="page-head">
-    <h1>Editor</h1>
-    <p>Edit the open resume and cover letter. Use <a href="/tailor.php">Apply from a JD</a> to copy Main for a company instead of PHP files.</p>
+    <h1>Resume</h1>
+    <p>Edit the open resume and letter. <a href="/documents.php">All documents</a></p>
     <div class="preview-links">
-      <a class="btn btn-small" href="/resume.php" target="_blank" rel="noopener">Preview resume</a>
-      <a class="btn btn-small" href="/cover-letter.php" target="_blank" rel="noopener">Preview cover letter</a>
+      <a class="btn btn-small" href="/resume.php" target="_blank" rel="noopener">Preview</a>
+      <a class="btn btn-small" href="/cover-letter.php" target="_blank" rel="noopener">Letter</a>
+      <a class="btn btn-small btn-primary" href="/pdf.php?doc=resume">PDF</a>
     </div>
   </header>
 
   <div class="editor-grid">
     <aside class="editor-nav">
       <a href="#versions">My resumes</a>
-      <a href="#design">Design</a>
+      <a href="/documents.php">All documents</a>
+      <a href="#design">Style</a>
       <a href="#profile">Profile</a>
       <a href="#experience">Experience</a>
       <a href="#sections">Sections</a>

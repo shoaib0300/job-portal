@@ -11,8 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form = (string) ($_POST['form'] ?? 'appearance');
     if ($form === 'account') {
         try {
-            Auth::updateEmail(Auth::id(), (string) ($_POST['email'] ?? ''));
-            App::flash('Email updated.');
+            Auth::updateAccount(
+                Auth::id(),
+                (string) ($_POST['name'] ?? ''),
+                (string) ($_POST['username'] ?? ''),
+                (string) ($_POST['email'] ?? '')
+            );
+            App::flash('Account saved.');
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+        }
+        App::redirect('/settings.php');
+    }
+    if ($form === 'password') {
+        $new = (string) ($_POST['new_password'] ?? '');
+        $confirm = (string) ($_POST['confirm_password'] ?? '');
+        try {
+            if ($new !== $confirm) {
+                throw new InvalidArgumentException('New password and confirmation do not match.');
+            }
+            Auth::changePassword(
+                Auth::id(),
+                (string) ($_POST['current_password'] ?? ''),
+                $new
+            );
+            App::flash('Password updated.');
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
         }
@@ -26,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     App::setSetting('sidebar_mode', $sidebar);
     App::setSetting('ui_mode', $ui);
     App::setSetting('accent_color', $accent);
-    App::flash('Appearance saved.');
+    App::flash('Look saved.');
     App::redirect('/settings.php');
 }
 
@@ -36,26 +59,41 @@ $ui = App::resolveUiMode();
 $accent = App::resolveAccent(null);
 $account = Auth::user() ?? ['username' => '', 'email' => '', 'name' => ''];
 
-layout_header('Settings');
+layout_header('Account');
 ?>
 <main class="page-narrow">
   <header class="page-head">
-    <h1>Settings</h1>
-    <p>Dashboard chrome only. Resume PDF themes stay in <a href="/design.php">Design studio</a>.</p>
+    <h1>Account</h1>
+    <p>Your name, login, and how the dashboard looks.</p>
   </header>
 
-  <form method="post" class="form panel" style="margin-bottom:1.25rem">
-    <input type="hidden" name="form" value="account">
-    <h2 style="margin:0 0 0.75rem;font-family:var(--display);font-weight:400">Account</h2>
-    <p class="muted" style="margin-top:0">Username: <strong><?= App::e((string) $account['username']) ?></strong></p>
-    <label>Email <input type="email" name="email" required value="<?= App::e((string) $account['email']) ?>"></label>
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Save email</button>
-    </div>
-  </form>
+  <section class="panel account-card">
+    <h2>Your account</h2>
+    <form method="post" class="form">
+      <input type="hidden" name="form" value="account">
+      <label>Name <input type="text" name="name" required value="<?= App::e((string) $account['name']) ?>"></label>
+      <label>Username <input type="text" name="username" required minlength="3" maxlength="80" pattern="[a-zA-Z0-9_]+" value="<?= App::e((string) $account['username']) ?>"></label>
+      <label>Email <input type="email" name="email" required value="<?= App::e((string) $account['email']) ?>"></label>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save account</button>
+      </div>
+    </form>
+
+    <form method="post" class="form password-form">
+      <input type="hidden" name="form" value="password">
+      <h3>Change password</h3>
+      <label>Current password <input type="password" name="current_password" required autocomplete="current-password"></label>
+      <label>New password <input type="password" name="new_password" required minlength="8" autocomplete="new-password"></label>
+      <label>Confirm new password <input type="password" name="confirm_password" required minlength="8" autocomplete="new-password"></label>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-secondary">Update password</button>
+      </div>
+    </form>
+  </section>
 
   <form method="post" class="form panel">
     <input type="hidden" name="form" value="appearance">
+    <h2>Look</h2>
     <fieldset>
       <legend>Density</legend>
       <div class="choice-row">
@@ -71,7 +109,7 @@ layout_header('Settings');
       </div>
     </fieldset>
     <fieldset>
-      <legend>Look</legend>
+      <legend>Theme</legend>
       <div class="choice-row">
         <label><input type="radio" name="ui_mode" value="warm"<?= $ui === 'warm' ? ' checked' : '' ?>> Warm paper</label>
         <label><input type="radio" name="ui_mode" value="warm-dark"<?= $ui === 'warm-dark' ? ' checked' : '' ?>> Warm dark</label>
@@ -89,7 +127,7 @@ layout_header('Settings');
       <?php endforeach; ?>
     </div>
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Save appearance</button>
+      <button type="submit" class="btn btn-primary">Save look</button>
     </div>
   </form>
 </main>

@@ -775,12 +775,10 @@ final class App
         return match ($script) {
             'index.php', '' => 'dashboard',
             'tailor.php' => 'apply',
-            'applications.php' => 'applications',
-            'documents.php' => 'documents',
-            'editor.php' => 'editor',
+            'applications.php', 'history.php' => 'applications',
+            'documents.php', 'editor.php' => 'editor',
             'design.php' => 'design',
-            'history.php' => 'history',
-            'settings.php' => 'settings',
+            'settings.php' => 'account',
             default => '',
         };
     }

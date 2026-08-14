@@ -31,9 +31,7 @@ layout_header('Sign in', [
 ]);
 ?>
 <main class="auth-card panel">
-  <p class="eyebrow">MNK</p>
   <h1>Sign in</h1>
-  <p class="muted">Each account has its own resume, letters, and applications.</p>
   <?php if ($error !== ''): ?>
     <div class="flash flash-error"><?= App::e($error) ?></div>
   <?php endif; ?>
@@ -43,7 +41,7 @@ layout_header('Sign in', [
     <label>Password <input type="password" name="password" required></label>
     <button type="submit" class="btn btn-primary">Sign in</button>
   </form>
-  <p class="muted">No account? <a href="/register.php">Create one</a></p>
+  <p class="auth-switch">No account? <a href="/register.php">Create one</a></p>
 </main>
 <?php
 layout_footer();

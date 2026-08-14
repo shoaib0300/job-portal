@@ -32,14 +32,12 @@ function layout_header(string $title, array $opts = []): void
     }
 
     $nav = [
-        ['key' => 'dashboard', 'href' => '/', 'label' => 'Dashboard', 'icon' => 'home'],
-        ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'Apply', 'icon' => 'apply'],
+        ['key' => 'dashboard', 'href' => '/', 'label' => 'Home', 'icon' => 'home'],
+        ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'New job', 'icon' => 'apply'],
         ['key' => 'applications', 'href' => '/applications.php', 'label' => 'Applications', 'icon' => 'apps'],
-        ['key' => 'documents', 'href' => '/documents.php', 'label' => 'Documents', 'icon' => 'docs'],
-        ['key' => 'editor', 'href' => '/editor.php', 'label' => 'Editor', 'icon' => 'edit'],
-        ['key' => 'design', 'href' => '/design.php', 'label' => 'Design', 'icon' => 'design'],
-        ['key' => 'history', 'href' => '/history.php', 'label' => 'History', 'icon' => 'history'],
-        ['key' => 'settings', 'href' => '/settings.php', 'label' => 'Settings', 'icon' => 'gear'],
+        ['key' => 'editor', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'edit'],
+        ['key' => 'design', 'href' => '/design.php', 'label' => 'Style', 'icon' => 'design'],
+        ['key' => 'account', 'href' => '/settings.php', 'label' => 'Account', 'icon' => 'gear'],
     ];
     ?>
 <!DOCTYPE html>
@@ -51,9 +49,9 @@ function layout_header(string $title, array $opts = []): void
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/app.css?v=20260814a">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814a">
-  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814a">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260814c">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814c">
+  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814c">
   <style>
     :root {
       --accent: <?= App::e($accent) ?>;
@@ -81,7 +79,7 @@ function layout_header(string $title, array $opts = []): void
     <header class="doc-chrome no-print">
       <a class="brand" href="/">MNK</a>
       <span class="doc-chrome-title"><?= App::e($title) ?></span>
-      <a class="btn btn-small" href="/design.php">Design</a>
+      <a class="btn btn-small" href="/design.php">Style</a>
     </header>
     <?php if ($flash): ?>
       <div class="flash flash-<?= App::e($flash['type']) ?>"><?= App::e($flash['message']) ?></div>
@@ -120,16 +118,16 @@ function layout_header(string $title, array $opts = []): void
         </div>
         <div class="dash-topbar-meta">
           <?php if ($activeResume): ?>
-            <a class="top-pill" href="/editor.php#versions" title="Active resume">
-              CV <span class="doc-id">#<?= (int) $activeResume['id'] ?></span>
+            <a class="top-pill" href="/editor.php#versions" title="Open resume">
+              Resume <span class="doc-id">#<?= (int) $activeResume['id'] ?></span>
             </a>
           <?php endif; ?>
           <?php if ($activeCover): ?>
-            <a class="top-pill" href="/editor.php#cover" title="Active cover letter">
+            <a class="top-pill" href="/editor.php#cover" title="Open cover letter">
               Letter <span class="doc-id">#<?= (int) $activeCover['id'] ?></span>
             </a>
           <?php endif; ?>
-          <a class="btn btn-small" href="/resume.php" target="_blank" rel="noopener">Resume</a>
+          <a class="btn btn-small" href="/design.php">Style</a>
           <a class="btn btn-small btn-primary" href="/pdf.php?doc=resume">PDF</a>
         </div>
       </header>
@@ -164,7 +162,7 @@ function layout_footer(bool $withJs = true): void
     endif;
     if ($withJs):
         ?>
-  <script src="/assets/js/app.js?v=20260814a"></script>
+  <script src="/assets/js/app.js?v=20260814c"></script>
         <?php
     endif;
     ?>

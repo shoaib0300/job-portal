@@ -36,8 +36,8 @@ layout_header('History');
 ?>
 <main class="page-wide">
   <header class="page-head">
-    <h1>Search history</h1>
-    <p>Optional notes for tailor sessions. Applications (with JD + resume/cover IDs) are the source of truth.</p>
+    <h1>History</h1>
+    <p>Optional notes. <a href="/applications.php">Applications</a> is the source of truth.</p>
   </header>
 
   <section class="editor-block">
@@ -52,7 +52,7 @@ layout_header('History');
   </section>
 
   <?php if (!$history): ?>
-    <p class="empty-card empty">No tailor notes yet. <a href="/tailor.php">Apply from a JD</a> to log an application.</p>
+    <p class="empty-card empty">No notes yet. <a href="/tailor.php">Paste a job</a> to start.</p>
   <?php else: ?>
     <ul class="history-list panel" style="padding:0 1.25rem">
       <?php foreach ($history as $row): ?>

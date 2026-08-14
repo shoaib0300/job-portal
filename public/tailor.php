@@ -36,12 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-layout_header('Apply from a JD');
+layout_header('New job');
 ?>
 <main class="page-narrow">
   <header class="page-head">
-    <h1>Apply from a JD</h1>
-    <p>Paste a job description. This copies your Main resume and Main cover letter into the database and logs the application. No PHP files.</p>
+    <h1>New job</h1>
+    <p>Paste the job. We copy your Main resume and letter.</p>
   </header>
 
   <form method="post" class="form panel">
@@ -58,13 +58,12 @@ layout_header('Apply from a JD');
         <option value="rejected">Rejected</option>
       </select>
     </label>
-    <label>Job description
-      <textarea name="jd_snippet" rows="16" required placeholder="Paste the full JD here"></textarea>
+    <label>Job text
+      <textarea name="jd_snippet" rows="16" required placeholder="Paste the job description"></textarea>
     </label>
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Copy Main &amp; log application</button>
+      <button type="submit" class="btn btn-primary">Save and open resume</button>
     </div>
-    <p class="muted">Then edit summary, skills, and the letter in the Editor. Main is never overwritten.</p>
   </form>
 </main>
 <?php

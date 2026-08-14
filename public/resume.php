@@ -41,7 +41,7 @@ if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
   <div class="doc-toolbar-inner">
-    <a href="/design.php?doc=resume">&larr; Design studio</a>
+    <a href="/design.php?doc=resume">&larr; Style</a>
     <div class="doc-actions">
       <?php if ($version): ?>
         <span class="version-pill"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= (int) $version['is_base'] === 1 ? 'Main resume' : App::e((string) $version['title']) ?></span>

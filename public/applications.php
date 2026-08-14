@@ -134,7 +134,7 @@ if ($action === 'new' || $action === 'edit') {
           <p class="muted">Linked cover <a href="/cover-letter.php?id=<?= (int) $row['cover_letter_id'] ?>">#<?= (int) $row['cover_letter_id'] ?></a>
             · <a href="/pdf.php?doc=cover&amp;id=<?= (int) $row['cover_letter_id'] ?>">PDF</a></p>
         <?php endif; ?>
-        <label>JD / job description <textarea name="jd_snippet" rows="10" placeholder="Paste the full job description here"><?= App::e((string) $row['jd_snippet']) ?></textarea></label>
+        <label>Job text <textarea name="jd_snippet" rows="10" placeholder="Paste the job description"><?= App::e((string) $row['jd_snippet']) ?></textarea></label>
         <label>Notes <textarea name="notes" rows="3"><?= App::e((string) $row['notes']) ?></textarea></label>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Save</button>
@@ -168,11 +168,11 @@ layout_header('Applications');
   <header class="page-head row">
     <div>
       <h1>Applications</h1>
-      <p>Every tailored JD lives here — company, location, and linked resume/cover IDs.</p>
+      <p>Company, location, and linked resume. <a href="/history.php">History</a></p>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="/tailor.php">Apply from a JD</a>
-      <a class="btn btn-secondary" href="/applications.php?action=new">Add custom entry</a>
+      <a class="btn btn-primary" href="/tailor.php">New job</a>
+      <a class="btn btn-secondary" href="/applications.php?action=new">Add manually</a>
     </div>
   </header>
 
@@ -197,7 +197,7 @@ layout_header('Applications');
   </div>
 
   <?php if (!$apps): ?>
-    <p class="empty-card empty">No applications in this filter. <a href="/tailor.php">Apply from a JD</a>.</p>
+    <p class="empty-card empty">Nothing in this filter. <a href="/tailor.php">Paste a job</a>.</p>
   <?php else: ?>
     <div class="table-wrap">
       <table class="data-table apps-table">
@@ -229,7 +229,7 @@ layout_header('Applications');
               <td><?= App::e((string) ($app['location'] ?? '')) ?></td>
               <td class="app-docs">
                 <?php if ($rid > 0): ?>
-                  <a href="/resume.php?version=<?= $rid ?>">CV #<?= $rid ?></a>
+                  <a href="/resume.php?version=<?= $rid ?>">Resume #<?= $rid ?></a>
                 <?php endif; ?>
                 <?php if ($cid > 0): ?>
                   <a href="/cover-letter.php?id=<?= $cid ?>">Letter #<?= $cid ?></a>
@@ -247,7 +247,7 @@ layout_header('Applications');
                           data-toggle-jd
                           data-jd-target="jd-<?= $appId ?>"
                           aria-expanded="false"
-                          aria-controls="jd-<?= $appId ?>">Show JD</button>
+                          aria-controls="jd-<?= $appId ?>">Show job</button>
                 <?php endif; ?>
                 <a class="btn btn-small" href="/applications.php?action=edit&amp;id=<?= $appId ?>">Edit</a>
               </td>
@@ -256,7 +256,7 @@ layout_header('Applications');
               <td colspan="7">
                 <div class="app-jd-panel">
                   <div class="app-jd-head">
-                    <strong>Job description</strong>
+                    <strong>Job text</strong>
                     <?php if ($link !== ''): ?>
                       <a href="<?= App::e($link) ?>" target="_blank" rel="noopener">Open link</a>
                     <?php endif; ?>

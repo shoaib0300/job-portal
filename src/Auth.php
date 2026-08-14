@@ -335,16 +335,64 @@ final class Auth
 
     public static function updateEmail(int $userId, string $email): void
     {
+        $user = self::user();
+        $name = $user ? (string) $user['name'] : '';
+        $username = $user ? (string) $user['username'] : '';
+        if ($user && (int) $user['id'] === $userId) {
+            self::updateAccount($userId, $name, $username, $email);
+            return;
+        }
+        $stmt = Db::pdo()->prepare('SELECT name, username FROM users WHERE id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch();
+        if ($row === false) {
+            throw new InvalidArgumentException('Account not found.');
+        }
+        self::updateAccount($userId, (string) $row['name'], (string) $row['username'], $email);
+    }
+
+    public static function updateAccount(int $userId, string $name, string $username, string $email): void
+    {
+        $name = trim($name);
+        $username = strtolower(trim($username));
         $email = strtolower(trim($email));
+        if ($name === '') {
+            throw new InvalidArgumentException('Enter your name.');
+        }
+        if (!preg_match('/^[a-z0-9_]{3,80}$/', $username)) {
+            throw new InvalidArgumentException('Username: 3–80 letters, numbers, or underscores.');
+        }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException('Enter a valid email.');
         }
-        $stmt = Db::pdo()->prepare('SELECT id FROM users WHERE email = ? AND id <> ? LIMIT 1');
-        $stmt->execute([$email, $userId]);
-        if ($stmt->fetch()) {
+        $pdo = Db::pdo();
+        $taken = $pdo->prepare('SELECT id FROM users WHERE username = ? AND id <> ? LIMIT 1');
+        $taken->execute([$username, $userId]);
+        if ($taken->fetch()) {
+            throw new InvalidArgumentException('That username is already taken.');
+        }
+        $taken = $pdo->prepare('SELECT id FROM users WHERE email = ? AND id <> ? LIMIT 1');
+        $taken->execute([$email, $userId]);
+        if ($taken->fetch()) {
             throw new InvalidArgumentException('That email is already in use.');
         }
-        Db::pdo()->prepare('UPDATE users SET email = ? WHERE id = ?')->execute([$email, $userId]);
+        $pdo->prepare('UPDATE users SET name = ?, username = ?, email = ? WHERE id = ?')
+            ->execute([$name, $username, $email, $userId]);
         self::$user = null;
+    }
+
+    public static function changePassword(int $userId, string $current, string $new): void
+    {
+        if (strlen($new) < 8) {
+            throw new InvalidArgumentException('Password must be at least 8 characters.');
+        }
+        $stmt = Db::pdo()->prepare('SELECT password_hash FROM users WHERE id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch();
+        if ($row === false || !password_verify($current, (string) $row['password_hash'])) {
+            throw new InvalidArgumentException('Current password is incorrect.');
+        }
+        $hash = password_hash($new, PASSWORD_DEFAULT);
+        Db::pdo()->prepare('UPDATE users SET password_hash = ? WHERE id = ?')->execute([$hash, $userId]);
     }
 }
