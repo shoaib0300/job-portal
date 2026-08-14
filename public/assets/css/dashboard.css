@@ -132,6 +132,21 @@ body:not(.page-doc):not(.pdf-mode) {
   color: var(--bs-primary);
 }
 
+.job-description p,
+.job-description ul,
+.job-description ol {
+  margin-bottom: 0.85rem;
+}
+
+.job-description ul,
+.job-description ol {
+  padding-left: 1.2rem;
+}
+
+.job-description a {
+  word-break: break-word;
+}
+
 
 .dash-logout {
   color: #5c5870;

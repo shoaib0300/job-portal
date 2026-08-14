@@ -102,12 +102,46 @@ final class JobText
         return (bool) preg_match('/(€|eur\b|gehalt|vergütung|tv-?l|tvöd|entgeltgruppe|\d[\d.]*\s*(k|brutto))/iu', $text);
     }
 
+    public static function looksLikeHtml(string $text): bool
+    {
+        $decoded = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        return (bool) preg_match('/<\/?[a-z][a-z0-9]*\b[^>]*>/i', $decoded);
+    }
+
+    /** Plain text for Applications / tailor. Decodes entities, then strips tags. */
     public static function stripHtml(string $html): string
     {
-        $text = html_entity_decode(strip_tags($html), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = preg_replace('#<(script|style)\b[^>]*>.*?</\1>#is', '', $text) ?? $text;
+        $text = preg_replace('#<br\s*/?>#i', "\n", $text) ?? $text;
+        $text = preg_replace('#</(p|div|h[1-6]|li|tr|blockquote)>#i', "\n", $text) ?? $text;
+        $text = preg_replace('#<(li|h[1-6])\b[^>]*>#i', "\n• ", $text) ?? $text;
+        $text = strip_tags($text);
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = str_replace("\xc2\xa0", ' ', $text);
         $text = preg_replace("/[ \t]+/u", ' ', $text) ?? $text;
         $text = preg_replace("/\n{3,}/u", "\n\n", $text) ?? $text;
         return trim($text);
+    }
+
+    /** Safe HTML for the job page: keep lists and emphasis, drop scripts. */
+    public static function safeHtml(string $html): string
+    {
+        $html = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $html = preg_replace('#<(script|style|iframe|object|embed|form)\b[^>]*>.*?</\1>#is', '', $html) ?? $html;
+        $html = strip_tags($html, '<p><br><ul><ol><li><strong><b><em><i><a><h2><h3><h4><div><span>');
+        $html = preg_replace('/\son[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html) ?? $html;
+        $html = preg_replace('/\s(style|class|id)\s*=\s*("[^"]*"|\'[^\']*\')/i', '', $html) ?? $html;
+        $html = preg_replace('/href\s*=\s*(["\'])\s*javascript:[^"\']*\1/i', 'href="#"', $html) ?? $html;
+        return $html;
+    }
+
+    public static function displayHtml(string $text): string
+    {
+        if (self::looksLikeHtml($text)) {
+            return self::safeHtml($text);
+        }
+        return App::nl2p($text);
     }
 
     public static function enrich(JobListing $job): JobListing

@@ -76,9 +76,9 @@ function layout_header(string $title, array $opts = []): void
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/app.css?v=20260814g">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814g">
-  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814g">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260814h">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814h">
+  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814h">
   <style>
     :root {
       --accent: <?= App::e($accent) ?>;

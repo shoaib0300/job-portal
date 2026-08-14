@@ -25,7 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (string) ($_POST['action'] ?? '') =
     if ($location === '') {
         $location = 'Germany';
     }
-    $jd = $job->description !== '' ? $job->description : ($job->title . ' at ' . $job->company);
+    $jd = $job->description !== ''
+        ? JobText::stripHtml($job->description)
+        : ($job->title . ' at ' . $job->company);
     try {
         $result = App::tailorFromJd(
             $job->company !== '' ? $job->company : 'Company',
@@ -82,7 +84,9 @@ layout_header($job->title !== '' ? $job->title : 'Job');
       <section class="card shadow-sm">
         <div class="card-body">
           <?php if ($job->description !== ''): ?>
-            <?= App::nl2p($job->description) ?>
+            <div class="job-description">
+              <?= JobText::displayHtml($job->description) ?>
+            </div>
           <?php else: ?>
             <p class="text-secondary mb-0">No full description cached. Open the original posting, or apply anyway — we still copy Main resume and letter.</p>
           <?php endif; ?>
