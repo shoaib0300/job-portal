@@ -454,6 +454,19 @@ final class App
         return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
+    /** Empty is allowed. Bare domains get https:// so they still open. */
+    public static function normalizeHttpUrl(string $url): string
+    {
+        $url = trim($url);
+        if ($url === '') {
+            return '';
+        }
+        if (!preg_match('#^[a-z][a-z0-9+.-]*://#i', $url)) {
+            $url = 'https://' . $url;
+        }
+        return $url;
+    }
+
     public static function nl2p(string $text): string
     {
         $text = trim($text);

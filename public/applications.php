@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $dateVal,
                 trim((string) ($_POST['notes'] ?? '')),
                 trim((string) ($_POST['jd_snippet'] ?? '')),
-                trim((string) ($_POST['link'] ?? '')),
+                App::normalizeHttpUrl((string) ($_POST['link'] ?? '')),
                 $resumeId > 0 ? $resumeId : null,
                 $coverId > 0 ? $coverId : null,
                 $editId,
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $dateVal,
                 trim((string) ($_POST['notes'] ?? '')),
                 trim((string) ($_POST['jd_snippet'] ?? '')),
-                trim((string) ($_POST['link'] ?? '')),
+                App::normalizeHttpUrl((string) ($_POST['link'] ?? '')),
                 $resumeId > 0 ? $resumeId : null,
                 $coverId > 0 ? $coverId : null,
             ]);
@@ -139,8 +139,8 @@ if ($action === 'new' || $action === 'edit') {
               <input class="form-control" type="date" id="applied_date" name="applied_date" value="<?= App::e((string) $row['applied_date']) ?>">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="link">Link</label>
-              <input class="form-control" type="url" id="link" name="link" value="<?= App::e((string) $row['link']) ?>" placeholder="https://">
+              <label class="form-label" for="link">Link <span class="text-secondary fw-normal">(optional)</span></label>
+              <input class="form-control" type="text" id="link" name="link" inputmode="url" value="<?= App::e((string) $row['link']) ?>" placeholder="https:// or leave blank">
             </div>
             <div class="col-md-6">
               <label class="form-label" for="resume_version_id">Resume ID</label>

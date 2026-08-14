@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (string) ($_POST['role'] ?? ''),
             (string) ($_POST['location'] ?? ''),
             (string) ($_POST['jd_snippet'] ?? ''),
-            (string) ($_POST['link'] ?? ''),
+            App::normalizeHttpUrl((string) ($_POST['link'] ?? '')),
             (string) ($_POST['status'] ?? 'applied'),
             null,
             null,
@@ -70,8 +70,8 @@ layout_header('New job');
           </select>
         </div>
         <div class="col-12">
-          <label class="form-label" for="link">Link</label>
-          <input class="form-control" type="url" id="link" name="link" placeholder="https://">
+          <label class="form-label" for="link">Link <span class="text-secondary fw-normal">(optional)</span></label>
+          <input class="form-control" type="text" id="link" name="link" inputmode="url" placeholder="https:// or leave blank">
         </div>
         <div class="col-12">
           <label class="form-label" for="jd_snippet">Job text</label>

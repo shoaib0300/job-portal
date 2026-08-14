@@ -15,6 +15,10 @@ final class PdfExport
             'embed' => '1',
             'pdf' => '1',
         ], $query);
+        $uid = Auth::id();
+        if ($uid > 0 && empty($params['pdf_token'])) {
+            $params['pdf_token'] = self::issueToken($uid);
+        }
         $qs = http_build_query($params);
 
         if ($forHost) {
@@ -24,6 +28,66 @@ final class PdfExport
         }
 
         return rtrim($base, '/') . $path . '?' . $qs;
+    }
+
+    public static function issueToken(int $userId): string
+    {
+        $exp = (string) (time() + 180);
+        $uid = (string) $userId;
+        $sig = hash_hmac('sha256', $uid . '|' . $exp, self::tokenSecret());
+        return rtrim(strtr(base64_encode($uid . '.' . $exp . '.' . $sig), '+/', '-_'), '=');
+    }
+
+    public static function verifyToken(string $token): ?int
+    {
+        $b64 = strtr($token, '-_', '+/');
+        $pad = strlen($b64) % 4;
+        if ($pad > 0) {
+            $b64 .= str_repeat('=', 4 - $pad);
+        }
+        $raw = base64_decode($b64, true);
+        if (!is_string($raw) || $raw === '') {
+            return null;
+        }
+        $parts = explode('.', $raw, 3);
+        if (count($parts) !== 3) {
+            return null;
+        }
+        [$uid, $exp, $sig] = $parts;
+        if (!ctype_digit($uid) || !ctype_digit($exp) || (int) $exp < time()) {
+            return null;
+        }
+        $expected = hash_hmac('sha256', $uid . '|' . $exp, self::tokenSecret());
+        if (!hash_equals($expected, $sig)) {
+            return null;
+        }
+        return (int) $uid;
+    }
+
+    public static function acceptExportToken(): void
+    {
+        $token = (string) ($_GET['pdf_token'] ?? '');
+        if ($token === '') {
+            return;
+        }
+        $embed = (string) ($_GET['embed'] ?? '') === '1' || (string) ($_GET['pdf'] ?? '') === '1';
+        if (!$embed) {
+            return;
+        }
+        $uid = self::verifyToken($token);
+        if ($uid === null || $uid <= 0) {
+            return;
+        }
+        Auth::impersonate($uid);
+    }
+
+    private static function tokenSecret(): string
+    {
+        $secret = (string) (getenv('MNK_PDF_SECRET') ?: '');
+        if ($secret !== '') {
+            return $secret;
+        }
+        return hash('sha256', (string) (getenv('DATABASE_URL') ?: 'mnk-pdf'));
     }
 
     public static function safeFilename(string $doc, string $name): string

@@ -27,6 +27,7 @@ require_once $root . '/src/Db.php';
 require_once $root . '/src/App.php';
 require_once $root . '/src/Versions.php';
 require_once $root . '/src/Auth.php';
+require_once $root . '/src/PdfExport.php';
 require_once $root . '/src/Jobs/load.php';
 
 try {
@@ -40,6 +41,9 @@ try {
 
 if (PHP_SAPI !== 'cli') {
     $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+    if (in_array($script, ['resume.php', 'cover-letter.php'], true)) {
+        PdfExport::acceptExportToken();
+    }
     $public = ['login.php', 'register.php', 'logout.php'];
     if (!in_array($script, $public, true)) {
         Auth::requireLogin();
