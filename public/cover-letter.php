@@ -39,7 +39,7 @@ if (!$embed):
       <?php if ($letter): ?>
         <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= (int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : App::e((string) ($letter['title'] ?? 'Cover letter')) ?></span>
       <?php endif; ?>
-      <a class="btn btn-sm btn-outline-secondary" href="/cover.php">Edit content</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/cover-edit.php">Edit content</a>
       <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Change style</a>
       <button type="button" class="btn btn-sm btn-primary" data-print data-doc="cover"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>

@@ -148,13 +148,13 @@ function layout_header(string $title, array $opts = []): void
         </div>
         <div class="dash-topbar-meta ms-auto d-flex flex-wrap align-items-center gap-2">
           <?php if ($chrome === 'resume' && $activeResume): ?>
-            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/editor.php#versions" title="Open resume">
+            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/resume-edit.php" title="Edit resume">
               Resume #<?= (int) $activeResume['id'] ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/design.php">Style</a>
             <a class="btn btn-sm btn-primary" href="/pdf.php?doc=resume">PDF</a>
           <?php elseif ($chrome === 'cover' && $activeCover): ?>
-            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover.php" title="Open cover letter">
+            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit.php" title="Edit cover letter">
               Letter #<?= (int) $activeCover['id'] ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Style</a>

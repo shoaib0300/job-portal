@@ -44,7 +44,7 @@ layout_header('Resume copies');
               </div>
               <div class="d-flex flex-wrap gap-1">
                 <?php if ($isOpen): ?>
-                  <span class="btn btn-sm btn-outline-primary disabled" aria-current="true">Selected</span>
+                  <a class="btn btn-sm btn-primary" href="/resume-edit.php">Edit</a>
                 <?php else: ?>
                   <form method="post" action="/editor.php">
                     <input type="hidden" name="action" value="load_resume_version">
