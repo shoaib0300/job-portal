@@ -27,11 +27,13 @@ require_once $root . '/src/Db.php';
 require_once $root . '/src/App.php';
 require_once $root . '/src/Versions.php';
 require_once $root . '/src/Auth.php';
+require_once $root . '/src/Jobs/load.php';
 
 try {
     Versions::ensureSchema();
     App::ensureDashboardSchema();
     Auth::ensureSchema();
+    JobAggregator::ensureSchema();
 } catch (Throwable $e) {
     // Pages that need the DB will surface the error; CLI without DATABASE_URL still loads classes.
 }

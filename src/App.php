@@ -776,6 +776,7 @@ final class App
         return match ($script) {
             'index.php', '' => 'dashboard',
             'tailor.php' => 'apply',
+            'jobs.php', 'job.php' => 'jobs',
             'applications.php', 'history.php' => 'applications',
             'documents.php', 'editor.php', 'resume-edit.php', 'design.php' => 'resume',
             'cover.php', 'cover-edit.php', 'cover-design.php' => 'cover',

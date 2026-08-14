@@ -58,6 +58,7 @@ function layout_header(string $title, array $opts = []): void
     $nav = [
         ['key' => 'dashboard', 'href' => '/', 'label' => 'Home', 'icon' => 'home'],
         ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'New job', 'icon' => 'apply'],
+        ['key' => 'jobs', 'href' => '/jobs.php', 'label' => 'Jobs', 'icon' => 'jobs'],
         ['key' => 'applications', 'href' => '/applications.php', 'label' => 'Applications', 'icon' => 'apps'],
         ['key' => 'resume', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover.php', 'label' => 'Cover letter', 'icon' => 'letter'],
@@ -75,9 +76,9 @@ function layout_header(string $title, array $opts = []): void
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/app.css?v=20260814f">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814f">
-  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814f">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260814g">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814g">
+  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814g">
   <style>
     :root {
       --accent: <?= App::e($accent) ?>;

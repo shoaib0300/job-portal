@@ -41,6 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         App::redirect('/settings.php');
     }
+    if ($form === 'job_boards') {
+        $raw = trim((string) ($_POST['job_ats_boards'] ?? ''));
+        App::setSetting('job_ats_boards', $raw);
+        App::flash('Career boards saved.');
+        App::redirect('/settings.php');
+    }
     $density = App::resolveDensity((string) ($_POST['ui_density'] ?? ''));
     $sidebar = App::resolveSidebar((string) ($_POST['sidebar_mode'] ?? ''));
     $ui = App::resolveUiMode((string) ($_POST['ui_mode'] ?? ''));
@@ -58,6 +64,7 @@ $sidebar = App::resolveSidebar();
 $ui = App::resolveUiMode();
 $accent = App::resolveAccent(null);
 $account = Auth::user() ?? ['username' => '', 'email' => '', 'name' => ''];
+$atsBoards = (string) (App::setting('job_ats_boards', '') ?: '');
 
 layout_header('Account');
 ?>
@@ -114,6 +121,17 @@ layout_header('Account');
       </form>
     </div>
   </section>
+
+  <form method="post" class="card shadow-sm mb-3">
+    <div class="card-body">
+      <input type="hidden" name="form" value="job_boards">
+      <h2 class="h5 mb-3">Career pages</h2>
+      <p class="small text-secondary">Extra Personio and Greenhouse boards for Jobs search. One per line: <code>personio:slug</code> or <code>greenhouse:slug</code>.</p>
+      <label class="form-label" for="job_ats_boards">Boards</label>
+      <textarea class="form-control mb-3" id="job_ats_boards" name="job_ats_boards" rows="5" placeholder="greenhouse:n26&#10;personio:getyourguide"><?= App::e($atsBoards) ?></textarea>
+      <button type="submit" class="btn btn-outline-secondary">Save boards</button>
+    </div>
+  </form>
 
   <form method="post" class="card shadow-sm">
     <div class="card-body">

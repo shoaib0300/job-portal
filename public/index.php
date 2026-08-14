@@ -18,9 +18,10 @@ layout_header('Home');
         <div class="card-body d-flex gap-3">
           <span class="step-n">1</span>
           <div>
-            <h2 class="h5">Paste a job</h2>
-            <p class="text-secondary small mb-3">We copy Main resume and Main letter into separate documents.</p>
-            <a class="btn btn-primary" href="/tailor.php">New job</a>
+            <h2 class="h5">Find or paste a job</h2>
+            <p class="text-secondary small mb-3">Search boards, or paste a JD. We copy Main resume and Main letter into separate documents.</p>
+            <a class="btn btn-primary" href="/jobs.php">Find jobs</a>
+            <a class="btn btn-outline-secondary" href="/tailor.php">Paste a JD</a>
           </div>
         </div>
       </div>
