@@ -6,7 +6,6 @@ session_start();
 
 $root = dirname(__DIR__);
 
-// Load .env (simple KEY=VALUE parser)
 $envFile = $root . '/.env';
 if (is_readable($envFile)) {
     foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
@@ -27,3 +26,20 @@ if (is_readable($envFile)) {
 require_once $root . '/src/Db.php';
 require_once $root . '/src/App.php';
 require_once $root . '/src/Versions.php';
+require_once $root . '/src/Auth.php';
+
+try {
+    Versions::ensureSchema();
+    App::ensureDashboardSchema();
+    Auth::ensureSchema();
+} catch (Throwable $e) {
+    // Pages that need the DB will surface the error; CLI without DATABASE_URL still loads classes.
+}
+
+if (PHP_SAPI !== 'cli') {
+    $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+    $public = ['login.php', 'register.php', 'logout.php'];
+    if (!in_array($script, $public, true)) {
+        Auth::requireLogin();
+    }
+}

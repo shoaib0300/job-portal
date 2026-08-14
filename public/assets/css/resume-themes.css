@@ -17,7 +17,7 @@
 .letter-from strong {
   margin: 0;
   font-family: var(--doc-font, var(--display));
-  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-size: calc(clamp(2.2rem, 5vw, 3rem) * var(--resume-name-scale, 1));
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -124,7 +124,7 @@
 }
 
 .resume-section {
-  margin-top: 1.5rem;
+  margin-top: var(--resume-section-gap, 1.5rem);
   padding-top: 1rem;
   border-top: 1px solid var(--line);
 }

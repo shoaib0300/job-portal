@@ -39,6 +39,15 @@ final class Versions
         }
     }
 
+    private static function uid(): int
+    {
+        $id = Auth::id();
+        if ($id <= 0) {
+            throw new RuntimeException('Not signed in.');
+        }
+        return $id;
+    }
+
     public static function captureSnapshot(?string $profileTitle = null): array
     {
         $profile = App::profile();
@@ -102,6 +111,7 @@ final class Versions
     public static function applySnapshot(array $snapshot, bool $updateProfileTitle = true): void
     {
         $pdo = Db::pdo();
+        $uid = self::uid();
         $pdo->beginTransaction();
         try {
             if ($updateProfileTitle) {
@@ -116,15 +126,15 @@ final class Versions
                     $values[] = (string) $snapshot['location'];
                 }
                 if ($fields) {
-                    $values[] = 1;
-                    $pdo->prepare('UPDATE resume_profile SET ' . implode(', ', $fields) . ' WHERE id = ?')
+                    $values[] = $uid;
+                    $pdo->prepare('UPDATE resume_profile SET ' . implode(', ', $fields) . ' WHERE user_id = ?')
                         ->execute($values);
                 }
             }
 
-            $pdo->exec('DELETE FROM resume_sections');
+            $pdo->prepare('DELETE FROM resume_sections WHERE user_id = ?')->execute([$uid]);
             $insSection = $pdo->prepare(
-                'INSERT INTO resume_sections (section_key, title, body, sort_order, visible) VALUES (?, ?, ?, ?, ?)'
+                'INSERT INTO resume_sections (user_id, section_key, title, body, sort_order, visible) VALUES (?, ?, ?, ?, ?, ?)'
             );
             foreach ($snapshot['sections'] as $section) {
                 if (!is_array($section)) {
@@ -135,6 +145,7 @@ final class Versions
                     continue;
                 }
                 $insSection->execute([
+                    $uid,
                     $key,
                     (string) ($section['title'] ?? $key),
                     (string) ($section['body'] ?? ''),
@@ -143,16 +154,17 @@ final class Versions
                 ]);
             }
 
-            $pdo->exec('DELETE FROM experience_entries');
+            $pdo->prepare('DELETE FROM experience_entries WHERE user_id = ?')->execute([$uid]);
             $insExp = $pdo->prepare(
-                'INSERT INTO experience_entries (company, position, location, start_date, end_date, bullets, sort_order, visible)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+                'INSERT INTO experience_entries (user_id, company, position, location, start_date, end_date, bullets, sort_order, visible)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
             );
             foreach ($snapshot['experiences'] as $job) {
                 if (!is_array($job)) {
                     continue;
                 }
                 $insExp->execute([
+                    $uid,
                     (string) ($job['company'] ?? ''),
                     (string) ($job['position'] ?? ''),
                     (string) ($job['location'] ?? ''),
@@ -174,18 +186,21 @@ final class Versions
     public static function resumeVersions(): array
     {
         self::ensureSchema();
-        return Db::pdo()->query(
+        $stmt = Db::pdo()->prepare(
             'SELECT id, title, company, is_base, is_active, profile_title, note, created_at, updated_at
              FROM resume_versions
+             WHERE user_id = ?
              ORDER BY is_base DESC, is_active DESC, updated_at DESC, id DESC'
-        )->fetchAll();
+        );
+        $stmt->execute([self::uid()]);
+        return $stmt->fetchAll();
     }
 
     public static function resumeVersion(int $id): ?array
     {
         self::ensureSchema();
-        $stmt = Db::pdo()->prepare('SELECT * FROM resume_versions WHERE id = ? LIMIT 1');
-        $stmt->execute([$id]);
+        $stmt = Db::pdo()->prepare('SELECT * FROM resume_versions WHERE id = ? AND user_id = ? LIMIT 1');
+        $stmt->execute([$id, self::uid()]);
         $row = $stmt->fetch();
         return $row === false ? null : $row;
     }
@@ -193,18 +208,22 @@ final class Versions
     public static function baseResumeVersion(): ?array
     {
         self::ensureSchema();
-        $row = Db::pdo()->query(
-            'SELECT * FROM resume_versions WHERE is_base = 1 ORDER BY id ASC LIMIT 1'
-        )->fetch();
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM resume_versions WHERE user_id = ? AND is_base = 1 ORDER BY id ASC LIMIT 1'
+        );
+        $stmt->execute([self::uid()]);
+        $row = $stmt->fetch();
         return $row === false ? null : $row;
     }
 
     public static function activeResumeVersion(): ?array
     {
         self::ensureSchema();
-        $row = Db::pdo()->query(
-            'SELECT * FROM resume_versions WHERE is_active = 1 ORDER BY updated_at DESC LIMIT 1'
-        )->fetch();
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM resume_versions WHERE user_id = ? AND is_active = 1 ORDER BY updated_at DESC LIMIT 1'
+        );
+        $stmt->execute([self::uid()]);
+        $row = $stmt->fetch();
         return $row === false ? null : $row;
     }
 
@@ -219,22 +238,23 @@ final class Versions
     ): int {
         self::ensureSchema();
         $pdo = Db::pdo();
+        $uid = self::uid();
         $title = trim($title) !== '' ? trim($title) : 'Resume version';
         $encoded = self::encodeSnapshot($snapshot);
         $profileTitle = (string) ($snapshot['profile_title'] ?? '');
 
         if ($asBase) {
-            $pdo->exec('UPDATE resume_versions SET is_base = 0');
+            $pdo->prepare('UPDATE resume_versions SET is_base = 0 WHERE user_id = ?')->execute([$uid]);
         }
         if ($makeActive) {
-            $pdo->exec('UPDATE resume_versions SET is_active = 0');
+            $pdo->prepare('UPDATE resume_versions SET is_active = 0 WHERE user_id = ?')->execute([$uid]);
         }
 
         if ($id !== null && $id > 0) {
             $stmt = $pdo->prepare(
                 'UPDATE resume_versions
                  SET title = ?, company = ?, is_base = ?, is_active = ?, profile_title = ?, snapshot = ?, note = ?
-                 WHERE id = ?'
+                 WHERE id = ? AND user_id = ?'
             );
             $stmt->execute([
                 $title,
@@ -245,15 +265,17 @@ final class Versions
                 $encoded,
                 $note !== '' ? $note : null,
                 $id,
+                $uid,
             ]);
             return $id;
         }
 
         $stmt = $pdo->prepare(
-            'INSERT INTO resume_versions (title, company, is_base, is_active, profile_title, snapshot, note)
-             VALUES (?, ?, ?, ?, ?, ?, ?)'
+            'INSERT INTO resume_versions (user_id, title, company, is_base, is_active, profile_title, snapshot, note)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
+            $uid,
             $title,
             $company,
             $asBase ? 1 : 0,
@@ -289,8 +311,9 @@ final class Versions
         $snapshot = self::decodeSnapshot((string) $row['snapshot']);
         self::applySnapshot($snapshot, true);
         $pdo = Db::pdo();
-        $pdo->exec('UPDATE resume_versions SET is_active = 0');
-        $pdo->prepare('UPDATE resume_versions SET is_active = 1 WHERE id = ?')->execute([$id]);
+        $uid = self::uid();
+        $pdo->prepare('UPDATE resume_versions SET is_active = 0 WHERE user_id = ?')->execute([$uid]);
+        $pdo->prepare('UPDATE resume_versions SET is_active = 1 WHERE id = ? AND user_id = ?')->execute([$id, $uid]);
     }
 
     public static function deleteResumeVersion(int $id): void
@@ -302,7 +325,7 @@ final class Versions
         if ((int) ($row['is_base'] ?? 0) === 1) {
             throw new RuntimeException('Cannot delete the Main resume. Save a new Main first if you need to replace it.');
         }
-        Db::pdo()->prepare('DELETE FROM resume_versions WHERE id = ?')->execute([$id]);
+        Db::pdo()->prepare('DELETE FROM resume_versions WHERE id = ? AND user_id = ?')->execute([$id, self::uid()]);
     }
 
     public static function resumePayloadForView(?int $versionId): array
@@ -397,8 +420,8 @@ final class Versions
 
     public static function coverLetterById(int $id): ?array
     {
-        $stmt = Db::pdo()->prepare('SELECT * FROM cover_letters WHERE id = ? LIMIT 1');
-        $stmt->execute([$id]);
+        $stmt = Db::pdo()->prepare('SELECT * FROM cover_letters WHERE id = ? AND user_id = ? LIMIT 1');
+        $stmt->execute([$id, self::uid()]);
         $row = $stmt->fetch();
         return $row === false ? null : $row;
     }
@@ -406,9 +429,11 @@ final class Versions
     public static function baseCoverLetter(): ?array
     {
         self::ensureSchema();
-        $row = Db::pdo()->query(
-            'SELECT * FROM cover_letters WHERE is_base = 1 ORDER BY id ASC LIMIT 1'
-        )->fetch();
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM cover_letters WHERE user_id = ? AND is_base = 1 ORDER BY id ASC LIMIT 1'
+        );
+        $stmt->execute([self::uid()]);
+        $row = $stmt->fetch();
         return $row === false ? null : $row;
     }
 
@@ -416,15 +441,17 @@ final class Versions
     {
         self::ensureSchema();
         $pdo = Db::pdo();
-        $pdo->exec('UPDATE cover_letters SET is_base = 0');
-        $pdo->prepare('UPDATE cover_letters SET is_base = 1 WHERE id = ?')->execute([$id]);
+        $uid = self::uid();
+        $pdo->prepare('UPDATE cover_letters SET is_base = 0 WHERE user_id = ?')->execute([$uid]);
+        $pdo->prepare('UPDATE cover_letters SET is_base = 1 WHERE id = ? AND user_id = ?')->execute([$id, $uid]);
     }
 
     public static function activateCover(int $id): void
     {
         $pdo = Db::pdo();
-        $pdo->exec('UPDATE cover_letters SET is_active = 0');
-        $pdo->prepare('UPDATE cover_letters SET is_active = 1 WHERE id = ?')->execute([$id]);
+        $uid = self::uid();
+        $pdo->prepare('UPDATE cover_letters SET is_active = 0 WHERE user_id = ?')->execute([$uid]);
+        $pdo->prepare('UPDATE cover_letters SET is_active = 1 WHERE id = ? AND user_id = ?')->execute([$id, $uid]);
     }
 
     public static function duplicateCover(int $id, string $title = ''): int
@@ -434,12 +461,14 @@ final class Versions
             throw new RuntimeException('Cover letter not found');
         }
         $pdo = Db::pdo();
-        $pdo->exec('UPDATE cover_letters SET is_active = 0');
+        $uid = self::uid();
+        $pdo->prepare('UPDATE cover_letters SET is_active = 0 WHERE user_id = ?')->execute([$uid]);
         $newTitle = trim($title) !== '' ? trim($title) : ((string) $src['title'] . ' (copy)');
         $stmt = $pdo->prepare(
-            'INSERT INTO cover_letters (title, body, company, is_active, is_base) VALUES (?, ?, ?, 1, 0)'
+            'INSERT INTO cover_letters (user_id, title, body, company, is_active, is_base) VALUES (?, ?, ?, ?, 1, 0)'
         );
         $stmt->execute([
+            $uid,
             $newTitle,
             (string) $src['body'],
             (string) ($src['company'] ?? ''),
@@ -456,10 +485,15 @@ final class Versions
         if ((int) ($row['is_base'] ?? 0) === 1) {
             throw new RuntimeException('Cannot delete the Main cover letter. Mark another as Main first.');
         }
-        Db::pdo()->prepare('DELETE FROM cover_letters WHERE id = ?')->execute([$id]);
+        $uid = self::uid();
+        Db::pdo()->prepare('DELETE FROM cover_letters WHERE id = ? AND user_id = ?')->execute([$id, $uid]);
         $active = App::activeCoverLetter();
         if ($active === null) {
-            $first = Db::pdo()->query('SELECT id FROM cover_letters ORDER BY id ASC LIMIT 1')->fetch();
+            $stmt = Db::pdo()->prepare(
+                'SELECT id FROM cover_letters WHERE user_id = ? ORDER BY id ASC LIMIT 1'
+            );
+            $stmt->execute([$uid]);
+            $first = $stmt->fetch();
             if ($first) {
                 self::activateCover((int) $first['id']);
             }

@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::setSetting('font_family', $font);
         App::setSetting('pdf_mode', isset($_POST['pdf_mode']) ? '1' : '0');
         App::setSetting('active_company', trim((string) ($_POST['active_company'] ?? '')));
+        App::setSetting('name_size', App::resolveNameSize((string) ($_POST['name_size'] ?? '')));
+        App::setSetting('section_spacing', App::resolveSectionSpacing((string) ($_POST['section_spacing'] ?? '')));
 
         $wantsJson = isset($_SERVER['HTTP_ACCEPT'])
             && str_contains((string) $_SERVER['HTTP_ACCEPT'], 'application/json');
@@ -47,9 +49,12 @@ $accent = App::resolveAccent($_GET['accent'] ?? null);
 $font = App::resolveFont($_GET['font'] ?? null);
 $pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1';
 $activeCompany = App::setting('active_company', '') ?: '';
+$nameSize = App::resolveNameSize($_GET['name_size'] ?? null);
+$spacing = App::resolveSectionSpacing($_GET['spacing'] ?? null);
 $previewPath = $doc === 'cover' ? '/cover-letter.php' : '/resume.php';
 $profile = App::profile();
-$q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' . urlencode($font);
+$q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' . urlencode($font)
+    . '&name_size=' . urlencode($nameSize) . '&spacing=' . urlencode($spacing);
 $exportOptions = $doc === 'cover' ? Versions::coverExportOptions() : Versions::resumeExportOptions();
 $exportJson = App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]');
 
@@ -65,6 +70,8 @@ layout_header('Design studio', [
       data-theme="<?= App::e($theme) ?>"
       data-accent="<?= App::e($accent) ?>"
       data-font="<?= App::e($font) ?>"
+      data-name-size="<?= App::e($nameSize) ?>"
+      data-spacing="<?= App::e($spacing) ?>"
       data-export-options="<?= $exportJson ?>">
   <header class="page-head">
     <h1>Design studio</h1>
@@ -122,6 +129,28 @@ layout_header('Design studio', [
       </div>
 
       <div class="studio-block">
+        <h2>Name size</h2>
+        <div class="doc-toggle" role="listbox" aria-label="Name size">
+          <?php foreach (['sm' => 'Small', 'md' => 'Medium', 'lg' => 'Large'] as $key => $label): ?>
+            <button type="button"
+                    class="chip<?= $nameSize === $key ? ' is-selected is-active' : '' ?>"
+                    data-name-size-pick="<?= App::e($key) ?>"><?= App::e($label) ?></button>
+          <?php endforeach; ?>
+        </div>
+      </div>
+
+      <div class="studio-block">
+        <h2>Section spacing</h2>
+        <div class="doc-toggle" role="listbox" aria-label="Section spacing">
+          <?php foreach (['tight' => 'Tight', 'md' => 'Medium', 'loose' => 'Loose'] as $key => $label): ?>
+            <button type="button"
+                    class="chip<?= $spacing === $key ? ' is-selected is-active' : '' ?>"
+                    data-spacing-pick="<?= App::e($key) ?>"><?= App::e($label) ?></button>
+          <?php endforeach; ?>
+        </div>
+      </div>
+
+      <div class="studio-block">
         <h2>Accent color</h2>
         <div class="color-presets">
           <?php foreach (App::colorPresets() as $hex => $name): ?>
@@ -144,6 +173,8 @@ layout_header('Design studio', [
         <input type="hidden" name="theme" data-theme-input value="<?= App::e($theme) ?>">
         <input type="hidden" name="accent_color" data-accent-input value="<?= App::e($accent) ?>">
         <input type="hidden" name="font_family" data-font-input value="<?= App::e($font) ?>">
+        <input type="hidden" name="name_size" data-name-size-input value="<?= App::e($nameSize) ?>">
+        <input type="hidden" name="section_spacing" data-spacing-input value="<?= App::e($spacing) ?>">
         <label>
           Active company tag
           <input type="text" name="active_company" value="<?= App::e($activeCompany) ?>" placeholder="Optional">

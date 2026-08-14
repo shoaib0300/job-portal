@@ -317,7 +317,7 @@
   });
 
   // Applications: Show / Hide JD
-  document.querySelectorAll("[data-toggle-jd]").forEach((btn) => {
+    document.querySelectorAll("[data-toggle-jd]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-jd-target");
       const row = targetId ? document.getElementById(targetId) : null;
@@ -334,6 +334,21 @@
       }
     });
   });
+
+  const menuBtn = document.querySelector("[data-sidebar-toggle]");
+  if (menuBtn) {
+    menuBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      document.body.classList.toggle("sidebar-open");
+    });
+    document.addEventListener("click", (event) => {
+      if (!document.body.classList.contains("sidebar-open")) return;
+      const side = document.querySelector("[data-sidebar-panel]");
+      if (side && !side.contains(event.target) && event.target !== menuBtn && !menuBtn.contains(event.target)) {
+        document.body.classList.remove("sidebar-open");
+      }
+    });
+  }
 
   const studio = document.querySelector("[data-design-studio]");
   if (!studio) return;
@@ -371,8 +386,12 @@
   let theme = studio.dataset.theme || "classic";
   let accent = studio.dataset.accent || "#1a5f4a";
   let font = studio.dataset.font || "georgia";
+  let nameSize = studio.dataset.nameSize || "md";
+  let spacing = studio.dataset.spacing || "md";
   const doc = studio.dataset.doc || "resume";
   const basePath = doc === "cover" ? "/cover-letter.php" : "/resume.php";
+  const nameInput = studio.querySelector("[data-name-size-input]");
+  const spacingInput = studio.querySelector("[data-spacing-input]");
 
   function previewUrl() {
     const q = new URLSearchParams({
@@ -381,12 +400,14 @@
       accent,
       font,
       pdf: "1",
+      name_size: nameSize,
+      spacing,
     });
     return `${basePath}?${q.toString()}`;
   }
 
   function fullUrl() {
-    const q = new URLSearchParams({ theme, accent, font, pdf: "1" });
+    const q = new URLSearchParams({ theme, accent, font, pdf: "1", name_size: nameSize, spacing });
     return `${basePath}?${q.toString()}`;
   }
 
@@ -394,6 +415,8 @@
     if (themeInput) themeInput.value = theme;
     if (accentInput) accentInput.value = accent;
     if (fontInput) fontInput.value = font;
+    if (nameInput) nameInput.value = nameSize;
+    if (spacingInput) spacingInput.value = spacing;
     if (customColor) customColor.value = accent;
     if (frame) frame.src = previewUrl();
     if (openFull) openFull.href = fullUrl();
@@ -418,12 +441,24 @@
       btn.classList.toggle("is-selected", on);
     });
 
+    studio.querySelectorAll("[data-name-size-pick]").forEach((btn) => {
+      const on = btn.getAttribute("data-name-size-pick") === nameSize;
+      btn.classList.toggle("is-selected", on);
+    });
+
+    studio.querySelectorAll("[data-spacing-pick]").forEach((btn) => {
+      const on = btn.getAttribute("data-spacing-pick") === spacing;
+      btn.classList.toggle("is-selected", on);
+    });
+
     document.documentElement.style.setProperty("--accent", accent);
     const url = new URL(window.location.href);
     url.searchParams.set("doc", doc);
     url.searchParams.set("theme", theme);
     url.searchParams.set("accent", accent);
     url.searchParams.set("font", font);
+    url.searchParams.set("name_size", nameSize);
+    url.searchParams.set("spacing", spacing);
     window.history.replaceState({}, "", url);
   }
 
@@ -441,6 +476,20 @@
   studio.querySelectorAll("[data-font-pick]").forEach((btn) => {
     btn.addEventListener("click", () => {
       font = btn.getAttribute("data-font-pick") || font;
+      syncUi();
+    });
+  });
+
+  studio.querySelectorAll("[data-name-size-pick]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      nameSize = btn.getAttribute("data-name-size-pick") || nameSize;
+      syncUi();
+    });
+  });
+
+  studio.querySelectorAll("[data-spacing-pick]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      spacing = btn.getAttribute("data-spacing-pick") || spacing;
       syncUi();
     });
   });
@@ -476,9 +525,11 @@
       event.preventDefault();
       const data = new FormData(form);
       data.set("ajax", "1");
-      data.set("theme", theme);
-      data.set("accent_color", accent);
-      data.set("font_family", font);
+        data.set("theme", theme);
+        data.set("accent_color", accent);
+        data.set("font_family", font);
+        data.set("name_size", nameSize);
+        data.set("section_spacing", spacing);
       try {
         const res = await fetch(form.action || window.location.pathname, {
           method: "POST",

@@ -23,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $profileId = (int) ($_POST['id'] ?? 0);
         $current = App::profile();
+        $profileId = (int) ($current['id'] ?? 0);
         $photoPath = (string) ($current['photo_path'] ?? '');
         $uploadDir = dirname(__DIR__) . '/public/uploads/photos';
         if (!is_dir($uploadDir)) {
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dobRaw = trim((string) ($_POST['date_of_birth'] ?? ''));
         $dob = $dobRaw !== '' ? $dobRaw : null;
         $stmt = $pdo->prepare(
-            'UPDATE resume_profile SET full_name = ?, title = ?, email = ?, phone = ?, location = ?, gender = ?, date_of_birth = ?, country = ?, nationality = ?, photo_path = ?, show_photo = ?, links = ? WHERE id = ?'
+            'UPDATE resume_profile SET full_name = ?, title = ?, email = ?, phone = ?, location = ?, gender = ?, date_of_birth = ?, country = ?, nationality = ?, photo_path = ?, show_photo = ?, links = ? WHERE id = ? AND user_id = ?'
         );
         $stmt->execute([
             trim((string) ($_POST['full_name'] ?? '')),
@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             isset($_POST['show_photo']) ? 1 : 0,
             json_encode($links, JSON_UNESCAPED_SLASHES),
             $profileId,
+            Auth::id(),
         ]);
         App::flash('Profile saved.');
         App::redirect('/editor.php#profile');
@@ -111,14 +112,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $visibles = [];
         }
 
-        $keysStmt = $pdo->query('SELECT id, section_key FROM resume_sections');
+        $keysStmt = $pdo->prepare('SELECT id, section_key FROM resume_sections WHERE user_id = ?');
+        $keysStmt->execute([Auth::id()]);
         $keyById = [];
         foreach ($keysStmt->fetchAll() as $row) {
             $keyById[(int) $row['id']] = (string) $row['section_key'];
         }
 
         $stmt = $pdo->prepare(
-            'UPDATE resume_sections SET title = ?, body = ?, visible = ?, sort_order = ? WHERE id = ?'
+            'UPDATE resume_sections SET title = ?, body = ?, visible = ?, sort_order = ? WHERE id = ? AND user_id = ?'
         );
         $order = 10;
         foreach ($ids as $rawId) {
@@ -137,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 isset($visibles[$key]) ? 1 : 0,
                 $order,
                 $id,
+                Auth::id(),
             ]);
             $order += 10;
         }
@@ -160,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare(
             'UPDATE experience_entries
              SET company = ?, position = ?, location = ?, start_date = ?, end_date = ?, bullets = ?, visible = ?, sort_order = ?
-             WHERE id = ?'
+             WHERE id = ? AND user_id = ?'
         );
         $order = 10;
         foreach ($ids as $rawId) {
@@ -179,6 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 isset($visibles[$key]) ? 1 : 0,
                 $order,
                 $id,
+                Auth::id(),
             ]);
             $order += 10;
         }
@@ -187,12 +191,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'add_experience') {
-        $max = (int) $pdo->query('SELECT COALESCE(MAX(sort_order), 0) FROM experience_entries')->fetchColumn();
+        $maxStmt = $pdo->prepare('SELECT COALESCE(MAX(sort_order), 0) FROM experience_entries WHERE user_id = ?');
+        $maxStmt->execute([Auth::id()]);
+        $max = (int) $maxStmt->fetchColumn();
         $stmt = $pdo->prepare(
-            'INSERT INTO experience_entries (company, position, location, start_date, end_date, bullets, sort_order, visible)
-             VALUES (?, ?, ?, ?, ?, ?, ?, 1)'
+            'INSERT INTO experience_entries (user_id, company, position, location, start_date, end_date, bullets, sort_order, visible)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)'
         );
         $stmt->execute([
+            Auth::id(),
             trim((string) ($_POST['company'] ?? '')),
             trim((string) ($_POST['position'] ?? '')),
             trim((string) ($_POST['location'] ?? '')),
@@ -206,19 +213,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'delete_experience') {
-        $stmt = $pdo->prepare('DELETE FROM experience_entries WHERE id = ?');
-        $stmt->execute([(int) ($_POST['id'] ?? 0)]);
+        $stmt = $pdo->prepare('DELETE FROM experience_entries WHERE id = ? AND user_id = ?');
+        $stmt->execute([(int) ($_POST['id'] ?? 0), Auth::id()]);
         App::flash('Experience entry deleted.');
         App::redirect('/editor.php#experience');
     }
 
     if ($action === 'add_section') {
         $key = preg_replace('/[^a-z0-9_]/', '', strtolower(trim((string) ($_POST['section_key'] ?? '')))) ?: ('custom_' . time());
-        $max = (int) $pdo->query('SELECT COALESCE(MAX(sort_order), 0) FROM resume_sections')->fetchColumn();
+        $maxStmt = $pdo->prepare('SELECT COALESCE(MAX(sort_order), 0) FROM resume_sections WHERE user_id = ?');
+        $maxStmt->execute([Auth::id()]);
+        $max = (int) $maxStmt->fetchColumn();
         $stmt = $pdo->prepare(
-            'INSERT INTO resume_sections (section_key, title, body, sort_order, visible) VALUES (?, ?, ?, ?, 1)'
+            'INSERT INTO resume_sections (user_id, section_key, title, body, sort_order, visible) VALUES (?, ?, ?, ?, ?, 1)'
         );
         $stmt->execute([
+            Auth::id(),
             $key,
             trim((string) ($_POST['title'] ?? 'New section')) ?: 'New section',
             (string) ($_POST['body'] ?? ''),
@@ -230,8 +240,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'delete_section') {
         $id = (int) ($_POST['id'] ?? 0);
-        $stmt = $pdo->prepare('DELETE FROM resume_sections WHERE id = ?');
-        $stmt->execute([$id]);
+        $stmt = $pdo->prepare('DELETE FROM resume_sections WHERE id = ? AND user_id = ?');
+        $stmt->execute([$id, Auth::id()]);
         App::flash('Section deleted.');
         App::redirect('/editor.php#sections');
     }
@@ -241,14 +251,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $isActive = isset($_POST['is_active']) ? 1 : 0;
         $isBase = isset($_POST['is_base']) ? 1 : 0;
         if ($isActive) {
-            $pdo->exec('UPDATE cover_letters SET is_active = 0');
+            $pdo->prepare('UPDATE cover_letters SET is_active = 0 WHERE user_id = ?')->execute([Auth::id()]);
         }
         if ($isBase) {
-            $pdo->exec('UPDATE cover_letters SET is_base = 0');
+            $pdo->prepare('UPDATE cover_letters SET is_base = 0 WHERE user_id = ?')->execute([Auth::id()]);
         }
         if ($id > 0) {
             $stmt = $pdo->prepare(
-                'UPDATE cover_letters SET title = ?, body = ?, company = ?, is_active = ?, is_base = ? WHERE id = ?'
+                'UPDATE cover_letters SET title = ?, body = ?, company = ?, is_active = ?, is_base = ? WHERE id = ? AND user_id = ?'
             );
             $stmt->execute([
                 trim((string) ($_POST['title'] ?? '')),
@@ -257,12 +267,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $isActive,
                 $isBase,
                 $id,
+                Auth::id(),
             ]);
         } else {
             $stmt = $pdo->prepare(
-                'INSERT INTO cover_letters (title, body, company, is_active, is_base) VALUES (?, ?, ?, ?, ?)'
+                'INSERT INTO cover_letters (user_id, title, body, company, is_active, is_base) VALUES (?, ?, ?, ?, ?, ?)'
             );
             $stmt->execute([
+                Auth::id(),
                 trim((string) ($_POST['title'] ?? 'Cover letter')) ?: 'Cover letter',
                 (string) ($_POST['body'] ?? ''),
                 trim((string) ($_POST['company'] ?? '')),
@@ -270,8 +282,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $isBase,
             ]);
             if ($isBase) {
-                // already set on insert; ensure others cleared
-                $pdo->exec('UPDATE cover_letters SET is_base = 0 WHERE id <> LAST_INSERT_ID()');
+                $pdo->prepare(
+                    'UPDATE cover_letters SET is_base = 0 WHERE user_id = ? AND id <> LAST_INSERT_ID()'
+                )->execute([Auth::id()]);
             }
         }
         App::flash('Cover letter saved.');
@@ -303,7 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $companyLine = $location !== '' ? ($company . ' · ' . $location) : $company;
         $newId = Versions::duplicateCover((int) $base['id'], $title);
-        $pdo->prepare('UPDATE cover_letters SET company = ? WHERE id = ?')->execute([$companyLine, $newId]);
+        $pdo->prepare('UPDATE cover_letters SET company = ? WHERE id = ? AND user_id = ?')->execute([$companyLine, $newId, Auth::id()]);
         App::flash('Created cover letter #' . $newId . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . '). Edit it below.');
         App::redirect('/editor.php?cover=' . $newId . '#cover');
     }
@@ -466,6 +479,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::setSetting('font_family', $font);
         App::setSetting('pdf_mode', isset($_POST['pdf_mode']) ? '1' : '0');
         App::setSetting('active_company', trim((string) ($_POST['active_company'] ?? '')));
+        App::setSetting('name_size', App::resolveNameSize((string) ($_POST['name_size'] ?? '')));
+        App::setSetting('section_spacing', App::resolveSectionSpacing((string) ($_POST['section_spacing'] ?? '')));
         App::flash('Design settings saved.');
         App::redirect('/editor.php#design');
     }
@@ -522,7 +537,7 @@ layout_header('Editor');
 <main class="editor">
   <header class="page-head">
     <h1>Editor</h1>
-    <p>Edit your resume and cover letter. Use <a href="#versions">My resumes</a> when you need a copy for one company.</p>
+    <p>Edit the open resume and cover letter. Use <a href="/tailor.php">Apply from a JD</a> to copy Main for a company instead of PHP files.</p>
     <div class="preview-links">
       <a class="btn btn-small" href="/resume.php" target="_blank" rel="noopener">Preview resume</a>
       <a class="btn btn-small" href="/cover-letter.php" target="_blank" rel="noopener">Preview cover letter</a>
@@ -645,6 +660,28 @@ layout_header('Editor');
           <label>
             Accent color
             <input type="color" name="accent_color" value="<?= App::e($accent) ?>">
+          </label>
+          <label>
+            Name size
+            <select name="name_size">
+              <?php
+              $nameSize = App::resolveNameSize(null);
+              foreach (['sm' => 'Small', 'md' => 'Medium', 'lg' => 'Large'] as $key => $label):
+              ?>
+                <option value="<?= App::e($key) ?>"<?= $nameSize === $key ? ' selected' : '' ?>><?= App::e($label) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </label>
+          <label>
+            Section spacing
+            <select name="section_spacing">
+              <?php
+              $spacing = App::resolveSectionSpacing(null);
+              foreach (['tight' => 'Tight', 'md' => 'Medium', 'loose' => 'Loose'] as $key => $label):
+              ?>
+                <option value="<?= App::e($key) ?>"<?= $spacing === $key ? ' selected' : '' ?>><?= App::e($label) ?></option>
+              <?php endforeach; ?>
+            </select>
           </label>
           <label>
             Active company (for tailor tag)

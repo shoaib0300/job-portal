@@ -52,6 +52,10 @@ a:hover {
   padding: 1.25rem 0 3rem;
 }
 
+.dash + .site-shell {
+  display: none;
+}
+
 .site-nav {
   display: flex;
   flex-wrap: wrap;
@@ -241,6 +245,7 @@ a:hover {
 }
 
 .chip.is-active,
+.chip.is-selected,
 .chip:hover {
   background: var(--accent);
   border-color: var(--accent);
@@ -1412,7 +1417,10 @@ body.page-doc .site-nav {
   .editor-nav,
   .editor-block,
   .export-picker-overlay,
-  header.site-nav {
+  header.site-nav,
+  .dash-sidebar,
+  .dash-topbar,
+  .doc-chrome {
     display: none !important;
   }
 

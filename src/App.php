@@ -4,9 +4,26 @@ declare(strict_types=1);
 
 final class App
 {
+    public static function userId(): int
+    {
+        return Auth::id();
+    }
+
     public static function setting(string $key, ?string $default = null): ?string
     {
-        $stmt = Db::pdo()->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
+        $pdo = Db::pdo();
+        $uid = self::userId();
+        if ($uid > 0) {
+            $stmt = $pdo->prepare(
+                'SELECT `value` FROM user_settings WHERE user_id = ? AND `key` = ? LIMIT 1'
+            );
+            $stmt->execute([$uid, $key]);
+            $row = $stmt->fetch();
+            if ($row !== false) {
+                return (string) $row['value'];
+            }
+        }
+        $stmt = $pdo->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
         $stmt->execute([$key]);
         $row = $stmt->fetch();
         if ($row === false) {
@@ -17,6 +34,15 @@ final class App
 
     public static function setSetting(string $key, string $value): void
     {
+        $uid = self::userId();
+        if ($uid > 0) {
+            $stmt = Db::pdo()->prepare(
+                'INSERT INTO user_settings (user_id, `key`, `value`) VALUES (?, ?, ?)
+                 ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+            );
+            $stmt->execute([$uid, $key, $value]);
+            return;
+        }
         $stmt = Db::pdo()->prepare(
             'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
              ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
@@ -26,23 +52,33 @@ final class App
 
     public static function profile(): array
     {
-        $row = Db::pdo()->query('SELECT * FROM resume_profile ORDER BY id ASC LIMIT 1')->fetch();
+        $empty = [
+            'id' => 0,
+            'user_id' => 0,
+            'full_name' => 'Your Name',
+            'title' => '',
+            'email' => '',
+            'phone' => '',
+            'location' => '',
+            'gender' => '',
+            'date_of_birth' => null,
+            'country' => '',
+            'nationality' => '',
+            'photo_path' => '',
+            'show_photo' => 1,
+            'links' => [],
+        ];
+        $uid = self::userId();
+        if ($uid <= 0) {
+            return $empty;
+        }
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM resume_profile WHERE user_id = ? ORDER BY id ASC LIMIT 1'
+        );
+        $stmt->execute([$uid]);
+        $row = $stmt->fetch();
         if ($row === false) {
-            return [
-                'id' => 0,
-                'full_name' => 'Your Name',
-                'title' => '',
-                'email' => '',
-                'phone' => '',
-                'location' => '',
-                'gender' => '',
-                'date_of_birth' => null,
-                'country' => '',
-                'nationality' => '',
-                'photo_path' => '',
-                'show_photo' => 1,
-                'links' => [],
-            ];
+            return $empty;
         }
         $links = $row['links'];
         if (is_string($links)) {
@@ -76,22 +112,28 @@ final class App
 
     public static function sections(bool $visibleOnly = false): array
     {
-        $sql = 'SELECT * FROM resume_sections';
+        $uid = self::userId();
+        $sql = 'SELECT * FROM resume_sections WHERE user_id = ?';
         if ($visibleOnly) {
-            $sql .= ' WHERE visible = 1';
+            $sql .= ' AND visible = 1';
         }
         $sql .= ' ORDER BY sort_order ASC, id ASC';
-        return Db::pdo()->query($sql)->fetchAll();
+        $stmt = Db::pdo()->prepare($sql);
+        $stmt->execute([$uid]);
+        return $stmt->fetchAll();
     }
 
     public static function experiences(bool $visibleOnly = false): array
     {
-        $sql = 'SELECT * FROM experience_entries';
+        $uid = self::userId();
+        $sql = 'SELECT * FROM experience_entries WHERE user_id = ?';
         if ($visibleOnly) {
-            $sql .= ' WHERE visible = 1';
+            $sql .= ' AND visible = 1';
         }
         $sql .= ' ORDER BY sort_order ASC, id ASC';
-        return Db::pdo()->query($sql)->fetchAll();
+        $stmt = Db::pdo()->prepare($sql);
+        $stmt->execute([$uid]);
+        return $stmt->fetchAll();
     }
 
     public static function experienceDateRange(array $entry): string
@@ -107,32 +149,207 @@ final class App
     public static function activeCoverLetter(): ?array
     {
         Versions::ensureSchema();
-        $row = Db::pdo()->query(
-            'SELECT * FROM cover_letters WHERE is_active = 1 ORDER BY updated_at DESC LIMIT 1'
-        )->fetch();
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM cover_letters WHERE user_id = ? AND is_active = 1 ORDER BY updated_at DESC LIMIT 1'
+        );
+        $stmt->execute([self::userId()]);
+        $row = $stmt->fetch();
         return $row === false ? null : $row;
     }
 
     public static function coverLetters(): array
     {
         Versions::ensureSchema();
-        return Db::pdo()->query(
-            'SELECT * FROM cover_letters ORDER BY is_base DESC, is_active DESC, updated_at DESC'
-        )->fetchAll();
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM cover_letters WHERE user_id = ? ORDER BY is_base DESC, is_active DESC, updated_at DESC'
+        );
+        $stmt->execute([self::userId()]);
+        return $stmt->fetchAll();
     }
 
-    public static function applications(?string $status = null): array
+    public static function applications(?string $status = null, string $q = ''): array
     {
+        $sql = 'SELECT * FROM applications WHERE user_id = ?';
+        $params = [self::userId()];
         if ($status !== null && $status !== '' && $status !== 'all') {
-            $stmt = Db::pdo()->prepare(
-                'SELECT * FROM applications WHERE status = ? ORDER BY applied_date DESC, id DESC'
-            );
-            $stmt->execute([$status]);
-            return $stmt->fetchAll();
+            $sql .= ' AND status = ?';
+            $params[] = $status;
         }
-        return Db::pdo()->query(
-            'SELECT * FROM applications ORDER BY applied_date DESC, id DESC'
-        )->fetchAll();
+        $q = trim($q);
+        if ($q !== '') {
+            $sql .= ' AND (company LIKE ? OR role LIKE ? OR location LIKE ? OR notes LIKE ?)';
+            $like = '%' . $q . '%';
+            array_push($params, $like, $like, $like, $like);
+        }
+        $sql .= ' ORDER BY applied_date DESC, id DESC';
+        $stmt = Db::pdo()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
+    public static function applicationCounts(): array
+    {
+        $counts = [
+            'all' => 0,
+            'applied' => 0,
+            'rejected' => 0,
+            'interview' => 0,
+            'offer' => 0,
+            'custom' => 0,
+        ];
+        $stmt = Db::pdo()->prepare(
+            'SELECT status, COUNT(*) AS n FROM applications WHERE user_id = ? GROUP BY status'
+        );
+        $stmt->execute([self::userId()]);
+        foreach ($stmt->fetchAll() as $row) {
+            $key = (string) ($row['status'] ?? '');
+            $n = (int) ($row['n'] ?? 0);
+            if (isset($counts[$key])) {
+                $counts[$key] = $n;
+            }
+            $counts['all'] += $n;
+        }
+        return $counts;
+    }
+
+    public static function ensureDashboardSchema(): void
+    {
+        $pdo = Db::pdo();
+        $alters = [
+            'location' => "ALTER TABLE applications ADD COLUMN location VARCHAR(160) NOT NULL DEFAULT '' AFTER role",
+            'resume_version_id' => 'ALTER TABLE applications ADD COLUMN resume_version_id INT UNSIGNED NULL AFTER link',
+            'cover_letter_id' => 'ALTER TABLE applications ADD COLUMN cover_letter_id INT UNSIGNED NULL AFTER resume_version_id',
+        ];
+        foreach ($alters as $col => $sql) {
+            $exists = $pdo->query('SHOW COLUMNS FROM applications LIKE ' . $pdo->quote($col))->fetch();
+            if ($exists === false) {
+                $pdo->exec($sql);
+            }
+        }
+
+        $defaults = [
+            'ui_density' => 'comfortable',
+            'sidebar_mode' => 'expanded',
+            'ui_mode' => 'warm',
+            'name_size' => 'md',
+            'section_spacing' => 'md',
+        ];
+        foreach ($defaults as $key => $value) {
+            if (self::setting($key) === null) {
+                self::setSetting($key, $value);
+            }
+        }
+    }
+
+    /**
+     * Copy Main resume + Main cover for a JD and log Applications.
+     * Never overwrites Main. Prefer this over writing data/tailor_*.php files.
+     *
+     * @return array{resume_id:int,cover_id:int,application_id:int,location:string,status:string}
+     */
+    public static function tailorFromJd(
+        string $company,
+        string $role,
+        string $location,
+        string $jdSnippet = '',
+        string $link = '',
+        string $status = 'applied',
+        ?string $profileTitle = null,
+        ?string $summary = null,
+        ?string $skills = null,
+        ?string $coverBody = null,
+        string $notes = ''
+    ): array {
+        self::ensureDashboardSchema();
+        Versions::ensureSchema();
+
+        $company = trim($company);
+        $role = trim($role);
+        $location = trim($location);
+        if ($company === '' || $role === '') {
+            throw new InvalidArgumentException('Company and role are required');
+        }
+        if ($location === '') {
+            throw new InvalidArgumentException('Location is required');
+        }
+
+        $base = Versions::baseResumeVersion();
+        if ($base === null) {
+            throw new RuntimeException('No Main resume. Save a Main resume in the Editor first.');
+        }
+
+        $snapshot = Versions::decodeSnapshot((string) $base['snapshot']);
+        $snapshot['location'] = $location;
+        if ($profileTitle !== null && trim($profileTitle) !== '') {
+            $snapshot['profile_title'] = trim($profileTitle);
+        }
+
+        foreach ($snapshot['sections'] as &$section) {
+            if (!is_array($section)) {
+                continue;
+            }
+            $key = (string) ($section['section_key'] ?? '');
+            if ($key === 'summary' && $summary !== null) {
+                $section['body'] = $summary;
+            }
+            if ($key === 'skills' && $skills !== null) {
+                $section['body'] = $skills;
+            }
+        }
+        unset($section);
+
+        $resumeTitle = $role . ' — ' . $company;
+        $resumeId = Versions::saveResumeVersion(
+            $resumeTitle,
+            $snapshot,
+            $company,
+            'Copy of Main for ' . $company . ' · ' . $location . '.',
+            false,
+            null,
+            true
+        );
+        Versions::loadResumeVersion($resumeId);
+
+        $baseCover = Versions::baseCoverLetter();
+        if ($baseCover === null) {
+            throw new RuntimeException('No Main cover letter. Save a Main cover letter in the Editor first.');
+        }
+
+        $coverId = Versions::duplicateCover((int) $baseCover['id'], $resumeTitle);
+        $coverCompany = $company . ' · ' . $location;
+        $body = $coverBody !== null && trim($coverBody) !== ''
+            ? $coverBody
+            : (string) ($baseCover['body'] ?? '');
+        Db::pdo()->prepare(
+            'UPDATE cover_letters SET body = ?, company = ?, is_active = 1, is_base = 0 WHERE id = ? AND user_id = ?'
+        )->execute([$body, $coverCompany, $coverId, self::userId()]);
+        Versions::activateCover($coverId);
+
+        $note = trim($notes);
+        if ($note === '') {
+            $note = "Tailored resume #{$resumeId} and cover letter #{$coverId}. Location: {$location}.";
+        }
+
+        $appId = self::logJdApplication(
+            $company,
+            $role,
+            $jdSnippet,
+            $status,
+            $note,
+            $link,
+            null,
+            $location,
+            $resumeId,
+            $coverId
+        );
+
+        return [
+            'resume_id' => $resumeId,
+            'cover_id' => $coverId,
+            'application_id' => $appId,
+            'location' => $location,
+            'status' => $status,
+        ];
     }
 
     /**
@@ -148,8 +365,12 @@ final class App
         string $status = 'applied',
         string $notes = '',
         string $link = '',
-        ?string $appliedDate = null
+        ?string $appliedDate = null,
+        string $location = '',
+        ?int $resumeVersionId = null,
+        ?int $coverLetterId = null
     ): int {
+        self::ensureDashboardSchema();
         $allowed = ['applied', 'rejected', 'interview', 'offer', 'custom'];
         if (!in_array($status, $allowed, true)) {
             $status = 'applied';
@@ -164,40 +385,55 @@ final class App
             : date('Y-m-d');
 
         $pdo = Db::pdo();
+        $uid = self::userId();
         $existing = $pdo->prepare(
-            'SELECT id FROM applications WHERE company = ? AND role = ? ORDER BY id DESC LIMIT 1'
+            'SELECT id FROM applications WHERE user_id = ? AND company = ? AND role = ? ORDER BY id DESC LIMIT 1'
         );
-        $existing->execute([$company, $role]);
+        $existing->execute([$uid, $company, $role]);
         $row = $existing->fetch();
+
+        $location = trim($location);
+        $resumeVersionId = $resumeVersionId !== null && $resumeVersionId > 0 ? $resumeVersionId : null;
+        $coverLetterId = $coverLetterId !== null && $coverLetterId > 0 ? $coverLetterId : null;
 
         if ($row) {
             $id = (int) $row['id'];
             $pdo->prepare(
                 'UPDATE applications
-                 SET status = ?, applied_date = ?, notes = ?, jd_snippet = ?, link = ?, updated_at = CURRENT_TIMESTAMP
-                 WHERE id = ?'
+                 SET status = ?, applied_date = ?, notes = ?, jd_snippet = ?, link = ?,
+                     location = ?, resume_version_id = ?, cover_letter_id = ?, updated_at = CURRENT_TIMESTAMP
+                 WHERE id = ? AND user_id = ?'
             )->execute([
                 $status,
                 $date,
                 $notes !== '' ? $notes : null,
                 $jdSnippet !== '' ? $jdSnippet : null,
                 $link !== '' ? $link : null,
+                $location,
+                $resumeVersionId,
+                $coverLetterId,
                 $id,
+                $uid,
             ]);
             return $id;
         }
 
         $pdo->prepare(
-            'INSERT INTO applications (company, role, status, applied_date, notes, jd_snippet, link)
-             VALUES (?, ?, ?, ?, ?, ?, ?)'
+            'INSERT INTO applications
+                (user_id, company, role, location, status, applied_date, notes, jd_snippet, link, resume_version_id, cover_letter_id)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         )->execute([
+            $uid,
             $company,
             $role,
+            $location,
             $status,
             $date,
             $notes !== '' ? $notes : null,
             $jdSnippet !== '' ? $jdSnippet : null,
             $link !== '' ? $link : null,
+            $resumeVersionId,
+            $coverLetterId,
         ]);
         return (int) $pdo->lastInsertId();
     }
@@ -205,9 +441,10 @@ final class App
     public static function searchHistory(int $limit = 50): array
     {
         $stmt = Db::pdo()->prepare(
-            'SELECT * FROM search_history ORDER BY created_at DESC, id DESC LIMIT ?'
+            'SELECT * FROM search_history WHERE user_id = ? ORDER BY created_at DESC, id DESC LIMIT ?'
         );
-        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->bindValue(1, self::userId(), PDO::PARAM_INT);
+        $stmt->bindValue(2, $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();
     }
@@ -482,6 +719,70 @@ final class App
     {
         $accent = $accent ?: (self::setting('accent_color', '#4E6351') ?: '#4E6351');
         return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#4E6351';
+    }
+
+    public static function resolveUiMode(?string $mode = null): string
+    {
+        $mode = $mode ?: (self::setting('ui_mode', 'warm') ?: 'warm');
+        return in_array($mode, ['warm', 'warm-dark'], true) ? $mode : 'warm';
+    }
+
+    public static function resolveDensity(?string $density = null): string
+    {
+        $density = $density ?: (self::setting('ui_density', 'comfortable') ?: 'comfortable');
+        return in_array($density, ['comfortable', 'compact'], true) ? $density : 'comfortable';
+    }
+
+    public static function resolveSidebar(?string $mode = null): string
+    {
+        $mode = $mode ?: (self::setting('sidebar_mode', 'expanded') ?: 'expanded');
+        return in_array($mode, ['expanded', 'compact'], true) ? $mode : 'expanded';
+    }
+
+    public static function resolveNameSize(?string $size = null): string
+    {
+        $size = $size ?: (self::setting('name_size', 'md') ?: 'md');
+        return in_array($size, ['sm', 'md', 'lg'], true) ? $size : 'md';
+    }
+
+    public static function resolveSectionSpacing(?string $spacing = null): string
+    {
+        $spacing = $spacing ?: (self::setting('section_spacing', 'md') ?: 'md');
+        return in_array($spacing, ['tight', 'md', 'loose'], true) ? $spacing : 'md';
+    }
+
+    public static function nameSizeScale(string $size): string
+    {
+        return match ($size) {
+            'sm' => '0.86',
+            'lg' => '1.18',
+            default => '1',
+        };
+    }
+
+    public static function sectionSpacingValue(string $spacing): string
+    {
+        return match ($spacing) {
+            'tight' => '0.85rem',
+            'loose' => '2.15rem',
+            default => '1.5rem',
+        };
+    }
+
+    public static function currentNavKey(): string
+    {
+        $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+        return match ($script) {
+            'index.php', '' => 'dashboard',
+            'tailor.php' => 'apply',
+            'applications.php' => 'applications',
+            'documents.php' => 'documents',
+            'editor.php' => 'editor',
+            'design.php' => 'design',
+            'history.php' => 'history',
+            'settings.php' => 'settings',
+            default => '',
+        };
     }
 
     public static function colorPresets(): array

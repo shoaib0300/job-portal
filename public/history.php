@@ -11,9 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     if ($action === 'add') {
         $stmt = $pdo->prepare(
-            'INSERT INTO search_history (company, role, note) VALUES (?, ?, ?)'
+            'INSERT INTO search_history (user_id, company, role, note) VALUES (?, ?, ?, ?)'
         );
         $stmt->execute([
+            Auth::id(),
             trim((string) ($_POST['company'] ?? '')),
             trim((string) ($_POST['role'] ?? '')),
             trim((string) ($_POST['note'] ?? '')),
@@ -22,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::redirect('/history.php');
     }
     if ($action === 'delete') {
-        $stmt = $pdo->prepare('DELETE FROM search_history WHERE id = ?');
-        $stmt->execute([(int) ($_POST['id'] ?? 0)]);
+        $stmt = $pdo->prepare('DELETE FROM search_history WHERE id = ? AND user_id = ?');
+        $stmt->execute([(int) ($_POST['id'] ?? 0), Auth::id()]);
         App::flash('History entry deleted.');
         App::redirect('/history.php');
     }
@@ -31,12 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $history = App::searchHistory(100);
 
-layout_header('Search history');
+layout_header('History');
 ?>
 <main class="page-wide">
   <header class="page-head">
     <h1>Search history</h1>
-    <p>Log JD tailor sessions — when we adapt your resume and cover letter for a company.</p>
+    <p>Optional notes for tailor sessions. Applications (with JD + resume/cover IDs) are the source of truth.</p>
   </header>
 
   <section class="editor-block">
@@ -51,9 +52,9 @@ layout_header('Search history');
   </section>
 
   <?php if (!$history): ?>
-    <p class="empty">No tailor history yet. Paste a JD in chat and I’ll log the session here.</p>
+    <p class="empty-card empty">No tailor notes yet. <a href="/tailor.php">Apply from a JD</a> to log an application.</p>
   <?php else: ?>
-    <ul class="history-list">
+    <ul class="history-list panel" style="padding:0 1.25rem">
       <?php foreach ($history as $row): ?>
         <li>
           <div>
