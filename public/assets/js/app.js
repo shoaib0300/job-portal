@@ -119,11 +119,11 @@
         '<h2 id="export-picker-title">Which ' +
         (doc === "cover" ? "cover letter" : "resume") +
         " do you want?</h2>" +
-        '<button type="button" class="btn btn-small" data-export-cancel aria-label="Cancel">×</button>' +
+        '<button type="button" class="btn-close" data-export-cancel aria-label="Cancel"></button>' +
         "</div>" +
         '<p class="export-picker-lead">Pick Main, or a copy you made for a company.</p>' +
         '<ul class="export-picker-list"></ul>' +
-        '<div class="export-picker-foot"><button type="button" class="btn btn-secondary" data-export-cancel>Cancel</button></div>' +
+        '<div class="export-picker-foot"><button type="button" class="btn btn-outline-secondary" data-export-cancel>Cancel</button></div>' +
         "</div>";
       const list = overlay.querySelector(".export-picker-list");
       options.forEach((opt) => {
@@ -335,21 +335,6 @@
     });
   });
 
-  const menuBtn = document.querySelector("[data-sidebar-toggle]");
-  if (menuBtn) {
-    menuBtn.addEventListener("click", (event) => {
-      event.stopPropagation();
-      document.body.classList.toggle("sidebar-open");
-    });
-    document.addEventListener("click", (event) => {
-      if (!document.body.classList.contains("sidebar-open")) return;
-      const side = document.querySelector("[data-sidebar-panel]");
-      if (side && !side.contains(event.target) && event.target !== menuBtn && !menuBtn.contains(event.target)) {
-        document.body.classList.remove("sidebar-open");
-      }
-    });
-  }
-
   const studio = document.querySelector("[data-design-studio]");
   if (!studio) return;
 
@@ -539,7 +524,7 @@
         const json = await res.json();
         if (json.ok) {
           const flash = document.createElement("div");
-          flash.className = "flash";
+          flash.className = "alert alert-success";
           flash.textContent = `Style applied: ${json.label} · ${json.font_label || font}. You can print or download PDF now.`;
           studio.prepend(flash);
           window.setTimeout(() => flash.remove(), 3500);

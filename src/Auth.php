@@ -243,7 +243,7 @@ final class Auth
         $pdo = Db::pdo();
 
         $defaults = [
-            'accent_color' => '#4E6351',
+            'accent_color' => '#5B4CDB',
             'theme' => 'sage',
             'font_family' => 'candara',
             'pdf_mode' => '0',

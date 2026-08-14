@@ -7,95 +7,55 @@ require_once dirname(__DIR__) . '/src/layout.php';
 
 Versions::ensureSchema();
 $resumes = Versions::resumeVersions();
-$covers = App::coverLetters();
 
-layout_header('Documents');
+layout_header('Resume copies');
 ?>
 <main class="page-wide">
-  <header class="page-head row">
+  <header class="page-head d-flex flex-wrap justify-content-between align-items-start gap-3">
     <div>
-      <h1>Documents</h1>
-      <p>Every resume and letter copy. Main stays stable.</p>
+      <h1>Resume copies</h1>
+      <p>Every resume copy. Main stays stable.</p>
     </div>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="/editor.php">Open resume</a>
-    </div>
+    <a class="btn btn-primary" href="/editor.php">Open resume</a>
   </header>
 
-  <section class="editor-block">
-    <h2>Resumes</h2>
-    <?php if (!$resumes): ?>
-      <p class="empty">No resume versions yet.</p>
-    <?php else: ?>
-      <ul class="version-list doc-card-list">
-        <?php foreach ($resumes as $ver): ?>
-          <?php
-          $rid = (int) $ver['id'];
-          $isMain = (int) $ver['is_base'] === 1;
-          $isOpen = (int) $ver['is_active'] === 1;
-          $label = $isMain ? 'Main resume' : (string) $ver['title'];
-          ?>
-          <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
-            <div class="doc-card-main">
-              <span class="doc-id">#<?= $rid ?></span>
-              <div class="doc-card-text">
-                <strong>
-                  <?php if ($isMain): ?><span class="badge-main">Main</span> <?php endif; ?>
-                  <?php if ($isOpen): ?><span class="badge-active">Editing</span> <?php endif; ?>
-                  <?= App::e($label) ?>
-                </strong>
+  <section class="card shadow-sm">
+    <div class="card-body">
+      <?php if (!$resumes): ?>
+        <p class="text-secondary mb-0">No resume versions yet.</p>
+      <?php else: ?>
+        <div class="list-group list-group-flush">
+          <?php foreach ($resumes as $ver): ?>
+            <?php
+            $rid = (int) $ver['id'];
+            $isMain = (int) $ver['is_base'] === 1;
+            $isOpen = (int) $ver['is_active'] === 1;
+            $label = $isMain ? 'Main resume' : (string) $ver['title'];
+            ?>
+            <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2 px-0">
+              <div>
+                <span class="doc-id">#<?= $rid ?></span>
+                <?php if ($isMain): ?><span class="badge text-bg-secondary">Main</span> <?php endif; ?>
+                <?php if ($isOpen): ?><span class="badge text-bg-primary">Editing</span> <?php endif; ?>
+                <strong><?= App::e($label) ?></strong>
                 <?php if (!$isMain && $ver['company'] !== ''): ?>
-                  <span class="muted"><?= App::e((string) $ver['company']) ?></span>
+                  <div class="text-secondary small"><?= App::e((string) $ver['company']) ?></div>
                 <?php endif; ?>
               </div>
-            </div>
-            <div class="doc-card-actions version-list-actions">
-              <a class="btn btn-small btn-primary" href="/editor.php#versions">Edit</a>
-              <a class="btn btn-small" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
-              <a class="btn btn-small btn-secondary" href="/pdf.php?doc=resume&amp;version=<?= $rid ?>">PDF</a>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    <?php endif; ?>
-  </section>
-
-  <section class="editor-block">
-    <h2>Cover letters</h2>
-    <?php if (!$covers): ?>
-      <p class="empty">No cover letters yet.</p>
-    <?php else: ?>
-      <ul class="version-list doc-card-list">
-        <?php foreach ($covers as $cl): ?>
-          <?php
-          $cid = (int) $cl['id'];
-          $isMain = (int) ($cl['is_base'] ?? 0) === 1;
-          $isOpen = (int) ($cl['is_active'] ?? 0) === 1;
-          $label = $isMain ? 'Main cover letter' : (string) $cl['title'];
-          ?>
-          <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
-            <div class="doc-card-main">
-              <span class="doc-id">#<?= $cid ?></span>
-              <div class="doc-card-text">
-                <strong>
-                  <?php if ($isMain): ?><span class="badge-main">Main</span> <?php endif; ?>
-                  <?php if ($isOpen): ?><span class="badge-active">Active</span> <?php endif; ?>
-                  <?= App::e($label) ?>
-                </strong>
-                <?php if (!$isMain && $cl['company'] !== ''): ?>
-                  <span class="muted"><?= App::e((string) $cl['company']) ?></span>
+              <div class="d-flex flex-wrap gap-1">
+                <?php if ($isOpen): ?>
+                  <span class="btn btn-sm btn-outline-primary disabled" aria-current="true">Selected</span>
+                <?php else: ?>
+                  <a class="btn btn-sm btn-primary" href="/editor.php#versions">Edit / Select</a>
                 <?php endif; ?>
+                <a class="btn btn-sm btn-outline-secondary" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
+                <a class="btn btn-sm btn-outline-secondary" href="/pdf.php?doc=resume&amp;version=<?= $rid ?>">PDF</a>
               </div>
             </div>
-            <div class="doc-card-actions version-list-actions">
-              <a class="btn btn-small btn-primary" href="/editor.php#cover">Edit</a>
-              <a class="btn btn-small" href="/cover-letter.php?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
-              <a class="btn btn-small btn-secondary" href="/pdf.php?doc=cover&amp;id=<?= $cid ?>">PDF</a>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    <?php endif; ?>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
   </section>
 </main>
 <?php

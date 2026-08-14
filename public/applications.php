@@ -109,42 +109,62 @@ if ($action === 'new' || $action === 'edit') {
         <h1><?= $row['id'] ? 'Edit application' : 'Add entry' ?></h1>
         <p><a href="/applications.php">&larr; All applications</a></p>
       </header>
-      <form method="post" class="form panel">
-        <input type="hidden" name="action" value="save">
-        <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
-        <label>Company <input type="text" name="company" required value="<?= App::e($row['company']) ?>"></label>
-        <label>Role <input type="text" name="role" required value="<?= App::e($row['role']) ?>"></label>
-        <label>Location <input type="text" name="location" value="<?= App::e((string) ($row['location'] ?? '')) ?>" placeholder="Hamburg, Germany"></label>
-        <label>Status
-          <select name="status">
-            <?php foreach ($statuses as $s): ?>
-              <option value="<?= App::e($s) ?>"<?= $row['status'] === $s ? ' selected' : '' ?>><?= App::e(App::statusLabel($s)) ?></option>
-            <?php endforeach; ?>
-          </select>
-        </label>
-        <label>Applied date <input type="date" name="applied_date" value="<?= App::e((string) $row['applied_date']) ?>"></label>
-        <label>Link <input type="url" name="link" value="<?= App::e((string) $row['link']) ?>" placeholder="https://"></label>
-        <label>Resume ID <input type="number" name="resume_version_id" min="0" value="<?= App::e((string) ($row['resume_version_id'] ?? '')) ?>" placeholder="From Documents"></label>
-        <label>Cover letter ID <input type="number" name="cover_letter_id" min="0" value="<?= App::e((string) ($row['cover_letter_id'] ?? '')) ?>" placeholder="From Documents"></label>
-        <?php if ((int) ($row['resume_version_id'] ?? 0) > 0): ?>
-          <p class="muted">Linked resume <a href="/resume.php?version=<?= (int) $row['resume_version_id'] ?>">#<?= (int) $row['resume_version_id'] ?></a>
-            · <a href="/pdf.php?doc=resume&amp;version=<?= (int) $row['resume_version_id'] ?>">PDF</a></p>
-        <?php endif; ?>
-        <?php if ((int) ($row['cover_letter_id'] ?? 0) > 0): ?>
-          <p class="muted">Linked cover <a href="/cover-letter.php?id=<?= (int) $row['cover_letter_id'] ?>">#<?= (int) $row['cover_letter_id'] ?></a>
-            · <a href="/pdf.php?doc=cover&amp;id=<?= (int) $row['cover_letter_id'] ?>">PDF</a></p>
-        <?php endif; ?>
-        <label>Job text <textarea name="jd_snippet" rows="10" placeholder="Paste the job description"><?= App::e((string) $row['jd_snippet']) ?></textarea></label>
-        <label>Notes <textarea name="notes" rows="3"><?= App::e((string) $row['notes']) ?></textarea></label>
-        <div class="form-actions">
+      <form method="post" class="card shadow-sm">
+        <div class="card-body">
+          <input type="hidden" name="action" value="save">
+          <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
+          <div class="mb-3">
+            <label class="form-label">Company <input class="form-control" type="text" name="company" required value="<?= App::e($row['company']) ?>"></label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Role <input class="form-control" type="text" name="role" required value="<?= App::e($row['role']) ?>"></label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Location <input class="form-control" type="text" name="location" value="<?= App::e((string) ($row['location'] ?? '')) ?>" placeholder="Hamburg, Germany"></label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Status
+              <select class="form-select" name="status">
+                <?php foreach ($statuses as $s): ?>
+                  <option value="<?= App::e($s) ?>"<?= $row['status'] === $s ? ' selected' : '' ?>><?= App::e(App::statusLabel($s)) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Applied date <input class="form-control" type="date" name="applied_date" value="<?= App::e((string) $row['applied_date']) ?>"></label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Link <input class="form-control" type="url" name="link" value="<?= App::e((string) $row['link']) ?>" placeholder="https://"></label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Resume ID <input class="form-control" type="number" name="resume_version_id" min="0" value="<?= App::e((string) ($row['resume_version_id'] ?? '')) ?>" placeholder="From Documents"></label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Cover letter ID <input class="form-control" type="number" name="cover_letter_id" min="0" value="<?= App::e((string) ($row['cover_letter_id'] ?? '')) ?>" placeholder="From Documents"></label>
+          </div>
+          <?php if ((int) ($row['resume_version_id'] ?? 0) > 0): ?>
+            <p class="text-secondary small">Linked resume <a href="/resume.php?version=<?= (int) $row['resume_version_id'] ?>">#<?= (int) $row['resume_version_id'] ?></a>
+              · <a href="/pdf.php?doc=resume&amp;version=<?= (int) $row['resume_version_id'] ?>">PDF</a></p>
+          <?php endif; ?>
+          <?php if ((int) ($row['cover_letter_id'] ?? 0) > 0): ?>
+            <p class="text-secondary small">Linked cover <a href="/cover-letter.php?id=<?= (int) $row['cover_letter_id'] ?>">#<?= (int) $row['cover_letter_id'] ?></a>
+              · <a href="/pdf.php?doc=cover&amp;id=<?= (int) $row['cover_letter_id'] ?>">PDF</a></p>
+          <?php endif; ?>
+          <div class="mb-3">
+            <label class="form-label">Job text <textarea class="form-control" name="jd_snippet" rows="10" placeholder="Paste the job description"><?= App::e((string) $row['jd_snippet']) ?></textarea></label>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Notes <textarea class="form-control" name="notes" rows="3"><?= App::e((string) $row['notes']) ?></textarea></label>
+          </div>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
       <?php if ((int) $row['id'] > 0): ?>
-      <form method="post" class="inline-delete" onsubmit="return confirm('Delete this application?');">
+      <form method="post" class="mt-3" onsubmit="return confirm('Delete this application?');">
         <input type="hidden" name="action" value="delete">
         <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
-        <button type="submit" class="btn btn-danger">Delete</button>
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
       </form>
       <?php endif; ?>
     </main>
@@ -165,26 +185,29 @@ $counts = App::applicationCounts();
 layout_header('Applications');
 ?>
 <main class="page-wide">
-  <header class="page-head row">
+  <header class="page-head d-flex flex-wrap justify-content-between align-items-start gap-3">
     <div>
       <h1>Applications</h1>
       <p>Company, location, and linked resume. <a href="/history.php">History</a></p>
     </div>
-    <div class="hero-actions">
+    <div class="d-flex flex-wrap gap-2">
       <a class="btn btn-primary" href="/tailor.php">New job</a>
-      <a class="btn btn-secondary" href="/applications.php?action=new">Add manually</a>
+      <a class="btn btn-outline-secondary" href="/applications.php?action=new">Add manually</a>
     </div>
   </header>
 
-  <form class="filter-bar" method="get" action="/applications.php">
-    <label class="grow">Search
-      <input type="search" name="q" value="<?= App::e($q) ?>" placeholder="Company, role, location…">
-    </label>
+  <form class="row g-2 align-items-end mb-3" method="get" action="/applications.php">
+    <div class="col-md">
+      <label class="form-label" for="q">Search</label>
+      <input class="form-control" type="search" id="q" name="q" value="<?= App::e($q) ?>" placeholder="Company, role, location…">
+    </div>
     <input type="hidden" name="status" value="<?= App::e($status) ?>">
-    <button type="submit" class="btn btn-small">Search</button>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </div>
   </form>
 
-  <div class="status-chips">
+  <div class="d-flex flex-wrap gap-2 mb-3">
     <?php
     $chips = ['all' => 'All', 'applied' => 'Applied', 'interview' => 'Interview', 'offer' => 'Offer', 'rejected' => 'Rejected', 'custom' => 'Custom'];
     foreach ($chips as $key => $label):
@@ -197,10 +220,10 @@ layout_header('Applications');
   </div>
 
   <?php if (!$apps): ?>
-    <p class="empty-card empty">Nothing in this filter. <a href="/tailor.php">Paste a job</a>.</p>
+    <div class="card shadow-sm"><div class="card-body text-secondary">Nothing in this filter. <a href="/tailor.php">Paste a job</a>.</div></div>
   <?php else: ?>
-    <div class="table-wrap">
-      <table class="data-table apps-table">
+    <div class="table-responsive card shadow-sm">
+      <table class="table table-hover align-middle mb-0">
         <thead>
           <tr>
             <th>Company</th>
@@ -222,12 +245,19 @@ layout_header('Applications');
             $hasJd = $jd !== '';
             $rid = (int) ($app['resume_version_id'] ?? 0);
             $cid = (int) ($app['cover_letter_id'] ?? 0);
+            $badge = match ($app['status']) {
+                'rejected' => 'text-bg-danger',
+                'interview' => 'text-bg-info',
+                'offer' => 'text-bg-success',
+                'custom' => 'text-bg-secondary',
+                default => 'text-bg-primary',
+            };
             ?>
-            <tr class="app-row">
+            <tr>
               <td><?= App::e($app['company']) ?></td>
               <td><?= App::e($app['role']) ?></td>
               <td><?= App::e((string) ($app['location'] ?? '')) ?></td>
-              <td class="app-docs">
+              <td class="small">
                 <?php if ($rid > 0): ?>
                   <a href="/resume.php?version=<?= $rid ?>">Resume #<?= $rid ?></a>
                 <?php endif; ?>
@@ -235,37 +265,37 @@ layout_header('Applications');
                   <a href="/cover-letter.php?id=<?= $cid ?>">Letter #<?= $cid ?></a>
                 <?php endif; ?>
                 <?php if ($rid === 0 && $cid === 0): ?>
-                  <span class="muted">—</span>
+                  <span class="text-secondary">—</span>
                 <?php endif; ?>
               </td>
-              <td><span class="badge status-<?= App::e($app['status']) ?>"><?= App::e(App::statusLabel($app['status'])) ?></span></td>
+              <td><span class="badge <?= $badge ?>"><?= App::e(App::statusLabel($app['status'])) ?></span></td>
               <td><?= App::e((string) $app['applied_date']) ?></td>
-              <td class="app-row-actions">
+              <td class="text-nowrap">
                 <?php if ($hasJd): ?>
                   <button type="button"
-                          class="btn btn-small"
+                          class="btn btn-sm btn-outline-secondary"
                           data-toggle-jd
                           data-jd-target="jd-<?= $appId ?>"
                           aria-expanded="false"
                           aria-controls="jd-<?= $appId ?>">Show job</button>
                 <?php endif; ?>
-                <a class="btn btn-small" href="/applications.php?action=edit&amp;id=<?= $appId ?>">Edit</a>
+                <a class="btn btn-sm btn-outline-secondary" href="/applications.php?action=edit&amp;id=<?= $appId ?>">Edit</a>
               </td>
             </tr>
             <tr id="jd-<?= $appId ?>" class="app-jd-row" hidden>
               <td colspan="7">
-                <div class="app-jd-panel">
-                  <div class="app-jd-head">
+                <div class="p-2">
+                  <div class="d-flex justify-content-between gap-2 mb-2">
                     <strong>Job text</strong>
                     <?php if ($link !== ''): ?>
                       <a href="<?= App::e($link) ?>" target="_blank" rel="noopener">Open link</a>
                     <?php endif; ?>
                   </div>
                   <?php if ($hasJd): ?>
-                    <div class="app-jd-body"><?= App::nl2p($jd) ?></div>
+                    <div class="small"><?= App::nl2p($jd) ?></div>
                   <?php endif; ?>
                   <?php if ($notes !== ''): ?>
-                    <p class="app-jd-notes"><strong>Notes:</strong> <?= App::e($notes) ?></p>
+                    <p class="mb-0"><strong>Notes:</strong> <?= App::e($notes) ?></p>
                   <?php endif; ?>
                 </div>
               </td>

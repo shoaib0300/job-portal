@@ -33,17 +33,17 @@ layout_header($profile['full_name'], [
 if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
-  <div class="doc-toolbar-inner">
-    <a href="/design.php?doc=cover">&larr; Style</a>
-    <div class="doc-actions">
+  <div class="doc-toolbar-inner d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <a class="btn btn-sm btn-link text-decoration-none" href="/cover-design.php">&larr; Style</a>
+    <div class="doc-actions d-flex flex-wrap gap-2 align-items-center">
       <?php if ($letter): ?>
-        <span class="version-pill"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= (int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : App::e((string) ($letter['title'] ?? 'Cover letter')) ?></span>
+        <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= (int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : App::e((string) ($letter['title'] ?? 'Cover letter')) ?></span>
       <?php endif; ?>
-      <a class="btn btn-small" href="/editor.php#cover">Edit content</a>
-      <a class="btn btn-small" href="/design.php?doc=cover">Change style</a>
-      <button type="button" class="btn btn-small btn-primary" data-print data-doc="cover"
+      <a class="btn btn-sm btn-outline-secondary" href="/cover.php">Edit content</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Change style</a>
+      <button type="button" class="btn btn-sm btn-primary" data-print data-doc="cover"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
-      <button type="button" class="btn btn-small btn-secondary" data-download-pdf data-doc="cover"
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-download-pdf data-doc="cover"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Download PDF</button>
     </div>
   </div>
@@ -69,7 +69,7 @@ if (!$embed):
     <?php endif; ?>
     <div class="letter-body"><?= App::nl2p($letter['body']) ?></div>
   <?php else: ?>
-    <p class="empty">No active cover letter. <a href="/editor.php#cover">Create one in the editor</a>.</p>
+    <p class="empty">No active cover letter. <a href="/cover.php">Create one</a>.</p>
   <?php endif; ?>
 </article>
 <?php

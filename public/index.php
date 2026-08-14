@@ -12,34 +12,59 @@ $recent = array_slice($apps, 0, 6);
 layout_header('Home');
 ?>
 <main class="home">
-  <ol class="step-grid">
-    <li class="step-card">
-      <span class="step-n">1</span>
-      <div>
-        <h2>Paste a job</h2>
-        <p>We copy your Main resume and letter, then save the application.</p>
-        <a class="btn btn-primary" href="/tailor.php">New job</a>
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex gap-3">
+          <span class="step-n">1</span>
+          <div>
+            <h2 class="h5">Paste a job</h2>
+            <p class="text-secondary small mb-3">We copy Main resume and Main letter into separate documents.</p>
+            <a class="btn btn-primary" href="/tailor.php">New job</a>
+          </div>
+        </div>
       </div>
-    </li>
-    <li class="step-card">
-      <span class="step-n">2</span>
-      <div>
-        <h2>Edit your resume</h2>
-        <p>Change summary and skills for that company. Main stays untouched.</p>
-        <a class="btn btn-secondary" href="/editor.php">Open resume</a>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex gap-3">
+          <span class="step-n">2</span>
+          <div>
+            <h2 class="h5">Edit your resume</h2>
+            <p class="text-secondary small mb-3">Change summary and skills for that company. Main stays untouched.</p>
+            <a class="btn btn-outline-secondary" href="/editor.php">Open resume</a>
+          </div>
+        </div>
       </div>
-    </li>
-    <li class="step-card">
-      <span class="step-n">3</span>
-      <div>
-        <h2>Download PDF</h2>
-        <p>Pick a look, then print or save the file to send.</p>
-        <a class="btn btn-secondary" href="/design.php">Choose style</a>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex gap-3">
+          <span class="step-n">3</span>
+          <div>
+            <h2 class="h5">Download resume PDF</h2>
+            <p class="text-secondary small mb-3">Pick a look for the resume, then print or save.</p>
+            <a class="btn btn-outline-secondary" href="/design.php">Resume style</a>
+          </div>
+        </div>
       </div>
-    </li>
-  </ol>
+    </div>
+  </div>
 
-  <section class="stat-grid" aria-label="Application counts">
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h2 class="h5">Cover letter</h2>
+          <p class="text-secondary small mb-3">Write the letter on its own page. Style is separate from the resume.</p>
+          <a class="btn btn-outline-secondary" href="/cover.php">Open cover letter</a>
+          <a class="btn btn-outline-secondary" href="/cover-design.php">Cover style</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4" aria-label="Application counts">
     <?php
     $statMeta = [
         'all' => 'All',
@@ -50,40 +75,53 @@ layout_header('Home');
     ];
     foreach ($statMeta as $key => $label):
     ?>
-      <a class="stat-card" href="/applications.php?status=<?= App::e($key) ?>">
-        <span class="stat-n"><?= (int) ($counts[$key] ?? 0) ?></span>
-        <span class="stat-l"><?= App::e($label) ?></span>
-      </a>
+      <div class="col">
+        <a class="card shadow-sm h-100 text-decoration-none text-reset" href="/applications.php?status=<?= App::e($key) ?>">
+          <div class="card-body">
+            <div class="fs-3 fw-semibold"><?= (int) ($counts[$key] ?? 0) ?></div>
+            <div class="text-secondary small text-uppercase"><?= App::e($label) ?></div>
+          </div>
+        </a>
+      </div>
     <?php endforeach; ?>
-  </section>
+  </div>
 
-  <section class="apps-panel">
-    <div class="apps-panel-head">
-      <h2>Recent</h2>
-      <a class="btn btn-small" href="/applications.php">All applications</a>
-    </div>
-    <?php if (!$recent): ?>
-      <p class="empty">Nothing yet. Start with <a href="/tailor.php">New job</a>.</p>
-    <?php else: ?>
-      <ul class="app-list">
-        <?php foreach ($recent as $app): ?>
-          <li class="app-item status-<?= App::e($app['status']) ?>">
-            <div class="app-main">
-              <a href="/applications.php?action=edit&amp;id=<?= (int) $app['id'] ?>">
+  <section class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h2 class="h5 mb-0">Recent</h2>
+        <a class="btn btn-sm btn-outline-secondary" href="/applications.php">All applications</a>
+      </div>
+      <?php if (!$recent): ?>
+        <p class="text-secondary mb-0">Nothing yet. Start with <a href="/tailor.php">New job</a>.</p>
+      <?php else: ?>
+        <div class="list-group list-group-flush">
+          <?php foreach ($recent as $app): ?>
+            <?php
+            $badge = match ($app['status']) {
+                'rejected' => 'text-bg-danger',
+                'interview' => 'text-bg-info',
+                'offer' => 'text-bg-success',
+                'custom' => 'text-bg-secondary',
+                default => 'text-bg-primary',
+            };
+            ?>
+            <a class="list-group-item list-group-item-action d-flex flex-wrap justify-content-between gap-2 px-0" href="/applications.php?action=edit&amp;id=<?= (int) $app['id'] ?>">
+              <div>
                 <strong><?= App::e($app['company']) ?></strong>
-                <span><?= App::e($app['role']) ?></span>
-              </a>
-            </div>
-            <div class="app-meta">
-              <span class="badge status-<?= App::e($app['status']) ?>"><?= App::e(App::statusLabel($app['status'])) ?></span>
-              <?php if (!empty($app['location'])): ?>
-                <span><?= App::e((string) $app['location']) ?></span>
-              <?php endif; ?>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    <?php endif; ?>
+                <div class="text-secondary small"><?= App::e($app['role']) ?></div>
+              </div>
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <span class="badge <?= $badge ?>"><?= App::e(App::statusLabel($app['status'])) ?></span>
+                <?php if (!empty($app['location'])): ?>
+                  <span><?= App::e((string) $app['location']) ?></span>
+                <?php endif; ?>
+              </div>
+            </a>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
   </section>
 </main>
 <?php

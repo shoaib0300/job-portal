@@ -696,6 +696,7 @@ final class App
     public static function googleFontsHref(?string $selected = null): string
     {
         $families = [
+            'Inter:wght@400;500;600;700',
             'DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400',
             'Instrument+Serif:ital@0;1',
         ];
@@ -717,8 +718,8 @@ final class App
 
     public static function resolveAccent(?string $accent): string
     {
-        $accent = $accent ?: (self::setting('accent_color', '#4E6351') ?: '#4E6351');
-        return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#4E6351';
+        $accent = $accent ?: (self::setting('accent_color', '#5B4CDB') ?: '#5B4CDB');
+        return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#5B4CDB';
     }
 
     public static function resolveUiMode(?string $mode = null): string
@@ -776,8 +777,8 @@ final class App
             'index.php', '' => 'dashboard',
             'tailor.php' => 'apply',
             'applications.php', 'history.php' => 'applications',
-            'documents.php', 'editor.php' => 'editor',
-            'design.php' => 'design',
+            'documents.php', 'editor.php', 'design.php' => 'resume',
+            'cover.php', 'cover-design.php' => 'cover',
             'settings.php' => 'account',
             default => '',
         };
@@ -786,6 +787,7 @@ final class App
     public static function colorPresets(): array
     {
         return [
+            '#5B4CDB' => 'Indigo',
             '#4E6351' => 'Sage',
             '#313E32' => 'Forest ink',
             '#8B1A1A' => 'Burgundy',

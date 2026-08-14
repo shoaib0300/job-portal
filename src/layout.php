@@ -2,6 +2,29 @@
 
 declare(strict_types=1);
 
+function layout_accent_rgb(string $hex): string
+{
+    $hex = ltrim($hex, '#');
+    if (strlen($hex) !== 6) {
+        return '91, 76, 219';
+    }
+    return hexdec(substr($hex, 0, 2)) . ', ' . hexdec(substr($hex, 2, 2)) . ', ' . hexdec(substr($hex, 4, 2));
+}
+
+function layout_flash(?array $flash): void
+{
+    if (!$flash) {
+        return;
+    }
+    $cls = ($flash['type'] ?? '') === 'error' ? 'alert-danger' : 'alert-success';
+    ?>
+  <div class="alert <?= $cls ?> alert-dismissible fade show" role="alert">
+    <?= App::e((string) $flash['message']) ?>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+    <?php
+}
+
 function layout_header(string $title, array $opts = []): void
 {
     $theme = App::resolveTheme($opts['theme'] ?? null);
@@ -22,6 +45,7 @@ function layout_header(string $title, array $opts = []): void
     $spacing = App::resolveSectionSpacing($_GET['spacing'] ?? null);
     $navKey = App::currentNavKey();
     $profile = App::profile();
+    $bsTheme = $uiMode === 'warm-dark' ? 'dark' : 'light';
     $activeResume = null;
     $activeCover = null;
     try {
@@ -35,13 +59,14 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'dashboard', 'href' => '/', 'label' => 'Home', 'icon' => 'home'],
         ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'New job', 'icon' => 'apply'],
         ['key' => 'applications', 'href' => '/applications.php', 'label' => 'Applications', 'icon' => 'apps'],
-        ['key' => 'editor', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'edit'],
-        ['key' => 'design', 'href' => '/design.php', 'label' => 'Style', 'icon' => 'design'],
+        ['key' => 'resume', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'edit'],
+        ['key' => 'cover', 'href' => '/cover.php', 'label' => 'Cover letter', 'icon' => 'letter'],
         ['key' => 'account', 'href' => '/settings.php', 'label' => 'Account', 'icon' => 'gear'],
     ];
+    $chrome = $opts['chrome'] ?? $navKey;
     ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="<?= App::e($bsTheme) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -49,12 +74,15 @@ function layout_header(string $title, array $opts = []): void
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/app.css?v=20260814c">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814c">
-  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814c">
+  <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260814e">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260814e">
+  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814e">
   <style>
     :root {
       --accent: <?= App::e($accent) ?>;
+      --bs-primary: <?= App::e($accent) ?>;
+      --bs-primary-rgb: <?= layout_accent_rgb($accent) ?>;
       --doc-font: <?= App::e($fontStack) ?>;
       --resume-name-scale: <?= App::e(App::nameSizeScale($nameSize)) ?>;
       --resume-section-gap: <?= App::e(App::sectionSpacingValue($spacing)) ?>;
@@ -71,70 +99,71 @@ function layout_header(string $title, array $opts = []): void
       data-spacing="<?= App::e($spacing) ?>">
 <?php if ($hideNav): ?>
   <div class="site-shell site-shell-embed">
-    <?php if ($flash): ?>
-      <div class="flash flash-<?= App::e($flash['type']) ?>"><?= App::e($flash['message']) ?></div>
-    <?php endif; ?>
+    <?php layout_flash($flash); ?>
 <?php elseif ($isDoc): ?>
   <div class="site-shell site-shell-doc">
-    <header class="doc-chrome no-print">
-      <a class="brand" href="/">MNK</a>
-      <span class="doc-chrome-title"><?= App::e($title) ?></span>
-      <a class="btn btn-small" href="/design.php">Style</a>
+    <header class="doc-chrome no-print d-flex align-items-center gap-3 px-3 py-2 border-bottom bg-white">
+      <a class="brand text-decoration-none fw-semibold" href="/">MNK</a>
+      <span class="doc-chrome-title text-secondary small me-auto"><?= App::e($title) ?></span>
+      <a class="btn btn-sm btn-outline-secondary" href="<?= basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-letter.php' ? '/cover-design.php' : '/design.php' ?>">Style</a>
     </header>
-    <?php if ($flash): ?>
-      <div class="flash flash-<?= App::e($flash['type']) ?>"><?= App::e($flash['message']) ?></div>
-    <?php endif; ?>
+    <?php layout_flash($flash); ?>
 <?php else: ?>
-  <div class="dash">
-    <aside class="dash-sidebar" data-sidebar-panel>
-      <a class="dash-brand" href="/">
-        <span class="dash-mark">M</span>
-        <span class="dash-brand-text">MNK</span>
-      </a>
-      <nav class="dash-nav" aria-label="Main">
-        <?php foreach ($nav as $item): ?>
-          <a class="dash-nav-link<?= $navKey === $item['key'] ? ' is-active' : '' ?>"
-             href="<?= App::e($item['href']) ?>"
-             data-nav="<?= App::e($item['key']) ?>">
-            <span class="dash-ico" aria-hidden="true" data-ico="<?= App::e($item['icon']) ?>"></span>
-            <span class="dash-nav-label"><?= App::e($item['label']) ?></span>
-          </a>
-        <?php endforeach; ?>
-      </nav>
-      <div class="dash-sidebar-foot">
-        <?php $authUser = Auth::user(); ?>
-        <p class="dash-user"><?= App::e((string) ($authUser['name'] ?? $profile['full_name'] ?? 'You')) ?></p>
-        <p class="dash-user-meta"><?= App::e((string) ($authUser['email'] ?? $authUser['username'] ?? '')) ?></p>
-        <a class="dash-logout" href="/logout.php">Log out</a>
+  <div class="dash d-flex min-vh-100">
+    <aside class="offcanvas-lg offcanvas-start dash-sidebar" tabindex="-1" id="dashSidebar" aria-label="Main">
+      <div class="offcanvas-header d-lg-none">
+        <h5 class="offcanvas-title">MNK</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashSidebar" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column p-3">
+        <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="/">
+          <span class="dash-mark">M</span>
+          <span class="dash-brand-text">MNK</span>
+        </a>
+        <nav class="nav flex-column dash-nav gap-1 flex-grow-1">
+          <?php foreach ($nav as $item): ?>
+            <a class="nav-link dash-nav-link d-flex align-items-center gap-2<?= $navKey === $item['key'] ? ' active' : '' ?>"
+               href="<?= App::e($item['href']) ?>"
+               data-nav="<?= App::e($item['key']) ?>">
+              <span class="dash-ico" aria-hidden="true" data-ico="<?= App::e($item['icon']) ?>"></span>
+              <span class="dash-nav-label"><?= App::e($item['label']) ?></span>
+            </a>
+          <?php endforeach; ?>
+        </nav>
+        <div class="dash-sidebar-foot pt-3 mt-auto">
+          <?php $authUser = Auth::user(); ?>
+          <p class="dash-user mb-0 fw-semibold"><?= App::e((string) ($authUser['name'] ?? $profile['full_name'] ?? 'You')) ?></p>
+          <p class="dash-user-meta small text-secondary mb-2"><?= App::e((string) ($authUser['email'] ?? $authUser['username'] ?? '')) ?></p>
+          <a class="dash-logout small" href="/logout.php">Log out</a>
+        </div>
       </div>
     </aside>
-    <div class="dash-main">
-      <header class="dash-topbar">
-        <button type="button" class="dash-menu-btn" data-sidebar-toggle aria-label="Toggle sidebar">
-          <span></span><span></span><span></span>
+    <div class="dash-main flex-grow-1 min-w-0">
+      <header class="dash-topbar d-flex align-items-center gap-2 px-3 py-2">
+        <button type="button" class="btn btn-outline-secondary d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#dashSidebar" aria-controls="dashSidebar" aria-label="Open menu">
+          <span class="dash-menu-bars" aria-hidden="true"></span>
         </button>
         <div class="dash-topbar-title">
-          <h1><?= App::e($title) ?></h1>
+          <h1 class="h4 mb-0"><?= App::e($title) ?></h1>
         </div>
-        <div class="dash-topbar-meta">
-          <?php if ($activeResume): ?>
-            <a class="top-pill" href="/editor.php#versions" title="Open resume">
-              Resume <span class="doc-id">#<?= (int) $activeResume['id'] ?></span>
+        <div class="dash-topbar-meta ms-auto d-flex flex-wrap align-items-center gap-2">
+          <?php if ($chrome === 'resume' && $activeResume): ?>
+            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/editor.php#versions" title="Open resume">
+              Resume #<?= (int) $activeResume['id'] ?>
             </a>
-          <?php endif; ?>
-          <?php if ($activeCover): ?>
-            <a class="top-pill" href="/editor.php#cover" title="Open cover letter">
-              Letter <span class="doc-id">#<?= (int) $activeCover['id'] ?></span>
+            <a class="btn btn-sm btn-outline-secondary" href="/design.php">Style</a>
+            <a class="btn btn-sm btn-primary" href="/pdf.php?doc=resume">PDF</a>
+          <?php elseif ($chrome === 'cover' && $activeCover): ?>
+            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover.php" title="Open cover letter">
+              Letter #<?= (int) $activeCover['id'] ?>
             </a>
+            <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Style</a>
+            <a class="btn btn-sm btn-primary" href="/pdf.php?doc=cover">PDF</a>
           <?php endif; ?>
-          <a class="btn btn-small" href="/design.php">Style</a>
-          <a class="btn btn-small btn-primary" href="/pdf.php?doc=resume">PDF</a>
         </div>
       </header>
       <div class="dash-content">
-        <?php if ($flash): ?>
-          <div class="flash flash-<?= App::e($flash['type']) ?>"><?= App::e($flash['message']) ?></div>
-        <?php endif; ?>
+        <?php layout_flash($flash); ?>
 <?php endif; ?>
 <?php
 }
@@ -162,7 +191,8 @@ function layout_footer(bool $withJs = true): void
     endif;
     if ($withJs):
         ?>
-  <script src="/assets/js/app.js?v=20260814c"></script>
+  <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/app.js?v=20260814e"></script>
         <?php
     endif;
     ?>

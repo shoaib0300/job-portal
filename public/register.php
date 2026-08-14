@@ -29,18 +29,29 @@ layout_header('Create account', [
     'body_class' => 'auth-page',
 ]);
 ?>
-<main class="auth-card panel">
-  <h1>Create account</h1>
-  <?php if ($error !== ''): ?>
-    <div class="flash flash-error"><?= App::e($error) ?></div>
-  <?php endif; ?>
-  <form method="post" class="form">
-    <label>Name <input type="text" name="name" required value="<?= App::e((string) ($_POST['name'] ?? '')) ?>"></label>
-    <label>Email <input type="email" name="email" required value="<?= App::e((string) ($_POST['email'] ?? '')) ?>"></label>
-    <label>Password <input type="password" name="password" required minlength="8"></label>
-    <button type="submit" class="btn btn-primary">Create account</button>
-  </form>
-  <p class="auth-switch">Already have an account? <a href="/login.php">Sign in</a></p>
+<main class="card shadow-sm">
+  <div class="card-body p-4">
+    <h1 class="h3 mb-3">Create account</h1>
+    <?php if ($error !== ''): ?>
+      <div class="alert alert-danger"><?= App::e($error) ?></div>
+    <?php endif; ?>
+    <form method="post">
+      <div class="mb-3">
+        <label class="form-label" for="name">Name</label>
+        <input class="form-control" type="text" id="name" name="name" required value="<?= App::e((string) ($_POST['name'] ?? '')) ?>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" type="email" id="email" name="email" required value="<?= App::e((string) ($_POST['email'] ?? '')) ?>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password" required minlength="8">
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Create account</button>
+    </form>
+    <p class="auth-switch mb-0">Already have an account? <a href="/login.php">Sign in</a></p>
+  </div>
 </main>
 <?php
 layout_footer();

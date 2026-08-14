@@ -30,18 +30,26 @@ layout_header('Sign in', [
     'body_class' => 'auth-page',
 ]);
 ?>
-<main class="auth-card panel">
-  <h1>Sign in</h1>
-  <?php if ($error !== ''): ?>
-    <div class="flash flash-error"><?= App::e($error) ?></div>
-  <?php endif; ?>
-  <form method="post" class="form">
-    <input type="hidden" name="next" value="<?= App::e($next) ?>">
-    <label>Username or email <input type="text" name="login" required autofocus value="<?= App::e((string) ($_POST['login'] ?? '')) ?>"></label>
-    <label>Password <input type="password" name="password" required></label>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </form>
-  <p class="auth-switch">No account? <a href="/register.php">Create one</a></p>
+<main class="card shadow-sm">
+  <div class="card-body p-4">
+    <h1 class="h3 mb-3">Sign in</h1>
+    <?php if ($error !== ''): ?>
+      <div class="alert alert-danger"><?= App::e($error) ?></div>
+    <?php endif; ?>
+    <form method="post">
+      <input type="hidden" name="next" value="<?= App::e($next) ?>">
+      <div class="mb-3">
+        <label class="form-label" for="login">Username or email</label>
+        <input class="form-control" type="text" id="login" name="login" required autofocus value="<?= App::e((string) ($_POST['login'] ?? '')) ?>">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Sign in</button>
+    </form>
+    <p class="auth-switch mb-0">No account? <a href="/register.php">Create one</a></p>
+  </div>
 </main>
 <?php
 layout_footer();

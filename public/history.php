@@ -40,41 +40,51 @@ layout_header('History');
     <p>Optional notes. <a href="/applications.php">Applications</a> is the source of truth.</p>
   </header>
 
-  <section class="editor-block">
-    <h2>Add note</h2>
-    <form method="post" class="form form-row">
-      <input type="hidden" name="action" value="add">
-      <label>Company <input type="text" name="company"></label>
-      <label>Role <input type="text" name="role"></label>
-      <label class="grow">Note <input type="text" name="note" placeholder="What changed?"></label>
-      <button type="submit" class="btn btn-primary">Add</button>
-    </form>
+  <section class="card shadow-sm mb-3">
+    <div class="card-body">
+      <h2 class="h5 mb-3">Add note</h2>
+      <form method="post" class="row g-2 align-items-end">
+        <input type="hidden" name="action" value="add">
+        <div class="col-md-3">
+          <label class="form-label">Company <input class="form-control" type="text" name="company"></label>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Role <input class="form-control" type="text" name="role"></label>
+        </div>
+        <div class="col-md">
+          <label class="form-label">Note <input class="form-control" type="text" name="note" placeholder="What changed?"></label>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
   </section>
 
   <?php if (!$history): ?>
-    <p class="empty-card empty">No notes yet. <a href="/tailor.php">Paste a job</a> to start.</p>
+    <div class="card shadow-sm"><div class="card-body text-secondary">No notes yet. <a href="/tailor.php">Paste a job</a> to start.</div></div>
   <?php else: ?>
-    <ul class="history-list panel" style="padding:0 1.25rem">
+    <div class="list-group shadow-sm">
       <?php foreach ($history as $row): ?>
-        <li>
+        <div class="list-group-item d-flex flex-wrap justify-content-between align-items-start gap-2">
           <div>
             <strong><?= App::e($row['company'] !== '' ? $row['company'] : 'Untitled') ?></strong>
             <?php if ($row['role'] !== ''): ?>
               <span> — <?= App::e($row['role']) ?></span>
             <?php endif; ?>
             <?php if ($row['note']): ?>
-              <p><?= App::e($row['note']) ?></p>
+              <p class="mb-1"><?= App::e($row['note']) ?></p>
             <?php endif; ?>
-            <time><?= App::e($row['created_at']) ?></time>
+            <time class="text-secondary small"><?= App::e($row['created_at']) ?></time>
           </div>
           <form method="post" onsubmit="return confirm('Delete this entry?');">
             <input type="hidden" name="action" value="delete">
             <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
-            <button type="submit" class="btn btn-small btn-danger">Delete</button>
+            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
           </form>
-        </li>
+        </div>
       <?php endforeach; ?>
-    </ul>
+    </div>
   <?php endif; ?>
 </main>
 <?php

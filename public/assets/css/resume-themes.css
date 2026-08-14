@@ -1405,6 +1405,15 @@ body.is-embed {
 }
 
 @media print {
+  .no-print,
+  .doc-toolbar,
+  .doc-chrome,
+  .alert,
+  .dash-sidebar,
+  .dash-topbar {
+    display: none !important;
+  }
+
   @page {
     size: A4 portrait;
     margin: 0;

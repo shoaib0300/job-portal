@@ -8,6 +8,11 @@ require_once dirname(__DIR__) . '/src/layout.php';
 $pdo = Db::pdo();
 Versions::ensureSchema();
 
+if (isset($_GET['cover']) || (isset($_GET['new']) && (string) $_GET['new'] === '1')) {
+    $coverQ = isset($_GET['cover']) ? ('?cover=' . (int) $_GET['cover']) : '';
+    App::redirect('/cover.php' . $coverQ);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
@@ -246,99 +251,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::redirect('/editor.php#sections');
     }
 
-    if ($action === 'save_cover') {
-        $id = (int) ($_POST['id'] ?? 0);
-        $isActive = isset($_POST['is_active']) ? 1 : 0;
-        $isBase = isset($_POST['is_base']) ? 1 : 0;
-        if ($isActive) {
-            $pdo->prepare('UPDATE cover_letters SET is_active = 0 WHERE user_id = ?')->execute([Auth::id()]);
-        }
-        if ($isBase) {
-            $pdo->prepare('UPDATE cover_letters SET is_base = 0 WHERE user_id = ?')->execute([Auth::id()]);
-        }
-        if ($id > 0) {
-            $stmt = $pdo->prepare(
-                'UPDATE cover_letters SET title = ?, body = ?, company = ?, is_active = ?, is_base = ? WHERE id = ? AND user_id = ?'
-            );
-            $stmt->execute([
-                trim((string) ($_POST['title'] ?? '')),
-                (string) ($_POST['body'] ?? ''),
-                trim((string) ($_POST['company'] ?? '')),
-                $isActive,
-                $isBase,
-                $id,
-                Auth::id(),
-            ]);
-        } else {
-            $stmt = $pdo->prepare(
-                'INSERT INTO cover_letters (user_id, title, body, company, is_active, is_base) VALUES (?, ?, ?, ?, ?, ?)'
-            );
-            $stmt->execute([
-                Auth::id(),
-                trim((string) ($_POST['title'] ?? 'Cover letter')) ?: 'Cover letter',
-                (string) ($_POST['body'] ?? ''),
-                trim((string) ($_POST['company'] ?? '')),
-                1,
-                $isBase,
-            ]);
-            if ($isBase) {
-                $pdo->prepare(
-                    'UPDATE cover_letters SET is_base = 0 WHERE user_id = ? AND id <> LAST_INSERT_ID()'
-                )->execute([Auth::id()]);
-            }
-        }
-        App::flash('Cover letter saved.');
-        App::redirect('/editor.php#cover');
-    }
-
-    if ($action === 'activate_cover') {
-        $id = (int) ($_POST['id'] ?? 0);
-        Versions::activateCover($id);
-        App::flash('Now editing this cover letter.');
-        App::redirect('/editor.php?cover=' . $id . '#cover');
-    }
-
-    if ($action === 'new_job_cover') {
-        $company = trim((string) ($_POST['company'] ?? ''));
-        $title = trim((string) ($_POST['title'] ?? ''));
-        $location = trim((string) ($_POST['location'] ?? ''));
-        if ($company === '') {
-            App::flash('Enter a company name first.', 'error');
-            App::redirect('/editor.php#cover');
-        }
-        $base = Versions::baseCoverLetter();
-        if ($base === null) {
-            App::flash('No Main cover letter to copy from.', 'error');
-            App::redirect('/editor.php#cover');
-        }
-        if ($title === '') {
-            $title = 'Cover letter — ' . $company;
-        }
-        $companyLine = $location !== '' ? ($company . ' · ' . $location) : $company;
-        $newId = Versions::duplicateCover((int) $base['id'], $title);
-        $pdo->prepare('UPDATE cover_letters SET company = ? WHERE id = ? AND user_id = ?')->execute([$companyLine, $newId, Auth::id()]);
-        App::flash('Created cover letter #' . $newId . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . '). Edit it below.');
-        App::redirect('/editor.php?cover=' . $newId . '#cover');
-    }
-
-    if ($action === 'mark_cover_base') {
-        $id = (int) ($_POST['id'] ?? 0);
-        Versions::markCoverBase($id);
-        App::flash('Marked as Main cover letter.');
-        App::redirect('/editor.php#cover');
-    }
-
-    if ($action === 'delete_cover') {
-        $id = (int) ($_POST['id'] ?? 0);
-        try {
-            Versions::deleteCover($id);
-            App::flash('Cover letter deleted.');
-        } catch (Throwable $e) {
-            App::flash($e->getMessage(), 'error');
-        }
-        App::redirect('/editor.php#cover');
-    }
-
     if ($action === 'save_resume_version') {
         $title = trim((string) ($_POST['title'] ?? ''));
         $company = trim((string) ($_POST['company'] ?? ''));
@@ -492,8 +404,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $profile = App::profile();
 $sections = App::sections(false);
 $experiences = App::experiences(false);
-$letter = App::activeCoverLetter();
-$coverLetters = App::coverLetters();
 $resumeVersions = Versions::resumeVersions();
 $baseResume = Versions::baseResumeVersion();
 $activeResume = Versions::activeResumeVersion();
@@ -504,23 +414,6 @@ if ($activeResume) {
         : (string) $activeResume['title'];
 } elseif ($baseResume) {
     $editingResumeName = 'Main resume';
-}
-$editCoverId = isset($_GET['cover']) ? (int) $_GET['cover'] : 0;
-$newCover = isset($_GET['new']) && (string) $_GET['new'] === '1';
-if ($newCover) {
-    $letter = [
-        'id' => 0,
-        'title' => 'Cover letter',
-        'body' => '',
-        'company' => '',
-        'is_active' => 1,
-        'is_base' => 0,
-    ];
-} elseif ($editCoverId > 0) {
-    $picked = Versions::coverLetterById($editCoverId);
-    if ($picked) {
-        $letter = $picked;
-    }
 }
 $theme = App::setting('theme', 'classic') ?: 'classic';
 $accent = App::setting('accent_color', '#1a5f4a') ?: '#1a5f4a';
@@ -537,23 +430,22 @@ layout_header('Resume');
 <main class="editor">
   <header class="page-head">
     <h1>Resume</h1>
-    <p>Edit the open resume and letter. <a href="/documents.php">All documents</a></p>
+    <p>Edit the open resume. Style it separately.</p>
     <div class="preview-links">
-      <a class="btn btn-small" href="/resume.php" target="_blank" rel="noopener">Preview</a>
-      <a class="btn btn-small" href="/cover-letter.php" target="_blank" rel="noopener">Letter</a>
-      <a class="btn btn-small btn-primary" href="/pdf.php?doc=resume">PDF</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/resume.php" target="_blank" rel="noopener">Preview</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/design.php">Style</a>
+      <a class="btn btn-sm btn-primary" href="/pdf.php?doc=resume">PDF</a>
     </div>
   </header>
 
   <div class="editor-grid">
-    <aside class="editor-nav">
-      <a href="#versions">My resumes</a>
-      <a href="/documents.php">All documents</a>
-      <a href="#design">Style</a>
-      <a href="#profile">Profile</a>
-      <a href="#experience">Experience</a>
-      <a href="#sections">Sections</a>
-      <a href="#cover">Cover letters</a>
+    <aside class="editor-nav nav flex-column">
+      <a class="nav-link px-0" href="#versions">My resumes</a>
+      <a class="nav-link px-0" href="/documents.php">All copies</a>
+      <a class="nav-link px-0" href="/design.php">Style</a>
+      <a class="nav-link px-0" href="#profile">Profile</a>
+      <a class="nav-link px-0" href="#experience">Experience</a>
+      <a class="nav-link px-0" href="#sections">Sections</a>
     </aside>
 
     <div class="editor-main">
@@ -616,18 +508,22 @@ layout_header('Resume');
                   </div>
                 </div>
                 <div class="version-list-actions doc-card-actions">
-                  <form method="post">
-                    <input type="hidden" name="action" value="load_resume_version">
-                    <input type="hidden" name="id" value="<?= $rid ?>">
-                    <button type="submit" class="btn btn-small btn-primary">Edit</button>
-                  </form>
-                  <a class="btn btn-small btn-secondary" href="/pdf.php?doc=resume&amp;version=<?= $rid ?>">Download</a>
-                  <a class="btn btn-small" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
+                  <?php if ($isOpen): ?>
+                    <span class="btn btn-sm btn-outline-primary disabled" aria-current="true">Selected</span>
+                  <?php else: ?>
+                    <form method="post">
+                      <input type="hidden" name="action" value="load_resume_version">
+                      <input type="hidden" name="id" value="<?= $rid ?>">
+                      <button type="submit" class="btn btn-sm btn-primary">Edit / Select</button>
+                    </form>
+                  <?php endif; ?>
+                  <a class="btn btn-sm btn-outline-secondary" href="/pdf.php?doc=resume&amp;version=<?= $rid ?>">Download</a>
+                  <a class="btn btn-sm btn-outline-secondary" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
                   <?php if (!$isMain): ?>
                     <form method="post" onsubmit="return confirm('Delete resume #<?= $rid ?>?');">
                       <input type="hidden" name="action" value="delete_resume_version">
                       <input type="hidden" name="id" value="<?= $rid ?>">
-                      <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                      <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                     </form>
                   <?php endif; ?>
                 </div>
@@ -639,8 +535,8 @@ layout_header('Resume');
 
       <section class="editor-block" id="design">
         <h2>Design &amp; PDF</h2>
-        <p class="empty" style="margin-top:0">Choose a visual style, preview live, then print or download PDF.</p>
-        <p><a class="btn btn-primary" href="/design.php">Open design studio</a></p>
+        <p class="empty" style="margin-top:0">Choose a visual style for the resume, then print or download PDF.</p>
+        <p><a class="btn btn-primary" href="/design.php">Open resume style</a></p>
         <form method="post" class="form" style="margin-top:1.25rem">
           <input type="hidden" name="action" value="save_design">
           <label>
@@ -754,9 +650,9 @@ layout_header('Resume');
                 <input type="url" name="link_url[]" placeholder="https://" value="<?= App::e($link['url'] ?? '') ?>">
               </div>
             <?php endforeach; ?>
-            <button type="button" class="btn btn-small" data-add-link>Add link</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-add-link>Add link</button>
           </fieldset>
-          <p class="empty" style="margin:0">Empty fields are hidden on the resume and cover letter.</p>
+          <p class="empty" style="margin:0">Empty fields are hidden on the resume.</p>
           <button type="submit" class="btn btn-primary">Save profile</button>
         </form>
       </section>
@@ -773,8 +669,8 @@ layout_header('Resume');
               <div class="section-sort-item experience-edit-item" data-sort-item draggable="true" id="experience-<?= $jid ?>">
                 <input type="hidden" name="experience_id[]" value="<?= $jid ?>">
                 <div class="section-sort-controls">
-                  <button type="button" class="btn btn-small sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
-                  <button type="button" class="btn btn-small sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
                   <span class="drag-hint" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
                 </div>
                 <div class="section-sort-body">
@@ -803,7 +699,7 @@ layout_header('Resume');
                     <textarea name="bullets[<?= $jid ?>]" rows="6" placeholder="• Achievement one&#10;• Achievement two"><?= App::e($job['bullets']) ?></textarea>
                   </label>
                   <div class="form-actions">
-                    <button type="submit" form="experience-delete-<?= $jid ?>" class="btn btn-small btn-danger" onclick="return confirm('Delete this experience entry?');">Delete</button>
+                    <button type="submit" form="experience-delete-<?= $jid ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this experience entry?');">Delete</button>
                   </div>
                 </div>
               </div>
@@ -853,8 +749,8 @@ layout_header('Resume');
               <div class="section-sort-item" data-sort-item draggable="true" id="section-<?= $sid ?>">
                 <input type="hidden" name="section_id[]" value="<?= $sid ?>">
                 <div class="section-sort-controls">
-                  <button type="button" class="btn btn-small sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
-                  <button type="button" class="btn btn-small sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
                   <span class="drag-hint" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
                 </div>
                 <div class="section-sort-body">
@@ -876,7 +772,7 @@ layout_header('Resume');
                     </label>
                   <?php endif; ?>
                   <div class="form-actions">
-                    <button type="submit" form="section-delete-<?= $sid ?>" class="btn btn-small btn-danger" onclick="return confirm('Delete this section?');">Delete</button>
+                    <button type="submit" form="section-delete-<?= $sid ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this section?');">Delete</button>
                   </div>
                 </div>
               </div>
@@ -902,91 +798,6 @@ layout_header('Resume');
           <label>Body <textarea name="body" rows="4"></textarea></label>
           <button type="submit" class="btn btn-primary">Add section</button>
         </form>
-      </section>
-
-      <section class="editor-block" id="cover">
-        <h2>Cover letters</h2>
-        <ol class="simple-steps">
-          <li><strong>Main</strong> = your normal letter.</li>
-          <li>For a job: <strong>Add cover letter</strong>, change it, then Download that one.</li>
-          <li>Each letter has a unique ID (shown below).</li>
-        </ol>
-
-        <form method="post" class="form new-job-form" id="add-cover">
-          <h3>Add cover letter</h3>
-          <p class="empty" style="margin:0 0 0.75rem">Always a copy of Main cover letter.</p>
-          <input type="hidden" name="action" value="new_job_cover">
-          <label>Company <input type="text" name="company" required placeholder="e.g. SAP"></label>
-          <label>Job location <input type="text" name="location" placeholder="e.g. München, Germany" required></label>
-          <label>Name <input type="text" name="title" placeholder="e.g. QA Engineer — SAP"></label>
-          <button type="submit" class="btn btn-primary">Add cover letter</button>
-        </form>
-
-        <?php if (!$coverLetters): ?>
-          <p class="empty">No cover letters yet. <a href="#add-cover">Add cover letter</a>.</p>
-        <?php else: ?>
-          <ul class="version-list doc-card-list">
-            <?php foreach ($coverLetters as $cl): ?>
-              <?php
-              $cid = (int) $cl['id'];
-              $isMain = (int) ($cl['is_base'] ?? 0) === 1;
-              $isOpen = (int) ($letter['id'] ?? 0) === $cid;
-              $label = $isMain ? 'Main cover letter' : (string) $cl['title'];
-              ?>
-              <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
-                <div class="doc-card-main">
-                  <span class="doc-id" title="Unique cover letter ID">#<?= $cid ?></span>
-                  <div class="doc-card-text">
-                    <strong>
-                      <?php if ($isMain): ?><span class="badge-main">Main</span> <?php endif; ?>
-                      <?php if ($isOpen): ?><span class="badge-active">Editing</span> <?php endif; ?>
-                      <?= App::e($label) ?>
-                    </strong>
-                    <?php if (!$isMain && $cl['company'] !== ''): ?>
-                      <span class="muted"><?= App::e((string) $cl['company']) ?></span>
-                    <?php endif; ?>
-                  </div>
-                </div>
-                <div class="version-list-actions doc-card-actions">
-                  <form method="post">
-                    <input type="hidden" name="action" value="activate_cover">
-                    <input type="hidden" name="id" value="<?= $cid ?>">
-                    <button type="submit" class="btn btn-small btn-primary">Edit</button>
-                  </form>
-                  <a class="btn btn-small btn-secondary" href="/pdf.php?doc=cover&amp;id=<?= $cid ?>">Download</a>
-                  <a class="btn btn-small" href="/cover-letter.php?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
-                  <?php if (!$isMain): ?>
-                    <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">
-                      <input type="hidden" name="action" value="delete_cover">
-                      <input type="hidden" name="id" value="<?= $cid ?>">
-                      <button type="submit" class="btn btn-small btn-danger">Delete</button>
-                    </form>
-                  <?php endif; ?>
-                </div>
-              </li>
-            <?php endforeach; ?>
-          </ul>
-        <?php endif; ?>
-
-        <?php if (!empty($letter['id'])): ?>
-        <form method="post" class="form" style="margin-top:1.25rem">
-          <h3>Edit letter <span class="doc-id">#<?= (int) $letter['id'] ?></span></h3>
-          <input type="hidden" name="action" value="save_cover">
-          <input type="hidden" name="id" value="<?= (int) $letter['id'] ?>">
-          <input type="hidden" name="is_active" value="1">
-          <?php if ((int) ($letter['is_base'] ?? 0) === 1): ?>
-            <input type="hidden" name="is_base" value="1">
-          <?php endif; ?>
-          <label>Name <input type="text" name="title" value="<?= App::e($letter['title'] ?? 'Cover letter') ?>"></label>
-          <label>Company <input type="text" name="company" value="<?= App::e($letter['company'] ?? '') ?>" placeholder="Optional"></label>
-          <label>Letter text
-            <textarea name="body" rows="16"><?= App::e($letter['body'] ?? '') ?></textarea>
-          </label>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save letter</button>
-          </div>
-        </form>
-        <?php endif; ?>
       </section>
     </div>
   </div>

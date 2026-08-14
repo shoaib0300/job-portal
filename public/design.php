@@ -37,13 +37,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $doc = ($_POST['doc'] ?? 'resume') === 'cover' ? 'cover' : 'resume';
+        $doc = basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-design.php' ? 'cover' : 'resume';
         App::flash('Style saved — ' . App::themeLabel($theme) . ' · ' . App::fontLabel($font) . '.');
-        App::redirect('/design.php?doc=' . $doc);
+        App::redirect($doc === 'cover' ? '/cover-design.php' : '/design.php');
     }
 }
 
-$doc = ($_GET['doc'] ?? 'resume') === 'cover' ? 'cover' : 'resume';
+$script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+$doc = $script === 'cover-design.php' ? 'cover' : 'resume';
+if ($script === 'design.php' && ($_GET['doc'] ?? '') === 'cover') {
+    $qs = (string) ($_SERVER['QUERY_STRING'] ?? '');
+    $qs = trim((string) preg_replace('/(?:^|&)doc=cover/', '', $qs), '&');
+    App::redirect('/cover-design.php' . ($qs !== '' ? '?' . $qs : ''));
+}
 $theme = App::resolveTheme($_GET['theme'] ?? null);
 $accent = App::resolveAccent($_GET['accent'] ?? null);
 $font = App::resolveFont($_GET['font'] ?? null);
@@ -58,7 +64,7 @@ $q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' .
 $exportOptions = $doc === 'cover' ? Versions::coverExportOptions() : Versions::resumeExportOptions();
 $exportJson = App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]');
 
-layout_header('Style', [
+layout_header($doc === 'cover' ? 'Cover style' : 'Resume style', [
     'pdf_mode' => false,
     'font' => $font,
     'accent' => $accent,
@@ -74,23 +80,15 @@ layout_header('Style', [
       data-spacing="<?= App::e($spacing) ?>"
       data-export-options="<?= $exportJson ?>">
   <header class="page-head">
-    <h1>Style</h1>
-    <p>Pick a look, then download the PDF.</p>
+    <h1><?= $doc === 'cover' ? 'Cover style' : 'Resume style' ?></h1>
+    <p><?= $doc === 'cover' ? 'Pick a look for this letter, then download the PDF.' : 'Pick a look for this resume, then download the PDF.' ?></p>
   </header>
 
   <div class="studio-layout">
     <aside class="studio-controls no-print">
       <div class="studio-block">
-        <h2>Document</h2>
-        <div class="doc-toggle" role="tablist">
-          <a class="chip<?= $doc === 'resume' ? ' is-active' : '' ?>" href="/design.php?doc=resume&amp;<?= App::e($q) ?>">Resume</a>
-          <a class="chip<?= $doc === 'cover' ? ' is-active' : '' ?>" href="/design.php?doc=cover&amp;<?= App::e($q) ?>">Cover letter</a>
-        </div>
-      </div>
-
-      <div class="studio-block">
         <h2>Styles</h2>
-        <div class="style-grid" role="listbox" aria-label="Resume styles">
+        <div class="style-grid" role="listbox" aria-label="<?= $doc === 'cover' ? 'Cover letter styles' : 'Resume styles' ?>">
           <?php foreach (App::themes() as $key => $meta): ?>
             <button type="button"
                     class="style-card<?= $theme === $key ? ' is-selected' : '' ?>"
@@ -175,26 +173,26 @@ layout_header('Style', [
         <input type="hidden" name="font_family" data-font-input value="<?= App::e($font) ?>">
         <input type="hidden" name="name_size" data-name-size-input value="<?= App::e($nameSize) ?>">
         <input type="hidden" name="section_spacing" data-spacing-input value="<?= App::e($spacing) ?>">
-        <label>
+        <label class="form-label">
           Active company tag
-          <input type="text" name="active_company" value="<?= App::e($activeCompany) ?>" placeholder="Optional">
+          <input class="form-control" type="text" name="active_company" value="<?= App::e($activeCompany) ?>" placeholder="Optional">
         </label>
-        <label class="check">
-          <input type="checkbox" name="pdf_mode" value="1"<?= $pdfMode ? ' checked' : '' ?>>
+        <label class="form-check mt-2">
+          <input class="form-check-input" type="checkbox" name="pdf_mode" value="1"<?= $pdfMode ? ' checked' : '' ?>>
           Optimize layout for PDF / print
         </label>
         <button type="submit" class="btn btn-primary">Apply style</button>
       </form>
 
-      <div class="studio-actions">
-        <button type="button" class="btn btn-secondary" data-studio-print
+      <div class="studio-actions d-flex flex-wrap gap-2">
+        <button type="button" class="btn btn-outline-secondary" data-studio-print
                 data-doc="<?= App::e($doc) ?>"
                 data-export-options="<?= $exportJson ?>">Print</button>
         <button type="button" class="btn btn-primary" data-studio-pdf
                 data-doc="<?= App::e($doc) ?>"
                 data-export-options="<?= $exportJson ?>">Download PDF</button>
       </div>
-      <p class="studio-hint">Download asks which resume/letter to send.</p>
+      <p class="studio-hint"><?= $doc === 'cover' ? 'Download asks which letter to send.' : 'Download asks which resume to send.' ?></p>
     </aside>
 
     <section class="studio-preview">

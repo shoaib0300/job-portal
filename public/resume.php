@@ -40,19 +40,19 @@ layout_header($profile['full_name'] . ' — Resume', [
 if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
-  <div class="doc-toolbar-inner">
-    <a href="/design.php?doc=resume">&larr; Style</a>
-    <div class="doc-actions">
+  <div class="doc-toolbar-inner d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <a class="btn btn-sm btn-link text-decoration-none" href="/design.php">&larr; Style</a>
+    <div class="doc-actions d-flex flex-wrap gap-2 align-items-center">
       <?php if ($version): ?>
-        <span class="version-pill"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= (int) $version['is_base'] === 1 ? 'Main resume' : App::e((string) $version['title']) ?></span>
+        <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= (int) $version['is_base'] === 1 ? 'Main resume' : App::e((string) $version['title']) ?></span>
       <?php else: ?>
-        <span class="version-pill">Resume</span>
+        <span class="badge rounded-pill text-bg-light border">Resume</span>
       <?php endif; ?>
-      <a class="btn btn-small" href="/editor.php#versions">My resumes</a>
-      <a class="btn btn-small" href="/design.php?doc=resume">Change style</a>
-      <button type="button" class="btn btn-small btn-primary" data-print data-doc="resume"
+      <a class="btn btn-sm btn-outline-secondary" href="/editor.php#versions">My resumes</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/design.php">Change style</a>
+      <button type="button" class="btn btn-sm btn-primary" data-print data-doc="resume"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
-      <button type="button" class="btn btn-small btn-secondary" data-download-pdf data-doc="resume"
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-download-pdf data-doc="resume"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Download PDF</button>
     </div>
   </div>

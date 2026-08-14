@@ -44,24 +44,38 @@ layout_header('New job');
     <p>Paste the job. We copy your Main resume and letter.</p>
   </header>
 
-  <form method="post" class="form panel">
-    <label>Company <input type="text" name="company" required placeholder="GlobalConnect"></label>
-    <label>Role <input type="text" name="role" required placeholder="Werkstudent Sales &amp; Marketing"></label>
-    <label>Location <input type="text" name="location" required placeholder="Hamburg, Germany"></label>
-    <label>Link <input type="url" name="link" placeholder="https://"></label>
-    <label>Status
-      <select name="status">
-        <option value="applied" selected>Applied</option>
-        <option value="custom">Custom</option>
-        <option value="interview">Interview</option>
-        <option value="offer">Offer</option>
-        <option value="rejected">Rejected</option>
-      </select>
-    </label>
-    <label>Job text
-      <textarea name="jd_snippet" rows="16" required placeholder="Paste the job description"></textarea>
-    </label>
-    <div class="form-actions">
+  <form method="post" class="card shadow-sm">
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label" for="company">Company</label>
+        <input class="form-control" type="text" id="company" name="company" required placeholder="GlobalConnect">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="role">Role</label>
+        <input class="form-control" type="text" id="role" name="role" required placeholder="Werkstudent Sales &amp; Marketing">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input class="form-control" type="text" id="location" name="location" required placeholder="Hamburg, Germany">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="link">Link</label>
+        <input class="form-control" type="url" id="link" name="link" placeholder="https://">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="status">Status</label>
+        <select class="form-select" id="status" name="status">
+          <option value="applied" selected>Applied</option>
+          <option value="custom">Custom</option>
+          <option value="interview">Interview</option>
+          <option value="offer">Offer</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="jd_snippet">Job text</label>
+        <textarea class="form-control" id="jd_snippet" name="jd_snippet" rows="16" required placeholder="Paste the job description"></textarea>
+      </div>
       <button type="submit" class="btn btn-primary">Save and open resume</button>
     </div>
   </form>
