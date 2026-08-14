@@ -113,51 +113,67 @@ if ($action === 'new' || $action === 'edit') {
         <div class="card-body">
           <input type="hidden" name="action" value="save">
           <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
-          <div class="mb-3">
-            <label class="form-label">Company <input class="form-control" type="text" name="company" required value="<?= App::e($row['company']) ?>"></label>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Role <input class="form-control" type="text" name="role" required value="<?= App::e($row['role']) ?>"></label>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Location <input class="form-control" type="text" name="location" value="<?= App::e((string) ($row['location'] ?? '')) ?>" placeholder="Hamburg, Germany"></label>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Status
-              <select class="form-select" name="status">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="company">Company</label>
+              <input class="form-control" type="text" id="company" name="company" required value="<?= App::e($row['company']) ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="role">Role</label>
+              <input class="form-control" type="text" id="role" name="role" required value="<?= App::e($row['role']) ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="location">Location</label>
+              <input class="form-control" type="text" id="location" name="location" value="<?= App::e((string) ($row['location'] ?? '')) ?>" placeholder="Hamburg, Germany">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="status">Status</label>
+              <select class="form-select" id="status" name="status">
                 <?php foreach ($statuses as $s): ?>
                   <option value="<?= App::e($s) ?>"<?= $row['status'] === $s ? ' selected' : '' ?>><?= App::e(App::statusLabel($s)) ?></option>
                 <?php endforeach; ?>
               </select>
-            </label>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="applied_date">Applied date</label>
+              <input class="form-control" type="date" id="applied_date" name="applied_date" value="<?= App::e((string) $row['applied_date']) ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="link">Link</label>
+              <input class="form-control" type="url" id="link" name="link" value="<?= App::e((string) $row['link']) ?>" placeholder="https://">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="resume_version_id">Resume ID</label>
+              <input class="form-control" type="number" id="resume_version_id" name="resume_version_id" min="0" value="<?= App::e((string) ($row['resume_version_id'] ?? '')) ?>" placeholder="From resume copies">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="cover_letter_id">Cover letter ID</label>
+              <input class="form-control" type="number" id="cover_letter_id" name="cover_letter_id" min="0" value="<?= App::e((string) ($row['cover_letter_id'] ?? '')) ?>" placeholder="From cover letters">
+            </div>
+            <?php if ((int) ($row['resume_version_id'] ?? 0) > 0): ?>
+              <div class="col-12">
+                <p class="text-secondary small mb-0">Linked resume <a href="/resume.php?version=<?= (int) $row['resume_version_id'] ?>">#<?= (int) $row['resume_version_id'] ?></a>
+                  · <a href="/pdf.php?doc=resume&amp;version=<?= (int) $row['resume_version_id'] ?>">PDF</a></p>
+              </div>
+            <?php endif; ?>
+            <?php if ((int) ($row['cover_letter_id'] ?? 0) > 0): ?>
+              <div class="col-12">
+                <p class="text-secondary small mb-0">Linked cover <a href="/cover-letter.php?id=<?= (int) $row['cover_letter_id'] ?>">#<?= (int) $row['cover_letter_id'] ?></a>
+                  · <a href="/pdf.php?doc=cover&amp;id=<?= (int) $row['cover_letter_id'] ?>">PDF</a></p>
+              </div>
+            <?php endif; ?>
+            <div class="col-12">
+              <label class="form-label" for="jd_snippet">Job text</label>
+              <textarea class="form-control" id="jd_snippet" name="jd_snippet" rows="10" placeholder="Paste the job description"><?= App::e((string) $row['jd_snippet']) ?></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="notes">Notes</label>
+              <textarea class="form-control" id="notes" name="notes" rows="3"><?= App::e((string) $row['notes']) ?></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Applied date <input class="form-control" type="date" name="applied_date" value="<?= App::e((string) $row['applied_date']) ?>"></label>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Link <input class="form-control" type="url" name="link" value="<?= App::e((string) $row['link']) ?>" placeholder="https://"></label>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Resume ID <input class="form-control" type="number" name="resume_version_id" min="0" value="<?= App::e((string) ($row['resume_version_id'] ?? '')) ?>" placeholder="From Documents"></label>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Cover letter ID <input class="form-control" type="number" name="cover_letter_id" min="0" value="<?= App::e((string) ($row['cover_letter_id'] ?? '')) ?>" placeholder="From Documents"></label>
-          </div>
-          <?php if ((int) ($row['resume_version_id'] ?? 0) > 0): ?>
-            <p class="text-secondary small">Linked resume <a href="/resume.php?version=<?= (int) $row['resume_version_id'] ?>">#<?= (int) $row['resume_version_id'] ?></a>
-              · <a href="/pdf.php?doc=resume&amp;version=<?= (int) $row['resume_version_id'] ?>">PDF</a></p>
-          <?php endif; ?>
-          <?php if ((int) ($row['cover_letter_id'] ?? 0) > 0): ?>
-            <p class="text-secondary small">Linked cover <a href="/cover-letter.php?id=<?= (int) $row['cover_letter_id'] ?>">#<?= (int) $row['cover_letter_id'] ?></a>
-              · <a href="/pdf.php?doc=cover&amp;id=<?= (int) $row['cover_letter_id'] ?>">PDF</a></p>
-          <?php endif; ?>
-          <div class="mb-3">
-            <label class="form-label">Job text <textarea class="form-control" name="jd_snippet" rows="10" placeholder="Paste the job description"><?= App::e((string) $row['jd_snippet']) ?></textarea></label>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Notes <textarea class="form-control" name="notes" rows="3"><?= App::e((string) $row['notes']) ?></textarea></label>
-          </div>
-          <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
       <?php if ((int) $row['id'] > 0): ?>

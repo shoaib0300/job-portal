@@ -46,7 +46,11 @@ layout_header('Resume copies');
                 <?php if ($isOpen): ?>
                   <span class="btn btn-sm btn-outline-primary disabled" aria-current="true">Selected</span>
                 <?php else: ?>
-                  <a class="btn btn-sm btn-primary" href="/editor.php#versions">Edit / Select</a>
+                  <form method="post" action="/editor.php">
+                    <input type="hidden" name="action" value="load_resume_version">
+                    <input type="hidden" name="id" value="<?= $rid ?>">
+                    <button type="submit" class="btn btn-sm btn-primary">Edit / Select</button>
+                  </form>
                 <?php endif; ?>
                 <a class="btn btn-sm btn-outline-secondary" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
                 <a class="btn btn-sm btn-outline-secondary" href="/pdf.php?doc=resume&amp;version=<?= $rid ?>">PDF</a>

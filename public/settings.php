@@ -72,37 +72,45 @@ layout_header('Account');
       <h2 class="h5 mb-3">Your account</h2>
       <form method="post">
         <input type="hidden" name="form" value="account">
-        <div class="mb-3">
-          <label class="form-label" for="name">Name</label>
-          <input class="form-control" type="text" id="name" name="name" required value="<?= App::e((string) $account['name']) ?>">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" required value="<?= App::e((string) $account['name']) ?>">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="username">Username</label>
+            <input class="form-control" type="text" id="username" name="username" required minlength="3" maxlength="80" pattern="[a-zA-Z0-9_]+" value="<?= App::e((string) $account['username']) ?>">
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" type="email" id="email" name="email" required value="<?= App::e((string) $account['email']) ?>">
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Save account</button>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="username">Username</label>
-          <input class="form-control" type="text" id="username" name="username" required minlength="3" maxlength="80" pattern="[a-zA-Z0-9_]+" value="<?= App::e((string) $account['username']) ?>">
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="email">Email</label>
-          <input class="form-control" type="email" id="email" name="email" required value="<?= App::e((string) $account['email']) ?>">
-        </div>
-        <button type="submit" class="btn btn-primary">Save account</button>
       </form>
 
       <form method="post" class="password-form">
         <input type="hidden" name="form" value="password">
         <h3 class="h6">Change password</h3>
-        <div class="mb-3">
-          <label class="form-label" for="current_password">Current password</label>
-          <input class="form-control" type="password" id="current_password" name="current_password" required autocomplete="current-password">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label" for="current_password">Current password</label>
+            <input class="form-control" type="password" id="current_password" name="current_password" required autocomplete="current-password">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="new_password">New password</label>
+            <input class="form-control" type="password" id="new_password" name="new_password" required minlength="8" autocomplete="new-password">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label" for="confirm_password">Confirm new password</label>
+            <input class="form-control" type="password" id="confirm_password" name="confirm_password" required minlength="8" autocomplete="new-password">
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-outline-secondary">Update password</button>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="new_password">New password</label>
-          <input class="form-control" type="password" id="new_password" name="new_password" required minlength="8" autocomplete="new-password">
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="confirm_password">Confirm new password</label>
-          <input class="form-control" type="password" id="confirm_password" name="confirm_password" required minlength="8" autocomplete="new-password">
-        </div>
-        <button type="submit" class="btn btn-outline-secondary">Update password</button>
       </form>
     </div>
   </section>

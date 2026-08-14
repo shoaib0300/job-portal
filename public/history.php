@@ -43,18 +43,21 @@ layout_header('History');
   <section class="card shadow-sm mb-3">
     <div class="card-body">
       <h2 class="h5 mb-3">Add note</h2>
-      <form method="post" class="row g-2 align-items-end">
+      <form method="post" class="row g-3 align-items-end">
         <input type="hidden" name="action" value="add">
-        <div class="col-md-3">
-          <label class="form-label">Company <input class="form-control" type="text" name="company"></label>
+        <div class="col-md-4">
+          <label class="form-label" for="hist-company">Company</label>
+          <input class="form-control" type="text" id="hist-company" name="company">
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Role <input class="form-control" type="text" name="role"></label>
+        <div class="col-md-4">
+          <label class="form-label" for="hist-role">Role</label>
+          <input class="form-control" type="text" id="hist-role" name="role">
         </div>
-        <div class="col-md">
-          <label class="form-label">Note <input class="form-control" type="text" name="note" placeholder="What changed?"></label>
+        <div class="col-md-4">
+          <label class="form-label" for="hist-note">Note</label>
+          <input class="form-control" type="text" id="hist-note" name="note" placeholder="What changed?">
         </div>
-        <div class="col-auto">
+        <div class="col-12">
           <button type="submit" class="btn btn-primary">Add</button>
         </div>
       </form>

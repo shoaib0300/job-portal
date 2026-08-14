@@ -242,6 +242,31 @@ body:not(.page-doc):not(.pdf-mode) {
 }
 
 /* Nested editor forms still look like Bootstrap without rewriting every label */
+.form-label:has(.form-control),
+.form-label:has(.form-select),
+.form-label:has(textarea) {
+  display: block;
+  width: 100%;
+}
+
+.form-label .form-control,
+.form-label .form-select,
+.form-label textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+}
+
+.dash-content .form-control,
+.dash-content .form-select,
+.auth-page .form-control {
+  min-height: 2.6rem;
+}
+
+.dash-content textarea.form-control {
+  min-height: 8rem;
+}
+
 .form {
   display: grid;
   gap: 0.85rem;

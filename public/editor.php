@@ -476,10 +476,23 @@ layout_header('Resume');
           <h3>Add resume</h3>
           <p class="empty" style="margin:0 0 0.75rem">Always a copy of Main. Give it a company name.</p>
           <input type="hidden" name="action" value="new_job_resume">
-          <label>Company <input type="text" name="company" required placeholder="e.g. SAP"></label>
-          <label>Job title <input type="text" name="role" placeholder="e.g. QA Engineer"></label>
-          <label>Job location <input type="text" name="location" placeholder="e.g. München, Germany" required></label>
-          <button type="submit" class="btn btn-primary">Add resume</button>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="add-company">Company</label>
+              <input class="form-control" type="text" id="add-company" name="company" required placeholder="e.g. SAP">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="add-role">Job title</label>
+              <input class="form-control" type="text" id="add-role" name="role" placeholder="e.g. QA Engineer">
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="add-location">Job location</label>
+              <input class="form-control" type="text" id="add-location" name="location" placeholder="e.g. München, Germany" required>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Add resume</button>
+            </div>
+          </div>
         </form>
 
         <?php if (!$resumeVersions): ?>
@@ -598,25 +611,52 @@ layout_header('Resume');
         <form method="post" class="form" enctype="multipart/form-data">
           <input type="hidden" name="action" value="save_profile">
           <input type="hidden" name="id" value="<?= (int) $profile['id'] ?>">
-          <label>Full name <input type="text" name="full_name" required value="<?= App::e($profile['full_name']) ?>"></label>
-          <label>Title <input type="text" name="title" value="<?= App::e($profile['title']) ?>"></label>
-          <label>Email <input type="email" name="email" value="<?= App::e($profile['email']) ?>"></label>
-          <label>Mobile <input type="text" name="phone" value="<?= App::e($profile['phone']) ?>" placeholder="+1 555 0100"></label>
-          <label>Location <input type="text" name="location" value="<?= App::e($profile['location']) ?>"></label>
-          <label>Gender
-            <select name="gender">
-              <?php
-              $gender = (string) ($profile['gender'] ?? '');
-              $genders = ['' => '— Prefer not to say / hide —', 'Male' => 'Male', 'Female' => 'Female', 'Non-binary' => 'Non-binary', 'Other' => 'Other'];
-              foreach ($genders as $val => $label):
-              ?>
-                <option value="<?= App::e($val) ?>"<?= $gender === $val ? ' selected' : '' ?>><?= App::e($label) ?></option>
-              <?php endforeach; ?>
-            </select>
-          </label>
-          <label>Date of birth <input type="date" name="date_of_birth" value="<?= App::e((string) ($profile['date_of_birth'] ?? '')) ?>"></label>
-          <label>Country <input type="text" name="country" value="<?= App::e((string) ($profile['country'] ?? '')) ?>"></label>
-          <label>Nationality <input type="text" name="nationality" value="<?= App::e((string) ($profile['nationality'] ?? '')) ?>"></label>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="full_name">Full name</label>
+              <input class="form-control" type="text" id="full_name" name="full_name" required value="<?= App::e($profile['full_name']) ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="title">Title</label>
+              <input class="form-control" type="text" id="title" name="title" value="<?= App::e($profile['title']) ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-control" type="email" id="email" name="email" value="<?= App::e($profile['email']) ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="phone">Mobile</label>
+              <input class="form-control" type="text" id="phone" name="phone" value="<?= App::e($profile['phone']) ?>" placeholder="+1 555 0100">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="location">Location</label>
+              <input class="form-control" type="text" id="location" name="location" value="<?= App::e($profile['location']) ?>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="gender">Gender</label>
+              <select class="form-select" id="gender" name="gender">
+                <?php
+                $gender = (string) ($profile['gender'] ?? '');
+                $genders = ['' => '— Prefer not to say / hide —', 'Male' => 'Male', 'Female' => 'Female', 'Non-binary' => 'Non-binary', 'Other' => 'Other'];
+                foreach ($genders as $val => $label):
+                ?>
+                  <option value="<?= App::e($val) ?>"<?= $gender === $val ? ' selected' : '' ?>><?= App::e($label) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="date_of_birth">Date of birth</label>
+              <input class="form-control" type="date" id="date_of_birth" name="date_of_birth" value="<?= App::e((string) ($profile['date_of_birth'] ?? '')) ?>">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="country">Country</label>
+              <input class="form-control" type="text" id="country" name="country" value="<?= App::e((string) ($profile['country'] ?? '')) ?>">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="nationality">Nationality</label>
+              <input class="form-control" type="text" id="nationality" name="nationality" value="<?= App::e((string) ($profile['nationality'] ?? '')) ?>">
+            </div>
+          </div>
 
           <fieldset class="photo-fieldset">
             <legend>Profile picture</legend>
@@ -720,17 +760,35 @@ layout_header('Resume');
         <form method="post" class="form add-section">
           <h3>Add company / role</h3>
           <input type="hidden" name="action" value="add_experience">
-          <div class="experience-fields">
-            <label>Company <input type="text" name="company" required placeholder="Company name"></label>
-            <label>Position <input type="text" name="position" required placeholder="Job title"></label>
-            <label>Location <input type="text" name="location" placeholder="City, Country"></label>
-            <label>Start date <input type="text" name="start_date" placeholder="Oct 2025"></label>
-            <label>End date <input type="text" name="end_date" placeholder="Present"></label>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Company</label>
+              <input class="form-control" type="text" name="company" required placeholder="Company name">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Position</label>
+              <input class="form-control" type="text" name="position" required placeholder="Job title">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Location</label>
+              <input class="form-control" type="text" name="location" placeholder="City, Country">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Start date</label>
+              <input class="form-control" type="text" name="start_date" placeholder="Oct 2025">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">End date</label>
+              <input class="form-control" type="text" name="end_date" placeholder="Present">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Bullets / details</label>
+              <textarea class="form-control" name="bullets" rows="5" placeholder="• First achievement&#10;• Second achievement"></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">Add experience</button>
+            </div>
           </div>
-          <label>Bullets / details
-            <textarea name="bullets" rows="5" placeholder="• First achievement&#10;• Second achievement"></textarea>
-          </label>
-          <button type="submit" class="btn btn-primary">Add experience</button>
         </form>
       </section>
 

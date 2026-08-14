@@ -142,10 +142,23 @@ layout_header('Cover letter');
       <h3>Add cover letter</h3>
       <p class="empty" style="margin:0 0 0.75rem">Always a copy of Main cover letter.</p>
       <input type="hidden" name="action" value="new_job_cover">
-      <label>Company <input type="text" name="company" required placeholder="e.g. SAP"></label>
-      <label>Job location <input type="text" name="location" placeholder="e.g. München, Germany" required></label>
-      <label>Name <input type="text" name="title" placeholder="e.g. QA Engineer — SAP"></label>
-      <button type="submit" class="btn btn-primary">Add cover letter</button>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="add-company">Company</label>
+          <input class="form-control" type="text" id="add-company" name="company" required placeholder="e.g. SAP">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="add-location">Job location</label>
+          <input class="form-control" type="text" id="add-location" name="location" placeholder="e.g. München, Germany" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="add-title">Name</label>
+          <input class="form-control" type="text" id="add-title" name="title" placeholder="e.g. QA Engineer — SAP">
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Add cover letter</button>
+        </div>
+      </div>
     </form>
 
     <?php if (!$coverLetters): ?>
@@ -207,13 +220,22 @@ layout_header('Cover letter');
       <?php if ((int) ($letter['is_base'] ?? 0) === 1): ?>
         <input type="hidden" name="is_base" value="1">
       <?php endif; ?>
-      <label>Name <input type="text" name="title" value="<?= App::e($letter['title'] ?? 'Cover letter') ?>"></label>
-      <label>Company <input type="text" name="company" value="<?= App::e($letter['company'] ?? '') ?>" placeholder="Optional"></label>
-      <label>Letter text
-        <textarea name="body" rows="16"><?= App::e($letter['body'] ?? '') ?></textarea>
-      </label>
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Save letter</button>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="letter-title">Name</label>
+          <input class="form-control" type="text" id="letter-title" name="title" value="<?= App::e($letter['title'] ?? 'Cover letter') ?>">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="letter-company">Company</label>
+          <input class="form-control" type="text" id="letter-company" name="company" value="<?= App::e($letter['company'] ?? '') ?>" placeholder="Optional">
+        </div>
+        <div class="col-12">
+          <label class="form-label" for="letter-body">Letter text</label>
+          <textarea class="form-control" id="letter-body" name="body" rows="16"><?= App::e($letter['body'] ?? '') ?></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Save letter</button>
+        </div>
       </div>
     </form>
     <?php endif; ?>
