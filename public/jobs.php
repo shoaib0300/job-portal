@@ -27,7 +27,7 @@ layout_header('Jobs');
 <main class="jobs-page">
   <header class="page-head">
     <h1>Jobs</h1>
-    <p>Search German boards in one place. Apply copies your Main resume and letter.</p>
+    <p>Search German boards in one place. Prepare your resume here, then apply on the employer site.</p>
   </header>
 
   <form method="get" class="jobs-layout">
@@ -188,8 +188,11 @@ layout_header('Jobs');
                       <?php endif; ?>
                     </div>
                     <div class="d-flex flex-column gap-2 align-items-stretch">
-                      <a class="btn btn-sm btn-primary" href="<?= App::e($detail) ?>">Open</a>
-                      <?php if ($job->url !== ''): ?>
+                      <?php if ($job->applyHref() !== ''): ?>
+                        <a class="btn btn-sm btn-primary" href="<?= App::e($job->applyHref()) ?>" target="_blank" rel="noopener">Apply now</a>
+                      <?php endif; ?>
+                      <a class="btn btn-sm <?= $job->applyHref() !== '' ? 'btn-outline-primary' : 'btn-primary' ?>" href="<?= App::e($detail) ?>">Open</a>
+                      <?php if ($job->listingUrlDiffers()): ?>
                         <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->url) ?>" target="_blank" rel="noopener">Original</a>
                       <?php endif; ?>
                     </div>

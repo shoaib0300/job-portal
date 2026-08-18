@@ -387,7 +387,7 @@ final class App
         $pdo = Db::pdo();
         $uid = self::userId();
         $existing = $pdo->prepare(
-            'SELECT id FROM applications WHERE user_id = ? AND company = ? AND role = ? ORDER BY id DESC LIMIT 1'
+            'SELECT id, resume_version_id, cover_letter_id, link FROM applications WHERE user_id = ? AND company = ? AND role = ? ORDER BY id DESC LIMIT 1'
         );
         $existing->execute([$uid, $company, $role]);
         $row = $existing->fetch();
@@ -398,6 +398,15 @@ final class App
 
         if ($row) {
             $id = (int) $row['id'];
+            if ($resumeVersionId === null && (int) ($row['resume_version_id'] ?? 0) > 0) {
+                $resumeVersionId = (int) $row['resume_version_id'];
+            }
+            if ($coverLetterId === null && (int) ($row['cover_letter_id'] ?? 0) > 0) {
+                $coverLetterId = (int) $row['cover_letter_id'];
+            }
+            if ($link === '' && trim((string) ($row['link'] ?? '')) !== '') {
+                $link = (string) $row['link'];
+            }
             $pdo->prepare(
                 'UPDATE applications
                  SET status = ?, applied_date = ?, notes = ?, jd_snippet = ?, link = ?,

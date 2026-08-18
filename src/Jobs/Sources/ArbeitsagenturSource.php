@@ -117,13 +117,8 @@ final class ArbeitsagenturSource
         }
         $ort = $this->placeFromRow($row);
         $hash = (string) ($row['hashId'] ?? '');
-        $url = trim((string) ($row['externeUrl'] ?? $row['allianzpartnerUrl'] ?? ''));
-        if ($url === '' && $hash !== '') {
-            $url = 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($hash);
-        }
-        if ($url === '') {
-            $url = 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($ref);
-        }
+        $applyUrl = trim((string) ($row['externeUrl'] ?? ''));
+        $url = $this->listingPageUrl($row, $ref, $hash);
         $posted = $this->postedFromRow($row);
         $title = (string) ($row['stellenangebotsTitel'] ?? $row['beruf'] ?? $row['titel'] ?? 'Stelle');
         $company = (string) ($row['firma'] ?? $row['arbeitgeber'] ?? '');
@@ -153,6 +148,8 @@ final class ArbeitsagenturSource
             $posted,
             $url,
             '',
+            '',
+            $applyUrl,
         );
     }
 
@@ -169,13 +166,8 @@ final class ArbeitsagenturSource
         $zeitHint = is_array($zeit) && isset($zeit[0]) ? (string) $zeit[0] : '';
         $offerHint = (string) ($data['angebotsart'] ?? $data['stellenangebotsart'] ?? '');
         $hash = (string) ($data['hashId'] ?? '');
-        $url = (string) ($data['allianzpartnerUrl'] ?? $data['externeUrl'] ?? '');
-        if ($url === '' && $hash !== '') {
-            $url = 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($hash);
-        }
-        if ($url === '' && $ref !== '') {
-            $url = 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($ref);
-        }
+        $applyUrl = trim((string) ($data['externeUrl'] ?? ($fallback?->applyUrl ?? '')));
+        $url = $this->listingPageUrl($data, $ref, $hash);
         if ($url === '' && $fallback !== null) {
             $url = $fallback->url;
         }
@@ -209,6 +201,8 @@ final class ArbeitsagenturSource
             $posted,
             $url,
             $desc,
+            '',
+            $applyUrl,
         );
     }
 
@@ -234,6 +228,26 @@ final class ArbeitsagenturSource
             $ort['land'] = (string) ($addr['land'] ?? '');
         }
         return $ort;
+    }
+
+    /**
+     * Listing page (Arbeitsagentur / partner), not the employer apply URL.
+     *
+     * @param array<string, mixed> $row
+     */
+    private function listingPageUrl(array $row, string $ref, string $hash): string
+    {
+        $partner = trim((string) ($row['allianzpartnerUrl'] ?? ''));
+        if ($partner !== '') {
+            return $partner;
+        }
+        if ($hash !== '') {
+            return 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($hash);
+        }
+        if ($ref !== '') {
+            return 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($ref);
+        }
+        return '';
     }
 
     /** @param array<string, mixed> $row */

@@ -26,10 +26,23 @@ final class JobListing
         public string $url = '',
         public string $description = '',
         public string $fingerprint = '',
+        public string $applyUrl = '',
     ) {
         if ($this->fingerprint === '') {
             $this->fingerprint = self::makeFingerprint($this->company, $this->title, $this->city);
         }
+    }
+
+    public function applyHref(): string
+    {
+        $href = trim($this->applyUrl) !== '' ? $this->applyUrl : $this->url;
+        return trim($href);
+    }
+
+    public function listingUrlDiffers(): bool
+    {
+        $apply = $this->applyHref();
+        return $this->url !== '' && $apply !== '' && $this->url !== $apply;
     }
 
     public static function makeFingerprint(string $company, string $title, string $city): string
@@ -75,6 +88,7 @@ final class JobListing
             'salary_text' => $this->salaryText,
             'posted_at' => $this->postedAt,
             'url' => $this->url,
+            'apply_url' => $this->applyUrl,
             'description' => $this->description,
             'fingerprint' => $this->fingerprint,
         ];
@@ -105,6 +119,7 @@ final class JobListing
             (string) ($row['url'] ?? ''),
             (string) ($row['description'] ?? ''),
             (string) ($row['fingerprint'] ?? ''),
+            (string) ($row['apply_url'] ?? ''),
         );
     }
 }
