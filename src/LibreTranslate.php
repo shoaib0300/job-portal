@@ -62,8 +62,10 @@ final class LibreTranslate
     /**
      * Translate text to target language. Empty input returns empty.
      * Throws RuntimeException on hard API failure when translation is required.
+     *
+     * $prefer: auto (DeepL if configured), deepl, or lt (local only, no DeepL quota).
      */
-    public static function translate(string $text, string $target, string $source = 'auto'): string
+    public static function translate(string $text, string $target, string $source = 'auto', string $prefer = 'auto'): string
     {
         $text = trim($text);
         if ($text === '') {
@@ -75,24 +77,30 @@ final class LibreTranslate
         if ($source === $target) {
             return $text;
         }
-        if ($source === 'auto' && self::looksLikeTarget($text, $target)) {
+        if (self::looksLikeTarget($text, $target)) {
             return $text;
         }
+        $glossed = self::glossary($text, $target);
+        if ($glossed !== null) {
+            return $glossed;
+        }
 
-        $preferred = DeepL::configured() ? 'deepl' : 'lt';
-        $key = hash('sha256', $preferred . '|' . $source . '|' . $target . '|' . $text);
+        $prefer = $prefer === 'deepl' || $prefer === 'lt' ? $prefer : 'auto';
+        $useDeepL = DeepL::configured() && $prefer !== 'lt';
+        $cacheEngine = $useDeepL ? 'deepl' : 'lt';
+        $key = hash('sha256', $cacheEngine . '|' . $source . '|' . $target . '|' . $text);
         self::ensureSchema();
         $chars = mb_strlen($text);
         $cached = self::cacheGet($key);
         if ($cached !== null) {
-            self::logUsage($preferred, 0, $chars);
+            self::logUsage($cacheEngine, 0, $chars);
             return $cached;
         }
 
         $translated = '';
         $engine = 'lt';
         $billed = 0;
-        if (DeepL::configured()) {
+        if ($useDeepL) {
             try {
                 $translated = self::viaDeepL($text, $target, $source);
                 $engine = 'deepl';
@@ -121,6 +129,41 @@ final class LibreTranslate
             $result[] = self::translate((string) $t, $target, $source);
         }
         return $result;
+    }
+
+    /** Fixed EN→DE phrases so headings and cities never hit DeepL. */
+    private static function glossary(string $text, string $target): ?string
+    {
+        if ($target !== 'de') {
+            return null;
+        }
+        $norm = strtolower(preg_replace('/\s+/', ' ', trim($text)) ?? $text);
+        $map = [
+            'experience' => 'Berufserfahrung',
+            'work experience' => 'Berufserfahrung',
+            'professional experience' => 'Berufserfahrung',
+            'education' => 'Ausbildung',
+            'skills' => 'Kenntnisse',
+            'summary' => 'Profil',
+            'professional summary' => 'Profil',
+            'profile' => 'Profil',
+            'certificates' => 'Zertifikate',
+            'certifications' => 'Zertifikate',
+            'languages' => 'Sprachen',
+            'projects' => 'Projekte',
+            'working student' => 'Werkstudent',
+            'intern' => 'Praktikant',
+            'quality assurance' => 'Qualitätssicherung',
+            'software tester' => 'Softwaretester',
+            'test automation' => 'Testautomatisierung',
+            'munich, germany' => 'München, Deutschland',
+            'münchen, germany' => 'München, Deutschland',
+            'berlin, germany' => 'Berlin, Deutschland',
+            'hamburg, germany' => 'Hamburg, Deutschland',
+            'rostock, germany' => 'Rostock, Deutschland',
+            'germany' => 'Deutschland',
+        ];
+        return $map[$norm] ?? null;
     }
 
     private static function looksLikeTarget(string $text, string $target): bool
@@ -272,10 +315,32 @@ final class LibreTranslate
         }
     }
 
+    /** Internal rate: 1,000 billed characters = €0.05 (5 cents). */
+    public const EURO_PER_1000_CHARS = 0.05;
+
+    public static function euroCost(int $billedChars): float
+    {
+        return round(($billedChars / 1000) * self::EURO_PER_1000_CHARS, 2);
+    }
+
+    public static function formatEuro(int $billedChars): string
+    {
+        return '€' . number_format(self::euroCost($billedChars), 2, '.', '');
+    }
+
     /**
-     * DeepL-billed characters this calendar month, by user.
+     * Billed characters and euro cost by user for this month, last month, and this year.
      *
-     * @return list<array{user_id: int, name: string, username: string, billed_chars: int, cached_chars: int, requests: int}>
+     * @return list<array{
+     *   user_id: int,
+     *   name: string,
+     *   username: string,
+     *   billed_chars: int,
+     *   cached_chars: int,
+     *   requests: int,
+     *   billed_last_month: int,
+     *   billed_year: int
+     * }>
      */
     public static function usageByUserThisMonth(): array
     {
@@ -283,14 +348,22 @@ final class LibreTranslate
         $sql = 'SELECT u.user_id,
                        COALESCE(usr.name, \'\') AS name,
                        COALESCE(usr.username, \'\') AS username,
-                       SUM(CASE WHEN u.billed = 1 THEN u.chars_in ELSE 0 END) AS billed_chars,
-                       SUM(CASE WHEN u.billed = 0 THEN u.chars_in ELSE 0 END) AS cached_chars,
-                       COUNT(*) AS requests
+                       SUM(CASE WHEN u.billed = 1 AND u.created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\') THEN u.chars_in ELSE 0 END) AS billed_chars,
+                       SUM(CASE WHEN u.billed = 0 AND u.created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\') THEN u.chars_in ELSE 0 END) AS cached_chars,
+                       SUM(CASE WHEN u.created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\') THEN 1 ELSE 0 END) AS requests,
+                       SUM(CASE WHEN u.billed = 1
+                                 AND u.created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+                                 AND u.created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
+                                THEN u.chars_in ELSE 0 END) AS billed_last_month,
+                       SUM(CASE WHEN u.billed = 1 AND u.created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN u.chars_in ELSE 0 END) AS billed_year
                 FROM translation_usage u
                 LEFT JOIN users usr ON usr.id = u.user_id
-                WHERE u.created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\')
+                WHERE u.created_at >= LEAST(
+                    DATE_FORMAT(NOW(), \'%Y-01-01\'),
+                    DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+                )
                 GROUP BY u.user_id, usr.name, usr.username
-                ORDER BY billed_chars DESC, requests DESC';
+                ORDER BY billed_chars DESC, billed_year DESC, requests DESC';
         $rows = Db::pdo()->query($sql)->fetchAll();
         $out = [];
         foreach ($rows as $row) {
@@ -301,21 +374,34 @@ final class LibreTranslate
                 'billed_chars' => (int) $row['billed_chars'],
                 'cached_chars' => (int) $row['cached_chars'],
                 'requests' => (int) $row['requests'],
+                'billed_last_month' => (int) $row['billed_last_month'],
+                'billed_year' => (int) $row['billed_year'],
             ];
         }
         return $out;
     }
 
-    /** @return array{billed_chars: int, cached_chars: int, requests: int} */
+    /**
+     * @return array{billed_chars: int, cached_chars: int, requests: int, billed_last_month: int, billed_year: int}
+     */
     public static function usageForUserThisMonth(int $userId): array
     {
         self::ensureSchema();
         $stmt = Db::pdo()->prepare(
-            'SELECT SUM(CASE WHEN billed = 1 THEN chars_in ELSE 0 END) AS billed_chars,
-                    SUM(CASE WHEN billed = 0 THEN chars_in ELSE 0 END) AS cached_chars,
-                    COUNT(*) AS requests
+            'SELECT SUM(CASE WHEN billed = 1 AND created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\') THEN chars_in ELSE 0 END) AS billed_chars,
+                    SUM(CASE WHEN billed = 0 AND created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\') THEN chars_in ELSE 0 END) AS cached_chars,
+                    SUM(CASE WHEN created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\') THEN 1 ELSE 0 END) AS requests,
+                    SUM(CASE WHEN billed = 1
+                              AND created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+                              AND created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
+                             THEN chars_in ELSE 0 END) AS billed_last_month,
+                    SUM(CASE WHEN billed = 1 AND created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN chars_in ELSE 0 END) AS billed_year
              FROM translation_usage
-             WHERE user_id = ? AND created_at >= DATE_FORMAT(NOW(), \'%Y-%m-01\')'
+             WHERE user_id = ?
+               AND created_at >= LEAST(
+                   DATE_FORMAT(NOW(), \'%Y-01-01\'),
+                   DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+               )'
         );
         $stmt->execute([$userId]);
         $row = $stmt->fetch() ?: [];
@@ -323,6 +409,8 @@ final class LibreTranslate
             'billed_chars' => (int) ($row['billed_chars'] ?? 0),
             'cached_chars' => (int) ($row['cached_chars'] ?? 0),
             'requests' => (int) ($row['requests'] ?? 0),
+            'billed_last_month' => (int) ($row['billed_last_month'] ?? 0),
+            'billed_year' => (int) ($row['billed_year'] ?? 0),
         ];
     }
 

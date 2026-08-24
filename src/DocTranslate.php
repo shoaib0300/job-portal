@@ -17,12 +17,13 @@ final class DocTranslate
         }
 
         $source = 'en';
+        $engine = 'lt';
         $profile = $payload['profile'];
         if (!empty($profile['title'])) {
-            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $lang, $source);
+            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $lang, $source, $engine);
         }
         if (!empty($profile['location'])) {
-            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $lang, $source);
+            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $lang, $source, $engine);
         }
 
         $sections = [];
@@ -31,10 +32,10 @@ final class DocTranslate
                 continue;
             }
             if (!empty($section['title'])) {
-                $section['title'] = LibreTranslate::translate((string) $section['title'], $lang, $source);
+                $section['title'] = LibreTranslate::translate((string) $section['title'], $lang, $source, $engine);
             }
             if (!empty($section['body'])) {
-                $section['body'] = LibreTranslate::translate((string) $section['body'], $lang, $source);
+                $section['body'] = LibreTranslate::translate((string) $section['body'], $lang, $source, $engine);
             }
             $sections[] = $section;
         }
@@ -45,13 +46,13 @@ final class DocTranslate
                 continue;
             }
             if (!empty($job['position'])) {
-                $job['position'] = LibreTranslate::translate((string) $job['position'], $lang, $source);
+                $job['position'] = LibreTranslate::translate((string) $job['position'], $lang, $source, $engine);
             }
             if (!empty($job['location'])) {
-                $job['location'] = LibreTranslate::translate((string) $job['location'], $lang, $source);
+                $job['location'] = LibreTranslate::translate((string) $job['location'], $lang, $source, $engine);
             }
             if (!empty($job['bullets'])) {
-                $job['bullets'] = LibreTranslate::translate((string) $job['bullets'], $lang, $source);
+                $job['bullets'] = LibreTranslate::translate((string) $job['bullets'], $lang, $source, $engine);
             }
             $experiences[] = $job;
         }
@@ -76,17 +77,14 @@ final class DocTranslate
 
         $source = 'en';
         if (!empty($profile['title'])) {
-            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $lang, $source);
+            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $lang, $source, 'lt');
         }
         if (!empty($profile['location'])) {
-            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $lang, $source);
+            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $lang, $source, 'lt');
         }
         if ($letter !== null) {
-            if (!empty($letter['company'])) {
-                $letter['company'] = LibreTranslate::translate((string) $letter['company'], $lang, $source);
-            }
             if (!empty($letter['body'])) {
-                $letter['body'] = LibreTranslate::translate((string) $letter['body'], $lang, $source);
+                $letter['body'] = LibreTranslate::translate((string) $letter['body'], $lang, $source, 'deepl');
             }
         }
         return ['letter' => $letter, 'profile' => $profile];
