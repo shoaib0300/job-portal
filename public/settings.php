@@ -65,6 +65,10 @@ $ui = App::resolveUiMode();
 $accent = App::resolveAccent(null);
 $account = Auth::user() ?? ['username' => '', 'email' => '', 'name' => ''];
 $atsBoards = (string) (App::setting('job_ats_boards', '') ?: '');
+$myTranslation = LibreTranslate::usageForUserThisMonth(Auth::id());
+$showAllTranslation = Auth::isOwner();
+$allTranslation = $showAllTranslation ? LibreTranslate::usageByUserThisMonth() : [];
+$deeplAccount = DeepL::configured() ? DeepL::accountUsage() : null;
 
 layout_header('Account');
 ?>
@@ -119,6 +123,56 @@ layout_header('Account');
           </div>
         </div>
       </form>
+    </div>
+  </section>
+
+  <section class="card shadow-sm mb-3">
+    <div class="card-body">
+      <h2 class="h5 mb-2">German PDF translations</h2>
+      <p class="small text-secondary mb-3">DeepL counts characters on first translate. Repeats of the same text are served from cache and do not use quota.</p>
+      <?php if ($deeplAccount): ?>
+        <p class="mb-3">DeepL key this period: <strong><?= App::e(number_format($deeplAccount['character_count'])) ?></strong>
+          / <?= App::e(number_format($deeplAccount['character_limit'])) ?> characters.</p>
+      <?php endif; ?>
+      <p class="mb-0">Your usage this month: <strong><?= App::e(number_format($myTranslation['billed_chars'])) ?></strong> billed characters,
+        <?= App::e(number_format($myTranslation['cached_chars'])) ?> from cache,
+        <?= App::e(number_format($myTranslation['requests'])) ?> requests.</p>
+      <?php if ($showAllTranslation): ?>
+        <div class="table-responsive mt-3">
+          <table class="table table-sm mb-0">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th class="text-end">Billed chars</th>
+                <th class="text-end">Cached chars</th>
+                <th class="text-end">Requests</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if ($allTranslation === []): ?>
+                <tr><td colspan="4" class="text-secondary">No PDF DE translations this month yet.</td></tr>
+              <?php else: ?>
+              <?php foreach ($allTranslation as $row): ?>
+                <?php
+                $label = trim($row['name'] !== '' ? $row['name'] : $row['username']);
+                if ($label === '') {
+                    $label = $row['user_id'] > 0 ? 'User #' . $row['user_id'] : 'CLI / unknown';
+                } elseif ($row['username'] !== '' && $row['name'] !== '') {
+                    $label .= ' (@' . $row['username'] . ')';
+                }
+                ?>
+                <tr>
+                  <td><?= App::e($label) ?></td>
+                  <td class="text-end"><?= App::e(number_format($row['billed_chars'])) ?></td>
+                  <td class="text-end"><?= App::e(number_format($row['cached_chars'])) ?></td>
+                  <td class="text-end"><?= App::e(number_format($row['requests'])) ?></td>
+                </tr>
+              <?php endforeach; ?>
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php endif; ?>
     </div>
   </section>
 

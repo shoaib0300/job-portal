@@ -226,7 +226,8 @@ layout_header('Resume');
                   <button type="submit" class="btn btn-sm btn-primary">Edit / Select</button>
                 </form>
               <?php endif; ?>
-              <a class="btn btn-sm btn-outline-secondary" href="/pdf.php?doc=resume&amp;version=<?= $rid ?>">Download</a>
+              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => $rid])) ?>">PDF EN</a>
+              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => $rid])) ?>">PDF DE</a>
               <a class="btn btn-sm btn-outline-secondary" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
               <?php if (!$isMain): ?>
                 <form method="post" onsubmit="return confirm('Delete resume #<?= $rid ?>?');">

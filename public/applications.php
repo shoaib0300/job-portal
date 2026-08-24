@@ -163,13 +163,15 @@ if ($action === 'new' || $action === 'edit') {
             <?php if ((int) ($row['resume_version_id'] ?? 0) > 0): ?>
               <div class="col-12">
                 <p class="text-secondary small mb-0">Linked resume <a href="/resume.php?version=<?= (int) $row['resume_version_id'] ?>">#<?= (int) $row['resume_version_id'] ?></a>
-                  · <a href="/pdf.php?doc=resume&amp;version=<?= (int) $row['resume_version_id'] ?>">PDF</a></p>
+                  · <a href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => (int) $row['resume_version_id']])) ?>">PDF EN</a>
+                  · <a href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => (int) $row['resume_version_id']])) ?>">PDF DE</a></p>
               </div>
             <?php endif; ?>
             <?php if ((int) ($row['cover_letter_id'] ?? 0) > 0): ?>
               <div class="col-12">
                 <p class="text-secondary small mb-0">Linked cover <a href="/cover-letter.php?id=<?= (int) $row['cover_letter_id'] ?>">#<?= (int) $row['cover_letter_id'] ?></a>
-                  · <a href="/pdf.php?doc=cover&amp;id=<?= (int) $row['cover_letter_id'] ?>">PDF</a></p>
+                  · <a href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => (int) $row['cover_letter_id']])) ?>">PDF EN</a>
+                  · <a href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => (int) $row['cover_letter_id']])) ?>">PDF DE</a></p>
               </div>
             <?php endif; ?>
             <div class="col-12">

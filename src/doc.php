@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Shared query overrides for live preview / design studio.
  *
- * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, company: string, versionId: int, coverId: int}
+ * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, company: string, versionId: int, coverId: int, lang: string}
  */
 function doc_view_options(): array
 {
@@ -25,5 +25,6 @@ function doc_view_options(): array
         'company' => App::setting('active_company', '') ?: '',
         'versionId' => isset($_GET['version']) ? (int) $_GET['version'] : 0,
         'coverId' => isset($_GET['id']) ? (int) $_GET['id'] : 0,
+        'lang' => LibreTranslate::normalizeLang($_GET['lang'] ?? 'en'),
     ];
 }

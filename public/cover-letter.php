@@ -12,6 +12,7 @@ Versions::ensureSchema();
 $opts = doc_view_options();
 $profile = App::profile();
 $coverId = (int) ($opts['coverId'] ?? 0);
+$lang = (string) ($opts['lang'] ?? 'en');
 $letter = $coverId > 0 ? Versions::coverLetterById($coverId) : App::activeCoverLetter();
 $theme = $opts['theme'];
 $accent = $opts['accent'];
@@ -19,6 +20,22 @@ $font = $opts['font'];
 $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
 $exportOptions = Versions::coverExportOptions();
+$translateError = null;
+if ($lang === 'de') {
+    try {
+        $translated = DocTranslate::cover(is_array($letter) ? $letter : null, $profile, 'de');
+        $letter = $translated['letter'];
+        $profile = $translated['profile'];
+    } catch (Throwable $e) {
+        $translateError = $e->getMessage();
+        if ($pdfMode || $embed) {
+            http_response_code(500);
+            header('Content-Type: text/plain; charset=utf-8');
+            echo "German translation failed.\n\n" . $translateError . "\n";
+            exit;
+        }
+    }
+}
 
 layout_header($profile['full_name'], [
     'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
@@ -28,6 +45,7 @@ layout_header($profile['full_name'], [
     'pdf_mode' => $pdfMode,
     'hide_nav' => $embed,
     'hide_flash' => $embed,
+    'lang' => $lang,
 ]);
 
 if (!$embed):
@@ -43,11 +61,17 @@ if (!$embed):
       <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Change style</a>
       <button type="button" class="btn btn-sm btn-primary" data-print data-doc="cover"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
-      <button type="button" class="btn btn-sm btn-outline-secondary" data-download-pdf data-doc="cover"
-              data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Download PDF</button>
+      <?php
+        $pdfQs = $coverId > 0 ? ['id' => $coverId] : [];
+      ?>
+      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', $pdfQs)) ?>">PDF EN</a>
+      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', $pdfQs)) ?>">PDF DE</a>
     </div>
   </div>
 </main>
+<?php if ($translateError): ?>
+  <div class="alert alert-warning no-print"><?= App::e($translateError) ?></div>
+<?php endif; ?>
 <?php endif; ?>
 
 <article class="cover-letter theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>" data-doc="cover">

@@ -7,3 +7,4 @@ services:
       - MNK_PDF_SERVICE=http://host.docker.internal:18477
       - CHROME_PATH=/usr/bin/google-chrome-stable
       - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+      - LIBRETRANSLATE_URL=http://libretranslate:5000

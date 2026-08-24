@@ -99,11 +99,11 @@
     url.searchParams.set("doc", doc);
     if (inline) url.searchParams.set("inline", "1");
     const search = new URLSearchParams(window.location.search);
-    ["theme", "font", "accent", "version", "id"].forEach((key) => {
+    ["theme", "font", "accent", "version", "id", "lang"].forEach((key) => {
       let value;
       if (Object.prototype.hasOwnProperty.call(params, key)) {
         value = params[key];
-      } else if (key === "theme" || key === "font" || key === "accent") {
+      } else if (key === "theme" || key === "font" || key === "accent" || key === "lang") {
         value = search.get(key);
       } else {
         value = null;
@@ -112,6 +112,9 @@
         url.searchParams.set(key, String(value));
       }
     });
+    if (!url.searchParams.has("lang")) {
+      url.searchParams.set("lang", "en");
+    }
     return url.pathname + url.search;
   }
 

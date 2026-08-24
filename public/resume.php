@@ -12,7 +12,22 @@ Versions::ensureSchema();
 
 $opts = doc_view_options();
 $versionId = (int) ($opts['versionId'] ?? 0);
+$lang = (string) ($opts['lang'] ?? 'en');
 $payload = Versions::resumePayloadForView($versionId > 0 ? $versionId : null);
+$translateError = null;
+if ($lang === 'de') {
+    try {
+        $payload = DocTranslate::resume($payload, 'de');
+    } catch (Throwable $e) {
+        $translateError = $e->getMessage();
+        if (!empty($opts['pdfMode']) || !empty($opts['embed'])) {
+            http_response_code(500);
+            header('Content-Type: text/plain; charset=utf-8');
+            echo "German translation failed.\n\n" . $translateError . "\n";
+            exit;
+        }
+    }
+}
 $profile = $payload['profile'];
 $sections = $payload['sections'];
 $experiences = $payload['experiences'];
@@ -35,6 +50,7 @@ layout_header($profile['full_name'] . ' — Resume', [
     'pdf_mode' => $pdfMode,
     'hide_nav' => $embed,
     'hide_flash' => $embed,
+    'lang' => $lang,
 ]);
 
 if (!$embed):
@@ -52,11 +68,17 @@ if (!$embed):
       <a class="btn btn-sm btn-outline-secondary" href="/design.php">Change style</a>
       <button type="button" class="btn btn-sm btn-primary" data-print data-doc="resume"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
-      <button type="button" class="btn btn-sm btn-outline-secondary" data-download-pdf data-doc="resume"
-              data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Download PDF</button>
+      <?php
+        $pdfQs = $versionId > 0 ? ['version' => $versionId] : [];
+      ?>
+      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', $pdfQs)) ?>">PDF EN</a>
+      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', $pdfQs)) ?>">PDF DE</a>
     </div>
   </div>
 </main>
+<?php if ($translateError): ?>
+  <div class="alert alert-warning no-print"><?= App::e($translateError) ?></div>
+<?php endif; ?>
 <?php endif; ?>
 
 <article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?><?= App::shouldShowPhoto($profile) ? ' has-photo' : ' no-photo' ?>" data-doc="resume">

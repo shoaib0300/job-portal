@@ -16,6 +16,12 @@ if (is_readable($envFile)) {
         [$key, $value] = explode('=', $line, 2);
         $key = trim($key);
         $value = trim($value);
+        if (
+            (str_starts_with($value, '"') && str_ends_with($value, '"'))
+            || (str_starts_with($value, "'") && str_ends_with($value, "'"))
+        ) {
+            $value = substr($value, 1, -1);
+        }
         if ($key !== '' && getenv($key) === false) {
             putenv("$key=$value");
             $_ENV[$key] = $value;
@@ -28,6 +34,9 @@ require_once $root . '/src/App.php';
 require_once $root . '/src/Versions.php';
 require_once $root . '/src/Auth.php';
 require_once $root . '/src/PdfExport.php';
+require_once $root . '/src/DeepL.php';
+require_once $root . '/src/LibreTranslate.php';
+require_once $root . '/src/DocTranslate.php';
 require_once $root . '/src/Jobs/load.php';
 
 try {
@@ -35,6 +44,7 @@ try {
     App::ensureDashboardSchema();
     Auth::ensureSchema();
     JobAggregator::ensureSchema();
+    LibreTranslate::ensureSchema();
 } catch (Throwable $e) {
     // Pages that need the DB will surface the error; CLI without DATABASE_URL still loads classes.
 }

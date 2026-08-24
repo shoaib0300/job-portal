@@ -154,7 +154,8 @@ layout_header('Cover letter');
                   <button type="submit" class="btn btn-sm btn-primary">Edit / Select</button>
                 </form>
               <?php endif; ?>
-              <a class="btn btn-sm btn-outline-secondary" href="/pdf.php?doc=cover&amp;id=<?= $cid ?>">Download</a>
+              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => $cid])) ?>">PDF EN</a>
+              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => $cid])) ?>">PDF DE</a>
               <a class="btn btn-sm btn-outline-secondary" href="/cover-letter.php?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
               <?php if (!$isMain): ?>
                 <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">

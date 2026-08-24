@@ -66,11 +66,12 @@ function layout_header(string $title, array $opts = []): void
     ];
     $chrome = $opts['chrome'] ?? $navKey;
     $pdfKind = str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'cover') ? 'cover' : 'resume';
-    $pdfTitle = PdfExport::printDocumentTitle($pdfKind, (string) ($profile['full_name'] ?? 'Document'));
+    $pdfLang = LibreTranslate::normalizeLang($opts['lang'] ?? ($_GET['lang'] ?? 'en'));
+    $pdfTitle = PdfExport::printDocumentTitle($pdfKind, (string) ($profile['full_name'] ?? 'Document'), $pdfLang);
     $htmlTitle = ($pdfMode && $isDoc) ? $pdfTitle : ($title . ' · MNK');
     ?>
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="<?= App::e($bsTheme) ?>">
+<html lang="<?= App::e($pdfLang) ?>" data-bs-theme="<?= App::e($bsTheme) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -157,13 +158,15 @@ function layout_header(string $title, array $opts = []): void
               Resume #<?= (int) $activeResume['id'] ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/design.php">Style</a>
-            <a class="btn btn-sm btn-primary" href="/pdf.php?doc=resume">PDF</a>
+            <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en')) ?>">PDF EN</a>
+            <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('resume', 'de')) ?>">PDF DE</a>
           <?php elseif ($chrome === 'cover' && $activeCover): ?>
             <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit.php" title="Edit cover letter">
               Letter #<?= (int) $activeCover['id'] ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Style</a>
-            <a class="btn btn-sm btn-primary" href="/pdf.php?doc=cover">PDF</a>
+            <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en')) ?>">PDF EN</a>
+            <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('cover', 'de')) ?>">PDF DE</a>
           <?php endif; ?>
         </div>
       </header>

@@ -112,17 +112,32 @@ final class PdfExport
         return $slug !== '' ? $slug : 'document';
     }
 
-    /** External download name only — never version titles, Main, or company. */
-    public static function safeFilename(string $doc, string $name): string
+    /** External download name — never version titles; optional _en / _de. */
+    public static function safeFilename(string $doc, string $name, string $lang = 'en'): string
     {
         $suffix = $doc === 'cover' ? 'cover_letter' : 'resume';
-        return self::personSlug($name) . '_' . $suffix . '.pdf';
+        $lang = LibreTranslate::normalizeLang($lang);
+        return self::personSlug($name) . '_' . $suffix . '_' . $lang . '.pdf';
     }
 
     /** Browser print / Save as PDF document title (no .pdf). */
-    public static function printDocumentTitle(string $doc, string $name): string
+    public static function printDocumentTitle(string $doc, string $name, string $lang = 'en'): string
     {
-        return (string) preg_replace('/\.pdf$/i', '', self::safeFilename($doc, $name));
+        return (string) preg_replace('/\.pdf$/i', '', self::safeFilename($doc, $name, $lang));
+    }
+
+    /** Build /pdf.php href for EN or DE download. */
+    public static function downloadHref(string $doc, string $lang = 'en', array $extra = []): string
+    {
+        $params = array_merge($extra, [
+            'doc' => $doc === 'cover' ? 'cover' : 'resume',
+            'lang' => LibreTranslate::normalizeLang($lang),
+        ]);
+        $params = array_filter(
+            $params,
+            static fn($v): bool => $v !== '' && $v !== null && $v !== 0 && $v !== '0'
+        );
+        return '/pdf.php?' . http_build_query($params);
     }
 
     /**

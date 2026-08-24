@@ -131,6 +131,15 @@ final class Auth
         return $user ? (int) $user['id'] : 0;
     }
 
+    public static function isOwner(): bool
+    {
+        $user = self::user();
+        if ($user === null) {
+            return false;
+        }
+        return strtolower((string) ($user['username'] ?? '')) === 'muqaddas';
+    }
+
     public static function user(): ?array
     {
         if (self::$user !== null) {
