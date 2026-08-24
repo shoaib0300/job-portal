@@ -118,7 +118,9 @@ final class JobexportSource
             || str_contains($html, 'id="jobdetail"')
             || str_contains($html, 'whitebox')
             || str_contains($html, 'Stellenbeschreibung')
-            || str_contains($html, 'application/ld+json');
+            || str_contains($html, 'application/ld+json')
+            || str_contains($html, 'col-md-7 main')
+            || str_contains($html, 'Jetzt bewerben');
     }
 
     /** @return list<JobListing> */
@@ -318,10 +320,16 @@ final class JobexportSource
             . '|//*[contains(@class,"scheme-display")]'
             . '|//*[@id="jobdetail"]//div[contains(@class,"whitebox")]'
             . '|//div[contains(@class,"whitebox")]'
+            . '|//div[contains(@class,"col-md-7") and contains(@class,"main")]'
+            . '|//div[contains(@class,"main")]'
         );
         if ($nodes !== false) {
             foreach ($nodes as $box) {
                 if (!$box instanceof DOMElement) {
+                    continue;
+                }
+                $cls = ' ' . $box->getAttribute('class') . ' ';
+                if (preg_match('/\b(sidebar|header|footer)\b/i', $cls)) {
                     continue;
                 }
                 $heading = self::firstHeading($box);
@@ -364,6 +372,13 @@ final class JobexportSource
                 return $chunk;
             }
         }
+        if (preg_match('#<div[^>]*class=["\'][^"\']*col-md-7[^"\']*main[^"\']*["\'][^>]*>(.*?)</div>\s*<div[^>]*sidebar#is', $html, $m)
+            || preg_match('#<div[^>]*class=["\'][^"\']*\bmain\b[^"\']*["\'][^>]*>(.*?)</div>\s*<div[^>]*sidebar#is', $html, $m)) {
+            $chunk = trim($m[1]);
+            if (mb_strlen(trim(strip_tags($chunk))) >= 80) {
+                return $chunk;
+            }
+        }
         if (preg_match_all('#<div[^>]*class=["\'][^"\']*content-text[^"\']*["\'][^>]*>(.*?)</div>#is', $html, $matches)) {
             $joined = trim(implode("\n", $matches[1]));
             if (mb_strlen(trim(strip_tags($joined))) >= 80) {
@@ -396,7 +411,7 @@ final class JobexportSource
 
     private static function isDistributorName(string $name): bool
     {
-        return (bool) preg_match('/^(joblica|jobexport|jobbox)$/iu', trim($name));
+        return (bool) preg_match('/^(joblica|jobexport|jobbox|vonq)$/iu', trim($name));
     }
 
     private static function cityFromLocation(string $location): string
