@@ -71,7 +71,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('DELETE FROM applications WHERE id = ? AND user_id = ?');
         $stmt->execute([$delId, Auth::id()]);
         App::flash('Application deleted.');
-        App::redirect('/applications.php');
+        $backStatus = (string) ($_POST['return_status'] ?? 'all');
+        $backQ = trim((string) ($_POST['return_q'] ?? ''));
+        $allowedBack = ['all', 'applied', 'rejected', 'interview', 'offer', 'custom'];
+        if (!in_array($backStatus, $allowedBack, true)) {
+            $backStatus = 'all';
+        }
+        $back = '/applications.php?status=' . rawurlencode($backStatus);
+        if ($backQ !== '') {
+            $back .= '&q=' . rawurlencode($backQ);
+        }
+        App::redirect($back);
     }
 
     App::redirect('/applications.php');
@@ -296,6 +306,18 @@ layout_header('Applications');
                           aria-controls="jd-<?= $appId ?>">Show job</button>
                 <?php endif; ?>
                 <a class="btn btn-sm btn-outline-secondary" href="/applications.php?action=edit&amp;id=<?= $appId ?>">Edit</a>
+                <form method="post" class="d-inline" onsubmit="return confirm('Delete this application?');">
+                  <input type="hidden" name="action" value="delete">
+                  <input type="hidden" name="id" value="<?= $appId ?>">
+                  <input type="hidden" name="return_status" value="<?= App::e($status) ?>">
+                  <input type="hidden" name="return_q" value="<?= App::e($q) ?>">
+                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete" aria-label="Delete <?= App::e($app['company']) ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                    </svg>
+                  </button>
+                </form>
               </td>
             </tr>
             <tr id="jd-<?= $appId ?>" class="app-jd-row" hidden>

@@ -39,6 +39,11 @@ final class JobQuery
 
     public const SERP_BOARDS = ['linkedin', 'indeed', 'stepstone', 'xing', 'jobware', 'glassdoor'];
 
+    /** Built-in defaults until the user saves a different Sources selection. */
+    public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport'];
+
+    private const FILTERS_SETTING = 'job_filters';
+
     /**
      * @param list<string> $keywords
      * @param list<string> $sources
@@ -58,7 +63,7 @@ final class JobQuery
         public string $germanLevel = '',
         public bool $hasSalary = false,
         public int $postedDays = 0,
-        public array $sources = ['arbeitsagentur'],
+        public array $sources = ['arbeitsagentur', 'jobexport'],
         public int $page = 1,
         public int $size = 25,
         public array $keywords = [],
@@ -69,7 +74,7 @@ final class JobQuery
         $this->q = implode(', ', $this->keywords);
         $this->sources = array_values(array_intersect(array_keys(self::SOURCES), $this->sources));
         if ($this->sources === []) {
-            $this->sources = ['arbeitsagentur'];
+            $this->sources = self::DEFAULT_SOURCES;
         }
         $this->page = max(1, $this->page);
         $this->size = min(50, max(10, $this->size));
@@ -138,14 +143,65 @@ final class JobQuery
         return $out;
     }
 
+    /** @return list<string> */
+    public static function defaultSources(): array
+    {
+        return self::DEFAULT_SOURCES;
+    }
+
+    /** Saved last search query string (without leading ?), or empty. */
+    public static function savedFiltersQuery(): string
+    {
+        return trim((string) (App::setting(self::FILTERS_SETTING, '') ?: ''));
+    }
+
+    public static function saveFilters(self $query): void
+    {
+        App::setSetting(self::FILTERS_SETTING, $query->toQuery(['page' => 1]));
+    }
+
+    public static function clearSavedFilters(): void
+    {
+        App::setSetting(self::FILTERS_SETTING, '');
+    }
+
+    /**
+     * Load GET params, merging saved filters when the URL has no search state.
+     *
+     * @param array<string, mixed> $get
+     * @return array<string, mixed>
+     */
+    public static function mergeRequest(array $get): array
+    {
+        if (isset($get['reset'])) {
+            return $get;
+        }
+        if (isset($get['search']) || isset($get['sources']) || isset($get['q']) || isset($get['q_add'])
+            || trim((string) ($get['city'] ?? '')) !== ''
+            || trim((string) ($get['bundesland'] ?? '')) !== '') {
+            return $get;
+        }
+        $saved = self::savedFiltersQuery();
+        if ($saved === '') {
+            return $get;
+        }
+        $restored = [];
+        parse_str($saved, $restored);
+        return is_array($restored) ? $restored : $get;
+    }
+
     /** @param array<string, mixed> $get */
     public static function fromRequest(array $get): self
     {
-        $sources = $get['sources'] ?? [];
-        if (!is_array($sources)) {
-            $sources = $sources !== '' ? [(string) $sources] : [];
+        if (array_key_exists('sources', $get)) {
+            $sources = $get['sources'];
+            if (!is_array($sources)) {
+                $sources = $sources !== '' ? [(string) $sources] : [];
+            }
+            $sources = array_map('strval', $sources);
+        } else {
+            $sources = self::DEFAULT_SOURCES;
         }
-        $sources = array_map('strval', $sources);
 
         $rawQ = $get['q'] ?? ($get['keywords'] ?? []);
         $keywords = self::normalizeKeywords(array_merge(
@@ -173,6 +229,13 @@ final class JobQuery
             25,
             $keywords,
         );
+    }
+
+    /** Jobs index URL that restores the last saved filter (or a clean page). */
+    public static function jobsHref(): string
+    {
+        $saved = self::savedFiltersQuery();
+        return $saved !== '' ? '/jobs.php?' . $saved : '/jobs.php';
     }
 
     public function wantsSource(string $id): bool

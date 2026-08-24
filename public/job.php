@@ -90,7 +90,7 @@ layout_header($job->title !== '' ? $job->title : 'Job');
 ?>
 <main class="page-wide">
   <header class="page-head">
-    <p><a href="/jobs.php">&larr; Jobs</a></p>
+    <p><a href="<?= App::e(JobQuery::jobsHref()) ?>">&larr; Jobs</a></p>
     <h1><?= App::e($job->title) ?></h1>
     <p>
       <span class="badge text-bg-light border"><?= App::e($sourceLabels[$job->source] ?? $job->source) ?></span>

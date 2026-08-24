@@ -7,8 +7,18 @@ require_once dirname(__DIR__) . '/src/layout.php';
 
 JobAggregator::ensureSchema();
 
-$query = JobQuery::fromRequest($_GET);
-$ran = isset($_GET['search']) || $query->hasKeywords() || $query->city !== '' || $query->bundesland !== '';
+if (isset($_GET['reset'])) {
+    JobQuery::clearSavedFilters();
+    App::redirect('/jobs.php');
+}
+
+$get = JobQuery::mergeRequest($_GET);
+$query = JobQuery::fromRequest($get);
+$ran = isset($get['search']) || $query->hasKeywords() || $query->city !== '' || $query->bundesland !== '';
+if (isset($_GET['search'])) {
+    JobQuery::saveFilters($query);
+}
+
 $result = [
     'listings' => [],
     'total' => 0,
@@ -150,8 +160,9 @@ layout_header('Jobs');
 
         <div class="d-grid gap-2 mt-3">
           <button type="submit" class="btn btn-primary">Search</button>
-          <a class="btn btn-outline-secondary" href="/jobs.php">Reset</a>
+          <a class="btn btn-outline-secondary" href="/jobs.php?reset=1">Reset</a>
         </div>
+        <p class="small text-secondary mt-2 mb-0">Defaults: Bundesagentur + Jobexport. Your filters stay saved until Reset.</p>
       </div>
     </aside>
 
@@ -159,9 +170,9 @@ layout_header('Jobs');
       <?php if (!$ran): ?>
         <div class="card shadow-sm">
           <div class="card-body">
-            <p class="mb-2">Pick filters and search. Arbeitsagentur is on by default — it is the largest German job database.</p>
+            <p class="mb-2">Pick filters and search. Default sources are Bundesagentur für Arbeit and Jobexport — your last search is restored until you Reset.</p>
             <p class="text-secondary small mb-0">Student preset: Werkstudent + Praktikum in Berlin.</p>
-            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs.php?search=1&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=university">Student jobs in Berlin</a>
+            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs.php?search=1&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
           </div>
         </div>
       <?php else: ?>

@@ -34,6 +34,7 @@ final class JobexportSource
                 ];
                 $requests[$i . ':' . $page] = [
                     'url' => self::BASE . '/stellenboerse?' . http_build_query($params),
+                    'headers' => self::htmlHeaders(),
                 ];
             }
         }
@@ -74,12 +75,23 @@ final class JobexportSource
     public static function details(string $externalId): ?JobListing
     {
         $cached = JobCache::getListing('jobexport', $externalId);
-        $path = $cached !== null && preg_match('~/detail/' . preg_quote($externalId, '~') . '/[^?]+~', $cached->url, $m)
-            ? $m[0]
-            : '/detail/' . rawurlencode($externalId);
-        $html = JobHttp::get(self::BASE . $path, ['Accept: text/html'], 12);
-        if ($html === null && $cached !== null && $cached->url !== '') {
-            $html = JobHttp::get($cached->url, ['Accept: text/html'], 12);
+        $urls = [];
+        if ($cached !== null && trim($cached->url) !== '') {
+            $urls[] = trim($cached->url);
+        }
+        if ($cached !== null && preg_match('~/detail/' . preg_quote($externalId, '~') . '/[^?]+~', (string) $cached->url, $m)) {
+            $urls[] = self::BASE . $m[0];
+        }
+        $urls[] = self::BASE . '/detail/' . rawurlencode($externalId);
+        $urls = array_values(array_unique($urls));
+
+        $html = null;
+        foreach ($urls as $url) {
+            $html = JobHttp::get($url, self::htmlHeaders(), 18);
+            if (is_string($html) && $html !== '' && self::looksLikeDetail($html)) {
+                break;
+            }
+            $html = null;
         }
         if ($html === null) {
             return $cached;
@@ -89,6 +101,24 @@ final class JobexportSource
             JobCache::putListing($fresh);
         }
         return $fresh ?? $cached;
+    }
+
+    /** @return list<string> */
+    private static function htmlHeaders(): array
+    {
+        return [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'User-Agent: Mozilla/5.0 (compatible; MNK-Jobs/1.1; +https://mnk.ddev.site/)',
+        ];
+    }
+
+    private static function looksLikeDetail(string $html): bool
+    {
+        return str_contains($html, 'jobTplContainer')
+            || str_contains($html, 'id="jobdetail"')
+            || str_contains($html, 'whitebox')
+            || str_contains($html, 'Stellenbeschreibung')
+            || str_contains($html, 'application/ld+json');
     }
 
     /** @return list<JobListing> */
@@ -195,16 +225,21 @@ final class JobexportSource
             if ($title === '') {
                 $title = self::firstText($xp, $dom, '//h1');
             }
-            foreach ($xp->query('//a[contains(@class,"btn")]') as $a) {
+            foreach ($xp->query('//a[@href]') as $a) {
                 if (!$a instanceof DOMElement) {
                     continue;
                 }
-                $label = mb_strtolower(trim($a->textContent));
-                if (!str_contains($label, 'bewerb')) {
+                $rawHref = trim(html_entity_decode($a->getAttribute('href'), ENT_QUOTES, 'UTF-8'));
+                if ($rawHref === '' || !preg_match('#^https?://#i', $rawHref)) {
                     continue;
                 }
-                $href = App::normalizeHttpUrl(trim(html_entity_decode($a->getAttribute('href'), ENT_QUOTES, 'UTF-8')));
-                if ($href !== '' && !str_contains(mb_strtolower($href), 'jobexport.de')) {
+                $href = App::normalizeHttpUrl($rawHref);
+                if ($href === '' || str_contains(mb_strtolower($href), 'jobexport.de')) {
+                    continue;
+                }
+                $label = mb_strtolower(trim($a->textContent . ' ' . $a->getAttribute('title')));
+                if (preg_match('/bewerben|bewerbung|(^|\s)apply(\s|$)/iu', $label)
+                    || preg_match('#/(apply|bewerbung)(/|$|\?)#iu', $href)) {
                     $apply = $href;
                     break;
                 }
@@ -213,6 +248,10 @@ final class JobexportSource
             if ($fromBox !== '') {
                 $desc = $fromBox;
             }
+        }
+
+        if (trim(JobText::stripHtml($desc)) === '') {
+            $desc = self::descriptionFromRawHtml($html);
         }
 
         if ($title === '') {
@@ -272,36 +311,87 @@ final class JobexportSource
     {
         $best = '';
         $bestLen = 0;
-        foreach ($xp->query('//div[contains(@class,"whitebox")]') as $box) {
-            if (!$box instanceof DOMElement) {
-                continue;
-            }
-            $heading = '';
-            foreach ($box->childNodes as $child) {
-                if ($child instanceof DOMElement && preg_match('/^h[1-6]$/i', $child->tagName)) {
-                    $heading = trim($child->textContent);
-                    break;
-                }
-            }
-            if (preg_match('/^(details|kontakt)$/iu', $heading)) {
-                continue;
-            }
-            $html = '';
-            foreach ($box->childNodes as $child) {
-                if ($child instanceof DOMElement && strtolower($child->tagName) === 'h3'
-                    && preg_match('/stellenbeschreibung/iu', trim($child->textContent))) {
+
+        $nodes = $xp->query(
+            '//*[@id="jobTplContainer"]'
+            . '|//*[contains(@class,"scheme-display-view")]'
+            . '|//*[contains(@class,"scheme-display")]'
+            . '|//*[@id="jobdetail"]//div[contains(@class,"whitebox")]'
+            . '|//div[contains(@class,"whitebox")]'
+        );
+        if ($nodes !== false) {
+            foreach ($nodes as $box) {
+                if (!$box instanceof DOMElement) {
                     continue;
                 }
-                $html .= $dom->saveHTML($child);
-            }
-            $html = trim($html);
-            $len = mb_strlen(trim(strip_tags($html)));
-            if ($len > $bestLen && $len >= 80) {
-                $best = $html;
-                $bestLen = $len;
+                $heading = self::firstHeading($box);
+                if (preg_match('/^(details|kontakt)$/iu', $heading)) {
+                    continue;
+                }
+                $html = self::innerHtml($dom, $box);
+                $len = mb_strlen(trim(strip_tags($html)));
+                if ($len > $bestLen && $len >= 80) {
+                    $best = $html;
+                    $bestLen = $len;
+                }
             }
         }
-        return $best;
+
+        if ($bestLen >= 80) {
+            return $best;
+        }
+
+        $parts = [];
+        $textNodes = $xp->query('//*[contains(@class,"content-text")]');
+        if ($textNodes !== false) {
+            foreach ($textNodes as $block) {
+                if ($block instanceof DOMElement) {
+                    $parts[] = self::innerHtml($dom, $block);
+                }
+            }
+        }
+        $joined = trim(implode("\n", $parts));
+        return mb_strlen(trim(strip_tags($joined))) >= 80 ? $joined : $best;
+    }
+
+    private static function descriptionFromRawHtml(string $html): string
+    {
+        $html = preg_replace('#<script\b[^>]*>.*?</script>#is', '', $html) ?? $html;
+        $html = preg_replace('#<style\b[^>]*>.*?</style>#is', '', $html) ?? $html;
+        if (preg_match('#<div[^>]*id=["\']jobTplContainer["\'][^>]*>(.*)</div>\s*</div>\s*</body>#is', $html, $m)) {
+            $chunk = trim($m[1]);
+            if (mb_strlen(trim(strip_tags($chunk))) >= 80) {
+                return $chunk;
+            }
+        }
+        if (preg_match_all('#<div[^>]*class=["\'][^"\']*content-text[^"\']*["\'][^>]*>(.*?)</div>#is', $html, $matches)) {
+            $joined = trim(implode("\n", $matches[1]));
+            if (mb_strlen(trim(strip_tags($joined))) >= 80) {
+                return $joined;
+            }
+        }
+        return '';
+    }
+
+    private static function firstHeading(DOMElement $box): string
+    {
+        foreach ($box->childNodes as $child) {
+            if ($child instanceof DOMElement && preg_match('/^h[1-6]$/i', $child->tagName)) {
+                return trim($child->textContent);
+            }
+        }
+        return '';
+    }
+
+    private static function innerHtml(DOMDocument $dom, DOMElement $el): string
+    {
+        $html = '';
+        foreach ($el->childNodes as $child) {
+            $html .= $dom->saveHTML($child);
+        }
+        $html = preg_replace('#<style\b[^>]*>.*?</style>#is', '', $html) ?? $html;
+        $html = preg_replace('#<script\b[^>]*>.*?</script>#is', '', $html) ?? $html;
+        return trim($html);
     }
 
     private static function isDistributorName(string $name): bool
