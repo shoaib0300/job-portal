@@ -208,6 +208,12 @@ body:not(.page-doc):not(.pdf-mode) {
   word-break: break-word;
 }
 
+.job-description a.job-contact,
+.job-description a[href^="mailto:"],
+.job-description a[href^="tel:"] {
+  font-weight: 650;
+}
+
 .job-bewerbung dt {
   font-weight: 650;
   margin-top: 0.65rem;

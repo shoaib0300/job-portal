@@ -141,22 +141,26 @@ final class JobText
         $html = preg_replace('/\son[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html) ?? $html;
         $html = preg_replace('/\s(style|class|id)\s*=\s*("[^"]*"|\'[^\']*\')/i', '', $html) ?? $html;
         $html = preg_replace('/href\s*=\s*(["\'])\s*javascript:[^"\']*\1/i', 'href="#"', $html) ?? $html;
-        // Ensure external links open safely.
         $html = preg_replace_callback(
             '/<a\b([^>]*)>/i',
             static function (array $m): string {
                 $attrs = $m[1];
-                if (!preg_match('/\btarget\s*=/i', $attrs)) {
+                $href = '';
+                if (preg_match('/\bhref\s*=\s*([\'"])(.*?)\1/i', $attrs, $hm)) {
+                    $href = mb_strtolower($hm[2]);
+                }
+                $isContact = str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:');
+                if (!$isContact && !preg_match('/\btarget\s*=/i', $attrs)) {
                     $attrs .= ' target="_blank"';
                 }
-                if (!preg_match('/\brel\s*=/i', $attrs)) {
+                if (!$isContact && !preg_match('/\brel\s*=/i', $attrs)) {
                     $attrs .= ' rel="noopener noreferrer"';
                 }
                 return '<a' . $attrs . '>';
             },
             $html
         ) ?? $html;
-        return $html;
+        return self::linkifyContacts($html);
     }
 
     /** Lightweight Markdown → HTML (headings, lists, bold, links). Escapes first. */
@@ -254,7 +258,126 @@ final class JobText
         if (self::looksLikeMarkdown($text)) {
             return self::safeHtml(self::markdownToHtml($text));
         }
-        return App::nl2p($text);
+        return self::linkifyContacts(App::nl2p($text));
+    }
+
+    /** Make emails, phones, URLs, and postal addresses bold + clickable. */
+    public static function linkifyContacts(string $html): string
+    {
+        $parts = preg_split('/(<[^>]+>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+        if ($parts === false) {
+            return $html;
+        }
+        $inA = 0;
+        $out = [];
+        foreach ($parts as $part) {
+            if ($part === '') {
+                continue;
+            }
+            if (str_starts_with($part, '<')) {
+                if (preg_match('/^<a\b/i', $part)) {
+                    $inA++;
+                } elseif (preg_match('/^<\/a>/i', $part)) {
+                    $inA = max(0, $inA - 1);
+                }
+                $out[] = $part;
+                continue;
+            }
+            $out[] = $inA > 0 ? $part : self::linkifyPlain($part);
+        }
+        return implode('', $out);
+    }
+
+    private static function linkifyPlain(string $text): string
+    {
+        $slots = [];
+        $hold = static function (string $html) use (&$slots): string {
+            $slots[] = $html;
+            return "\x00" . (count($slots) - 1) . "\x00";
+        };
+
+        $text = preg_replace_callback(
+            '/(?<![\w.+-])([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})(?![\w.-])/iu',
+            static function (array $m) use ($hold): string {
+                $email = $m[1];
+                return $hold(
+                    '<a class="job-contact" href="mailto:' . htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
+                    . htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+                    . '</a>'
+                );
+            },
+            $text
+        ) ?? $text;
+
+        $text = preg_replace_callback(
+            '/(?<!href="|href=\')((?:https?:\/\/|www\.)[^\s<]+)/iu',
+            static function (array $m) use ($hold): string {
+                $raw = rtrim($m[1], '.,);]');
+                $trail = substr($m[1], strlen($raw));
+                $href = preg_match('#^https?://#i', $raw) ? $raw : 'https://' . $raw;
+                return $hold(
+                    '<a class="job-contact" href="' . htmlspecialchars($href, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+                    . '" target="_blank" rel="noopener noreferrer">'
+                    . htmlspecialchars($raw, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+                    . '</a>'
+                ) . $trail;
+            },
+            $text
+        ) ?? $text;
+
+        $text = preg_replace_callback(
+            '/(?<!\d)(\+49[\s.\-\/()]*\d(?:[\s.\-\/()]*\d){7,16}|0\d{1,5}(?:[\s.\-\/]\d{2,}){1,4})(?!\d)/u',
+            static function (array $m) use ($hold): string {
+                $shown = trim($m[1]);
+                if (preg_match('/^\d{1,2}\.\d{1,2}\.\d{2,4}$/', $shown)) {
+                    return $shown;
+                }
+                $digits = preg_replace('/[^\d+]/', '', $shown) ?? $shown;
+                if (strlen(preg_replace('/\D/', '', $digits) ?? '') < 8) {
+                    return $shown;
+                }
+                $tel = str_starts_with($digits, '+')
+                    ? $digits
+                    : (str_starts_with($digits, '0') ? '+49' . substr($digits, 1) : '+49' . $digits);
+                return $hold(
+                    '<a class="job-contact" href="tel:' . htmlspecialchars($tel, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
+                    . htmlspecialchars($shown, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+                    . '</a>'
+                );
+            },
+            $text
+        ) ?? $text;
+
+        $text = preg_replace_callback(
+            '/\b(Bewerbungsanschrift|Postanschrift|Anschrift|Adresse)\s*:\s*([^\r\n<]{12,220})/iu',
+            static function (array $m) use ($hold): string {
+                $label = $m[1];
+                $addr = trim($m[2], " \t.,;");
+                $maps = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($addr);
+                return $hold(
+                    '<strong>' . htmlspecialchars($label, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . ':</strong> '
+                    . '<a class="job-contact" href="' . htmlspecialchars($maps, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+                    . '" target="_blank" rel="noopener noreferrer">'
+                    . htmlspecialchars($addr, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+                    . '</a>'
+                );
+            },
+            $text
+        ) ?? $text;
+
+        $text = preg_replace(
+            '/\b(E-?Mail|Telefon|Tel\.|Mobil(?:funk)?|Phone)\s*:/iu',
+            '<strong>$1:</strong>',
+            $text
+        ) ?? $text;
+
+        return preg_replace_callback(
+            '/\x00(\d+)\x00/',
+            static function (array $m) use ($slots): string {
+                return $slots[(int) $m[1]] ?? $m[0];
+            },
+            $text
+        ) ?? $text;
     }
 
     public static function enrich(JobListing $job): JobListing
