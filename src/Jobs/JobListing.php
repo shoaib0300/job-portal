@@ -35,14 +35,26 @@ final class JobListing
 
     public function applyHref(): string
     {
-        $href = trim($this->applyUrl) !== '' ? $this->applyUrl : $this->url;
-        return trim($href);
+        // Employer apply link only — never fall back to BA listing as "employer website".
+        if (trim($this->applyUrl) !== '') {
+            return App::normalizeHttpUrl(trim($this->applyUrl));
+        }
+        if ($this->source === 'arbeitsagentur') {
+            return '';
+        }
+        return App::normalizeHttpUrl(trim($this->url));
+    }
+
+    public function listingHref(): string
+    {
+        return App::normalizeHttpUrl(trim($this->url));
     }
 
     public function listingUrlDiffers(): bool
     {
         $apply = $this->applyHref();
-        return $this->url !== '' && $apply !== '' && $this->url !== $apply;
+        $listing = $this->listingHref();
+        return $listing !== '' && $apply !== '' && $listing !== $apply;
     }
 
     public static function makeFingerprint(string $company, string $title, string $city): string

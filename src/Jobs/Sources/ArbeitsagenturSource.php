@@ -35,8 +35,6 @@ final class ArbeitsagenturSource
         }
         if ($params['wo'] === '') {
             unset($params['wo']);
-        } elseif ($query->radiusKm > 0) {
-            $params['umkreis'] = $query->radiusKm;
         }
         if ($query->postedDays > 0) {
             $params['veroeffentlichtseit'] = $query->postedDays;
@@ -117,8 +115,7 @@ final class ArbeitsagenturSource
         }
         $ort = $this->placeFromRow($row);
         $hash = (string) ($row['hashId'] ?? '');
-        $applyUrl = trim((string) ($row['externeUrl'] ?? ''));
-        $url = $this->listingPageUrl($row, $ref, $hash);
+        $urls = $this->resolveUrls($row, $ref, $hash);
         $posted = $this->postedFromRow($row);
         $title = (string) ($row['stellenangebotsTitel'] ?? $row['beruf'] ?? $row['titel'] ?? 'Stelle');
         $company = (string) ($row['firma'] ?? $row['arbeitgeber'] ?? '');
@@ -146,10 +143,10 @@ final class ArbeitsagenturSource
             [],
             '',
             $posted,
-            $url,
+            $urls['url'],
             '',
             '',
-            $applyUrl,
+            $urls['applyUrl'],
         );
     }
 
@@ -159,17 +156,25 @@ final class ArbeitsagenturSource
         $ref = (string) ($data['refnr'] ?? $data['referenznummer'] ?? ($fallback?->externalId ?? ''));
         $title = (string) ($data['titel'] ?? $data['stellenangebotsTitel'] ?? ($fallback?->title ?? 'Stelle'));
         $company = (string) ($data['arbeitgeber'] ?? $data['firma'] ?? ($fallback?->company ?? ''));
+        $partnerName = trim((string) ($data['allianzpartnerName'] ?? ''));
+        if ($company === '' && $partnerName !== '') {
+            $company = $partnerName;
+        }
         $ort = $this->placeFromRow($data);
-        $desc = (string) ($data['stellenbeschreibung'] ?? $data['stellenangebotsBeschreibung'] ?? '');
-        $desc = JobText::stripHtml($desc);
+        $descRaw = (string) ($data['stellenbeschreibung'] ?? $data['stellenangebotsBeschreibung'] ?? '');
+        $desc = JobText::stripHtml($descRaw);
         $zeit = $data['arbeitszeitmodelle'] ?? [];
         $zeitHint = is_array($zeit) && isset($zeit[0]) ? (string) $zeit[0] : '';
         $offerHint = (string) ($data['angebotsart'] ?? $data['stellenangebotsart'] ?? '');
         $hash = (string) ($data['hashId'] ?? '');
-        $applyUrl = trim((string) ($data['externeUrl'] ?? ($fallback?->applyUrl ?? '')));
-        $url = $this->listingPageUrl($data, $ref, $hash);
+        $urls = $this->resolveUrls($data, $ref, $hash);
+        $url = $urls['url'];
+        $applyUrl = $urls['applyUrl'];
         if ($url === '' && $fallback !== null) {
             $url = $fallback->url;
+        }
+        if ($applyUrl === '' && $fallback !== null) {
+            $applyUrl = $fallback->applyUrl;
         }
         $posted = $this->postedFromRow($data) ?? ($fallback?->postedAt ?? null);
         $salary = (string) ($data['verguetung'] ?? $data['verguetungsangabe'] ?? '');
@@ -231,23 +236,119 @@ final class ArbeitsagenturSource
     }
 
     /**
-     * Listing page (Arbeitsagentur / partner), not the employer apply URL.
+     * Listing = Arbeitsagentur job page.
+     * Apply = only the company/ATS job page (externeURL or a job URL in the text).
+     * Generic partner homepages are not used for "Apply on employer website".
      *
      * @param array<string, mixed> $row
+     * @return array{url:string,applyUrl:string}
      */
-    private function listingPageUrl(array $row, string $ref, string $hash): string
+    private function resolveUrls(array $row, string $ref, string $hash): array
     {
-        $partner = trim((string) ($row['allianzpartnerUrl'] ?? ''));
-        if ($partner !== '') {
-            return $partner;
-        }
+        $externe = App::normalizeHttpUrl(self::stringField($row, 'externeURL', 'externeUrl'));
+        $partner = App::normalizeHttpUrl(self::stringField($row, 'allianzpartnerUrl', 'allianzpartnerURL'));
+        $darstellung = App::normalizeHttpUrl(self::stringField($row, 'arbeitgeberdarstellungUrl', 'arbeitgeberdarstellungURL'));
+        $descBlob = self::stringField($row, 'stellenbeschreibung', 'stellenangebotsBeschreibung');
+        $fromDesc = self::careerUrlFromText($descBlob);
+
+        $listing = '';
         if ($hash !== '') {
-            return 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($hash);
+            $listing = 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($hash);
+        } elseif ($ref !== '') {
+            $listing = 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($ref);
         }
-        if ($ref !== '') {
-            return 'https://www.arbeitsagentur.de/jobsuche/jobdetail/' . rawurlencode($ref);
+
+        $apply = '';
+        if ($externe !== '') {
+            $apply = $externe;
+        } elseif ($fromDesc !== '') {
+            $apply = $fromDesc;
+        } elseif (self::looksLikeJobPage($partner)) {
+            $apply = $partner;
+        } elseif (self::looksLikeJobPage($darstellung)) {
+            $apply = $darstellung;
+        }
+        $apply = self::preferDirectApplyPage($apply);
+
+        if ($listing === '' && $apply !== '') {
+            $listing = $apply;
+        }
+
+        return ['url' => $listing, 'applyUrl' => $apply];
+    }
+
+    /** True for ATS / career job pages; false for bare company homepages. */
+    private static function looksLikeJobPage(string $url): bool
+    {
+        if ($url === '') {
+            return false;
+        }
+        $path = (string) (parse_url($url, PHP_URL_PATH) ?? '');
+        if ($path === '' || $path === '/') {
+            return false;
+        }
+        return (bool) preg_match(
+            '#(jobs?\.personio|/job/|/jobs/|karriere|career|stellen|bewerb|apply|recruit|greenhouse|softgarden|workday|personio|stepstone|indeed|xing\.com/jobs)#iu',
+            $url
+        );
+    }
+
+    /** @param array<string, mixed> $row */
+    private static function stringField(array $row, string ...$keys): string
+    {
+        foreach ($keys as $key) {
+            $v = trim((string) ($row[$key] ?? ''));
+            if ($v !== '') {
+                return $v;
+            }
         }
         return '';
+    }
+
+    /** Personio job pages apply at /job/{id}/apply. */
+    private static function preferDirectApplyPage(string $url): string
+    {
+        if ($url === '') {
+            return '';
+        }
+        if (preg_match('#^(https://[a-z0-9.-]+\.jobs\.personio\.de/job/\d+)/?(?:apply)?/?$#i', $url, $m)) {
+            return $m[1] . '/apply';
+        }
+        return $url;
+    }
+
+    /** Prefer career / jobs / bewerbung links found in free text or HTML. */
+    private static function careerUrlFromText(string $text): string
+    {
+        if ($text === '' || !preg_match_all('#https?://[^\s<>"\']+|www\.[^\s<>"\']+#iu', $text, $matches)) {
+            return '';
+        }
+        $scored = [];
+        foreach ($matches[0] as $raw) {
+            $url = App::normalizeHttpUrl(rtrim((string) $raw, '.,);]»"\''));
+            if ($url === '') {
+                continue;
+            }
+            $low = mb_strtolower($url);
+            if (str_contains($low, 'arbeitsagentur.de')) {
+                continue;
+            }
+            $score = 0;
+            if (preg_match('#/(karriere|career|jobs?|stellen|bewerb|apply|recruit|vacanc)#u', $low)) {
+                $score += 6;
+            }
+            if (preg_match('#(karriere|bewerbung|stellenangebot)#u', $low)) {
+                $score += 3;
+            }
+            if ($score > 0) {
+                $scored[$url] = max($scored[$url] ?? 0, $score);
+            }
+        }
+        if ($scored === []) {
+            return '';
+        }
+        arsort($scored);
+        return (string) array_key_first($scored);
     }
 
     /** @param array<string, mixed> $row */

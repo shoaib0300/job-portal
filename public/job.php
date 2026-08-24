@@ -55,10 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'apply_external') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($postAction === 'prepare' || $postAction === 'apply')) {
-    $location = trim((string) ($_POST['location'] ?? $locationDefault));
-    if ($location === '') {
-        $location = 'Germany';
-    }
+    $location = $locationDefault;
     try {
         $result = App::tailorFromJd(
             $job->company !== '' ? $job->company : 'Company',
@@ -107,11 +104,14 @@ layout_header($job->title !== '' ? $job->title : 'Job');
         · Posted <?= App::e($job->postedAt) ?>
       <?php endif; ?>
     </p>
-    <div class="preview-links">
-      <?php if ($job->listingUrlDiffers()): ?>
-        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->url) ?>" target="_blank" rel="noopener">Original posting</a>
-      <?php elseif ($job->url !== '' && $applyHref === ''): ?>
-        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->url) ?>" target="_blank" rel="noopener">Original posting</a>
+    <div class="preview-links d-flex flex-wrap gap-2">
+      <?php if ($job->source === 'arbeitsagentur' && $job->listingHref() !== ''): ?>
+        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Original BA listing</a>
+      <?php elseif ($job->listingUrlDiffers() || ($job->listingHref() !== '' && $applyHref === '')): ?>
+        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Original posting</a>
+      <?php endif; ?>
+      <?php if ($job->source === 'arbeitsagentur' && $applyHref !== ''): ?>
+        <a class="btn btn-sm btn-primary" href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener">Apply on employer website</a>
       <?php endif; ?>
     </div>
   </header>
@@ -131,10 +131,44 @@ layout_header($job->title !== '' ? $job->title : 'Job');
       </section>
     </div>
     <div class="col-lg-4">
+      <?php if ($job->source === 'arbeitsagentur'): ?>
+        <section class="card shadow-sm mb-3">
+          <div class="card-body">
+            <h2 class="h6">Informationen zur Bewerbung</h2>
+            <p class="small mb-2"><strong>Kontaktadresse</strong><br><?= App::e($job->company !== '' ? $job->company : 'Arbeitgeber') ?></p>
+            <p class="small mb-3"><strong>Bewerben Sie sich</strong><br>
+              <?= $job->applyUrl !== ''
+                  ? 'Über Internetseite des Arbeitgebers (Stellenanzeige / Bewerbungsformular)'
+                  : 'Über die Jobsuche der Bundesagentur für Arbeit' ?>
+            </p>
+            <div class="d-grid gap-2">
+              <?php if ($job->listingHref() !== ''): ?>
+                <a class="btn btn-outline-secondary" href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Original BA listing</a>
+              <?php endif; ?>
+              <?php if ($applyHref !== ''): ?>
+                <form method="post" target="_blank" rel="noopener" class="d-grid">
+                  <input type="hidden" name="action" value="apply_external">
+                  <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
+                  <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
+                  <button type="submit" class="btn btn-primary">Apply on employer website</button>
+                </form>
+                <p class="small text-secondary mb-0 text-break">Company job link:<br><a href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener"><?= App::e($applyHref) ?></a></p>
+              <?php else: ?>
+                <p class="small text-secondary mb-0">No company job link in the BA feed. Use <strong>Original BA listing</strong> for Bewerbung / captcha contacts.</p>
+              <?php endif; ?>
+            </div>
+            <p class="small text-secondary mt-3 mb-0">For name, phone, and email: use <strong>Original BA listing</strong> and complete the Sicherheitsabfrage there.</p>
+          </div>
+        </section>
+      <?php endif; ?>
       <section class="card shadow-sm">
         <div class="card-body">
           <h2 class="h6">Apply</h2>
-          <p class="small text-secondary">We do not submit into LinkedIn, Indeed, or company ATS. Prepare your docs here, then apply on the employer site.</p>
+          <?php if ($job->source === 'arbeitsagentur'): ?>
+            <p class="small text-secondary">Use the buttons above for BA contacts or the employer site. Prepare your docs here first if you want.</p>
+          <?php else: ?>
+            <p class="small text-secondary">Prepare your docs here, then apply on the employer site.</p>
+          <?php endif; ?>
           <dl class="small mb-3">
             <?php if ($job->workMode !== 'unknown'): ?>
               <dt>Mode</dt><dd><?= App::e($job->workMode) ?></dd>
@@ -149,14 +183,14 @@ layout_header($job->title !== '' ? $job->title : 'Job');
               <dt>Salary</dt><dd><?= App::e($job->salaryText) ?></dd>
             <?php endif; ?>
           </dl>
-          <?php if ($applyHref !== ''): ?>
+          <?php if ($job->source !== 'arbeitsagentur' && $applyHref !== ''): ?>
             <form method="post" target="_blank" rel="noopener" class="mb-3">
               <input type="hidden" name="action" value="apply_external">
               <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
               <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
               <button type="submit" class="btn btn-primary w-100">Apply now</button>
             </form>
-            <p class="small text-secondary">Opens the employer page and logs Applications as applied.</p>
+            <p class="small text-secondary mb-2">Opens <a href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener"><?= App::e($applyHref) ?></a> and logs Applications as applied.</p>
           <?php endif; ?>
           <form method="post">
             <input type="hidden" name="action" value="prepare">
@@ -164,7 +198,8 @@ layout_header($job->title !== '' ? $job->title : 'Job');
             <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
             <div class="mb-3">
               <label class="form-label" for="location">Job location</label>
-              <input class="form-control" type="text" id="location" name="location" required value="<?= App::e($locationDefault) ?>">
+              <input type="hidden" name="location" value="<?= App::e($locationDefault) ?>">
+              <p class="form-control-plaintext border rounded px-3 py-2 mb-0 bg-body-secondary" id="location"><?= App::e($locationDefault) ?></p>
             </div>
             <button type="submit" class="btn btn-outline-primary w-100">Prepare resume and letter</button>
           </form>

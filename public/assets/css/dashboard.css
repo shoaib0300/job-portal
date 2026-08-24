@@ -175,12 +175,53 @@ body:not(.page-doc):not(.pdf-mode) {
   margin-bottom: 0.85rem;
 }
 
+.job-description h2,
+.job-description h3,
+.job-description h4 {
+  margin-top: 1.15rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.job-description h2:first-child,
+.job-description h3:first-child,
+.job-description h4:first-child {
+  margin-top: 0;
+}
+
 .job-description ul,
 .job-description ol {
-  padding-left: 1.2rem;
+  padding-left: 1.25rem;
+}
+
+.job-description li {
+  margin-bottom: 0.35rem;
+}
+
+.job-description strong {
+  font-weight: 650;
 }
 
 .job-description a {
+  word-break: break-word;
+}
+
+.job-bewerbung dt {
+  font-weight: 650;
+  margin-top: 0.65rem;
+}
+
+.job-bewerbung dt:first-child {
+  margin-top: 0;
+}
+
+.job-bewerbung dd {
+  margin-bottom: 0;
+}
+
+.job-bewerbung a {
   word-break: break-word;
 }
 
@@ -214,7 +255,7 @@ body:not(.page-doc):not(.pdf-mode) {
 
 .dash-content {
   padding: 1.35rem 1.5rem 2.75rem;
-  width: min(1180px, 100%);
+  width: 100%;
 }
 
 .dash-content:has(.design-studio),

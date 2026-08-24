@@ -66,10 +66,6 @@ layout_header('Jobs');
             <?php endforeach; ?>
           </select>
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="umkreis">Radius (km)</label>
-          <input class="form-control" type="number" id="umkreis" name="umkreis" min="0" max="200" value="<?= (int) $query->radiusKm ?>">
-        </div>
 
         <h2 class="h6">Work mode</h2>
         <div class="mb-3">
@@ -214,7 +210,7 @@ layout_header('Jobs');
                       <?php endif; ?>
                       <a class="btn btn-sm <?= $job->applyHref() !== '' ? 'btn-outline-primary' : 'btn-primary' ?>" href="<?= App::e($detail) ?>">Open</a>
                       <?php if ($job->listingUrlDiffers()): ?>
-                        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->url) ?>" target="_blank" rel="noopener">Original</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Original</a>
                       <?php endif; ?>
                     </div>
                   </div>

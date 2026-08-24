@@ -46,7 +46,6 @@ final class JobQuery
         public string $q = '',
         public string $city = '',
         public string $bundesland = '',
-        public int $radiusKm = 25,
         public string $workMode = '',
         public bool $student = false,
         public bool $junior = false,
@@ -88,7 +87,6 @@ final class JobQuery
         if (!in_array($this->postedDays, [1, 3, 7], true)) {
             $this->postedDays = 0;
         }
-        $this->radiusKm = max(0, min(200, $this->radiusKm));
     }
 
     /** @param mixed $raw */
@@ -158,7 +156,6 @@ final class JobQuery
             implode(', ', $keywords),
             trim((string) ($get['city'] ?? '')),
             trim((string) ($get['bundesland'] ?? '')),
-            (int) ($get['umkreis'] ?? 25),
             (string) ($get['work_mode'] ?? ''),
             isset($get['student']),
             isset($get['junior']),
@@ -254,7 +251,6 @@ final class JobQuery
             'q' => $this->keywords,
             'city' => $this->city,
             'bundesland' => $this->bundesland,
-            'umkreis' => $this->radiusKm,
             'work_mode' => $this->workMode,
             'employment' => $this->employment,
             'german_level' => $this->germanLevel,
@@ -297,7 +293,6 @@ final class JobQuery
             'keywords' => $this->keywords,
             'city' => $this->city,
             'bundesland' => $this->bundesland,
-            'umkreis' => $this->radiusKm,
             'work_mode' => $this->workMode,
             'student' => $this->student,
             'junior' => $this->junior,

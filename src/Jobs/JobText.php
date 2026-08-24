@@ -108,6 +108,14 @@ final class JobText
         return (bool) preg_match('/<\/?[a-z][a-z0-9]*\b[^>]*>/i', $decoded);
     }
 
+    public static function looksLikeMarkdown(string $text): bool
+    {
+        return (bool) preg_match(
+            '/(^|\n)\s{0,3}(#{1,4}\s+|[-*+]\s+\S|\d+\.\s+\S)|\*\*[^*\n]+\*\*|https?:\/\/\S+/u',
+            $text
+        );
+    }
+
     /** Plain text for Applications / tailor. Decodes entities, then strips tags. */
     public static function stripHtml(string $html): string
     {
@@ -133,13 +141,118 @@ final class JobText
         $html = preg_replace('/\son[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html) ?? $html;
         $html = preg_replace('/\s(style|class|id)\s*=\s*("[^"]*"|\'[^\']*\')/i', '', $html) ?? $html;
         $html = preg_replace('/href\s*=\s*(["\'])\s*javascript:[^"\']*\1/i', 'href="#"', $html) ?? $html;
+        // Ensure external links open safely.
+        $html = preg_replace_callback(
+            '/<a\b([^>]*)>/i',
+            static function (array $m): string {
+                $attrs = $m[1];
+                if (!preg_match('/\btarget\s*=/i', $attrs)) {
+                    $attrs .= ' target="_blank"';
+                }
+                if (!preg_match('/\brel\s*=/i', $attrs)) {
+                    $attrs .= ' rel="noopener noreferrer"';
+                }
+                return '<a' . $attrs . '>';
+            },
+            $html
+        ) ?? $html;
         return $html;
+    }
+
+    /** Lightweight Markdown → HTML (headings, lists, bold, links). Escapes first. */
+    public static function markdownToHtml(string $text): string
+    {
+        $text = str_replace(["\r\n", "\r"], "\n", $text);
+        $text = trim($text);
+        if ($text === '') {
+            return '';
+        }
+
+        $lines = explode("\n", $text);
+        $out = [];
+        $listType = null; // 'ul' | 'ol' | null
+
+        $closeList = static function () use (&$out, &$listType): void {
+            if ($listType !== null) {
+                $out[] = '</' . $listType . '>';
+                $listType = null;
+            }
+        };
+
+        foreach ($lines as $line) {
+            $trimmed = rtrim($line);
+
+            if (preg_match('/^\s*[-*+]\s+(.+)$/u', $trimmed, $m)) {
+                if ($listType !== 'ul') {
+                    $closeList();
+                    $out[] = '<ul>';
+                    $listType = 'ul';
+                }
+                $out[] = '<li>' . self::inlineMarkdown($m[1]) . '</li>';
+                continue;
+            }
+
+            if (preg_match('/^\s*\d+\.\s+(.+)$/u', $trimmed, $m)) {
+                if ($listType !== 'ol') {
+                    $closeList();
+                    $out[] = '<ol>';
+                    $listType = 'ol';
+                }
+                $out[] = '<li>' . self::inlineMarkdown($m[1]) . '</li>';
+                continue;
+            }
+
+            $closeList();
+
+            if (trim($trimmed) === '') {
+                continue;
+            }
+
+            if (preg_match('/^\s{0,3}(#{1,4})\s+(.+)$/u', $trimmed, $m)) {
+                $level = min(4, max(2, strlen($m[1]) + 1)); // # → h2, ## → h3, ### → h4
+                $out[] = '<h' . $level . '>' . self::inlineMarkdown(trim($m[2])) . '</h' . $level . '>';
+                continue;
+            }
+
+            $out[] = '<p>' . self::inlineMarkdown($trimmed) . '</p>';
+        }
+
+        $closeList();
+        return implode("\n", $out);
+    }
+
+    private static function inlineMarkdown(string $text): string
+    {
+        $s = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $s = preg_replace('/\*\*(.+?)\*\*/us', '<strong>$1</strong>', $s) ?? $s;
+        $s = preg_replace('/__(.+?)__/us', '<strong>$1</strong>', $s) ?? $s;
+        $s = preg_replace('/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/us', '<em>$1</em>', $s) ?? $s;
+        // Markdown links [label](url)
+        $s = preg_replace(
+            '/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/iu',
+            '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
+            $s
+        ) ?? $s;
+        // Autolink bare URLs (skip ones already inside href=")
+        $s = preg_replace_callback(
+            '/(?<!href="|href=\')(https?:\/\/[^\s<]+)/iu',
+            static function (array $m): string {
+                $url = rtrim($m[1], '.,);]');
+                $trail = substr($m[1], strlen($url));
+                return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $url . '</a>' . $trail;
+            },
+            $s
+        ) ?? $s;
+        return $s;
     }
 
     public static function displayHtml(string $text): string
     {
         if (self::looksLikeHtml($text)) {
             return self::safeHtml($text);
+        }
+        if (self::looksLikeMarkdown($text)) {
+            return self::safeHtml(self::markdownToHtml($text));
         }
         return App::nl2p($text);
     }
