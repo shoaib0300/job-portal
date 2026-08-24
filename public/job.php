@@ -30,28 +30,24 @@ if ($locationDefault === '') {
 }
 
 $postAction = (string) ($_POST['action'] ?? '');
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'apply_external') {
-    if ($applyHref === '') {
-        App::flash('No employer application link for this job.', 'error');
-        App::redirect('/job.php?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId));
-    }
+$backToJob = '/job.php?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'confirm_applied') {
     try {
         $appId = App::logJdApplication(
             $job->company !== '' ? $job->company : 'Company',
             $job->title !== '' ? $job->title : 'Role',
             $jdPlain,
             'applied',
-            'Opened employer application from Jobs · ' . (JobQuery::SOURCES[$job->source] ?? $job->source),
+            'Applied on employer website from Jobs · ' . (JobQuery::SOURCES[$job->source] ?? $job->source),
             $applyHref,
             null,
             $locationDefault
         );
-        App::flash('Logged as applied (#' . $appId . '). Finish the form on the employer site.');
+        App::flash('Logged as applied (#' . $appId . '). No new resume was created.');
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
-        App::redirect('/job.php?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId));
     }
-    App::redirect($applyHref);
+    App::redirect($backToJob);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($postAction === 'prepare' || $postAction === 'apply')) {
@@ -110,7 +106,7 @@ layout_header($job->title !== '' ? $job->title : 'Job');
       <?php elseif ($job->listingUrlDiffers() || ($job->listingHref() !== '' && $applyHref === '')): ?>
         <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Original posting</a>
       <?php endif; ?>
-      <?php if ($job->source === 'arbeitsagentur' && $applyHref !== ''): ?>
+      <?php if ($applyHref !== ''): ?>
         <a class="btn btn-sm btn-primary" href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener">Apply on employer website</a>
       <?php endif; ?>
     </div>
@@ -125,7 +121,13 @@ layout_header($job->title !== '' ? $job->title : 'Job');
               <?= JobText::displayHtml($job->description) ?>
             </div>
           <?php else: ?>
-            <p class="text-secondary mb-0">No full description cached. Open the original posting, or prepare your resume anyway.</p>
+            <p class="text-secondary mb-0">No full description cached.
+              <?php if ($job->listingHref() !== ''): ?>
+                <a href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Open the original posting</a>.
+              <?php else: ?>
+                Open the original posting, or prepare your resume anyway.
+              <?php endif; ?>
+            </p>
           <?php endif; ?>
         </div>
       </section>
@@ -146,12 +148,7 @@ layout_header($job->title !== '' ? $job->title : 'Job');
                 <a class="btn btn-outline-secondary" href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Original BA listing</a>
               <?php endif; ?>
               <?php if ($applyHref !== ''): ?>
-                <form method="post" target="_blank" rel="noopener" class="d-grid">
-                  <input type="hidden" name="action" value="apply_external">
-                  <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
-                  <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
-                  <button type="submit" class="btn btn-primary">Apply on employer website</button>
-                </form>
+                <a class="btn btn-primary" href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener">Apply on employer website</a>
                 <p class="small text-secondary mb-0 text-break">Company job link:<br><a href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener"><?= App::e($applyHref) ?></a></p>
               <?php else: ?>
                 <p class="small text-secondary mb-0">No company job link in the BA feed. Use <strong>Original BA listing</strong> for Bewerbung / captcha contacts.</p>
@@ -184,14 +181,17 @@ layout_header($job->title !== '' ? $job->title : 'Job');
             <?php endif; ?>
           </dl>
           <?php if ($job->source !== 'arbeitsagentur' && $applyHref !== ''): ?>
-            <form method="post" target="_blank" rel="noopener" class="mb-3">
-              <input type="hidden" name="action" value="apply_external">
-              <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
-              <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
-              <button type="submit" class="btn btn-primary w-100">Apply now</button>
-            </form>
-            <p class="small text-secondary mb-2">Opens <a href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener"><?= App::e($applyHref) ?></a> and logs Applications as applied.</p>
+            <a class="btn btn-primary w-100 mb-2" href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener">Apply on employer website</a>
+            <p class="small text-secondary mb-3">Opens the employer form only. Nothing is logged until you confirm below.</p>
           <?php endif; ?>
+          <form method="post" class="mb-3 p-3 border rounded bg-body-secondary">
+            <input type="hidden" name="action" value="confirm_applied">
+            <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
+            <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
+            <p class="small mb-2"><strong>Have you applied on the employer website?</strong></p>
+            <p class="small text-secondary mb-2">Adds this role to Applications as applied. Does not copy or create a resume.</p>
+            <button type="submit" class="btn btn-outline-primary w-100">Yes, I applied</button>
+          </form>
           <form method="post">
             <input type="hidden" name="action" value="prepare">
             <input type="hidden" name="source" value="<?= App::e($job->source) ?>">

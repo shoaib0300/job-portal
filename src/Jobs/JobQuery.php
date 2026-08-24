@@ -12,6 +12,7 @@ final class JobQuery
         'xing' => 'XING',
         'jobware' => 'Jobware',
         'glassdoor' => 'Glassdoor',
+        'jobexport' => 'Jobexport',
         'career' => 'Company career pages',
         'university' => 'University / student portals',
         'public_sector' => 'Public-sector (Interamt)',

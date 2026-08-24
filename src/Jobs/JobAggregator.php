@@ -15,6 +15,7 @@ final class JobAggregator
         'jobware' => 7,
         'glassdoor' => 8,
         'linkedin' => 9,
+        'jobexport' => 10,
     ];
 
     public static function ensureSchema(): void
@@ -77,6 +78,14 @@ final class JobAggregator
             }
         }
 
+        if ($query->wantsSource('jobexport')) {
+            $je = JobexportSource::search($query);
+            $listings = array_merge($listings, $je['listings']);
+            if ($je['notice']) {
+                $notices[] = $je['notice'];
+            }
+        }
+
         $listings = self::dedupe($listings);
         $listings = self::postFilter($listings, $query);
         $listings = self::rank($listings, $query);
@@ -109,6 +118,9 @@ final class JobAggregator
         }
         if ($source === 'public_sector') {
             return InteramtSource::details($externalId) ?? $cached;
+        }
+        if ($source === 'jobexport') {
+            return JobexportSource::details($externalId) ?? $cached;
         }
         return $cached;
     }

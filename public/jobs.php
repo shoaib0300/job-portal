@@ -145,7 +145,7 @@ layout_header('Jobs');
           </div>
         <?php endforeach; ?>
         <?php if (!SerpBoardSource::configured()): ?>
-          <p class="small text-secondary mt-2 mb-0">LinkedIn, Indeed, StepStone, XING, Jobware, and Glassdoor use Google site search when <code>BRIGHT_DATA_API_TOKEN</code> is set.</p>
+          <p class="small text-secondary mt-2 mb-0">LinkedIn, Indeed, StepStone, XING, Jobware, and Glassdoor use Google site search when <code>BRIGHT_DATA_API_TOKEN</code> is set. Jobexport is a distributor board (same ads often already on Arbeitsagentur).</p>
         <?php endif; ?>
 
         <div class="d-grid gap-2 mt-3">
