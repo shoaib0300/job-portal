@@ -17,6 +17,33 @@
     timeline: "Timeline",
   };
 
+  /** Match PdfExport::personSlug() — German digraphs first, then strip remaining accents. */
+  function personSlug(name) {
+    const map = {
+      Ä: "Ae",
+      Ö: "Oe",
+      Ü: "Ue",
+      ä: "ae",
+      ö: "oe",
+      ü: "ue",
+      ß: "ss",
+      æ: "ae",
+      œ: "oe",
+      Æ: "Ae",
+      Œ: "Oe",
+    };
+    let s = String(name || "").trim();
+    if (!s) return "document";
+    s = s.replace(/[ÄÖÜäöüßæœÆŒ]/g, (ch) => map[ch] || ch);
+    s = s
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_|_$/g, "");
+    return s || "document";
+  }
+
   function cleanTitleForPrint(win) {
     const doc = win.document;
     const fromBody = doc.body && doc.body.getAttribute("data-pdf-title");
@@ -27,14 +54,7 @@
     const heading = doc.querySelector(".resume-header h1, .letter-from strong");
     if (heading && heading.textContent.trim()) {
       const kind = win.location.pathname.includes("cover") ? "cover_letter" : "resume";
-      const slug = heading.textContent
-        .trim()
-        .normalize("NFKD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "_")
-        .replace(/^_|_$/g, "") || "document";
-      doc.title = slug + "_" + kind;
+      doc.title = personSlug(heading.textContent) + "_" + kind;
     }
   }
 
@@ -545,6 +565,84 @@
       } catch (_err) {
         form.submit();
       }
+    });
+  }
+})();
+
+(() => {
+  const root = document.querySelector("[data-keyword-chips]");
+  if (!root) return;
+  const list = root.querySelector("[data-keyword-list]");
+  const input = root.querySelector("[data-keyword-input]");
+  const addBtn = root.querySelector("[data-keyword-add]");
+  const form = document.querySelector("[data-jobs-form]");
+  if (!list || !input) return;
+
+  function existingValues() {
+    return Array.from(list.querySelectorAll('input[name="q[]"]')).map((el) =>
+      String(el.value || "").trim().toLowerCase()
+    );
+  }
+
+  function addKeyword(raw) {
+    const parts = String(raw || "")
+      .split(",")
+      .map((p) => p.trim())
+      .filter(Boolean);
+    const seen = new Set(existingValues());
+    parts.forEach((part) => {
+      const key = part.toLowerCase();
+      if (!key || seen.has(key) || seen.size >= 12) return;
+      seen.add(key);
+      const chip = document.createElement("span");
+      chip.className = "keyword-chip";
+      const hidden = document.createElement("input");
+      hidden.type = "hidden";
+      hidden.name = "q[]";
+      hidden.value = part;
+      const label = document.createElement("span");
+      label.className = "keyword-chip-label";
+      label.textContent = part;
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "keyword-chip-remove";
+      remove.setAttribute("data-keyword-remove", "1");
+      remove.setAttribute("aria-label", "Remove " + part);
+      remove.innerHTML = "&times;";
+      chip.appendChild(hidden);
+      chip.appendChild(label);
+      chip.appendChild(remove);
+      list.appendChild(chip);
+    });
+    input.value = "";
+    input.focus();
+  }
+
+  list.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-keyword-remove]");
+    if (!btn) return;
+    const chip = btn.closest(".keyword-chip");
+    if (chip) chip.remove();
+  });
+
+  if (addBtn) {
+    addBtn.addEventListener("click", () => addKeyword(input.value));
+  }
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === ",") {
+      event.preventDefault();
+      addKeyword(input.value.replace(/,$/, ""));
+    }
+  });
+
+  if (form) {
+    form.addEventListener("submit", () => {
+      if (input.value.trim()) {
+        addKeyword(input.value);
+      }
+      input.value = "";
+      input.removeAttribute("name");
     });
   }
 })();

@@ -132,6 +132,43 @@ body:not(.page-doc):not(.pdf-mode) {
   color: var(--bs-primary);
 }
 
+.keyword-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 0.25rem;
+}
+
+.keyword-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem 0.35rem 0.2rem 0.55rem;
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  border-radius: 999px;
+  background: var(--bs-body-bg, #fff);
+  font-size: 0.8125rem;
+  line-height: 1.2;
+}
+
+.keyword-chip-remove {
+  border: 0;
+  background: transparent;
+  color: var(--bs-secondary-color, #6c757d);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0 0.2rem;
+  cursor: pointer;
+}
+
+.keyword-chip-remove:hover {
+  color: var(--bs-danger, #dc3545);
+}
+
+.keyword-add-row .form-control {
+  min-width: 0;
+}
+
 .job-description p,
 .job-description ul,
 .job-description ol {

@@ -10,6 +10,7 @@ final class SerpBoardSource
         'stepstone' => ['label' => 'StepStone', 'site' => 'site:stepstone.de'],
         'xing' => ['label' => 'XING', 'site' => 'site:xing.com/jobs'],
         'jobware' => ['label' => 'Jobware', 'site' => 'site:jobware.de'],
+        'glassdoor' => ['label' => 'Glassdoor', 'site' => 'site:glassdoor.de/Job OR site:www.glassdoor.com/job-listing'],
     ];
 
     public static function token(): string
@@ -41,7 +42,7 @@ final class SerpBoardSource
             ];
         }
 
-        $was = $query->searchWas();
+        $was = $query->serpWas();
         $where = $query->whereText();
         $requests = [];
         foreach ($wanted as $id) {

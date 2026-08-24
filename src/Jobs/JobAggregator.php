@@ -13,7 +13,8 @@ final class JobAggregator
         'indeed' => 5,
         'xing' => 6,
         'jobware' => 7,
-        'linkedin' => 8,
+        'glassdoor' => 8,
+        'linkedin' => 9,
     ];
 
     public static function ensureSchema(): void
@@ -130,8 +131,8 @@ final class JobAggregator
                 continue;
             }
             $cur = $best[$fp];
-            $curRank = self::SOURCE_RANK[$cur->source] ?? 9;
-            $newRank = self::SOURCE_RANK[$job->source] ?? 9;
+            $curRank = self::SOURCE_RANK[$cur->source] ?? 10;
+            $newRank = self::SOURCE_RANK[$job->source] ?? 10;
             if ($newRank < $curRank) {
                 if ($job->description === '' && $cur->description !== '') {
                     $job->description = $cur->description;
@@ -225,10 +226,10 @@ final class JobAggregator
      */
     public static function rank(array $listings, JobQuery $query): array
     {
-        $q = mb_strtolower($query->q);
-        usort($listings, static function (JobListing $a, JobListing $b) use ($q): int {
-            $sa = self::score($a, $q);
-            $sb = self::score($b, $q);
+        $keywords = array_map(static fn(string $k): string => mb_strtolower($k), $query->keywords);
+        usort($listings, static function (JobListing $a, JobListing $b) use ($keywords): int {
+            $sa = self::score($a, $keywords);
+            $sb = self::score($b, $keywords);
             if ($sa !== $sb) {
                 return $sb <=> $sa;
             }
@@ -237,26 +238,34 @@ final class JobAggregator
             if ($pa !== $pb) {
                 return $pb <=> $pa;
             }
-            $ra = self::SOURCE_RANK[$a->source] ?? 9;
-            $rb = self::SOURCE_RANK[$b->source] ?? 9;
+            $ra = self::SOURCE_RANK[$a->source] ?? 10;
+            $rb = self::SOURCE_RANK[$b->source] ?? 10;
             return $ra <=> $rb;
         });
         return $listings;
     }
 
-    private static function score(JobListing $job, string $q): int
+    /** @param list<string> $keywords */
+    private static function score(JobListing $job, array $keywords): int
     {
         $score = 0;
-        if ($q !== '' && mb_stripos($job->title, $q) !== false) {
-            $score += 8;
-        }
-        if ($q !== '' && mb_stripos($job->company, $q) !== false) {
-            $score += 3;
+        $title = mb_strtolower($job->title);
+        $company = mb_strtolower($job->company);
+        foreach ($keywords as $q) {
+            if ($q === '') {
+                continue;
+            }
+            if (mb_strpos($title, $q) !== false) {
+                $score += 8;
+            }
+            if (mb_strpos($company, $q) !== false) {
+                $score += 3;
+            }
         }
         if ($job->postedAt && strtotime($job->postedAt) > time() - 86400) {
             $score += 2;
         }
-        $score += 9 - (self::SOURCE_RANK[$job->source] ?? 9);
+        $score += 10 - (self::SOURCE_RANK[$job->source] ?? 10);
         return $score;
     }
 

@@ -11,6 +11,7 @@ final class JobQuery
         'stepstone' => 'StepStone',
         'xing' => 'XING',
         'jobware' => 'Jobware',
+        'glassdoor' => 'Glassdoor',
         'career' => 'Company career pages',
         'university' => 'University / student portals',
         'public_sector' => 'Public-sector (Interamt)',
@@ -35,9 +36,10 @@ final class JobQuery
         'Thüringen',
     ];
 
-    public const SERP_BOARDS = ['linkedin', 'indeed', 'stepstone', 'xing', 'jobware'];
+    public const SERP_BOARDS = ['linkedin', 'indeed', 'stepstone', 'xing', 'jobware', 'glassdoor'];
 
     /**
+     * @param list<string> $keywords
      * @param list<string> $sources
      */
     public function __construct(
@@ -59,7 +61,12 @@ final class JobQuery
         public array $sources = ['arbeitsagentur'],
         public int $page = 1,
         public int $size = 25,
+        public array $keywords = [],
     ) {
+        $this->keywords = self::normalizeKeywords(
+            $this->keywords !== [] ? $this->keywords : self::parseKeywords($this->q)
+        );
+        $this->q = implode(', ', $this->keywords);
         $this->sources = array_values(array_intersect(array_keys(self::SOURCES), $this->sources));
         if ($this->sources === []) {
             $this->sources = ['arbeitsagentur'];
@@ -84,6 +91,54 @@ final class JobQuery
         $this->radiusKm = max(0, min(200, $this->radiusKm));
     }
 
+    /** @param mixed $raw */
+    public static function parseKeywords(mixed $raw): array
+    {
+        $items = [];
+        if (is_array($raw)) {
+            foreach ($raw as $v) {
+                foreach (self::parseKeywords($v) as $part) {
+                    $items[] = $part;
+                }
+            }
+            return self::normalizeKeywords($items);
+        }
+        $s = trim((string) $raw);
+        if ($s === '') {
+            return [];
+        }
+        foreach (preg_split('/\s*,\s*/u', $s) ?: [] as $part) {
+            $part = trim($part);
+            if ($part !== '') {
+                $items[] = $part;
+            }
+        }
+        return self::normalizeKeywords($items);
+    }
+
+    /** @param list<string> $items @return list<string> */
+    public static function normalizeKeywords(array $items): array
+    {
+        $out = [];
+        $seen = [];
+        foreach ($items as $item) {
+            $item = trim((string) $item);
+            if ($item === '') {
+                continue;
+            }
+            $key = mb_strtolower($item);
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            $out[] = $item;
+            if (count($out) >= 12) {
+                break;
+            }
+        }
+        return $out;
+    }
+
     /** @param array<string, mixed> $get */
     public static function fromRequest(array $get): self
     {
@@ -93,8 +148,14 @@ final class JobQuery
         }
         $sources = array_map('strval', $sources);
 
+        $rawQ = $get['q'] ?? ($get['keywords'] ?? []);
+        $keywords = self::normalizeKeywords(array_merge(
+            self::parseKeywords($rawQ),
+            self::parseKeywords($get['q_add'] ?? '')
+        ));
+
         return new self(
-            trim((string) ($get['q'] ?? '')),
+            implode(', ', $keywords),
             trim((string) ($get['city'] ?? '')),
             trim((string) ($get['bundesland'] ?? '')),
             (int) ($get['umkreis'] ?? 25),
@@ -111,6 +172,8 @@ final class JobQuery
             (int) ($get['posted'] ?? 0),
             $sources,
             (int) ($get['page'] ?? 1),
+            25,
+            $keywords,
         );
     }
 
@@ -125,6 +188,11 @@ final class JobQuery
             return $this->city;
         }
         return $this->bundesland;
+    }
+
+    public function hasKeywords(): bool
+    {
+        return $this->keywords !== [];
     }
 
     /** Extra keywords appended to free-text search. */
@@ -143,18 +211,39 @@ final class JobQuery
         if ($this->noExperience) {
             $bits[] = 'Berufseinsteiger';
         }
-        if ($this->internship && $this->q === '') {
+        if ($this->internship && !$this->hasKeywords()) {
             $bits[] = 'Praktikum';
         }
-        if ($this->wantsSource('university') && $this->q === '' && !$this->student && !$this->internship) {
+        if ($this->wantsSource('university') && !$this->hasKeywords() && !$this->student && !$this->internship) {
             $bits[] = 'Werkstudent';
         }
         return implode(' ', $bits);
     }
 
+    /** Space-joined roles for APIs that take one was= string (Arbeitsagentur). */
     public function searchWas(): string
     {
-        return trim($this->q . ' ' . $this->extraKeywords());
+        $roles = implode(' ', $this->keywords);
+        return trim($roles . ' ' . $this->extraKeywords());
+    }
+
+    /**
+     * Google-friendly role clause: one phrase, or (A OR B OR C) for multiple.
+     * Phrases with spaces are quoted.
+     */
+    public function serpWas(): string
+    {
+        $roles = [];
+        foreach ($this->keywords as $kw) {
+            $roles[] = preg_match('/\s/u', $kw) ? '"' . $kw . '"' : $kw;
+        }
+        $rolePart = '';
+        if (count($roles) === 1) {
+            $rolePart = $roles[0];
+        } elseif (count($roles) > 1) {
+            $rolePart = '(' . implode(' OR ', $roles) . ')';
+        }
+        return trim($rolePart . ' ' . $this->extraKeywords());
     }
 
     /** @param array<string, mixed> $overrides */
@@ -162,7 +251,7 @@ final class JobQuery
     {
         $data = [
             'search' => '1',
-            'q' => $this->q,
+            'q' => $this->keywords,
             'city' => $this->city,
             'bundesland' => $this->bundesland,
             'umkreis' => $this->radiusKm,
@@ -195,14 +284,17 @@ final class JobQuery
             $data['has_salary'] = '1';
         }
         $data = array_merge($data, $overrides);
-        $data = array_filter($data, static fn($v): bool => $v !== '' && $v !== null);
+        $data = array_filter(
+            $data,
+            static fn($v): bool => $v !== '' && $v !== null && $v !== []
+        );
         return http_build_query($data);
     }
 
     public function cacheKey(): string
     {
         $payload = [
-            'q' => $this->q,
+            'keywords' => $this->keywords,
             'city' => $this->city,
             'bundesland' => $this->bundesland,
             'umkreis' => $this->radiusKm,

@@ -8,7 +8,7 @@ require_once dirname(__DIR__) . '/src/layout.php';
 JobAggregator::ensureSchema();
 
 $query = JobQuery::fromRequest($_GET);
-$ran = isset($_GET['search']) || $query->q !== '' || $query->city !== '' || $query->bundesland !== '';
+$ran = isset($_GET['search']) || $query->hasKeywords() || $query->city !== '' || $query->bundesland !== '';
 $result = [
     'listings' => [],
     'total' => 0,
@@ -30,14 +30,28 @@ layout_header('Jobs');
     <p>Search German boards in one place. Prepare your resume here, then apply on the employer site.</p>
   </header>
 
-  <form method="get" class="jobs-layout">
+  <form method="get" class="jobs-layout" data-jobs-form>
     <input type="hidden" name="search" value="1">
     <aside class="jobs-filters card shadow-sm">
       <div class="card-body">
         <h2 class="h6">Search</h2>
-        <div class="mb-3">
-          <label class="form-label" for="q">Role or keywords</label>
-          <input class="form-control" type="search" id="q" name="q" value="<?= App::e($query->q) ?>" placeholder="e.g. Werkstudent QA">
+        <div class="mb-3" data-keyword-chips>
+          <label class="form-label" for="q-input">Role keywords</label>
+          <div class="keyword-chip-list" data-keyword-list>
+            <?php foreach ($query->keywords as $kw): ?>
+              <span class="keyword-chip">
+                <input type="hidden" name="q[]" value="<?= App::e($kw) ?>">
+                <span class="keyword-chip-label"><?= App::e($kw) ?></span>
+                <button type="button" class="keyword-chip-remove" data-keyword-remove aria-label="Remove <?= App::e($kw) ?>">&times;</button>
+              </span>
+            <?php endforeach; ?>
+          </div>
+          <div class="keyword-add-row input-group input-group-sm mt-2">
+            <input class="form-control" type="text" id="q-input" name="q_add" data-keyword-input
+                   placeholder="e.g. QA, Tester, Werkstudent" autocomplete="off">
+            <button class="btn btn-outline-secondary" type="button" data-keyword-add>Add</button>
+          </div>
+          <p class="form-text mb-0">Add several roles. Each stays in the filter (like sources) and is searched as an OR.</p>
         </div>
         <div class="mb-3">
           <label class="form-label" for="city">City</label>
@@ -135,7 +149,7 @@ layout_header('Jobs');
           </div>
         <?php endforeach; ?>
         <?php if (!SerpBoardSource::configured()): ?>
-          <p class="small text-secondary mt-2 mb-0">LinkedIn, Indeed, StepStone, XING, and Jobware use Google site search when <code>BRIGHT_DATA_API_TOKEN</code> is set.</p>
+          <p class="small text-secondary mt-2 mb-0">LinkedIn, Indeed, StepStone, XING, Jobware, and Glassdoor use Google site search when <code>BRIGHT_DATA_API_TOKEN</code> is set.</p>
         <?php endif; ?>
 
         <div class="d-grid gap-2 mt-3">
@@ -151,10 +165,17 @@ layout_header('Jobs');
           <div class="card-body">
             <p class="mb-2">Pick filters and search. Arbeitsagentur is on by default — it is the largest German job database.</p>
             <p class="text-secondary small mb-0">Student preset: Werkstudent + Praktikum in Berlin.</p>
-            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs.php?search=1&amp;q=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=university">Student jobs in Berlin</a>
+            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs.php?search=1&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=university">Student jobs in Berlin</a>
           </div>
         </div>
       <?php else: ?>
+        <?php if ($query->keywords !== []): ?>
+          <p class="small mb-2">Roles:
+            <?php foreach ($query->keywords as $kw): ?>
+              <span class="badge text-bg-light border"><?= App::e($kw) ?></span>
+            <?php endforeach; ?>
+          </p>
+        <?php endif; ?>
         <?php foreach ($result['notices'] as $notice): ?>
           <div class="alert alert-warning"><?= App::e((string) $notice) ?></div>
         <?php endforeach; ?>
