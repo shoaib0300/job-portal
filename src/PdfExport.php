@@ -90,12 +90,39 @@ final class PdfExport
         return hash('sha256', (string) (getenv('DATABASE_URL') ?: 'mnk-pdf'));
     }
 
+    /** ASCII slug for filenames: "Muqaddas Khan" → muqaddas_khan */
+    public static function personSlug(string $name): string
+    {
+        $name = trim($name);
+        if ($name === '') {
+            return 'document';
+        }
+        $name = strtr($name, [
+            'Ä' => 'Ae', 'Ö' => 'Oe', 'Ü' => 'Ue',
+            'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue',
+            'ß' => 'ss', 'æ' => 'ae', 'œ' => 'oe',
+        ]);
+        $ascii = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $name);
+        if (!is_string($ascii) || trim($ascii) === '') {
+            $ascii = $name;
+        }
+        $slug = strtolower($ascii);
+        $slug = preg_replace('/[^a-z0-9]+/', '_', $slug) ?? '';
+        $slug = trim($slug, '_');
+        return $slug !== '' ? $slug : 'document';
+    }
+
+    /** External download name only — never version titles, Main, or company. */
     public static function safeFilename(string $doc, string $name): string
     {
-        $base = preg_replace('/[^A-Za-z0-9._-]+/', '-', trim($name)) ?: 'document';
-        $base = trim($base, '-');
-        $suffix = $doc === 'cover' ? 'Cover-Letter' : 'Resume';
-        return $base . '-' . $suffix . '.pdf';
+        $suffix = $doc === 'cover' ? 'cover_letter' : 'resume';
+        return self::personSlug($name) . '_' . $suffix . '.pdf';
+    }
+
+    /** Browser print / Save as PDF document title (no .pdf). */
+    public static function printDocumentTitle(string $doc, string $name): string
+    {
+        return (string) preg_replace('/\.pdf$/i', '', self::safeFilename($doc, $name));
     }
 
     /**

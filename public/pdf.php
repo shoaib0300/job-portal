@@ -17,20 +17,6 @@ $coverId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $profile = App::profile();
 $filename = PdfExport::safeFilename($doc, (string) ($profile['full_name'] ?? 'Document'));
 
-if ($doc === 'resume' && $version > 0) {
-    $row = Versions::resumeVersion($version);
-    if ($row) {
-        $suffix = preg_replace('/[^A-Za-z0-9._-]+/', '-', (string) $row['title']) ?: 'Resume';
-        $filename = preg_replace('/\.pdf$/i', '', $filename) . '-' . trim($suffix, '-') . '.pdf';
-    }
-} elseif ($doc === 'cover' && $coverId > 0) {
-    $row = Versions::coverLetterById($coverId);
-    if ($row) {
-        $suffix = preg_replace('/[^A-Za-z0-9._-]+/', '-', (string) $row['title']) ?: 'Cover';
-        $filename = preg_replace('/\.pdf$/i', '', $filename) . '-' . trim($suffix, '-') . '.pdf';
-    }
-}
-
 $inline = isset($_GET['inline']) && (string) $_GET['inline'] === '1';
 
 $query = [

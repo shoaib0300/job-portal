@@ -19,9 +19,22 @@
 
   function cleanTitleForPrint(win) {
     const doc = win.document;
+    const fromBody = doc.body && doc.body.getAttribute("data-pdf-title");
+    if (fromBody && fromBody.trim()) {
+      doc.title = fromBody.trim();
+      return;
+    }
     const heading = doc.querySelector(".resume-header h1, .letter-from strong");
     if (heading && heading.textContent.trim()) {
-      doc.title = heading.textContent.trim();
+      const kind = win.location.pathname.includes("cover") ? "cover_letter" : "resume";
+      const slug = heading.textContent
+        .trim()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_|_$/g, "") || "document";
+      doc.title = slug + "_" + kind;
     }
   }
 

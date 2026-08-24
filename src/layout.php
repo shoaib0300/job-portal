@@ -65,13 +65,16 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'account', 'href' => '/settings.php', 'label' => 'Account', 'icon' => 'gear'],
     ];
     $chrome = $opts['chrome'] ?? $navKey;
+    $pdfKind = str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'cover') ? 'cover' : 'resume';
+    $pdfTitle = PdfExport::printDocumentTitle($pdfKind, (string) ($profile['full_name'] ?? 'Document'));
+    $htmlTitle = ($pdfMode && $isDoc) ? $pdfTitle : ($title . ' · MNK');
     ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="<?= App::e($bsTheme) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= App::e($title) ?> · MNK</title>
+  <title><?= App::e($htmlTitle) ?></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
@@ -97,7 +100,8 @@ function layout_header(string $title, array $opts = []): void
       data-density="<?= App::e($density) ?>"
       data-sidebar="<?= App::e($sidebar) ?>"
       data-name-size="<?= App::e($nameSize) ?>"
-      data-spacing="<?= App::e($spacing) ?>">
+      data-spacing="<?= App::e($spacing) ?>"
+      data-pdf-title="<?= App::e($pdfTitle) ?>">
 <?php if ($hideNav): ?>
   <div class="site-shell site-shell-embed">
     <?php layout_flash($flash); ?>
@@ -193,7 +197,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260814e"></script>
+  <script src="/assets/js/app.js?v=20260824a"></script>
         <?php
     endif;
     ?>
