@@ -339,7 +339,11 @@ final class LibreTranslate
      *   cached_chars: int,
      *   requests: int,
      *   billed_last_month: int,
-     *   billed_year: int
+     *   cached_last_month: int,
+     *   requests_last_month: int,
+     *   billed_year: int,
+     *   cached_year: int,
+     *   requests_year: int
      * }>
      */
     public static function usageByUserThisMonth(): array
@@ -355,7 +359,16 @@ final class LibreTranslate
                                  AND u.created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
                                  AND u.created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
                                 THEN u.chars_in ELSE 0 END) AS billed_last_month,
-                       SUM(CASE WHEN u.billed = 1 AND u.created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN u.chars_in ELSE 0 END) AS billed_year
+                       SUM(CASE WHEN u.billed = 0
+                                 AND u.created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+                                 AND u.created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
+                                THEN u.chars_in ELSE 0 END) AS cached_last_month,
+                       SUM(CASE WHEN u.created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+                                 AND u.created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
+                                THEN 1 ELSE 0 END) AS requests_last_month,
+                       SUM(CASE WHEN u.billed = 1 AND u.created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN u.chars_in ELSE 0 END) AS billed_year,
+                       SUM(CASE WHEN u.billed = 0 AND u.created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN u.chars_in ELSE 0 END) AS cached_year,
+                       SUM(CASE WHEN u.created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN 1 ELSE 0 END) AS requests_year
                 FROM translation_usage u
                 LEFT JOIN users usr ON usr.id = u.user_id
                 WHERE u.created_at >= LEAST(
@@ -375,14 +388,28 @@ final class LibreTranslate
                 'cached_chars' => (int) $row['cached_chars'],
                 'requests' => (int) $row['requests'],
                 'billed_last_month' => (int) $row['billed_last_month'],
+                'cached_last_month' => (int) $row['cached_last_month'],
+                'requests_last_month' => (int) $row['requests_last_month'],
                 'billed_year' => (int) $row['billed_year'],
+                'cached_year' => (int) $row['cached_year'],
+                'requests_year' => (int) $row['requests_year'],
             ];
         }
         return $out;
     }
 
     /**
-     * @return array{billed_chars: int, cached_chars: int, requests: int, billed_last_month: int, billed_year: int}
+     * @return array{
+     *   billed_chars: int,
+     *   cached_chars: int,
+     *   requests: int,
+     *   billed_last_month: int,
+     *   cached_last_month: int,
+     *   requests_last_month: int,
+     *   billed_year: int,
+     *   cached_year: int,
+     *   requests_year: int
+     * }
      */
     public static function usageForUserThisMonth(int $userId): array
     {
@@ -395,7 +422,16 @@ final class LibreTranslate
                               AND created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
                               AND created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
                              THEN chars_in ELSE 0 END) AS billed_last_month,
-                    SUM(CASE WHEN billed = 1 AND created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN chars_in ELSE 0 END) AS billed_year
+                    SUM(CASE WHEN billed = 0
+                              AND created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+                              AND created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
+                             THEN chars_in ELSE 0 END) AS cached_last_month,
+                    SUM(CASE WHEN created_at >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), \'%Y-%m-01\')
+                              AND created_at < DATE_FORMAT(NOW(), \'%Y-%m-01\')
+                             THEN 1 ELSE 0 END) AS requests_last_month,
+                    SUM(CASE WHEN billed = 1 AND created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN chars_in ELSE 0 END) AS billed_year,
+                    SUM(CASE WHEN billed = 0 AND created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN chars_in ELSE 0 END) AS cached_year,
+                    SUM(CASE WHEN created_at >= DATE_FORMAT(NOW(), \'%Y-01-01\') THEN 1 ELSE 0 END) AS requests_year
              FROM translation_usage
              WHERE user_id = ?
                AND created_at >= LEAST(
@@ -410,7 +446,38 @@ final class LibreTranslate
             'cached_chars' => (int) ($row['cached_chars'] ?? 0),
             'requests' => (int) ($row['requests'] ?? 0),
             'billed_last_month' => (int) ($row['billed_last_month'] ?? 0),
+            'cached_last_month' => (int) ($row['cached_last_month'] ?? 0),
+            'requests_last_month' => (int) ($row['requests_last_month'] ?? 0),
             'billed_year' => (int) ($row['billed_year'] ?? 0),
+            'cached_year' => (int) ($row['cached_year'] ?? 0),
+            'requests_year' => (int) ($row['requests_year'] ?? 0),
+        ];
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     * @return array{billed_chars: int, cached_chars: int, requests: int}
+     */
+    public static function usageForPeriod(array $row, string $period): array
+    {
+        if ($period === 'last') {
+            return [
+                'billed_chars' => (int) ($row['billed_last_month'] ?? 0),
+                'cached_chars' => (int) ($row['cached_last_month'] ?? 0),
+                'requests' => (int) ($row['requests_last_month'] ?? 0),
+            ];
+        }
+        if ($period === 'year') {
+            return [
+                'billed_chars' => (int) ($row['billed_year'] ?? 0),
+                'cached_chars' => (int) ($row['cached_year'] ?? 0),
+                'requests' => (int) ($row['requests_year'] ?? 0),
+            ];
+        }
+        return [
+            'billed_chars' => (int) ($row['billed_chars'] ?? 0),
+            'cached_chars' => (int) ($row['cached_chars'] ?? 0),
+            'requests' => (int) ($row['requests'] ?? 0),
         ];
     }
 
