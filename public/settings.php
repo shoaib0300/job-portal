@@ -76,9 +76,6 @@ $usagePeriodLabels = [
 ];
 $myTranslationRaw = LibreTranslate::usageForUserThisMonth(Auth::id());
 $myTranslation = LibreTranslate::usageForPeriod($myTranslationRaw, $usagePeriod);
-$showAllTranslation = Auth::isOwner();
-$allTranslation = $showAllTranslation ? LibreTranslate::usageByUserThisMonth() : [];
-$deeplAccount = DeepL::configured() ? DeepL::accountUsage() : null;
 
 layout_header('Account');
 ?>
@@ -140,7 +137,7 @@ layout_header('Account');
     <div class="card-body">
       <h2 class="h5 mb-2">German PDF translations</h2>
       <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-3">
-        <p class="small text-secondary mb-0">DeepL is used only for the German cover letter. Price is 5 cents (€0.05) per 1,000 billed characters. Cache does not cost anything.</p>
+        <p class="small text-secondary mb-0">Your German PDF usage only. Other accounts cannot see this. Price is 5 cents (€0.05) per 1,000 billed characters.</p>
         <form method="get" class="ms-auto">
           <label class="form-label small mb-1" for="usage">Period</label>
           <select class="form-select form-select-sm" id="usage" name="usage" onchange="this.form.submit()">
@@ -150,63 +147,10 @@ layout_header('Account');
           </select>
         </form>
       </div>
-      <?php if ($deeplAccount): ?>
-        <p class="mb-3">DeepL key this period: <strong><?= App::e(number_format($deeplAccount['character_count'])) ?></strong>
-          / <?= App::e(number_format($deeplAccount['character_limit'])) ?> characters.</p>
-      <?php endif; ?>
       <p class="mb-0"><?= App::e($usagePeriodLabels[$usagePeriod]) ?>: <strong><?= App::e(LibreTranslate::formatEuro($myTranslation['billed_chars'])) ?></strong>
         (<?= App::e(number_format($myTranslation['billed_chars'])) ?> billed,
         <?= App::e(number_format($myTranslation['cached_chars'])) ?> cache,
         <?= App::e(number_format($myTranslation['requests'])) ?> requests).</p>
-      <?php if ($showAllTranslation): ?>
-        <div class="table-responsive mt-3">
-          <table class="table table-sm mb-0">
-            <thead>
-              <tr>
-                <th>User</th>
-                <th class="text-end">Cost</th>
-                <th class="text-end">Billed chars</th>
-                <th class="text-end">Cached chars</th>
-                <th class="text-end">Requests</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              $visibleRows = [];
-              foreach ($allTranslation as $row) {
-                  $stats = LibreTranslate::usageForPeriod($row, $usagePeriod);
-                  if ($stats['billed_chars'] === 0 && $stats['cached_chars'] === 0 && $stats['requests'] === 0) {
-                      continue;
-                  }
-                  $visibleRows[] = [$row, $stats];
-              }
-              ?>
-              <?php if ($visibleRows === []): ?>
-                <tr><td colspan="5" class="text-secondary">No PDF DE translations in this period.</td></tr>
-              <?php else: ?>
-              <?php foreach ($visibleRows as [$row, $stats]): ?>
-                <?php
-                $label = trim($row['name'] !== '' ? $row['name'] : $row['username']);
-                if ($label === '') {
-                    $label = $row['user_id'] > 0 ? 'User #' . $row['user_id'] : 'CLI / unknown';
-                } elseif ($row['username'] !== '' && $row['name'] !== '') {
-                    $label .= ' (@' . $row['username'] . ')';
-                }
-                $label .= ' · ' . LibreTranslate::formatEuro($stats['billed_chars']);
-                ?>
-                <tr>
-                  <td><?= App::e($label) ?></td>
-                  <td class="text-end"><?= App::e(LibreTranslate::formatEuro($stats['billed_chars'])) ?></td>
-                  <td class="text-end"><?= App::e(number_format($stats['billed_chars'])) ?></td>
-                  <td class="text-end"><?= App::e(number_format($stats['cached_chars'])) ?></td>
-                  <td class="text-end"><?= App::e(number_format($stats['requests'])) ?></td>
-                </tr>
-              <?php endforeach; ?>
-              <?php endif; ?>
-            </tbody>
-          </table>
-        </div>
-      <?php endif; ?>
     </div>
   </section>
 
