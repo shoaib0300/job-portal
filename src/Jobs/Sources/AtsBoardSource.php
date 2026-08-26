@@ -30,9 +30,13 @@ final class AtsBoardSource
         $boards = self::boards($query);
         $apiBoards = [];
         $siteBoards = [];
+        $sitemapBoards = [];
         foreach ($boards as $board) {
-            if (($board['type'] ?? '') === 'site') {
+            $t = (string) ($board['type'] ?? '');
+            if ($t === 'site') {
                 $siteBoards[] = $board;
+            } elseif ($t === 'sitemap') {
+                $sitemapBoards[] = $board;
             } else {
                 $apiBoards[] = $board;
             }
@@ -76,6 +80,13 @@ final class AtsBoardSource
             }
         }
 
+        $sitemapResult = self::searchSitemapBoards($sitemapBoards, $query);
+        $listings = array_merge($listings, $sitemapResult['listings']);
+        $ok += $sitemapResult['ok'];
+        if ($sitemapResult['notice']) {
+            $notices[] = $sitemapResult['notice'];
+        }
+
         $siteResult = self::searchSiteBoards($siteBoards, $query);
         $listings = array_merge($listings, $siteResult['listings']);
         $ok += $siteResult['ok'];
@@ -86,12 +97,13 @@ final class AtsBoardSource
         $needle = mb_strtolower(trim($query->searchWas() . ($studentBias ? ' werkstudent praktikum hiwi' : '')));
         if ($needle !== '') {
             $tokens = preg_split('/\s+/u', $needle) ?: [];
+            $tokens = array_map([self::class, 'foldDe'], $tokens);
             $listings = array_values(array_filter(
                 $listings,
                 static function (JobListing $job) use ($tokens): bool {
-                    $hay = mb_strtolower($job->title . ' ' . $job->company . ' ' . $job->city . ' ' . $job->description);
+                    $hay = self::foldDe($job->title . ' ' . $job->company . ' ' . $job->city . ' ' . $job->description);
                     foreach ($tokens as $tok) {
-                        if ($tok !== '' && mb_strpos($hay, $tok) !== false) {
+                        if ($tok !== '' && str_contains($hay, $tok)) {
                             return true;
                         }
                     }
@@ -220,6 +232,211 @@ final class AtsBoardSource
         }
 
         return ['listings' => $listings, 'ok' => $ok, 'notice' => null];
+    }
+
+    /**
+     * Career boards that expose job URLs via sitemap.xml (DIS AG, Rossmann, …).
+     *
+     * @param list<array{type:string,slug:string,label:string,url?:string}> $boards
+     * @return array{listings: list<JobListing>, ok: int, notice: ?string}
+     */
+    private static function searchSitemapBoards(array $boards, JobQuery $query): array
+    {
+        if ($boards === []) {
+            return ['listings' => [], 'ok' => 0, 'notice' => null];
+        }
+
+        $needle = mb_strtolower(trim($query->searchWas()));
+        $tokens = $needle !== '' ? (preg_split('/\s+/u', $needle) ?: []) : [];
+        $tokens = array_values(array_filter($tokens, static fn(string $t): bool => mb_strlen($t) >= 2));
+        $tokens = array_map([self::class, 'foldDe'], $tokens);
+        $limit = $tokens === [] ? 40 : 80;
+        $maxSitemapPages = $tokens === [] ? 2 : 8;
+
+        $listings = [];
+        $ok = 0;
+        $notices = [];
+
+        foreach ($boards as $board) {
+            $host = (string) ($board['slug'] ?? '');
+            $base = rtrim((string) ($board['url'] ?? ''), '/');
+            if ($base === '') {
+                $base = 'https://' . $host;
+            }
+            $pages = self::discoverJobSitemapPages($base);
+            if ($pages === []) {
+                $notices[] = ($board['label'] ?? $host) . ': no job sitemap found.';
+                continue;
+            }
+            $pages = array_slice($pages, 0, $maxSitemapPages);
+            $reqs = [];
+            foreach ($pages as $i => $pageUrl) {
+                $reqs['p' . $i] = ['url' => $pageUrl];
+            }
+            $bodies = JobHttp::multiGet($reqs, 18);
+            $boardOk = false;
+            $matched = 0;
+            foreach ($pages as $i => $pageUrl) {
+                $xml = $bodies['p' . $i] ?? null;
+                if (!is_string($xml) || $xml === '') {
+                    continue;
+                }
+                $boardOk = true;
+                foreach (self::parseSitemapJobUrls($xml, $host) as $link) {
+                    $title = self::titleFromJobUrl($link);
+                    if ($tokens !== []) {
+                        $hay = self::foldDe($title . ' ' . $link);
+                        $hit = false;
+                        foreach ($tokens as $tok) {
+                            if (str_contains($hay, $tok)) {
+                                $hit = true;
+                                break;
+                            }
+                        }
+                        if (!$hit) {
+                            continue;
+                        }
+                    }
+                    $city = '';
+                    if (preg_match('/(?:am[-_]?standort|standort|in|location)[-_]?([a-z0-9äöüß\-]+)/ui', $link, $m)) {
+                        $city = self::titleFromJobUrl($m[1]);
+                    }
+                    $job = new JobListing(
+                        'career',
+                        'sitemap:' . hash('sha256', $link),
+                        $title,
+                        (string) ($board['label'] ?? $host),
+                        $city,
+                        '',
+                        'Germany',
+                        'unknown',
+                        'unknown',
+                        'job',
+                        [],
+                        [],
+                        '',
+                        null,
+                        $link,
+                        '',
+                    );
+                    $job->applyUrl = $link;
+                    $listings[] = JobText::enrich($job);
+                    $matched++;
+                    if ($matched >= $limit) {
+                        break 2;
+                    }
+                }
+            }
+            if ($boardOk) {
+                $ok++;
+            }
+        }
+
+        $notice = $notices !== [] ? implode(' ', $notices) : null;
+        if ($tokens === [] && $listings !== []) {
+            $extra = 'Sitemap boards return a sample without keywords — add role keywords to search deeper.';
+            $notice = $notice !== null ? ($notice . ' ' . $extra) : $extra;
+        }
+
+        return ['listings' => $listings, 'ok' => $ok, 'notice' => $notice];
+    }
+
+    /** @return list<string> */
+    private static function discoverJobSitemapPages(string $baseUrl): array
+    {
+        $origin = preg_replace('#^(https?://[^/]+).*$#i', '$1', $baseUrl) ?: $baseUrl;
+        $indexXml = JobHttp::get($origin . '/sitemap.xml', [], 14);
+        if ($indexXml === null || $indexXml === '') {
+            return [];
+        }
+        $locs = [];
+        if (preg_match_all('#<loc>\s*([^<]+)\s*</loc>#i', $indexXml, $m)) {
+            foreach ($m[1] as $loc) {
+                $loc = html_entity_decode(trim($loc), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                if ($loc === '') {
+                    continue;
+                }
+                $locs[] = $loc;
+            }
+        }
+        if ($locs === []) {
+            return [];
+        }
+        // Sitemap index → prefer job/vacancy children; else treat as a single urlset.
+        $jobPages = [];
+        foreach ($locs as $loc) {
+            $pathQuery = (string) (parse_url($loc, PHP_URL_PATH) ?? '') . '?' . (string) (parse_url($loc, PHP_URL_QUERY) ?? '');
+            $low = mb_strtolower($pathQuery);
+            if (str_contains($low, 'job') || str_contains($low, 'vacanc') || str_contains($low, 'stelle')) {
+                $jobPages[] = $loc;
+            }
+        }
+        if ($jobPages !== []) {
+            return array_values(array_unique($jobPages));
+        }
+        // Single urlset (locs are job pages) — return the sitemap itself.
+        if (str_contains(mb_strtolower($indexXml), '<urlset')) {
+            return [$origin . '/sitemap.xml'];
+        }
+        return array_slice($locs, 0, 5);
+    }
+
+    /** @return list<string> */
+    private static function parseSitemapJobUrls(string $xml, string $host): array
+    {
+        $out = [];
+        if (!preg_match_all('#<loc>\s*([^<]+)\s*</loc>#i', $xml, $m)) {
+            return [];
+        }
+        foreach ($m[1] as $loc) {
+            $loc = html_entity_decode(trim($loc), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            if ($loc === '' || !str_contains(mb_strtolower($loc), mb_strtolower($host))) {
+                continue;
+            }
+            $path = (string) (parse_url($loc, PHP_URL_PATH) ?? '');
+            // Skip non-job / content pages
+            if (preg_match('#/(static|fileadmin|typo3|impressum|datenschutz|cookie|arbeitgeber|einstieg|bewerben\.html|/bewerben/)#i', $path)) {
+                continue;
+            }
+            $isJob = (bool) preg_match('#/stellenanzeige/#i', $path)
+                || (bool) preg_match('#^/[a-z0-9äöüß][a-z0-9äöüß\-]{8,}/?$#iu', $path);
+            if (!$isJob) {
+                continue;
+            }
+            if (str_ends_with($path, '/bewerben/') || str_ends_with($path, '/bewerben')) {
+                $loc = preg_replace('#/bewerben/?$#', '/', $loc) ?: $loc;
+            }
+            $out[] = $loc;
+        }
+        return array_values(array_unique($out));
+    }
+
+    private static function titleFromJobUrl(string $urlOrSlug): string
+    {
+        $path = $urlOrSlug;
+        if (str_contains($urlOrSlug, '://')) {
+            $path = (string) (parse_url($urlOrSlug, PHP_URL_PATH) ?? '');
+        }
+        $path = trim($path, '/');
+        $parts = explode('/', $path);
+        $slug = (string) end($parts);
+        $slug = preg_replace('/\.html?$/i', '', $slug) ?? $slug;
+        $slug = preg_replace('/-\d{4,}$/', '', $slug) ?? $slug; // rossmann trailing id
+        $slug = str_replace(['-', '_'], ' ', $slug);
+        $slug = preg_replace('/\s+/u', ' ', $slug) ?? $slug;
+        $title = mb_convert_case(trim($slug), MB_CASE_TITLE, 'UTF-8');
+        $title = preg_replace('/\bM W D\b/iu', '(m/w/d)', $title) ?? $title;
+        $title = preg_replace('/\bW M D\b/iu', '(w/m/d)', $title) ?? $title;
+        return $title !== '' ? $title : 'Job opening';
+    }
+
+    private static function foldDe(string $s): string
+    {
+        $s = mb_strtolower($s);
+        return strtr($s, [
+            'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'ß' => 'ss',
+            'á' => 'a', 'à' => 'a', 'é' => 'e', 'è' => 'e',
+        ]);
     }
 
     /**

@@ -250,13 +250,13 @@ final class CareerCompanies
         $type = strtolower(trim($type));
         $key = trim($key);
         $url = trim($url);
-        if ($name === '' || $key === '' || !in_array($type, ['greenhouse', 'personio', 'smartrecruiters', 'site'], true)) {
-            throw new InvalidArgumentException('Need company name, type (greenhouse/personio/smartrecruiters/site), and key.');
+        if ($name === '' || $key === '' || !in_array($type, ['greenhouse', 'personio', 'smartrecruiters', 'site', 'sitemap'], true)) {
+            throw new InvalidArgumentException('Need company name, type (greenhouse/personio/smartrecruiters/site/sitemap), and key.');
         }
-        if ($type === 'site') {
+        if ($type === 'site' || $type === 'sitemap') {
             $host = self::hostFromUrl($url !== '' ? $url : $key);
             if ($host === '') {
-                throw new InvalidArgumentException('Site boards need a careers URL like https://jobs.mercedes-benz.com/');
+                throw new InvalidArgumentException('Site/sitemap boards need a careers URL like https://jobs.example.com/');
             }
             $key = $host;
             if ($url === '') {
@@ -415,7 +415,8 @@ final class CareerCompanies
             ['name' => 'REWE', 'type' => 'site', 'key' => 'karriere.rewe.de', 'url' => 'https://karriere.rewe.de/'],
             ['name' => 'Edeka', 'type' => 'site', 'key' => 'verbund.edeka', 'url' => 'https://verbund.edeka/karriere'],
             ['name' => 'dm-drogerie', 'type' => 'site', 'key' => 'www.dm.de', 'url' => 'https://www.dm.de/unternehmen/karriere'],
-            ['name' => 'Rossmann', 'type' => 'site', 'key' => 'karriere.rossmann.de', 'url' => 'https://karriere.rossmann.de/'],
+            ['name' => 'Rossmann', 'type' => 'sitemap', 'key' => 'jobs.rossmann.de', 'url' => 'https://jobs.rossmann.de/'],
+            ['name' => 'DIS AG', 'type' => 'sitemap', 'key' => 'jobs.de.dis-ag.com', 'url' => 'https://jobs.de.dis-ag.com/'],
             ['name' => 'DATEV', 'type' => 'site', 'key' => 'www.datev.de', 'url' => 'https://www.datev.de/web/de/karriere'],
             ['name' => 'TeamViewer', 'type' => 'site', 'key' => 'www.teamviewer.com', 'url' => 'https://www.teamviewer.com/en/company/careers'],
             ['name' => 'TeamViewer DE', 'type' => 'site', 'key' => 'www.teamviewer.com', 'url' => 'https://www.teamviewer.com/de/unternehmen/karriere'],

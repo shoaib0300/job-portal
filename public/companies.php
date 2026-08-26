@@ -101,7 +101,7 @@ layout_header('Companies');
   <div class="card shadow-sm mb-3">
     <div class="card-body">
       <h2 class="h5 mb-2">Add a personal board</h2>
-      <p class="small text-secondary mb-2">Only for companies not already in the shared list. Example: type <code>site</code>, URL <code>https://jobs.example.com/</code>.</p>
+      <p class="small text-secondary mb-2">Only for companies not already in the shared list. Use type <code>sitemap</code> when the careers site has a job sitemap (like DIS AG / Rossmann).</p>
       <form method="post" class="row g-2 align-items-end">
         <input type="hidden" name="action" value="add">
         <div class="col-md-3">
@@ -112,6 +112,7 @@ layout_header('Companies');
           <label class="form-label" for="board_type">Type</label>
           <select class="form-select" id="board_type" name="board_type" required>
             <option value="site">Career site URL</option>
+            <option value="sitemap">Job sitemap</option>
             <option value="greenhouse">Greenhouse</option>
             <option value="personio">Personio</option>
             <option value="smartrecruiters">SmartRecruiters</option>
@@ -146,7 +147,7 @@ layout_header('Companies');
         <label class="form-label" for="filter-type">Type</label>
         <select class="form-select" id="filter-type" name="type">
           <option value=""<?= $type === '' ? ' selected' : '' ?>>All types</option>
-          <?php foreach (['greenhouse', 'personio', 'smartrecruiters', 'site'] as $t): ?>
+          <?php foreach (['greenhouse', 'personio', 'smartrecruiters', 'site', 'sitemap'] as $t): ?>
             <option value="<?= $t ?>"<?= $type === $t ? ' selected' : '' ?>><?= App::e($t) ?></option>
           <?php endforeach; ?>
         </select>
