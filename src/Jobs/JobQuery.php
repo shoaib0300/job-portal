@@ -47,6 +47,7 @@ final class JobQuery
     /**
      * @param list<string> $keywords
      * @param list<string> $sources
+     * @param list<string> $companies type:slug keys
      */
     public function __construct(
         public string $q = '',
@@ -69,6 +70,7 @@ final class JobQuery
         public int $page = 1,
         public int $size = 25,
         public array $keywords = [],
+        public array $companies = [],
     ) {
         $this->keywords = self::normalizeKeywords(
             $this->keywords !== [] ? $this->keywords : self::parseKeywords($this->q)
@@ -218,6 +220,18 @@ final class JobQuery
             $keywords = self::normalizeKeywords(ResumeJobMatch::searchKeywords());
         }
 
+        $companies = [];
+        $rawCompanies = $get['companies'] ?? [];
+        if (!is_array($rawCompanies)) {
+            $rawCompanies = $rawCompanies !== '' && $rawCompanies !== null ? [(string) $rawCompanies] : [];
+        }
+        foreach ($rawCompanies as $c) {
+            $c = trim((string) $c);
+            if ($c !== '' && !in_array($c, $companies, true)) {
+                $companies[] = $c;
+            }
+        }
+
         return new self(
             implode(', ', $keywords),
             trim((string) ($get['city'] ?? '')),
@@ -239,6 +253,7 @@ final class JobQuery
             (int) ($get['page'] ?? 1),
             25,
             $keywords,
+            $companies,
         );
     }
 
@@ -343,6 +358,7 @@ final class JobQuery
             'sort' => $this->sort !== 'relevance' ? $this->sort : '',
             'page' => $this->page,
             'sources' => $this->sources,
+            'companies' => $this->companies,
         ];
         if ($this->student) {
             $data['student'] = '1';
@@ -396,7 +412,8 @@ final class JobQuery
             'posted' => $this->postedDays,
             'sort' => $this->sort,
             'sources' => $this->sources,
+            'companies' => $this->companies,
         ];
-        return 'search:v5:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v6:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 }

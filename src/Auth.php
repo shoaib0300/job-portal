@@ -71,6 +71,7 @@ final class Auth
         }
 
         self::seedOwner($pdo);
+        // Super-admin schema is owned by SuperAdmin::ensureSchema (bootstrap).
     }
 
     private static function seedOwner(PDO $pdo): void
@@ -149,11 +150,19 @@ final class Auth
         if ($id <= 0) {
             return null;
         }
-        $stmt = Db::pdo()->prepare('SELECT id, name, username, email, created_at FROM users WHERE id = ? LIMIT 1');
+        $stmt = Db::pdo()->prepare(
+            'SELECT id, name, username, email, is_active, can_translate, created_at, last_login_at
+             FROM users WHERE id = ? LIMIT 1'
+        );
         $stmt->execute([$id]);
         $row = $stmt->fetch();
         if ($row === false) {
             unset($_SESSION['user_id']);
+            return null;
+        }
+        if ((int) ($row['is_active'] ?? 1) !== 1) {
+            unset($_SESSION['user_id']);
+            self::$user = null;
             return null;
         }
         self::$user = $row;
@@ -188,14 +197,21 @@ final class Auth
             return false;
         }
         $stmt = Db::pdo()->prepare(
-            'SELECT id, password_hash FROM users WHERE username = ? OR email = ? LIMIT 1'
+            'SELECT id, password_hash, is_active FROM users WHERE username = ? OR email = ? LIMIT 1'
         );
         $stmt->execute([$login, $login]);
         $row = $stmt->fetch();
         if ($row === false || !password_verify($password, (string) $row['password_hash'])) {
             return false;
         }
+        if ((int) ($row['is_active'] ?? 1) !== 1) {
+            return false;
+        }
         self::impersonate((int) $row['id']);
+        try {
+            SuperAdmin::touchLastLogin((int) $row['id']);
+        } catch (Throwable) {
+        }
         return true;
     }
 

@@ -34,6 +34,7 @@ if ($ran) {
 $sourceLabels = JobQuery::SOURCES;
 $resumeTitle = ResumeJobMatch::activeTitle();
 $resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
+$companyOptions = CareerCompanies::filterOptions(Auth::id());
 
 layout_header('Jobs');
 ?>
@@ -157,6 +158,20 @@ layout_header('Jobs');
         <?php endforeach; ?>
         <?php if (!SerpBoardSource::configured()): ?>
           <p class="small text-secondary mt-2 mb-0">LinkedIn, Indeed, StepStone, XING, Jobware, and Glassdoor use Google site search when <code>BRIGHT_DATA_API_TOKEN</code> is set. Jobexport is a distributor board (same ads often already on Arbeitsagentur).</p>
+        <?php endif; ?>
+
+        <?php if ($companyOptions !== []): ?>
+          <h2 class="h6 mt-3">Companies</h2>
+          <p class="small text-secondary mb-2">Limit career-page search to selected boards. Leave empty for all enabled.</p>
+          <div class="mb-2" style="max-height:12rem;overflow:auto;border:1px solid var(--bs-border-color);border-radius:6px;padding:0.5rem">
+            <?php foreach ($companyOptions as $i => $opt): ?>
+              <?php $cid = 'co-' . $i; ?>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= in_array($opt['key'], $query->companies, true) ? ' checked' : '' ?>>
+                <label class="form-check-label small" for="<?= App::e($cid) ?>"><?= App::e($opt['label']) ?></label>
+              </div>
+            <?php endforeach; ?>
+          </div>
         <?php endif; ?>
 
         <div class="d-grid gap-2 mt-3">

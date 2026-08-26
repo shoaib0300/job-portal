@@ -5,16 +5,14 @@ declare(strict_types=1);
 final class AtsBoardSource
 {
     /** @return list<array{type:string,slug:string,label:string,url?:string}> */
-    public static function boards(): array
+    public static function boards(?JobQuery $query = null): array
     {
         $uid = Auth::id();
-        if ($uid > 0) {
-            $fromDb = CareerCompanies::enabledBoards($uid);
-            if ($fromDb !== []) {
-                return $fromDb;
-            }
+        $filter = $query !== null ? $query->companies : [];
+        $fromDb = CareerCompanies::enabledBoards($uid, $filter);
+        if ($fromDb !== []) {
+            return $fromDb;
         }
-        // Fallback before seed / CLI
         return [
             ['type' => 'greenhouse', 'slug' => 'n26', 'label' => 'N26', 'url' => ''],
             ['type' => 'greenhouse', 'slug' => 'celonis', 'label' => 'Celonis', 'url' => ''],
@@ -29,7 +27,7 @@ final class AtsBoardSource
      */
     public static function search(JobQuery $query, bool $studentBias = false): array
     {
-        $boards = self::boards();
+        $boards = self::boards($query);
         $apiBoards = [];
         $siteBoards = [];
         foreach ($boards as $board) {

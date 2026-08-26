@@ -33,6 +33,7 @@ require_once $root . '/src/Db.php';
 require_once $root . '/src/App.php';
 require_once $root . '/src/Versions.php';
 require_once $root . '/src/Auth.php';
+require_once $root . '/src/SuperAdmin.php';
 require_once $root . '/src/PdfExport.php';
 require_once $root . '/src/DeepL.php';
 require_once $root . '/src/LibreTranslate.php';
@@ -43,6 +44,7 @@ try {
     Versions::ensureSchema();
     App::ensureDashboardSchema();
     Auth::ensureSchema();
+    SuperAdmin::ensureSchema();
     JobAggregator::ensureSchema();
     LibreTranslate::ensureSchema();
 } catch (Throwable $e) {
@@ -51,11 +53,15 @@ try {
 
 if (PHP_SAPI !== 'cli') {
     $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+    $scriptPath = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+    $isSuperAdmin = str_contains($scriptPath, '/super-admin');
     if (in_array($script, ['resume.php', 'cover-letter.php'], true)) {
         PdfExport::acceptExportToken();
     }
     $public = ['login.php', 'register.php', 'logout.php'];
-    if (!in_array($script, $public, true)) {
+    if ($isSuperAdmin) {
+        // Super-admin pages handle their own auth.
+    } elseif (!in_array($script, $public, true)) {
         Auth::requireLogin();
     }
 }

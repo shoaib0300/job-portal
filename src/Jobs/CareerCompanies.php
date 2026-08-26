@@ -26,21 +26,24 @@ final class CareerCompanies
               KEY idx_user_enabled (user_id, enabled)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
-        self::seedIfEmpty(Auth::id());
+        self::seedGlobalIfEmpty();
+    }
+
+    /** Shared catalog managed by super-admin (user_id = 0). */
+    public static function seedGlobalIfEmpty(): void
+    {
+        $stmt = Db::pdo()->prepare('SELECT COUNT(*) FROM career_companies WHERE user_id = 0');
+        $stmt->execute();
+        if ((int) $stmt->fetchColumn() > 0) {
+            return;
+        }
+        self::seedDefaults(0);
     }
 
     public static function seedIfEmpty(int $userId): void
     {
-        if ($userId <= 0) {
-            return;
-        }
-        $stmt = Db::pdo()->prepare('SELECT COUNT(*) FROM career_companies WHERE user_id = ?');
-        $stmt->execute([$userId]);
-        if ((int) $stmt->fetchColumn() > 0) {
-            return;
-        }
-        self::seedDefaults($userId);
-        self::importLegacySetting($userId);
+        // Personal accounts no longer get a full catalog copy; they use the global list.
+        self::seedGlobalIfEmpty();
     }
 
     public static function seedDefaults(int $userId): int
@@ -95,7 +98,7 @@ final class CareerCompanies
         }
     }
 
-    /** @return list<array{id:int,name:string,board_type:string,board_key:string,careers_url:string,enabled:int,sort_order:int}> */
+    /** @return list<array{id:int,user_id:int,name:string,board_type:string,board_key:string,careers_url:string,enabled:int,sort_order:int}> */
     public static function forUser(int $userId, bool $enabledOnly = false): array
     {
         self::ensureSchema();
@@ -110,6 +113,7 @@ final class CareerCompanies
         foreach ($stmt->fetchAll() as $row) {
             $out[] = [
                 'id' => (int) $row['id'],
+                'user_id' => (int) $row['user_id'],
                 'name' => (string) $row['name'],
                 'board_type' => (string) $row['board_type'],
                 'board_key' => (string) $row['board_key'],
@@ -122,20 +126,65 @@ final class CareerCompanies
     }
 
     /**
-     * Boards ready for AtsBoardSource.
+     * Boards ready for AtsBoardSource: enabled global + enabled personal.
+     * Optional $filterKeys is a list of "type:slug" keys; empty = all.
      *
-     * @return list<array{type:string,slug:string,label:string,url:string}>
+     * @param list<string> $filterKeys
+     * @return list<array{type:string,slug:string,label:string,url:string,id:int,scope:string}>
      */
-    public static function enabledBoards(int $userId): array
+    public static function enabledBoards(int $userId, array $filterKeys = []): array
     {
+        self::ensureSchema();
         $out = [];
-        foreach (self::forUser($userId, true) as $row) {
+        $seen = [];
+        $rows = self::forUser(0, true);
+        if ($userId > 0) {
+            $rows = array_merge($rows, self::forUser($userId, true));
+        }
+        foreach ($rows as $row) {
+            $key = $row['board_type'] . ':' . $row['board_key'];
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            if ($filterKeys !== [] && !in_array($key, $filterKeys, true) && !in_array($row['board_key'], $filterKeys, true)) {
+                continue;
+            }
             $out[] = [
                 'type' => $row['board_type'],
                 'slug' => $row['board_key'],
                 'label' => $row['name'],
                 'url' => $row['careers_url'],
+                'id' => $row['id'],
+                'scope' => $row['user_id'] === 0 ? 'global' : 'personal',
             ];
+        }
+        return $out;
+    }
+
+    /**
+     * Select options for Jobs filter (global enabled + personal enabled).
+     *
+     * @return list<array{key:string,label:string,scope:string}>
+     */
+    public static function filterOptions(int $userId): array
+    {
+        $out = [];
+        foreach (self::forUser(0, true) as $row) {
+            $out[] = [
+                'key' => $row['board_type'] . ':' . $row['board_key'],
+                'label' => $row['name'],
+                'scope' => 'shared',
+            ];
+        }
+        if ($userId > 0) {
+            foreach (self::forUser($userId, true) as $row) {
+                $out[] = [
+                    'key' => $row['board_type'] . ':' . $row['board_key'],
+                    'label' => $row['name'] . ' (mine)',
+                    'scope' => 'personal',
+                ];
+            }
         }
         return $out;
     }

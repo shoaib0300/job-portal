@@ -19,23 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (string) ($_POST['board_key'] ?? ''),
                 (string) ($_POST['careers_url'] ?? '')
             );
-            App::flash('Company board added.');
+            App::flash('Personal board added.');
         } elseif ($action === 'toggle') {
             CareerCompanies::setEnabled($uid, (int) ($_POST['id'] ?? 0), (string) ($_POST['enabled'] ?? '') === '1');
-            App::flash('Company updated.');
+            App::flash('Board updated.');
         } elseif ($action === 'delete') {
             CareerCompanies::delete($uid, (int) ($_POST['id'] ?? 0));
-            App::flash('Company removed.');
-        } elseif ($action === 'seed') {
-            $n = CareerCompanies::seedDefaults($uid);
-            App::flash($n > 0 ? "Added {$n} companies from the Germany catalog." : 'Catalog already loaded (duplicates skipped).');
-        } elseif ($action === 'enable_all') {
-            Db::pdo()->prepare('UPDATE career_companies SET enabled = 1 WHERE user_id = ?')->execute([$uid]);
-            App::flash('All companies enabled.');
-        } elseif ($action === 'disable_sites') {
-            Db::pdo()->prepare('UPDATE career_companies SET enabled = 0 WHERE user_id = ? AND board_type = ?')
-                ->execute([$uid, 'site']);
-            App::flash('Site boards disabled (Greenhouse/Personio/SmartRecruiters stay on).');
+            App::flash('Personal board removed.');
         }
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
@@ -43,15 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     App::redirect('/companies.php');
 }
 
-$companies = CareerCompanies::forUser($uid);
-$enabled = count(array_filter($companies, static fn(array $c): bool => $c['enabled'] === 1));
-$byType = ['greenhouse' => 0, 'personio' => 0, 'smartrecruiters' => 0, 'site' => 0];
-foreach ($companies as $c) {
-    $t = $c['board_type'];
-    if (isset($byType[$t])) {
-        $byType[$t]++;
-    }
-}
+$shared = CareerCompanies::forUser(0, true);
+$mine = CareerCompanies::forUser($uid);
+$enabledMine = count(array_filter($mine, static fn(array $c): bool => $c['enabled'] === 1));
 
 layout_header('Companies');
 ?>
@@ -59,27 +43,26 @@ layout_header('Companies');
   <header class="page-head d-flex flex-wrap justify-content-between gap-2 align-items-start">
     <div>
       <h1>Company career boards</h1>
-      <p class="mb-0">Add employer career links. Jobs search uses enabled boards when <strong>Company career pages</strong> is selected (on by default).</p>
+      <p class="mb-0">Shared catalog is managed for everyone. Add personal boards below; Jobs uses enabled shared + your enabled boards when <strong>Company career pages</strong> is on.</p>
     </div>
     <a class="btn btn-outline-secondary" href="<?= App::e(JobQuery::jobsHref()) ?>">← Jobs</a>
   </header>
 
   <div class="row g-3 mb-3">
-    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Total</div><div class="h4 mb-0"><?= count($companies) ?></div></div></div></div>
-    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Enabled</div><div class="h4 mb-0"><?= (int) $enabled ?></div></div></div></div>
-    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">API boards</div><div class="h4 mb-0"><?= (int) ($byType['greenhouse'] + $byType['personio'] + $byType['smartrecruiters']) ?></div></div></div></div>
-    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Career sites</div><div class="h4 mb-0"><?= (int) $byType['site'] ?></div></div></div></div>
+    <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Shared (on)</div><div class="h4 mb-0"><?= count($shared) ?></div></div></div></div>
+    <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">My boards</div><div class="h4 mb-0"><?= count($mine) ?></div></div></div></div>
+    <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">My boards enabled</div><div class="h4 mb-0"><?= (int) $enabledMine ?></div></div></div></div>
   </div>
 
   <div class="card shadow-sm mb-3">
     <div class="card-body">
-      <h2 class="h5 mb-2">Add a company</h2>
+      <h2 class="h5 mb-2">Add my board</h2>
       <p class="small text-secondary">Examples: Mercedes → type <code>site</code>, URL <code>https://jobs.mercedes-benz.com/</code>. N26 → type <code>greenhouse</code>, key <code>n26</code>.</p>
       <form method="post" class="row g-2 align-items-end">
         <input type="hidden" name="action" value="add">
         <div class="col-md-3">
           <label class="form-label" for="name">Company</label>
-          <input class="form-control" id="name" name="name" required placeholder="Mercedes-Benz">
+          <input class="form-control" id="name" name="name" required placeholder="Acme GmbH">
         </div>
         <div class="col-md-2">
           <label class="form-label" for="board_type">Type</label>
@@ -92,11 +75,11 @@ layout_header('Companies');
         </div>
         <div class="col-md-3">
           <label class="form-label" for="board_key">Key / host</label>
-          <input class="form-control" id="board_key" name="board_key" required placeholder="jobs.mercedes-benz.com or n26">
+          <input class="form-control" id="board_key" name="board_key" required placeholder="jobs.example.com or slug">
         </div>
         <div class="col-md-3">
           <label class="form-label" for="careers_url">Careers URL</label>
-          <input class="form-control" id="careers_url" name="careers_url" placeholder="https://jobs.mercedes-benz.com/">
+          <input class="form-control" id="careers_url" name="careers_url" placeholder="https://…">
         </div>
         <div class="col-md-1">
           <button type="submit" class="btn btn-primary w-100">Add</button>
@@ -105,14 +88,43 @@ layout_header('Companies');
     </div>
   </div>
 
-  <div class="d-flex flex-wrap gap-2 mb-3">
-    <form method="post"><input type="hidden" name="action" value="seed"><button class="btn btn-outline-primary btn-sm" type="submit">Load Germany catalog (~100)</button></form>
-    <form method="post"><input type="hidden" name="action" value="enable_all"><button class="btn btn-outline-secondary btn-sm" type="submit">Enable all</button></form>
-    <form method="post"><input type="hidden" name="action" value="disable_sites"><button class="btn btn-outline-secondary btn-sm" type="submit">Disable site boards only</button></form>
-  </div>
+  <h2 class="h5 mb-2">Shared catalog</h2>
+  <?php if ($shared === []): ?>
+    <div class="card shadow-sm mb-4"><div class="card-body text-secondary">No shared companies enabled yet.</div></div>
+  <?php else: ?>
+    <div class="table-responsive card shadow-sm mb-4">
+      <table class="table table-sm mb-0 align-middle">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Type</th>
+            <th>Key / host</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($shared as $c): ?>
+            <tr>
+              <td class="fw-semibold"><?= App::e($c['name']) ?></td>
+              <td><span class="badge text-bg-light border"><?= App::e($c['board_type']) ?></span></td>
+              <td class="small"><code><?= App::e($c['board_key']) ?></code></td>
+              <td class="small">
+                <?php if ($c['careers_url'] !== ''): ?>
+                  <a href="<?= App::e($c['careers_url']) ?>" target="_blank" rel="noopener">Open</a>
+                <?php else: ?>
+                  —
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  <?php endif; ?>
 
-  <?php if ($companies === []): ?>
-    <div class="card shadow-sm"><div class="card-body">No companies yet. Click <strong>Load Germany catalog</strong> or add Mercedes / BMW manually.</div></div>
+  <h2 class="h5 mb-2">My boards</h2>
+  <?php if ($mine === []): ?>
+    <div class="card shadow-sm"><div class="card-body text-secondary">No personal boards yet. Add one above if you need a company not in the shared list.</div></div>
   <?php else: ?>
     <div class="table-responsive card shadow-sm">
       <table class="table table-sm mb-0 align-middle">
@@ -127,14 +139,14 @@ layout_header('Companies');
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($companies as $c): ?>
+          <?php foreach ($mine as $c): ?>
             <tr>
               <td>
                 <form method="post" class="m-0">
                   <input type="hidden" name="action" value="toggle">
                   <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
                   <input type="hidden" name="enabled" value="<?= $c['enabled'] ? '0' : '1' ?>">
-                  <button type="submit" class="btn btn-sm <?= $c['enabled'] ? 'btn-success' : 'btn-outline-secondary' ?>" title="Toggle">
+                  <button type="submit" class="btn btn-sm <?= $c['enabled'] ? 'btn-success' : 'btn-outline-secondary' ?>">
                     <?= $c['enabled'] ? 'On' : 'Off' ?>
                   </button>
                 </form>
@@ -150,7 +162,7 @@ layout_header('Companies');
                 <?php endif; ?>
               </td>
               <td class="text-end">
-                <form method="post" class="m-0" onsubmit="return confirm('Remove this company?');">
+                <form method="post" class="m-0" onsubmit="return confirm('Remove this personal board?');">
                   <input type="hidden" name="action" value="delete">
                   <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
                   <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
@@ -164,8 +176,8 @@ layout_header('Companies');
   <?php endif; ?>
 
   <p class="small text-secondary mt-3 mb-0">
-    Greenhouse / Personio / SmartRecruiters use public APIs (no Bright Data).
-    Site boards (Mercedes, BMW, SAP, …) use Google <code>site:</code> search when <code>BRIGHT_DATA_API_TOKEN</code> is set — up to 12 sites per search.
+    Greenhouse / Personio / SmartRecruiters use public APIs.
+    Site boards use Google <code>site:</code> search when <code>BRIGHT_DATA_API_TOKEN</code> is set.
   </p>
 </main>
 <?php
