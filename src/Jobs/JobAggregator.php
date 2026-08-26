@@ -181,30 +181,8 @@ final class JobAggregator
             if ($query->employment !== '' && $job->employment !== 'unknown' && $job->employment !== $query->employment) {
                 return false;
             }
-            if ($query->internship && $job->offerType !== 'unknown' && $job->offerType !== 'internship') {
+            if ($query->hasLevelFilter() && !self::matchesLevelFilter($job, $query)) {
                 return false;
-            }
-            if ($query->student && $job->seniorityTags !== [] && !in_array('student', $job->seniorityTags, true)
-                && $job->offerType !== 'internship') {
-                $hay = mb_strtolower($job->title . ' ' . $job->description);
-                if (!preg_match('/werkstudent|working student|studierend|hiwi|praktikum/u', $hay)) {
-                    return false;
-                }
-            }
-            if ($query->junior && $job->seniorityTags !== [] && !in_array('junior', $job->seniorityTags, true)) {
-                if (!preg_match('/junior|einsteiger/iu', $job->title . ' ' . $job->description)) {
-                    return false;
-                }
-            }
-            if ($query->graduate && $job->seniorityTags !== [] && !in_array('graduate', $job->seniorityTags, true)) {
-                if (!preg_match('/absolvent|graduate/iu', $job->title . ' ' . $job->description)) {
-                    return false;
-                }
-            }
-            if ($query->noExperience && $job->seniorityTags !== [] && !in_array('no_experience', $job->seniorityTags, true)) {
-                if (!preg_match('/keine berufserfahrung|ohne berufserfahrung|no experience|einsteiger/iu', $job->title . ' ' . $job->description)) {
-                    return false;
-                }
             }
             if ($query->english) {
                 $hay = $job->title . "\n" . $job->description;
@@ -230,6 +208,48 @@ final class JobAggregator
             }
             return true;
         }));
+    }
+
+    /**
+     * Selected Level checkboxes are OR: keep the job if it matches any checked level.
+     */
+    private static function matchesLevelFilter(JobListing $job, JobQuery $query): bool
+    {
+        $hay = mb_strtolower($job->title . "\n" . $job->description);
+        $tags = $job->seniorityTags;
+
+        if ($query->student) {
+            if (in_array('student', $tags, true)
+                || $job->offerType === 'internship'
+                || preg_match('/werkstudent|working student|studierend|studentische|hiwi|werkstudentin/u', $hay)) {
+                return true;
+            }
+        }
+        if ($query->junior) {
+            if (in_array('junior', $tags, true)
+                || preg_match('/\bjunior\b|einsteiger|berufseinsteiger|entry[-\s]?level/u', $hay)) {
+                return true;
+            }
+        }
+        if ($query->graduate) {
+            if (in_array('graduate', $tags, true)
+                || preg_match('/absolvent|graduate|hochschulabsolvent|career starter|berufseinstieg/u', $hay)) {
+                return true;
+            }
+        }
+        if ($query->internship) {
+            if ($job->offerType === 'internship' || $job->offerType === 'training'
+                || preg_match('/\bpraktikum\b|\binternship\b|\bintern\b|\btrainee\b|\bazubi\b|\bausbildung\b/u', $hay)) {
+                return true;
+            }
+        }
+        if ($query->noExperience) {
+            if (in_array('no_experience', $tags, true)
+                || preg_match('/keine berufserfahrung|ohne berufserfahrung|no experience|ohne vorkenntnisse|berufseinsteiger|kein[e]?\s+erfahrung/u', $hay)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

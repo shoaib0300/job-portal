@@ -14,7 +14,8 @@ if (isset($_GET['reset'])) {
 
 $get = JobQuery::mergeRequest($_GET);
 $query = JobQuery::fromRequest($get);
-$ran = isset($get['search']) || $query->hasKeywords() || $query->city !== '' || $query->bundesland !== '';
+$ran = isset($get['search']) || $query->hasKeywords() || $query->city !== '' || $query->bundesland !== ''
+    || $query->hasLevelFilter();
 if (isset($_GET['search'])) {
     JobQuery::saveFilters($query);
 }

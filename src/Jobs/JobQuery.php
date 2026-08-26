@@ -256,9 +256,14 @@ final class JobQuery
         return $this->keywords !== [];
     }
 
-    /** Extra keywords appended to free-text search. */
+    /** Extra keywords appended to free-text search only when the user typed no roles. */
     public function extraKeywords(): string
     {
+        // Level checkboxes filter results after fetch. Do not AND them into the API query
+        // when the user already has role keywords (that made BA/Jobexport return 0 hits).
+        if ($this->hasKeywords()) {
+            return '';
+        }
         $bits = [];
         if ($this->student) {
             $bits[] = 'Werkstudent';
@@ -272,13 +277,18 @@ final class JobQuery
         if ($this->noExperience) {
             $bits[] = 'Berufseinsteiger';
         }
-        if ($this->internship && !$this->hasKeywords()) {
+        if ($this->internship) {
             $bits[] = 'Praktikum';
         }
-        if ($this->wantsSource('university') && !$this->hasKeywords() && !$this->student && !$this->internship) {
+        if ($bits === [] && $this->wantsSource('university')) {
             $bits[] = 'Werkstudent';
         }
         return implode(' ', $bits);
+    }
+
+    public function hasLevelFilter(): bool
+    {
+        return $this->student || $this->junior || $this->graduate || $this->internship || $this->noExperience;
     }
 
     /** Space-joined roles for APIs that take one was= string (Arbeitsagentur). */
@@ -370,6 +380,6 @@ final class JobQuery
             'posted' => $this->postedDays,
             'sources' => $this->sources,
         ];
-        return 'search:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v2:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 }

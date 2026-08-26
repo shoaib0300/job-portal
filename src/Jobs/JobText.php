@@ -72,7 +72,7 @@ final class JobText
         if (preg_match('/\b(absolvent|graduate|hochschulabsolvent)\b/u', $t)) {
             $tags[] = 'graduate';
         }
-        if (preg_match('/\b(keine berufserfahrung|ohne berufserfahrung|no experience|ohne vorkenntnisse)\b/u', $t)) {
+        if (preg_match('/\b(keine berufserfahrung|ohne berufserfahrung|no experience|ohne vorkenntnisse|berufseinsteiger)\b/u', $t)) {
             $tags[] = 'no_experience';
         }
         return $tags;
