@@ -7,6 +7,18 @@ require_once dirname(__DIR__) . '/src/layout.php';
 
 CareerCompanies::ensureSchema();
 $uid = Auth::id();
+CareerCompanies::purgePersonalDuplicates($uid);
+
+$filterQs = static function (): string {
+    $q = [];
+    foreach (['scope', 'type', 'q'] as $k) {
+        $v = trim((string) ($_GET[$k] ?? ''));
+        if ($v !== '') {
+            $q[$k] = $v;
+        }
+    }
+    return $q === [] ? '' : ('?' . http_build_query($q));
+};
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = (string) ($_POST['action'] ?? '');
@@ -30,12 +42,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
     }
-    App::redirect('/companies.php');
+    App::redirect('/companies.php' . $filterQs());
 }
 
+$scope = (string) ($_GET['scope'] ?? 'all');
+if (!in_array($scope, ['all', 'shared', 'mine'], true)) {
+    $scope = 'all';
+}
+$type = strtolower(trim((string) ($_GET['type'] ?? '')));
+if (!in_array($type, ['', 'greenhouse', 'personio', 'smartrecruiters', 'site'], true)) {
+    $type = '';
+}
+$search = trim((string) ($_GET['q'] ?? ''));
+
 $shared = CareerCompanies::forUser(0, true);
-$mine = CareerCompanies::forUser($uid);
-$enabledMine = count(array_filter($mine, static fn(array $c): bool => $c['enabled'] === 1));
+$mine = CareerCompanies::personalExtras($uid);
+
+$rows = [];
+if ($scope !== 'mine') {
+    foreach ($shared as $c) {
+        $rows[] = $c + ['scope' => 'shared'];
+    }
+}
+if ($scope !== 'shared') {
+    foreach ($mine as $c) {
+        $rows[] = $c + ['scope' => 'mine'];
+    }
+}
+
+if ($type !== '') {
+    $rows = array_values(array_filter(
+        $rows,
+        static fn(array $c): bool => $c['board_type'] === $type
+    ));
+}
+if ($search !== '') {
+    $needle = mb_strtolower($search);
+    $rows = array_values(array_filter(
+        $rows,
+        static function (array $c) use ($needle): bool {
+            $hay = mb_strtolower($c['name'] . ' ' . $c['board_key'] . ' ' . $c['board_type']);
+            return str_contains($hay, $needle);
+        }
+    ));
+}
 
 layout_header('Companies');
 ?>
@@ -43,21 +93,15 @@ layout_header('Companies');
   <header class="page-head d-flex flex-wrap justify-content-between gap-2 align-items-start">
     <div>
       <h1>Company career boards</h1>
-      <p class="mb-0">Shared catalog is managed for everyone. Add personal boards below; Jobs uses enabled shared + your enabled boards when <strong>Company career pages</strong> is on.</p>
+      <p class="mb-0">One list: shared boards for everyone, plus any extras you add. Jobs uses these when <strong>Company career pages</strong> is on.</p>
     </div>
     <a class="btn btn-outline-secondary" href="<?= App::e(JobQuery::jobsHref()) ?>">← Jobs</a>
   </header>
 
-  <div class="row g-3 mb-3">
-    <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Shared (on)</div><div class="h4 mb-0"><?= count($shared) ?></div></div></div></div>
-    <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">My boards</div><div class="h4 mb-0"><?= count($mine) ?></div></div></div></div>
-    <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">My boards enabled</div><div class="h4 mb-0"><?= (int) $enabledMine ?></div></div></div></div>
-  </div>
-
   <div class="card shadow-sm mb-3">
     <div class="card-body">
-      <h2 class="h5 mb-2">Add my board</h2>
-      <p class="small text-secondary">Examples: Mercedes → type <code>site</code>, URL <code>https://jobs.mercedes-benz.com/</code>. N26 → type <code>greenhouse</code>, key <code>n26</code>.</p>
+      <h2 class="h5 mb-2">Add a personal board</h2>
+      <p class="small text-secondary mb-2">Only for companies not already in the shared list. Example: type <code>site</code>, URL <code>https://jobs.example.com/</code>.</p>
       <form method="post" class="row g-2 align-items-end">
         <input type="hidden" name="action" value="add">
         <div class="col-md-3">
@@ -88,48 +132,44 @@ layout_header('Companies');
     </div>
   </div>
 
-  <h2 class="h5 mb-2">Shared catalog</h2>
-  <?php if ($shared === []): ?>
-    <div class="card shadow-sm mb-4"><div class="card-body text-secondary">No shared companies enabled yet.</div></div>
-  <?php else: ?>
-    <div class="table-responsive card shadow-sm mb-4">
-      <table class="table table-sm mb-0 align-middle">
-        <thead>
-          <tr>
-            <th>Company</th>
-            <th>Type</th>
-            <th>Key / host</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($shared as $c): ?>
-            <tr>
-              <td class="fw-semibold"><?= App::e($c['name']) ?></td>
-              <td><span class="badge text-bg-light border"><?= App::e($c['board_type']) ?></span></td>
-              <td class="small"><code><?= App::e($c['board_key']) ?></code></td>
-              <td class="small">
-                <?php if ($c['careers_url'] !== ''): ?>
-                  <a href="<?= App::e($c['careers_url']) ?>" target="_blank" rel="noopener">Open</a>
-                <?php else: ?>
-                  —
-                <?php endif; ?>
-              </td>
-            </tr>
+  <form method="get" class="card shadow-sm mb-3">
+    <div class="card-body row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label" for="filter-scope">Scope</label>
+        <select class="form-select" id="filter-scope" name="scope">
+          <option value="all"<?= $scope === 'all' ? ' selected' : '' ?>>All</option>
+          <option value="shared"<?= $scope === 'shared' ? ' selected' : '' ?>>Shared</option>
+          <option value="mine"<?= $scope === 'mine' ? ' selected' : '' ?>>Mine</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" for="filter-type">Type</label>
+        <select class="form-select" id="filter-type" name="type">
+          <option value=""<?= $type === '' ? ' selected' : '' ?>>All types</option>
+          <?php foreach (['greenhouse', 'personio', 'smartrecruiters', 'site'] as $t): ?>
+            <option value="<?= $t ?>"<?= $type === $t ? ' selected' : '' ?>><?= App::e($t) ?></option>
           <?php endforeach; ?>
-        </tbody>
-      </table>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="filter-q">Search</label>
+        <input class="form-control" id="filter-q" name="q" value="<?= App::e($search) ?>" placeholder="Company name or key">
+      </div>
+      <div class="col-md-2 d-flex gap-2">
+        <button type="submit" class="btn btn-outline-primary flex-grow-1">Filter</button>
+        <a class="btn btn-outline-secondary" href="/companies.php">Reset</a>
+      </div>
     </div>
-  <?php endif; ?>
+  </form>
 
-  <h2 class="h5 mb-2">My boards</h2>
-  <?php if ($mine === []): ?>
-    <div class="card shadow-sm"><div class="card-body text-secondary">No personal boards yet. Add one above if you need a company not in the shared list.</div></div>
+  <?php if ($rows === []): ?>
+    <div class="card shadow-sm"><div class="card-body text-secondary">No companies match this filter.</div></div>
   <?php else: ?>
     <div class="table-responsive card shadow-sm">
       <table class="table table-sm mb-0 align-middle">
         <thead>
           <tr>
+            <th>Scope</th>
             <th>On</th>
             <th>Company</th>
             <th>Type</th>
@@ -139,17 +179,29 @@ layout_header('Companies');
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($mine as $c): ?>
+          <?php foreach ($rows as $c): ?>
+            <?php $isMine = ($c['scope'] ?? '') === 'mine'; ?>
             <tr>
               <td>
-                <form method="post" class="m-0">
-                  <input type="hidden" name="action" value="toggle">
-                  <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
-                  <input type="hidden" name="enabled" value="<?= $c['enabled'] ? '0' : '1' ?>">
-                  <button type="submit" class="btn btn-sm <?= $c['enabled'] ? 'btn-success' : 'btn-outline-secondary' ?>">
-                    <?= $c['enabled'] ? 'On' : 'Off' ?>
-                  </button>
-                </form>
+                <?php if ($isMine): ?>
+                  <span class="badge text-bg-primary">Mine</span>
+                <?php else: ?>
+                  <span class="badge text-bg-secondary">Shared</span>
+                <?php endif; ?>
+              </td>
+              <td>
+                <?php if ($isMine): ?>
+                  <form method="post" class="m-0">
+                    <input type="hidden" name="action" value="toggle">
+                    <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
+                    <input type="hidden" name="enabled" value="<?= $c['enabled'] ? '0' : '1' ?>">
+                    <button type="submit" class="btn btn-sm <?= $c['enabled'] ? 'btn-success' : 'btn-outline-secondary' ?>">
+                      <?= $c['enabled'] ? 'On' : 'Off' ?>
+                    </button>
+                  </form>
+                <?php else: ?>
+                  <span class="visually-hidden">On</span>
+                <?php endif; ?>
               </td>
               <td class="fw-semibold"><?= App::e($c['name']) ?></td>
               <td><span class="badge text-bg-light border"><?= App::e($c['board_type']) ?></span></td>
@@ -162,22 +214,25 @@ layout_header('Companies');
                 <?php endif; ?>
               </td>
               <td class="text-end">
-                <form method="post" class="m-0" onsubmit="return confirm('Remove this personal board?');">
-                  <input type="hidden" name="action" value="delete">
-                  <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
-                  <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
-                </form>
+                <?php if ($isMine): ?>
+                  <form method="post" class="m-0" onsubmit="return confirm('Remove this personal board?');">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                  </form>
+                <?php endif; ?>
               </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
     </div>
+    <p class="small text-secondary mt-2 mb-0"><?= count($rows) ?> shown</p>
   <?php endif; ?>
 
   <p class="small text-secondary mt-3 mb-0">
-    Greenhouse / Personio / SmartRecruiters use public APIs.
-    Site boards use Google <code>site:</code> search when <code>BRIGHT_DATA_API_TOKEN</code> is set.
+    Shared rows are read-only. Toggle or remove only applies to boards you added.
+    Greenhouse / Personio / SmartRecruiters use public APIs; site boards use Google <code>site:</code> when Bright Data is set.
   </p>
 </main>
 <?php

@@ -163,30 +163,84 @@ final class CareerCompanies
     }
 
     /**
-     * Select options for Jobs filter (global enabled + personal enabled).
+     * Select options for Jobs filter (global enabled + personal enabled extras only).
      *
      * @return list<array{key:string,label:string,scope:string}>
      */
     public static function filterOptions(int $userId): array
     {
         $out = [];
+        $sharedKeys = [];
         foreach (self::forUser(0, true) as $row) {
+            $key = $row['board_type'] . ':' . $row['board_key'];
+            $sharedKeys[$key] = true;
             $out[] = [
-                'key' => $row['board_type'] . ':' . $row['board_key'],
+                'key' => $key,
                 'label' => $row['name'],
                 'scope' => 'shared',
             ];
         }
         if ($userId > 0) {
             foreach (self::forUser($userId, true) as $row) {
+                $key = $row['board_type'] . ':' . $row['board_key'];
+                if (isset($sharedKeys[$key])) {
+                    continue;
+                }
                 $out[] = [
-                    'key' => $row['board_type'] . ':' . $row['board_key'],
+                    'key' => $key,
                     'label' => $row['name'] . ' (mine)',
                     'scope' => 'personal',
                 ];
             }
         }
         return $out;
+    }
+
+    /**
+     * Personal boards that are not already in the shared catalog.
+     *
+     * @return list<array{id:int,user_id:int,name:string,board_type:string,board_key:string,careers_url:string,enabled:int,sort_order:int}>
+     */
+    public static function personalExtras(int $userId): array
+    {
+        if ($userId <= 0) {
+            return [];
+        }
+        $sharedKeys = [];
+        foreach (self::forUser(0, false) as $row) {
+            $sharedKeys[$row['board_type'] . ':' . $row['board_key']] = true;
+        }
+        $out = [];
+        foreach (self::forUser($userId, false) as $row) {
+            $key = $row['board_type'] . ':' . $row['board_key'];
+            if (isset($sharedKeys[$key])) {
+                continue;
+            }
+            $out[] = $row;
+        }
+        return $out;
+    }
+
+    /**
+     * Remove old per-user catalog copies that duplicate the shared (user_id=0) list.
+     * Returns number of rows deleted.
+     */
+    public static function purgePersonalDuplicates(int $userId): int
+    {
+        if ($userId <= 0) {
+            return 0;
+        }
+        self::ensureSchema();
+        $stmt = Db::pdo()->prepare(
+            'DELETE p FROM career_companies p
+             INNER JOIN career_companies g
+               ON g.user_id = 0
+              AND g.board_type = p.board_type
+              AND g.board_key = p.board_key
+             WHERE p.user_id = ?'
+        );
+        $stmt->execute([$userId]);
+        return $stmt->rowCount();
     }
 
     public static function add(int $userId, string $name, string $type, string $key, string $url = ''): int
@@ -207,6 +261,15 @@ final class CareerCompanies
             $key = $host;
             if ($url === '') {
                 $url = 'https://' . $host . '/';
+            }
+        }
+        if ($userId > 0) {
+            $dup = Db::pdo()->prepare(
+                'SELECT id FROM career_companies WHERE user_id = 0 AND board_type = ? AND board_key = ? LIMIT 1'
+            );
+            $dup->execute([$type, $key]);
+            if ($dup->fetch()) {
+                throw new InvalidArgumentException('That company is already in the shared catalog.');
             }
         }
         $stmt = Db::pdo()->prepare(

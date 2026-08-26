@@ -58,7 +58,7 @@ if (PHP_SAPI !== 'cli') {
     if (in_array($script, ['resume.php', 'cover-letter.php'], true)) {
         PdfExport::acceptExportToken();
     }
-    $public = ['login.php', 'register.php', 'logout.php'];
+    $public = ['index.php', 'about.php', 'features.php', 'login.php', 'register.php', 'logout.php'];
     if ($isSuperAdmin) {
         // Super-admin pages handle their own auth.
     } elseif (!in_array($script, $public, true)) {

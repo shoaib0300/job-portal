@@ -4,6 +4,48 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
+require_once dirname(__DIR__) . '/src/site_layout.php';
+
+if (Auth::id() <= 0) {
+    site_layout_header('Home');
+    ?>
+  <section class="site-hero">
+    <div class="site-hero-brand">
+      <?= applypath_logo_mark() ?>
+      <span>ApplyPath</span>
+    </div>
+    <p class="lead">Find German jobs, tailor your resume and cover letter for each role, and track every application — in one place.</p>
+    <div class="site-hero-cta">
+      <a class="btn btn-primary btn-lg" href="/register.php">Get started</a>
+      <a class="btn btn-outline-secondary btn-lg" href="/login.php">Sign in</a>
+    </div>
+  </section>
+  <section class="site-section">
+    <h2>How it works</h2>
+    <p>Three steps from search to send — without losing your main resume.</p>
+    <div class="site-steps">
+      <div class="site-step">
+        <div class="site-step-n">Step 1</div>
+        <h3>Find jobs</h3>
+        <p>Search German boards and company career pages, or paste a job description.</p>
+      </div>
+      <div class="site-step">
+        <div class="site-step-n">Step 2</div>
+        <h3>Tailor</h3>
+        <p>We copy your Main resume and letter, then you adjust summary, skills, and the cover for that company.</p>
+      </div>
+      <div class="site-step">
+        <div class="site-step-n">Step 3</div>
+        <h3>Apply &amp; track</h3>
+        <p>Download EN/DE PDFs and log the application so interviews and offers stay organized.</p>
+      </div>
+    </div>
+    <p class="mt-4 mb-0"><a href="/features.php">See all features</a> · <a href="/about.php">About ApplyPath</a></p>
+  </section>
+    <?php
+    site_layout_footer();
+    exit;
+}
 
 $apps = App::applications(null);
 $counts = App::applicationCounts();

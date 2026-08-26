@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'That email is not a recovery address.';
     } else {
         $created = SuperAdmin::createResetToken();
-        $body = "Reset your MNK super-admin password:\n\n" . $created['url'] . "\n\nThis link expires in 1 hour.";
-        SuperAdmin::tryMail($email, 'MNK Super Admin password reset', $body);
+        $body = "Reset your ApplyPath super-admin password:\n\n" . $created['url'] . "\n\nThis link expires in 1 hour.";
+        SuperAdmin::tryMail($email, 'ApplyPath Super Admin password reset', $body);
         if (SuperAdmin::isDev()) {
             $devLink = $created['url'];
         }

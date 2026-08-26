@@ -69,7 +69,7 @@ function layout_header(string $title, array $opts = []): void
     $pdfKind = str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'cover') ? 'cover' : 'resume';
     $pdfLang = LibreTranslate::normalizeLang($opts['lang'] ?? ($_GET['lang'] ?? 'en'));
     $pdfTitle = PdfExport::printDocumentTitle($pdfKind, (string) ($profile['full_name'] ?? 'Document'), $pdfLang);
-    $htmlTitle = ($pdfMode && $isDoc) ? $pdfTitle : ($title . ' · MNK');
+    $htmlTitle = ($pdfMode && $isDoc) ? $pdfTitle : ($title . ' · ApplyPath');
     ?>
 <!DOCTYPE html>
 <html lang="<?= App::e($pdfLang) ?>" data-bs-theme="<?= App::e($bsTheme) ?>">
@@ -110,7 +110,7 @@ function layout_header(string $title, array $opts = []): void
 <?php elseif ($isDoc): ?>
   <div class="site-shell site-shell-doc">
     <header class="doc-chrome no-print d-flex align-items-center gap-3 px-3 py-2 border-bottom bg-white">
-      <a class="brand text-decoration-none fw-semibold" href="/">MNK</a>
+      <a class="brand text-decoration-none fw-semibold" href="/">ApplyPath</a>
       <span class="doc-chrome-title text-secondary small me-auto"><?= App::e($title) ?></span>
       <a class="btn btn-sm btn-outline-secondary" href="<?= basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-letter.php' ? '/cover-design.php' : '/design.php' ?>">Style</a>
     </header>
@@ -119,13 +119,13 @@ function layout_header(string $title, array $opts = []): void
   <div class="dash d-flex min-vh-100">
     <aside class="offcanvas-lg offcanvas-start dash-sidebar" tabindex="-1" id="dashSidebar" aria-label="Main">
       <div class="offcanvas-header d-lg-none">
-        <h5 class="offcanvas-title">MNK</h5>
+        <h5 class="offcanvas-title">ApplyPath</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashSidebar" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column p-3">
         <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="/">
-          <span class="dash-mark">M</span>
-          <span class="dash-brand-text">MNK</span>
+          <span class="dash-mark">A</span>
+          <span class="dash-brand-text">ApplyPath</span>
         </a>
         <nav class="nav flex-column dash-nav gap-1 flex-grow-1">
           <?php foreach ($nav as $item): ?>
