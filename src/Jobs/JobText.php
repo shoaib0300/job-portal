@@ -434,6 +434,49 @@ final class JobText
                 $job->salaryText = trim($m[0]);
             }
         }
+        if ($job->postedAt === null || $job->postedAt === '') {
+            $parsed = self::parsePostedDate($job->title . "\n" . $job->description);
+            if ($parsed !== null) {
+                $job->postedAt = $parsed;
+            }
+        }
         return $job;
+    }
+
+    /**
+     * Best-effort posted date from snippet/text (ISO date or relative EN/DE).
+     * Returns Y-m-d or null.
+     */
+    public static function parsePostedDate(string $text): ?string
+    {
+        $t = trim($text);
+        if ($t === '') {
+            return null;
+        }
+        if (preg_match('/\b(20\d{2}-\d{2}-\d{2})\b/', $t, $m)) {
+            return $m[1];
+        }
+        if (preg_match('/\b(\d{1,2})\.(\d{1,2})\.(20\d{2})\b/', $t, $m)) {
+            return sprintf('%04d-%02d-%02d', (int) $m[3], (int) $m[2], (int) $m[1]);
+        }
+        $lower = mb_strtolower($t);
+        if (preg_match('/\b(heute|today|just posted|gerade (veröffentlicht|online))\b/u', $lower)) {
+            return date('Y-m-d');
+        }
+        if (preg_match('/\b(gestern|yesterday)\b/u', $lower)) {
+            return date('Y-m-d', time() - 86400);
+        }
+        if (preg_match('/\b(?:vor|posted)?\s*(\d+)\s*(?:tagen?|days?|d)\b/u', $lower, $m)
+            || preg_match('/\b(\d+)\s*(?:tagen?|days?)\s*ago\b/u', $lower, $m)) {
+            $n = (int) $m[1];
+            if ($n >= 0 && $n <= 60) {
+                return date('Y-m-d', time() - ($n * 86400));
+            }
+        }
+        if (preg_match('/\b(?:vor|posted)?\s*(\d+)\s*(?:stunden?|hours?|h)\b/u', $lower)
+            || preg_match('/\b(\d+)\s*(?:stunden?|hours?)\s*ago\b/u', $lower)) {
+            return date('Y-m-d');
+        }
+        return null;
     }
 }

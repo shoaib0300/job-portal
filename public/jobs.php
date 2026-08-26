@@ -46,6 +46,7 @@ layout_header('Jobs');
 
   <form method="get" class="jobs-layout" data-jobs-form>
     <input type="hidden" name="search" value="1">
+    <input type="hidden" name="posted" value="<?= (int) $query->postedDays ?>">
     <aside class="jobs-filters card shadow-sm">
       <div class="card-body">
         <h2 class="h6">Search</h2>
@@ -185,10 +186,8 @@ layout_header('Jobs');
     <div class="jobs-results">
       <?php
       $postedOptions = [
-          0 => 'Any time',
           1 => 'Today · 24h',
-          7 => 'This week',
-          14 => 'Last week',
+          7 => 'This week (max)',
       ];
       ?>
       <div class="jobs-toolbar card shadow-sm mb-3">
@@ -198,11 +197,12 @@ layout_header('Jobs');
             <?php foreach ($postedOptions as $days => $label): ?>
               <?php
               $active = (int) $query->postedDays === (int) $days;
-              $href = '/jobs.php?' . $query->toQuery(['posted' => $days > 0 ? $days : '', 'page' => 1]);
+              $href = '/jobs.php?' . $query->toQuery(['posted' => $days, 'page' => 1]);
               ?>
               <a class="jobs-chip<?= $active ? ' is-active' : '' ?>" href="<?= App::e($href) ?>"><?= App::e($label) ?></a>
             <?php endforeach; ?>
           </div>
+          <span class="small text-secondary">Older than 7 days are never shown.</span>
           <div class="ms-auto d-flex align-items-center gap-2">
             <label class="small text-secondary mb-0" for="sort">Sort</label>
             <select class="form-select form-select-sm jobs-sort" id="sort" name="sort" onchange="this.form.submit()">
@@ -218,7 +218,7 @@ layout_header('Jobs');
           <div class="card-body">
             <p class="mb-2">Pick filters and search. Default sources are Bundesagentur für Arbeit and Jobexport — your last search is restored until you Reset.</p>
             <p class="text-secondary small mb-0">Student preset: Werkstudent + Praktikum in Berlin.</p>
-            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs.php?search=1&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
+            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs.php?search=1&amp;posted=7&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
           </div>
         </div>
       <?php else: ?>

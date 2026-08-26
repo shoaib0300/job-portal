@@ -208,14 +208,25 @@ final class JobAggregator
             if ($query->hasSalary && $job->salaryText === '' && !JobText::looksLikeSalary($job->description)) {
                 return false;
             }
-            if ($query->postedDays > 0 && $job->postedAt) {
-                $ts = strtotime($job->postedAt);
-                if ($ts !== false && $ts < (time() - ($query->postedDays * 86400))) {
-                    return false;
-                }
+            // Always drop jobs older than the posted window (max 7 days).
+            if (!self::isWithinPostedWindow($job, $query->effectivePostedDays())) {
+                return false;
             }
             return true;
         }));
+    }
+
+    /** True when postedAt is missing/unparseable, or within the last $days days. */
+    private static function isWithinPostedWindow(JobListing $job, int $days): bool
+    {
+        if ($job->postedAt === null || $job->postedAt === '') {
+            return true;
+        }
+        $ts = strtotime($job->postedAt);
+        if ($ts === false) {
+            return true;
+        }
+        return $ts >= (time() - ($days * 86400));
     }
 
     /**
@@ -356,9 +367,39 @@ final class JobAggregator
         return [
             'listings' => $slice,
             'total' => $total,
-            'notices' => array_values(array_unique($notices)),
+            'notices' => self::visibleNotices($notices),
             'page' => $page,
             'pages' => $pages,
         ];
+    }
+
+    /**
+     * Config / token / sample-board warnings stay in cache for developers, but are
+     * hidden from the jobs UI unless APP_ENV is dev/local/development.
+     *
+     * @param list<string> $notices
+     * @return list<string>
+     */
+    private static function visibleNotices(array $notices): array
+    {
+        $unique = array_values(array_unique($notices));
+        if (App::isDev()) {
+            return $unique;
+        }
+
+        return array_values(array_filter(
+            $unique,
+            static fn(string $notice): bool => !self::isOperationalNotice($notice)
+        ));
+    }
+
+    private static function isOperationalNotice(string $notice): bool
+    {
+        $hay = mb_strtolower($notice);
+        return str_contains($hay, 'bright_data')
+            || str_contains($hay, 'sitemap boards return a sample')
+            || str_contains($hay, 'company career sites skipped')
+            || str_contains($hay, 'site boards')
+            || str_contains($hay, 'no job sitemap found');
     }
 }

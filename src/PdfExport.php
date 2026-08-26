@@ -22,7 +22,7 @@ final class PdfExport
         $qs = http_build_query($params);
 
         if ($forHost) {
-            $base = getenv('MNK_PUBLIC_URL') ?: 'https://mnk.ddev.site';
+            $base = getenv('MNK_PUBLIC_URL') ?: 'https://kaammilo.ddev.site';
         } else {
             $base = getenv('MNK_PDF_BASE_URL') ?: 'http://127.0.0.1';
         }

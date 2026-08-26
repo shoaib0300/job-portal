@@ -36,9 +36,8 @@ final class ArbeitsagenturSource
         if ($params['wo'] === '') {
             unset($params['wo']);
         }
-        if ($query->postedDays > 0) {
-            $params['veroeffentlichtseit'] = $query->postedDays;
-        }
+        // Always limit API results to ≤7 days (or Today when selected).
+        $params['veroeffentlichtseit'] = $query->effectivePostedDays();
         if ($query->internship) {
             $params['angebotsart'] = 34;
         } else {

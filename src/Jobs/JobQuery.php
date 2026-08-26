@@ -42,6 +42,9 @@ final class JobQuery
     /** Built-in defaults until the user saves a different Sources selection. */
     public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport', 'career'];
 
+    /** Hard cap: never search/show jobs older than this many days. */
+    public const MAX_POSTED_DAYS = 7;
+
     private const FILTERS_SETTING = 'job_filters';
 
     /**
@@ -64,7 +67,7 @@ final class JobQuery
         public string $germanLevel = '',
         public bool $hasSalary = false,
         public bool $matchResume = false,
-        public int $postedDays = 0,
+        public int $postedDays = self::MAX_POSTED_DAYS,
         public string $sort = 'relevance',
         public array $sources = ['arbeitsagentur', 'jobexport'],
         public int $page = 1,
@@ -94,8 +97,11 @@ final class JobQuery
         if (!in_array($this->germanLevel, ['A1', 'A2', 'B1', 'B2', 'C1'], true)) {
             $this->germanLevel = '';
         }
-        if (!in_array($this->postedDays, [1, 7, 14], true)) {
-            $this->postedDays = 0;
+        // Only Today (1) or This week (7). Anything else (Any / 14 / missing) → 7.
+        if ($this->postedDays === 1) {
+            // ok
+        } else {
+            $this->postedDays = self::MAX_POSTED_DAYS;
         }
         if (!in_array($this->sort, ['relevance', 'recent'], true)) {
             $this->sort = 'relevance';
@@ -247,7 +253,7 @@ final class JobQuery
             (string) ($get['german_level'] ?? ''),
             isset($get['has_salary']),
             $matchResume,
-            (int) ($get['posted'] ?? 0),
+            (int) ($get['posted'] ?? self::MAX_POSTED_DAYS),
             (string) ($get['sort'] ?? 'relevance'),
             $sources,
             (int) ($get['page'] ?? 1),
@@ -354,7 +360,7 @@ final class JobQuery
             'work_mode' => $this->workMode,
             'employment' => $this->employment,
             'german_level' => $this->germanLevel,
-            'posted' => $this->postedDays > 0 ? $this->postedDays : '',
+            'posted' => $this->postedDays,
             'sort' => $this->sort !== 'relevance' ? $this->sort : '',
             'page' => $this->page,
             'sources' => $this->sources,
@@ -414,6 +420,12 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v6:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v7:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+    }
+
+    /** Days window passed to boards / post-filter (always 1 or 7). */
+    public function effectivePostedDays(): int
+    {
+        return $this->postedDays === 1 ? 1 : self::MAX_POSTED_DAYS;
     }
 }

@@ -33,6 +33,9 @@ final class SerpBoardSource
             return ['listings' => [], 'notices' => []];
         }
         if (!self::configured()) {
+            if (!App::isDev()) {
+                return ['listings' => [], 'notices' => []];
+            }
             $labels = array_map(static fn(string $id): string => self::BOARDS[$id]['label'], $wanted);
             return [
                 'listings' => [],
@@ -44,10 +47,13 @@ final class SerpBoardSource
 
         $was = $query->serpWas();
         $where = $query->whereText();
+        // Google time filter: past day or past week (never older than 7 days).
+        $tbs = $query->effectivePostedDays() === 1 ? 'qdr:d' : 'qdr:w';
         $requests = [];
         foreach ($wanted as $id) {
             $q = trim(self::BOARDS[$id]['site'] . ' ' . $was . ' ' . $where . ' Germany jobs');
-            $google = 'https://www.google.com/search?q=' . rawurlencode($q) . '&num=10&hl=de&gl=de&brd_json=1';
+            $google = 'https://www.google.com/search?q=' . rawurlencode($q)
+                . '&num=10&hl=de&gl=de&tbs=' . rawurlencode($tbs) . '&brd_json=1';
             $requests[$id] = $google;
         }
 
@@ -94,6 +100,7 @@ final class SerpBoardSource
                     $company = trim($m[1]);
                     $title = trim((string) preg_replace('/\s[-–|]\s.+$/u', '', $title));
                 }
+                $posted = JobText::parsePostedDate($snip . "\n" . $title);
                 $job = new JobListing(
                     $id,
                     hash('sha256', $link),
@@ -108,7 +115,7 @@ final class SerpBoardSource
                     [],
                     [],
                     '',
-                    null,
+                    $posted,
                     $link,
                     $snip,
                 );

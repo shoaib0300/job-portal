@@ -55,12 +55,20 @@ if (PHP_SAPI !== 'cli') {
     $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
     $scriptPath = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
     $isSuperAdmin = str_contains($scriptPath, '/super-admin');
+    $isDashboardPath = str_contains($scriptPath, '/dashboard');
     if (in_array($script, ['resume.php', 'cover-letter.php'], true)) {
         PdfExport::acceptExportToken();
     }
+
+    $marketingOnly = ['about.php', 'features.php', 'guide.php'];
     $public = ['index.php', 'about.php', 'features.php', 'guide.php', 'login.php', 'register.php', 'logout.php'];
+
     if ($isSuperAdmin) {
         // Super-admin pages handle their own auth.
+    } elseif (App::isPortalHost() && in_array($script, $marketingOnly, true)) {
+        App::redirect(App::marketingUrl('/' . $script));
+    } elseif ($isDashboardPath || (App::isPortalHost() && $script === 'index.php')) {
+        Auth::requireLogin();
     } elseif (!in_array($script, $public, true)) {
         Auth::requireLogin();
     }

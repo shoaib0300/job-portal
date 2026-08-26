@@ -4,6 +4,125 @@ declare(strict_types=1);
 
 final class App
 {
+    public static function isDev(): bool
+    {
+        $env = strtolower((string) (getenv('APP_ENV') ?: 'prod'));
+        return in_array($env, ['dev', 'local', 'development'], true);
+    }
+
+    /** Current HTTP host without port (e.g. kaammilo.ddev.site). */
+    public static function requestHost(): string
+    {
+        $host = (string) ($_SERVER['HTTP_HOST'] ?? '');
+        $host = preg_replace('/:\d+$/', '', $host) ?: $host;
+        return mb_strtolower(trim($host));
+    }
+
+    /** Job-app subdomain (portal.kaammilo.ddev.site) vs marketing host. */
+    public static function isPortalHost(): bool
+    {
+        $host = self::requestHost();
+        return $host !== '' && (str_starts_with($host, 'portal.') || $host === 'portal');
+    }
+
+    public static function requestScheme(): string
+    {
+        $https = (string) ($_SERVER['HTTPS'] ?? '');
+        if ($https !== '' && strtolower($https) !== 'off') {
+            return 'https';
+        }
+        $fwd = strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''));
+        return $fwd === 'https' ? 'https' : 'http';
+    }
+
+    /** Marketing site origin (main project host). */
+    public static function marketingOrigin(): string
+    {
+        $env = rtrim((string) (getenv('MNK_PUBLIC_URL') ?: getenv('KAAMMILO_PUBLIC_URL') ?: ''), '/');
+        if ($env !== '') {
+            return $env;
+        }
+        $host = self::requestHost();
+        if ($host !== '' && str_starts_with($host, 'portal.')) {
+            $host = substr($host, strlen('portal.'));
+        }
+        if ($host === '' || $host === 'portal') {
+            $host = 'kaammilo.ddev.site';
+        }
+        return self::requestScheme() . '://' . $host;
+    }
+
+    /** Portal subdomain origin when available. */
+    public static function portalOrigin(): string
+    {
+        $env = rtrim((string) (getenv('KAAMMILO_PORTAL_URL') ?: ''), '/');
+        if ($env !== '') {
+            return $env;
+        }
+        $marketing = self::marketingOrigin();
+        $parts = parse_url($marketing);
+        $scheme = is_array($parts) && isset($parts['scheme']) ? (string) $parts['scheme'] : self::requestScheme();
+        $host = is_array($parts) && isset($parts['host']) ? (string) $parts['host'] : 'kaammilo.ddev.site';
+        if (!str_starts_with($host, 'portal.')) {
+            $host = 'portal.' . $host;
+        }
+        return $scheme . '://' . $host;
+    }
+
+    /**
+     * Authenticated app home path on the current host.
+     * Marketing host → /dashboard/ ; portal host → /.
+     */
+    public static function portalHomePath(): string
+    {
+        return self::isPortalHost() ? '/' : '/dashboard/';
+    }
+
+    /** Absolute URL for the authenticated app home (same-host path preferred). */
+    public static function portalHomeUrl(): string
+    {
+        if (self::isPortalHost()) {
+            return self::portalOrigin() . '/';
+        }
+        return self::marketingOrigin() . '/dashboard/';
+    }
+
+    public static function marketingUrl(string $path = '/'): string
+    {
+        if ($path === '' || $path[0] !== '/') {
+            $path = '/' . $path;
+        }
+        return self::marketingOrigin() . $path;
+    }
+
+    /**
+     * Safe post-login redirect path (relative) or absolute portal URL.
+     * Blocks open redirects; maps bare "/" on marketing host to the dashboard.
+     */
+    public static function safeAppNext(string $next, ?string $fallback = null): string
+    {
+        $fallback ??= self::portalHomePath();
+        $next = trim($next);
+        if ($next === '' || str_starts_with($next, '//')) {
+            return $fallback;
+        }
+        if (str_starts_with($next, 'http://') || str_starts_with($next, 'https://')) {
+            $portal = self::portalOrigin();
+            $marketing = self::marketingOrigin();
+            if (str_starts_with($next, $portal) || str_starts_with($next, $marketing)) {
+                return $next;
+            }
+            return $fallback;
+        }
+        if (!str_starts_with($next, '/')) {
+            return $fallback;
+        }
+        if ($next === '/' && !self::isPortalHost()) {
+            return self::portalHomePath();
+        }
+        return $next;
+    }
+
     public static function userId(): int
     {
         return Auth::id();
@@ -740,8 +859,8 @@ final class App
 
     public static function resolveAccent(?string $accent): string
     {
-        $accent = $accent ?: (self::setting('accent_color', '#5B4CDB') ?: '#5B4CDB');
-        return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#5B4CDB';
+        $accent = $accent ?: (self::setting('accent_color', '#0d7377') ?: '#0d7377');
+        return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#0d7377';
     }
 
     public static function resolveUiMode(?string $mode = null): string
@@ -794,7 +913,11 @@ final class App
 
     public static function currentNavKey(): string
     {
-        $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+        $scriptPath = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+        $script = basename($scriptPath);
+        if (str_contains($scriptPath, '/dashboard') || (self::isPortalHost() && in_array($script, ['index.php', ''], true))) {
+            return 'dashboard';
+        }
         return match ($script) {
             'index.php', '' => 'dashboard',
             'tailor.php' => 'apply',
@@ -811,7 +934,8 @@ final class App
     public static function colorPresets(): array
     {
         return [
-            '#5B4CDB' => 'Indigo',
+            '#0d7377' => 'Teal',
+            '#e07a3d' => 'Coral',
             '#4E6351' => 'Sage',
             '#313E32' => 'Forest ink',
             '#8B1A1A' => 'Burgundy',
@@ -819,8 +943,9 @@ final class App
             '#B85A22' => 'Terracotta',
             '#DD8047' => 'Copper',
             '#1e3a5f' => 'Navy',
+            '#5B4CDB' => 'Indigo',
             '#6b2d3c' => 'Wine',
-            '#0f4c5c' => 'Teal',
+            '#0f4c5c' => 'Deep teal',
         ];
     }
 

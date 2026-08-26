@@ -108,7 +108,7 @@ final class JobexportSource
     {
         return [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'User-Agent: Mozilla/5.0 (compatible; MNK-Jobs/1.1; +https://mnk.ddev.site/)',
+            'User-Agent: Mozilla/5.0 (compatible; KaamMilo-Jobs/1.1; +https://kaammilo.ddev.site/)',
         ];
     }
 

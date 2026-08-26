@@ -4,7 +4,8 @@ docroot: public
 php_version: "8.4"
 webserver_type: apache-fpm
 xdebug_enabled: false
-additional_hostnames: []
+additional_hostnames:
+    - portal
 additional_fqdns: []
 database:
     type: mysql

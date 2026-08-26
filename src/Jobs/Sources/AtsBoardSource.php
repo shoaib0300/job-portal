@@ -137,10 +137,12 @@ final class AtsBoardSource
         ));
 
         if ($ok === 0 && $apiBoards === [] && $siteBoards !== [] && !SerpBoardSource::configured()) {
-            $notices[] = 'Company career sites need BRIGHT_DATA_API_TOKEN for Mercedes/BMW-style boards. Greenhouse/Personio still work without it.';
+            if (App::isDev()) {
+                $notices[] = 'Company career sites need BRIGHT_DATA_API_TOKEN for Mercedes/BMW-style boards. Greenhouse/Personio still work without it.';
+            }
         } elseif ($ok === 0) {
             $notices[] = 'Career-page boards did not respond.';
-        } elseif ($siteBoards !== [] && !SerpBoardSource::configured()) {
+        } elseif ($siteBoards !== [] && !SerpBoardSource::configured() && App::isDev()) {
             $notices[] = 'Site boards (Mercedes/BMW/…) skipped without BRIGHT_DATA_API_TOKEN. API boards still listed (Germany only).';
         }
 
@@ -160,7 +162,9 @@ final class AtsBoardSource
             return [
                 'listings' => [],
                 'ok' => 0,
-                'notice' => count($siteBoards) . ' company career sites skipped (set BRIGHT_DATA_API_TOKEN for site boards like Mercedes/BMW).',
+                'notice' => App::isDev()
+                    ? (count($siteBoards) . ' company career sites skipped (set BRIGHT_DATA_API_TOKEN for site boards like Mercedes/BMW).')
+                    : null,
             ];
         }
 
@@ -265,7 +269,9 @@ final class AtsBoardSource
             }
             $pages = self::discoverJobSitemapPages($base);
             if ($pages === []) {
-                $notices[] = ($board['label'] ?? $host) . ': no job sitemap found.';
+                if (App::isDev()) {
+                    $notices[] = ($board['label'] ?? $host) . ': no job sitemap found.';
+                }
                 continue;
             }
             $pages = array_slice($pages, 0, $maxSitemapPages);
@@ -333,7 +339,7 @@ final class AtsBoardSource
         }
 
         $notice = $notices !== [] ? implode(' ', $notices) : null;
-        if ($tokens === [] && $listings !== []) {
+        if ($tokens === [] && $listings !== [] && App::isDev()) {
             $extra = 'Sitemap boards return a sample without keywords — add role keywords to search deeper.';
             $notice = $notice !== null ? ($notice . ' ' . $extra) : $extra;
         }
