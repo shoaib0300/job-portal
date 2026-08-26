@@ -62,6 +62,7 @@ final class JobQuery
         public bool $english = false,
         public string $germanLevel = '',
         public bool $hasSalary = false,
+        public bool $matchResume = false,
         public int $postedDays = 0,
         public array $sources = ['arbeitsagentur', 'jobexport'],
         public int $page = 1,
@@ -208,6 +209,10 @@ final class JobQuery
             self::parseKeywords($rawQ),
             self::parseKeywords($get['q_add'] ?? '')
         ));
+        $matchResume = isset($get['match_resume']);
+        if ($matchResume && $keywords === []) {
+            $keywords = self::normalizeKeywords(ResumeJobMatch::searchKeywords());
+        }
 
         return new self(
             implode(', ', $keywords),
@@ -223,6 +228,7 @@ final class JobQuery
             isset($get['english']),
             (string) ($get['german_level'] ?? ''),
             isset($get['has_salary']),
+            $matchResume,
             (int) ($get['posted'] ?? 0),
             $sources,
             (int) ($get['page'] ?? 1),
@@ -353,6 +359,9 @@ final class JobQuery
         if ($this->hasSalary) {
             $data['has_salary'] = '1';
         }
+        if ($this->matchResume) {
+            $data['match_resume'] = '1';
+        }
         $data = array_merge($data, $overrides);
         $data = array_filter(
             $data,
@@ -377,9 +386,10 @@ final class JobQuery
             'english' => $this->english,
             'german_level' => $this->germanLevel,
             'has_salary' => $this->hasSalary,
+            'match_resume' => $this->matchResume,
             'posted' => $this->postedDays,
             'sources' => $this->sources,
         ];
-        return 'search:v2:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v3:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 }

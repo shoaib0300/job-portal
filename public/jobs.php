@@ -15,7 +15,7 @@ if (isset($_GET['reset'])) {
 $get = JobQuery::mergeRequest($_GET);
 $query = JobQuery::fromRequest($get);
 $ran = isset($get['search']) || $query->hasKeywords() || $query->city !== '' || $query->bundesland !== ''
-    || $query->hasLevelFilter();
+    || $query->hasLevelFilter() || $query->matchResume;
 if (isset($_GET['search'])) {
     JobQuery::saveFilters($query);
 }
@@ -32,6 +32,8 @@ if ($ran) {
 }
 
 $sourceLabels = JobQuery::SOURCES;
+$resumeTitle = ResumeJobMatch::activeTitle();
+$resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
 
 layout_header('Jobs');
 ?>
@@ -63,6 +65,14 @@ layout_header('Jobs');
             <button class="btn btn-outline-secondary" type="button" data-keyword-add>Add</button>
           </div>
           <p class="form-text mb-0">Add several roles. Each stays in the filter (like sources) and is searched as an OR.</p>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="match_resume" value="1" id="f-resume"<?= $query->matchResume ? ' checked' : '' ?>>
+          <label class="form-check-label" for="f-resume">Match my resume</label>
+          <p class="form-text mb-0">Uses your active resume title, skills, and recent roles. If role keywords are empty, it searches from the resume; if you add roles, it still ranks by resume fit.</p>
+          <?php if ($resumeTitle !== ''): ?>
+            <p class="small text-secondary mb-0 mt-1">Active: <?= App::e($resumeTitle) ?></p>
+          <?php endif; ?>
         </div>
         <div class="mb-3">
           <label class="form-label" for="city">City</label>
@@ -177,6 +187,9 @@ layout_header('Jobs');
           </div>
         </div>
       <?php else: ?>
+        <?php if ($query->matchResume): ?>
+          <p class="small mb-2">Sorted by resume fit<?= $resumeTitle !== '' ? ' · ' . App::e($resumeTitle) : '' ?>.</p>
+        <?php endif; ?>
         <?php if ($query->keywords !== []): ?>
           <p class="small mb-2">Roles:
             <?php foreach ($query->keywords as $kw): ?>
@@ -200,6 +213,8 @@ layout_header('Jobs');
               <?php
               /** @var JobListing $job */
               $detail = '/job.php?source=' . rawurlencode($job->source) . '&id=' . rawurlencode($job->externalId);
+              $fitScore = $query->matchResume ? ResumeJobMatch::fitScore($job, $resumeTerms) : 0;
+              $fitLabel = $query->matchResume ? ResumeJobMatch::fitLabel($fitScore) : '';
               ?>
               <li class="card shadow-sm mb-3">
                 <div class="card-body">
@@ -208,6 +223,9 @@ layout_header('Jobs');
                       <span class="badge text-bg-light border"><?= App::e($sourceLabels[$job->source] ?? $job->source) ?></span>
                       <?php if ($job->workMode !== 'unknown'): ?>
                         <span class="badge text-bg-light border"><?= App::e($job->workMode) ?></span>
+                      <?php endif; ?>
+                      <?php if ($fitLabel !== ''): ?>
+                        <span class="badge <?= $fitScore >= 12 ? 'text-bg-success' : 'text-bg-light border' ?>"><?= App::e($fitLabel) ?></span>
                       <?php endif; ?>
                       <h2 class="h5 mt-2 mb-1"><a class="text-decoration-none" href="<?= App::e($detail) ?>"><?= App::e($job->title) ?></a></h2>
                       <p class="mb-1"><strong><?= App::e($job->company) ?></strong>

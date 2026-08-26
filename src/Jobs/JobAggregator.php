@@ -88,6 +88,9 @@ final class JobAggregator
 
         $listings = self::dedupe($listings);
         $listings = self::postFilter($listings, $query);
+        if ($query->matchResume) {
+            $listings = self::filterByResumeFit($listings);
+        }
         $listings = self::rank($listings, $query);
 
         foreach ($listings as $job) {
@@ -259,7 +262,15 @@ final class JobAggregator
     public static function rank(array $listings, JobQuery $query): array
     {
         $keywords = array_map(static fn(string $k): string => mb_strtolower($k), $query->keywords);
-        usort($listings, static function (JobListing $a, JobListing $b) use ($keywords): int {
+        $resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
+        usort($listings, static function (JobListing $a, JobListing $b) use ($keywords, $resumeTerms, $query): int {
+            if ($query->matchResume) {
+                $ra = ResumeJobMatch::fitScore($a, $resumeTerms);
+                $rb = ResumeJobMatch::fitScore($b, $resumeTerms);
+                if ($ra !== $rb) {
+                    return $rb <=> $ra;
+                }
+            }
             $sa = self::score($a, $keywords);
             $sb = self::score($b, $keywords);
             if ($sa !== $sb) {
@@ -275,6 +286,22 @@ final class JobAggregator
             return $ra <=> $rb;
         });
         return $listings;
+    }
+
+    /**
+     * @param list<JobListing> $listings
+     * @return list<JobListing>
+     */
+    private static function filterByResumeFit(array $listings): array
+    {
+        $terms = ResumeJobMatch::scoreTerms();
+        if ($terms === []) {
+            return $listings;
+        }
+        return array_values(array_filter(
+            $listings,
+            static fn(JobListing $job): bool => ResumeJobMatch::fitScore($job, $terms) >= 5
+        ));
     }
 
     /** @param list<string> $keywords */

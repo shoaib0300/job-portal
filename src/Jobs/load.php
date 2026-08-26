@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/JobListing.php';
 require_once __DIR__ . '/JobQuery.php';
 require_once __DIR__ . '/JobText.php';
+require_once __DIR__ . '/ResumeJobMatch.php';
 require_once __DIR__ . '/JobHttp.php';
 require_once __DIR__ . '/JobCache.php';
 require_once __DIR__ . '/JobAggregator.php';
