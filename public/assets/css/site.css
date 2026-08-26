@@ -1,4 +1,4 @@
-/* ApplyPath public marketing site */
+/* KaamMilo public marketing site */
 .site-public {
   --ap-ink: #14213d;
   --ap-muted: #5c6578;
@@ -28,6 +28,7 @@
   border-bottom: 3px solid #e07a3d;
 }
 
+.site-test-banner .km-ico,
 .site-test-banner .ap-ico {
   color: #9ef0e8;
   vertical-align: middle;
@@ -39,6 +40,7 @@
   display: inline-flex;
 }
 
+.site-test-banner .km-ico svg,
 .site-test-banner .ap-ico svg {
   width: 22px;
   height: 22px;
@@ -106,18 +108,22 @@
   }
 }
 
+.km-mark,
 .ap-mark,
+.km-ico,
 .ap-ico {
   display: inline-flex;
   color: var(--ap-accent);
   line-height: 0;
 }
 
+.km-mark-sm svg,
 .ap-mark-sm svg {
   width: 22px;
   height: 22px;
 }
 
+.km-ico,
 .ap-ico {
   width: 3.25rem;
   height: 3.25rem;
@@ -186,6 +192,7 @@
   animation: site-pop 0.7s ease both;
 }
 
+.site-hero-brand .km-mark svg,
 .site-hero-brand .ap-mark svg {
   width: clamp(2.2rem, 5vw, 3.2rem);
   height: clamp(2.2rem, 5vw, 3.2rem);
@@ -260,6 +267,7 @@
   gap: 0.55rem;
 }
 
+.site-cartoon-card .km-ico,
 .site-cartoon-card .ap-ico {
   width: 2.4rem;
   height: 2.4rem;
@@ -267,6 +275,7 @@
   border-radius: 0.75rem;
 }
 
+.site-cartoon-card .km-ico svg,
 .site-cartoon-card .ap-ico svg {
   width: 28px;
   height: 28px;

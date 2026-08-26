@@ -10,12 +10,12 @@ site_layout_header('How to use');
 ?>
 <section class="site-section" style="padding-top:2.25rem">
   <div class="site-kicker">Guide</div>
-  <h1 class="h2">How to use ApplyPath</h1>
+  <h1 class="h2">How to use KaamMilo</h1>
   <p>Follow this path the first time you open the testing portal. It takes about 10–15 minutes for a full dry run.</p>
 
   <div class="site-guide-list">
     <article class="site-guide-step site-reveal">
-      <?= applypath_icon('user') ?>
+      <?= kaammilo_icon('user') ?>
       <div>
         <div class="site-guide-num">01 · Account</div>
         <h3>Register or sign in</h3>
@@ -23,7 +23,7 @@ site_layout_header('How to use');
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= applypath_icon('search') ?>
+      <?= kaammilo_icon('search') ?>
       <div>
         <div class="site-guide-num">02 · Jobs</div>
         <h3>Search openings</h3>
@@ -31,7 +31,7 @@ site_layout_header('How to use');
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= applypath_icon('company') ?>
+      <?= kaammilo_icon('company') ?>
       <div>
         <div class="site-guide-num">03 · Companies</div>
         <h3>Career boards</h3>
@@ -39,15 +39,15 @@ site_layout_header('How to use');
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= applypath_icon('letter') ?>
+      <?= kaammilo_icon('letter') ?>
       <div>
         <div class="site-guide-num">04 · Tailor</div>
         <h3>New job from a JD</h3>
-        <p>Go to <strong>New job</strong> (tailor). Paste company, role, location, and the job description. ApplyPath copies your Main resume and Main cover into new versions for that application — Main stays clean.</p>
+        <p>Go to <strong>New job</strong> (tailor). Paste company, role, location, and the job description. KaamMilo copies your Main resume and Main cover into new versions for that application — Main stays clean.</p>
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= applypath_icon('doc') ?>
+      <?= kaammilo_icon('doc') ?>
       <div>
         <div class="site-guide-num">05 · Edit &amp; style</div>
         <h3>Resume and cover letter</h3>
@@ -55,7 +55,7 @@ site_layout_header('How to use');
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= applypath_icon('track') ?>
+      <?= kaammilo_icon('track') ?>
       <div>
         <div class="site-guide-num">06 · Track</div>
         <h3>Applications board</h3>
@@ -63,7 +63,7 @@ site_layout_header('How to use');
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= applypath_icon('lab') ?>
+      <?= kaammilo_icon('lab') ?>
       <div>
         <div class="site-guide-num">07 · Testing tip</div>
         <h3>Expect change</h3>

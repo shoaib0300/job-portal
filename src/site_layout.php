@@ -2,19 +2,29 @@
 
 declare(strict_types=1);
 
-function applypath_logo_mark(string $size = 'md'): string
+function kaammilo_logo_mark(string $size = 'md'): string
 {
-    $cls = $size === 'sm' ? 'ap-mark ap-mark-sm' : 'ap-mark';
+    $cls = $size === 'sm' ? 'km-mark km-mark-sm' : 'km-mark';
+    $uid = 'km' . substr(md5($size . microtime()), 0, 6);
     return '<span class="' . $cls . '" aria-hidden="true">'
-        . '<svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">'
-        . '<rect width="32" height="32" rx="8" fill="currentColor" opacity="0.12"/>'
-        . '<path d="M8 22V10l8 6 8-6v12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
-        . '<circle cx="16" cy="16" r="2.2" fill="currentColor"/>'
+        . '<svg viewBox="0 0 40 40" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">'
+        . '<defs><linearGradient id="' . $uid . '" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">'
+        . '<stop stop-color="#14a3a8"/><stop offset="1" stop-color="#0a5f62"/>'
+        . '</linearGradient></defs>'
+        . '<rect x="1" y="1" width="38" height="38" rx="12" fill="url(#' . $uid . ')"/>'
+        . '<text x="20" y="26" text-anchor="middle" font-family="Nunito,Segoe UI,sans-serif" font-size="15" font-weight="800" fill="#fff">km</text>'
+        . '<circle cx="31.5" cy="9.5" r="3.4" fill="#e07a3d"/>'
         . '</svg></span>';
 }
 
+/** @deprecated Use kaammilo_logo_mark */
+function applypath_logo_mark(string $size = 'md'): string
+{
+    return kaammilo_logo_mark($size);
+}
+
 /** Simple cartoon-style SVG icons for marketing pages. */
-function applypath_icon(string $name): string
+function kaammilo_icon(string $name): string
 {
     $icons = [
         'search' => '<circle cx="14" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M20 20l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.25"/>',
@@ -29,7 +39,13 @@ function applypath_icon(string $name): string
         'spark' => '<path d="M16 3l2.2 8.2L26 16l-7.8 2.2L16 29l-2.2-10.8L6 16l7.8-4.8L16 3z" fill="currentColor" opacity="0.2"/><path d="M16 3l2.2 8.2L26 16l-7.8 2.2L16 29l-2.2-10.8L6 16l7.8-4.8L16 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
     ];
     $paths = $icons[$name] ?? $icons['spark'];
-    return '<span class="ap-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">' . $paths . '</svg></span>';
+    return '<span class="km-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">' . $paths . '</svg></span>';
+}
+
+/** @deprecated Use kaammilo_icon */
+function applypath_icon(string $name): string
+{
+    return kaammilo_icon($name);
 }
 
 function site_layout_header(string $title, array $opts = []): void
@@ -50,27 +66,27 @@ function site_layout_header(string $title, array $opts = []): void
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= App::e($title) ?> · ApplyPath</title>
-  <meta name="description" content="ApplyPath — test portal for German job search, tailored resumes, cover letters, and application tracking.">
+  <title><?= App::e($title) ?> · KaamMilo</title>
+  <meta name="description" content="KaamMilo — test portal for German job search, tailored resumes, cover letters, and application tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260826s">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260826ap3">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260826km1">
 </head>
 <body class="<?= App::e($bodyClass) ?>">
   <div class="site-test-banner" role="status">
     <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2 py-2">
-      <span><?= applypath_icon('lab') ?> <strong>Testing module</strong> — ApplyPath is a work-in-progress demo. Features may change; data is for testing.</span>
+      <span><?= kaammilo_icon('lab') ?> <strong>Testing module</strong> — KaamMilo is a work-in-progress demo. Features may change; data is for testing.</span>
       <a class="small text-decoration-none" href="/about.php#testing">Learn more</a>
     </div>
   </div>
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-        <?= applypath_logo_mark() ?>
-        <span>ApplyPath</span>
+        <?= kaammilo_logo_mark() ?>
+        <span>KaamMilo</span>
         <span class="badge site-badge-test">BETA</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav"
@@ -125,8 +141,8 @@ function site_layout_footer(): void
       <div class="row g-3 align-items-start">
         <div class="col-lg-5">
           <div class="d-flex align-items-center gap-2 fw-semibold mb-2">
-            <?= applypath_logo_mark('sm') ?>
-            <span>ApplyPath</span>
+            <?= kaammilo_logo_mark('sm') ?>
+            <span>KaamMilo</span>
             <span class="badge site-badge-test">BETA</span>
           </div>
           <p class="text-secondary small mb-0">Testing portal for German job search, tailored resumes &amp; cover letters, and application tracking.</p>

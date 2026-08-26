@@ -18,6 +18,17 @@ final class JobCache
         );
     }
 
+    /**
+     * Keep keys within VARCHAR(80). Career/ATS external IDs are often full URLs.
+     */
+    private static function storageKey(string $key): string
+    {
+        if (strlen($key) <= 80) {
+            return $key;
+        }
+        return 'h:' . hash('sha256', $key);
+    }
+
     /** @return array<string, mixed>|null */
     public static function get(string $key, int $ttl): ?array
     {
@@ -25,7 +36,7 @@ final class JobCache
         $stmt = Db::pdo()->prepare(
             'SELECT payload, fetched_at FROM job_search_cache WHERE query_hash = ? LIMIT 1'
         );
-        $stmt->execute([$key]);
+        $stmt->execute([self::storageKey($key)]);
         $row = $stmt->fetch();
         if ($row === false) {
             return null;
@@ -50,7 +61,7 @@ final class JobCache
             'INSERT INTO job_search_cache (query_hash, payload) VALUES (?, ?)
              ON DUPLICATE KEY UPDATE payload = VALUES(payload), fetched_at = CURRENT_TIMESTAMP'
         );
-        $stmt->execute([$key, $json]);
+        $stmt->execute([self::storageKey($key), $json]);
     }
 
     public static function putListing(JobListing $job): void
