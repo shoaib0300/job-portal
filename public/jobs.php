@@ -163,7 +163,7 @@ layout_header('Jobs');
           <button type="submit" class="btn btn-primary">Search</button>
           <a class="btn btn-outline-secondary" href="/jobs.php?reset=1">Reset</a>
         </div>
-        <p class="small text-secondary mt-2 mb-0">Defaults: Bundesagentur + Jobexport. Your filters stay saved until Reset.</p>
+        <p class="small text-secondary mt-2 mb-0">Defaults: Bundesagentur + Jobexport + Company career pages. Manage companies under <a href="/companies.php">Companies</a>.</p>
       </div>
     </aside>
 

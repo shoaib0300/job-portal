@@ -21,6 +21,11 @@ final class JobAggregator
     public static function ensureSchema(): void
     {
         JobCache::ensureSchema();
+        try {
+            CareerCompanies::ensureSchema();
+        } catch (Throwable) {
+            // Auth/DB may not be ready in some CLI contexts.
+        }
     }
 
     /**

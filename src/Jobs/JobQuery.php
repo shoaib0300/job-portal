@@ -40,7 +40,7 @@ final class JobQuery
     public const SERP_BOARDS = ['linkedin', 'indeed', 'stepstone', 'xing', 'jobware', 'glassdoor'];
 
     /** Built-in defaults until the user saves a different Sources selection. */
-    public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport'];
+    public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport', 'career'];
 
     private const FILTERS_SETTING = 'job_filters';
 
@@ -397,6 +397,6 @@ final class JobQuery
             'sort' => $this->sort,
             'sources' => $this->sources,
         ];
-        return 'search:v4:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v5:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 }

@@ -59,6 +59,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'dashboard', 'href' => '/', 'label' => 'Home', 'icon' => 'home'],
         ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'New job', 'icon' => 'apply'],
         ['key' => 'jobs', 'href' => '/jobs.php', 'label' => 'Jobs', 'icon' => 'jobs'],
+        ['key' => 'companies', 'href' => '/companies.php', 'label' => 'Companies', 'icon' => 'jobs'],
         ['key' => 'applications', 'href' => '/applications.php', 'label' => 'Applications', 'icon' => 'apps'],
         ['key' => 'resume', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover.php', 'label' => 'Cover letter', 'icon' => 'letter'],

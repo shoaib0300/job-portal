@@ -58,6 +58,37 @@ final class JobText
         return 'job';
     }
 
+    /**
+     * True when the posting looks based in Germany (career boards often list EU-wide roles).
+     */
+    public static function looksLikeGermany(string $city = '', string $bundesland = '', string $country = '', string $extra = ''): bool
+    {
+        $hay = self::haystack($city, $bundesland, $country, $extra);
+        if ($hay === '') {
+            return false;
+        }
+        if (preg_match('/\b(spain|españa|madrid|barcelona|valencia|france|paris|lyon|italy|italia|rome|roma|milan|milano|portugal|lisbon|lisboa|netherlands|holland|amsterdam|rotterdam|belgium|brussels|bruxelles|poland|warsaw|warszawa|krakow|austria|österreich|wien|vienna|switzerland|schweiz|zürich|zurich|geneva|uk\b|united kingdom|london|manchester|ireland|dublin|usa|united states|new york|san francisco|toronto|canada|india|bangalore|bengaluru|hyderabad|singapore|dubai|uae)\b/u', $hay)) {
+            // Still allow if Germany is also named (e.g. "Berlin / Madrid").
+            if (!preg_match('/\b(germany|deutschland|\bde\b|berlin|münchen|munich|hamburg|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|bremen|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|gelsenkirchen|mönchengladbach|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|oberhausen|erfurt|mainz|rostock|kassel|hagen|hamm|saarbrücken|mülheim|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|offenbach|bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg|saarland|bremen|hamburg)\b/u', $hay)) {
+                return false;
+            }
+        }
+        if (preg_match('/\b(germany|deutschland|federal republic of germany)\b/u', $hay)) {
+            return true;
+        }
+        if (preg_match('/\b(bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg-vorpommern|saarland|bremen|hamburg|berlin)\b/u', $hay)) {
+            return true;
+        }
+        if (preg_match('/\b(berlin|münchen|munich|hamburg|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|bremen|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|erfurt|mainz|rostock|kassel|saarbrücken|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|jena|wolfsburg|göttingen|reutlingen|koblenz|trier|passau|bamberg|bayreuth|konstanz|flensburg|schweinfurt|würzburg)\b/u', $hay)) {
+            return true;
+        }
+        // "DE" as country code, not part of other words
+        if (preg_match('/(^|[\s,\/|(])de([\s,\/)|]|$)/u', $hay)) {
+            return true;
+        }
+        return false;
+    }
+
     /** @return list<string> */
     public static function seniorityTags(string $text): array
     {
