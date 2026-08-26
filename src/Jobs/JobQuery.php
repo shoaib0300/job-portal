@@ -64,6 +64,7 @@ final class JobQuery
         public bool $hasSalary = false,
         public bool $matchResume = false,
         public int $postedDays = 0,
+        public string $sort = 'relevance',
         public array $sources = ['arbeitsagentur', 'jobexport'],
         public int $page = 1,
         public int $size = 25,
@@ -91,8 +92,11 @@ final class JobQuery
         if (!in_array($this->germanLevel, ['A1', 'A2', 'B1', 'B2', 'C1'], true)) {
             $this->germanLevel = '';
         }
-        if (!in_array($this->postedDays, [1, 3, 7], true)) {
+        if (!in_array($this->postedDays, [1, 7, 14], true)) {
             $this->postedDays = 0;
+        }
+        if (!in_array($this->sort, ['relevance', 'recent'], true)) {
+            $this->sort = 'relevance';
         }
     }
 
@@ -230,6 +234,7 @@ final class JobQuery
             isset($get['has_salary']),
             $matchResume,
             (int) ($get['posted'] ?? 0),
+            (string) ($get['sort'] ?? 'relevance'),
             $sources,
             (int) ($get['page'] ?? 1),
             25,
@@ -335,6 +340,7 @@ final class JobQuery
             'employment' => $this->employment,
             'german_level' => $this->germanLevel,
             'posted' => $this->postedDays > 0 ? $this->postedDays : '',
+            'sort' => $this->sort !== 'relevance' ? $this->sort : '',
             'page' => $this->page,
             'sources' => $this->sources,
         ];
@@ -388,8 +394,9 @@ final class JobQuery
             'has_salary' => $this->hasSalary,
             'match_resume' => $this->matchResume,
             'posted' => $this->postedDays,
+            'sort' => $this->sort,
             'sources' => $this->sources,
         ];
-        return 'search:v3:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v4:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 }

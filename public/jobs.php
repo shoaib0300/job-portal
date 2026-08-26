@@ -107,16 +107,6 @@ layout_header('Jobs');
           </select>
         </div>
 
-        <h2 class="h6">Posted</h2>
-        <div class="mb-3">
-          <select class="form-select" name="posted">
-            <option value="">Any time</option>
-            <option value="1"<?= $query->postedDays === 1 ? ' selected' : '' ?>>Today</option>
-            <option value="3"<?= $query->postedDays === 3 ? ' selected' : '' ?>>Last 3 days</option>
-            <option value="7"<?= $query->postedDays === 7 ? ' selected' : '' ?>>Last 7 days</option>
-          </select>
-        </div>
-
         <h2 class="h6">Level</h2>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" name="student" value="1" id="f-student"<?= $query->student ? ' checked' : '' ?>>
@@ -178,6 +168,36 @@ layout_header('Jobs');
     </aside>
 
     <div class="jobs-results">
+      <?php
+      $postedOptions = [
+          0 => 'Any time',
+          1 => 'Today · 24h',
+          7 => 'This week',
+          14 => 'Last week',
+      ];
+      ?>
+      <div class="jobs-toolbar card shadow-sm mb-3">
+        <div class="card-body py-2 d-flex flex-wrap align-items-center gap-2">
+          <span class="small text-secondary me-1">Posted</span>
+          <div class="jobs-chip-row" role="group" aria-label="Posted when">
+            <?php foreach ($postedOptions as $days => $label): ?>
+              <?php
+              $active = (int) $query->postedDays === (int) $days;
+              $href = '/jobs.php?' . $query->toQuery(['posted' => $days > 0 ? $days : '', 'page' => 1]);
+              ?>
+              <a class="jobs-chip<?= $active ? ' is-active' : '' ?>" href="<?= App::e($href) ?>"><?= App::e($label) ?></a>
+            <?php endforeach; ?>
+          </div>
+          <div class="ms-auto d-flex align-items-center gap-2">
+            <label class="small text-secondary mb-0" for="sort">Sort</label>
+            <select class="form-select form-select-sm jobs-sort" id="sort" name="sort" onchange="this.form.submit()">
+              <option value="relevance"<?= $query->sort === 'relevance' ? ' selected' : '' ?>>Best match</option>
+              <option value="recent"<?= $query->sort === 'recent' ? ' selected' : '' ?>>Most recent</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <?php if (!$ran): ?>
         <div class="card shadow-sm">
           <div class="card-body">
@@ -187,8 +207,10 @@ layout_header('Jobs');
           </div>
         </div>
       <?php else: ?>
-        <?php if ($query->matchResume): ?>
+        <?php if ($query->matchResume && $query->sort !== 'recent'): ?>
           <p class="small mb-2">Sorted by resume fit<?= $resumeTitle !== '' ? ' · ' . App::e($resumeTitle) : '' ?>.</p>
+        <?php elseif ($query->sort === 'recent'): ?>
+          <p class="small mb-2">Sorted by most recent post.</p>
         <?php endif; ?>
         <?php if ($query->keywords !== []): ?>
           <p class="small mb-2">Roles:

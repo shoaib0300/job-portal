@@ -264,6 +264,13 @@ final class JobAggregator
         $keywords = array_map(static fn(string $k): string => mb_strtolower($k), $query->keywords);
         $resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
         usort($listings, static function (JobListing $a, JobListing $b) use ($keywords, $resumeTerms, $query): int {
+            if ($query->sort === 'recent') {
+                $pa = $a->postedAt ? (int) strtotime($a->postedAt) : 0;
+                $pb = $b->postedAt ? (int) strtotime($b->postedAt) : 0;
+                if ($pa !== $pb) {
+                    return $pb <=> $pa;
+                }
+            }
             if ($query->matchResume) {
                 $ra = ResumeJobMatch::fitScore($a, $resumeTerms);
                 $rb = ResumeJobMatch::fitScore($b, $resumeTerms);
@@ -276,10 +283,12 @@ final class JobAggregator
             if ($sa !== $sb) {
                 return $sb <=> $sa;
             }
-            $pa = $a->postedAt ? strtotime($a->postedAt) : 0;
-            $pb = $b->postedAt ? strtotime($b->postedAt) : 0;
-            if ($pa !== $pb) {
-                return $pb <=> $pa;
+            if ($query->sort !== 'recent') {
+                $pa = $a->postedAt ? (int) strtotime($a->postedAt) : 0;
+                $pb = $b->postedAt ? (int) strtotime($b->postedAt) : 0;
+                if ($pa !== $pb) {
+                    return $pb <=> $pa;
+                }
             }
             $ra = self::SOURCE_RANK[$a->source] ?? 10;
             $rb = self::SOURCE_RANK[$b->source] ?? 10;
