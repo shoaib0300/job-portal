@@ -73,6 +73,7 @@ final class ArbeitsagenturSource
             && !$query->junior
             && !$query->graduate
             && !$query->noExperience
+            && !$query->minijob
             && !$query->hasKeywords()) {
             $params['angebotsart'] = 34;
         }
@@ -83,8 +84,9 @@ final class ArbeitsagenturSource
         if ($query->employment === 'parttime') {
             $zeit[] = 'tz';
         }
-        if ($query->employment === 'mini') {
-            $params['was'] = trim($params['was'] . ' Minijob');
+        // BA code mj = Minijob (geringfügige Beschäftigung). Prefer API filter over keyword-only.
+        if ($query->employment === 'mini' || $query->minijob) {
+            $zeit[] = 'mj';
         }
         if ($query->workMode === 'remote') {
             $zeit[] = 'ho';
@@ -129,6 +131,8 @@ final class ArbeitsagenturSource
                 $job->employment = 'fulltime';
             } elseif ($query->employment === 'parttime') {
                 $job->employment = 'parttime';
+            } elseif ($query->employment === 'mini' || $query->minijob) {
+                $job->employment = 'mini';
             }
             $listings[] = JobText::enrich($job);
         }
@@ -163,8 +167,12 @@ final class ArbeitsagenturSource
         $company = (string) ($row['firma'] ?? $row['arbeitgeber'] ?? '');
         $offerHint = (string) ($row['stellenangebotsart'] ?? $row['angebotsart'] ?? '');
         $fulltime = $row['arbeitszeitVollzeit'] ?? null;
+        $isMini = !empty($row['istGeringfuegigeBeschaeftigung'])
+            || JobText::employment($title) === 'mini';
         $employment = 'unknown';
-        if ($fulltime === true) {
+        if ($isMini) {
+            $employment = 'mini';
+        } elseif ($fulltime === true) {
             $employment = 'fulltime';
         } elseif ($fulltime === false) {
             $employment = 'parttime';
@@ -225,7 +233,12 @@ final class ArbeitsagenturSource
         }
         $fulltime = $data['arbeitszeitVollzeit'] ?? null;
         $employment = JobText::employment($title . ' ' . $desc, $zeitHint);
-        if ($fulltime === true) {
+        $isMini = !empty($data['istGeringfuegigeBeschaeftigung'])
+            || $employment === 'mini'
+            || (is_array($zeit) && self::zeitModelsIncludeMini($zeit));
+        if ($isMini) {
+            $employment = 'mini';
+        } elseif ($fulltime === true) {
             $employment = 'fulltime';
         } elseif ($fulltime === false) {
             $employment = 'parttime';
@@ -391,6 +404,21 @@ final class ArbeitsagenturSource
         }
         arsort($scored);
         return (string) array_key_first($scored);
+    }
+
+    /** @param list<mixed> $models */
+    private static function zeitModelsIncludeMini(array $models): bool
+    {
+        foreach ($models as $m) {
+            $s = mb_strtolower(trim((string) $m));
+            if ($s === '') {
+                continue;
+            }
+            if (str_contains($s, 'minijob') || $s === 'mj' || str_contains($s, 'geringfügig') || str_contains($s, 'geringfuegig')) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** @param array<string, mixed> $row */

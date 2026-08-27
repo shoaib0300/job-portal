@@ -38,7 +38,7 @@ final class JobText
     public static function employment(string $text, string $hint = ''): string
     {
         $t = self::haystack($text, $hint);
-        if (preg_match('/\b(minijob|mini-job|geringfügig)\b/u', $t)) {
+        if (preg_match('/\b(minijob|mini-job|mini\s*job|geringfügig(?:e)?(?:\s+beschäftigung)?|geringfuegig)\b/u', $t)) {
             return 'mini';
         }
         if (preg_match('/\b(teilzeit|part[- ]?time|tz\b)\b/u', $t) || $hint === 'tz' || $hint === 'TEILZEIT') {
@@ -234,6 +234,9 @@ final class JobText
         }
         if (preg_match('/\b(keine berufserfahrung|ohne berufserfahrung|no experience|ohne vorkenntnisse|berufseinsteiger)\b/u', $t)) {
             $tags[] = 'no_experience';
+        }
+        if (preg_match('/\b(minijob|mini[- ]?job|geringfügig|midi[- ]?job)\b/u', $t)) {
+            $tags[] = 'minijob';
         }
         return $tags;
     }

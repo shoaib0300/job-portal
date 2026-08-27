@@ -69,6 +69,7 @@ final class JobQuery
         public bool $graduate = false,
         public bool $internship = false,
         public bool $noExperience = false,
+        public bool $minijob = false,
         public string $employment = '',
         public bool $english = false,
         public string $germanLevel = '',
@@ -261,6 +262,7 @@ final class JobQuery
             $matchResume ? false : isset($get['graduate']),
             $matchResume ? false : isset($get['internship']),
             $matchResume ? false : isset($get['no_experience']),
+            $matchResume ? false : isset($get['minijob']),
             (string) ($get['employment'] ?? ''),
             $matchResume ? false : isset($get['english']),
             $matchResume ? '' : (string) ($get['german_level'] ?? ''),
@@ -325,6 +327,9 @@ final class JobQuery
         if ($this->internship) {
             $bits[] = 'Praktikum';
         }
+        if ($this->minijob) {
+            $bits[] = 'Minijob';
+        }
         if ($bits === [] && $this->wantsSource('university')) {
             $bits[] = 'Werkstudent';
         }
@@ -333,7 +338,7 @@ final class JobQuery
 
     public function hasLevelFilter(): bool
     {
-        return $this->student || $this->junior || $this->graduate || $this->internship || $this->noExperience;
+        return $this->student || $this->junior || $this->graduate || $this->internship || $this->noExperience || $this->minijob;
     }
 
     /** Space-joined roles for APIs that take one was= string (Arbeitsagentur). */
@@ -394,6 +399,9 @@ final class JobQuery
         if ($this->noExperience) {
             $data['no_experience'] = '1';
         }
+        if ($this->minijob) {
+            $data['minijob'] = '1';
+        }
         if ($this->english) {
             $data['english'] = '1';
         }
@@ -423,6 +431,7 @@ final class JobQuery
             'graduate' => $this->graduate,
             'internship' => $this->internship,
             'no_experience' => $this->noExperience,
+            'minijob' => $this->minijob,
             'employment' => $this->employment,
             'english' => $this->english,
             'german_level' => $this->germanLevel,
@@ -433,7 +442,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v17:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v18:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Days window passed to boards / post-filter (always 1 or 14). */

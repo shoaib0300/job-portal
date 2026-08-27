@@ -396,6 +396,13 @@ final class JobAggregator
                 return true;
             }
         }
+        if ($query->minijob) {
+            if ($job->employment === 'mini'
+                || in_array('minijob', $tags, true)
+                || preg_match('/\bminijob\b|\bmini[- ]?job\b|geringfügig|geringfuegig|450\s*€|450\s*eur|520\s*eur|556\s*eur|midi[- ]?job/u', $hay)) {
+                return true;
+            }
+        }
         return false;
     }
 

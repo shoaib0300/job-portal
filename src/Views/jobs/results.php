@@ -56,7 +56,8 @@ use KaamMilo\Jobs\ResumeJobMatch;
         <?php if ($result['listings'] === []): ?>
           <div class="card shadow-sm">
             <div class="card-body">
-              <p class="mb-0">No jobs matched. Broaden the city or turn off extra sources.</p>
+              <p class="mb-2">No jobs matched.</p>
+              <p class="text-secondary small mb-0">Some filters or sources may show few or no jobs while we expand coverage. Try different filters, another source, or a job portal.</p>
             </div>
           </div>
         <?php else: ?>

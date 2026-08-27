@@ -120,6 +120,10 @@ use App;
                 <input class="form-check-input" type="checkbox" name="no_experience" value="1" id="f-noexp"<?= $query->noExperience ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-noexp">No experience</label>
               </div>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="minijob" value="1" id="f-mini"<?= $query->minijob ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
+                <label class="form-check-label" for="f-mini">Minijob</label>
+              </div>
             </div>
           </div>
           <div class="col-lg-4">
@@ -165,18 +169,26 @@ use App;
           </button>
           <div class="collapse mt-3" id="jobsMoreFilters">
             <div class="row g-3">
-              <div class="col-lg-6">
-                <div class="form-label mb-2">Sources</div>
+              <div class="col-lg-6" data-sources-picker>
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                  <div class="form-label mb-0">Sources</div>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-link btn-sm p-0" data-sources-select-all>Select all</button>
+                    <span class="text-secondary small" aria-hidden="true">·</span>
+                    <button type="button" class="btn btn-link btn-sm p-0" data-sources-clear>Clear</button>
+                  </div>
+                </div>
                 <div class="row row-cols-1 row-cols-sm-2 g-1">
                   <?php foreach ($sourceLabels as $sid => $slabel): ?>
                     <div class="col">
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="sources[]" value="<?= App::e($sid) ?>" id="src-<?= App::e($sid) ?>"<?= $query->wantsSource($sid) ? ' checked' : '' ?>>
+                        <input class="form-check-input" type="checkbox" name="sources[]" value="<?= App::e($sid) ?>" id="src-<?= App::e($sid) ?>"<?= $query->wantsSource($sid) ? ' checked' : '' ?> data-source-input>
                         <label class="form-check-label small" for="src-<?= App::e($sid) ?>"><?= App::e($slabel) ?></label>
                       </div>
                     </div>
                   <?php endforeach; ?>
                 </div>
+                <p class="small text-secondary mt-2 mb-0">Some sources or filter combinations may show few or no jobs while we expand coverage — try other filters or another job portal.</p>
                 <?php if (!$serpConfigured && App::isDev()): ?>
                   <p class="small text-secondary mt-1 mb-0">SERP boards need <code>BRIGHT_DATA_API_TOKEN</code>. LinkedIn does not.</p>
                 <?php endif; ?>

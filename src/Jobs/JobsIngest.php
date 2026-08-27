@@ -89,6 +89,7 @@ final class JobsIngest
             'Absolvent',
             'Vollzeit',
             'Teilzeit',
+            'Minijob',
             'Fachkraft',
             'Quereinsteiger',
         ];
@@ -107,6 +108,18 @@ final class JobsIngest
             'q' => '',
             'city' => '',
             'sources' => ['arbeitsagentur'],
+        ];
+        // Dedicated Minijob crawl (BA arbeitszeit=mj) — keyword-only seeds miss most of these.
+        $seeds[] = [
+            'q' => '',
+            'city' => '',
+            'sources' => ['arbeitsagentur'],
+            'employment' => 'mini',
+        ];
+        $seeds[] = [
+            'q' => 'Minijob',
+            'city' => '',
+            'sources' => ['jobexport', 'jobware', 'linkedin'],
         ];
         $seeds[] = [
             'q' => '',
@@ -451,6 +464,10 @@ final class JobsIngest
                 $companies = [];
             }
             $label = $q !== '' ? $q : ('(' . implode(',', array_map('strval', $sources)) . ')');
+            $empSeed = trim((string) ($seed['employment'] ?? ''));
+            if ($empSeed === 'mini') {
+                $label = 'Minijob · ' . $label;
+            }
             $percent = (int) max(1, floor((($i - 1) / max(1, $seedTotal)) * 100));
             if ($seedTotal === 1) {
                 $percent = 5;
@@ -488,6 +505,10 @@ final class JobsIngest
                 ];
                 if ($companies !== []) {
                     $req['companies'] = array_values(array_map('strval', $companies));
+                }
+                $employment = trim((string) ($seed['employment'] ?? ''));
+                if ($employment !== '') {
+                    $req['employment'] = $employment;
                 }
                 $query = JobQuery::fromRequest($req);
                 $result = JobAggregator::searchLive($query);

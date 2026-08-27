@@ -675,6 +675,22 @@
 })();
 
 (() => {
+  const root = document.querySelector("[data-sources-picker]");
+  if (!root) return;
+  const boxes = () => root.querySelectorAll("[data-source-input]");
+  root.querySelector("[data-sources-select-all]")?.addEventListener("click", () => {
+    boxes().forEach((el) => {
+      el.checked = true;
+    });
+  });
+  root.querySelector("[data-sources-clear]")?.addEventListener("click", () => {
+    boxes().forEach((el) => {
+      el.checked = false;
+    });
+  });
+})();
+
+(() => {
   const root = document.querySelector("[data-company-picker]");
   if (!root) return;
   const filter = root.querySelector("[data-company-filter]");
