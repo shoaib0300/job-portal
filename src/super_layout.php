@@ -36,6 +36,7 @@ function super_layout_header(string $title): void
       <a href="/super-admin/" class="<?= basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'index.php' ? 'active' : '' ?>">Dashboard</a>
       <a href="/super-admin/users.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'user') ? 'active' : '' ?>">Users</a>
       <a href="/super-admin/companies.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'companies') ? 'active' : '' ?>">Companies</a>
+      <a href="/super-admin/jobs.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'jobs') ? 'active' : '' ?>">Jobs</a>
       <a href="/super-admin/settings.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'settings') ? 'active' : '' ?>">Settings</a>
       <a href="/super-admin/logout.php">Log out</a>
       <?php if ($admin): ?>

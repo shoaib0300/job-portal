@@ -20,6 +20,10 @@ hooks:
             else
               echo "MNK PDF server already running on :18477"
             fi
+web_extra_daemons:
+    - name: "jobs-ingest"
+      command: "bash -c 'mkdir -p /var/www/html/storage/logs; sleep 90; while true; do php /var/www/html/bin/jobs_ingest.php >> /var/www/html/storage/logs/jobs_ingest.log 2>&1; sleep 7200; done'"
+      directory: /var/www/html
 use_dns_when_possible: true
 composer_version: "2"
 web_environment: []

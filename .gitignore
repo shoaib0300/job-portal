@@ -26,6 +26,8 @@ Thumbs.db
 /bin/browsers/
 /storage/pdfs/*
 !/storage/pdfs/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
 *.log
 /public/uploads/photos/*
 !/public/uploads/photos/.gitkeep

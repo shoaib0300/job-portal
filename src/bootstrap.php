@@ -98,8 +98,10 @@ if (PHP_SAPI !== 'cli') {
         // Handled in public/index.php (redirect/login). Allow through without Auth::requireLogin here.
         $public[] = 'index.php';
     }
-    if ($isSuperAdmin) {
-        // Super-admin pages handle their own auth.
+    // Cron HTTP triggers use their own key auth (see public/cron/*).
+    $isCron = str_contains($scriptPath, '/cron/');
+    if ($isSuperAdmin || $isCron) {
+        // Super-admin / cron pages handle their own auth.
     } elseif (!in_array($script, $public, true)) {
         Auth::requireLogin();
     }

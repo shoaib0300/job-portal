@@ -32,6 +32,12 @@ final class JobAggregator
     public static function ensureSchema(): void
     {
         JobCache::ensureSchema();
+        JobStore::ensureSchema();
+        try {
+            JobIngestLog::ensureSchema();
+        } catch (Throwable) {
+            // ignore
+        }
         try {
             CareerCompanies::ensureSchema();
         } catch (Throwable) {
@@ -40,11 +46,14 @@ final class JobAggregator
     }
 
     /**
+     * User-facing search: read from job_listings only (filled by cron ingest).
+     *
      * @return array{listings: list<JobListing>, total: int, notices: list<string>, page: int, pages: int}
      */
     public static function search(JobQuery $query, bool $useCache = true): array
     {
         self::ensureSchema();
+        // Short-lived ranked result cache (DB is source of truth; this only speeds repeat filters).
         if ($useCache) {
             $cached = JobCache::get($query->cacheKey(), JobCache::SEARCH_TTL);
             if (is_array($cached) && isset($cached['listings']) && is_array($cached['listings'])) {
@@ -58,10 +67,38 @@ final class JobAggregator
             }
         }
 
+        $notices = [];
+        $listings = JobStore::search($query);
+        if ($listings === [] && JobStore::count() === 0) {
+            $notices[] = 'Job index is empty. Jobs are refreshed every 2 hours in the background.';
+        }
+
+        $listings = self::dedupe($listings);
+        $listings = self::postFilter($listings, $query);
+        if ($query->matchResume) {
+            $listings = self::filterByResumeFit($listings);
+        }
+        $listings = self::rank($listings, $query);
+
+        JobCache::put($query->cacheKey(), [
+            'listings' => array_map(static fn(JobListing $j): array => $j->toArray(), $listings),
+            'notices' => $notices,
+        ]);
+
+        return self::paginate($listings, $query, $notices);
+    }
+
+    /**
+     * Live internet fetch used only by cron ingest (and admin “Run ingest now”).
+     *
+     * @return array{listings: list<JobListing>, notices: list<string>}
+     */
+    public static function searchLive(JobQuery $query): array
+    {
+        self::ensureSchema();
         $listings = [];
         $notices = [];
 
-        // Fan-out AA primary GET; LinkedIn needs Unlocker fallback so it runs via LinkedInSource::search.
         $fanout = [];
         if ($query->wantsSource('arbeitsagentur')) {
             $fanout['aa'] = ArbeitsagenturSource::httpSearchRequest($query);
@@ -123,27 +160,20 @@ final class JobAggregator
 
         $listings = self::dedupe($listings);
         $listings = self::postFilter($listings, $query);
-        if ($query->matchResume) {
-            $listings = self::filterByResumeFit($listings);
-        }
         $listings = self::rank($listings, $query);
 
         foreach ($listings as $job) {
             JobCache::putListing($job);
         }
 
-        JobCache::put($query->cacheKey(), [
-            'listings' => array_map(static fn(JobListing $j): array => $j->toArray(), $listings),
-            'notices' => $notices,
-        ]);
-
-        return self::paginate($listings, $query, $notices);
+        return ['listings' => $listings, 'notices' => $notices];
     }
 
     public static function details(string $source, string $externalId): ?JobListing
     {
         self::ensureSchema();
-        $cached = JobCache::getListing($source, $externalId);
+        $stored = JobStore::get($source, $externalId);
+        $cached = $stored ?? JobCache::getListing($source, $externalId);
         if ($source === 'arbeitsagentur') {
             $fresh = (new ArbeitsagenturSource())->details($externalId);
             return $fresh ?? $cached;

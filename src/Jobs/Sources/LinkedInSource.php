@@ -296,6 +296,9 @@ final class LinkedInSource
         }
 
         $desc = trim($post->description);
+        if (strcasecmp($desc, 'nan') === 0 || strcasecmp($desc, 'null') === 0) {
+            $desc = '';
+        }
         $blob = $title . ' ' . $loc . ' ' . $desc . ' ' . (string) ($post->job_type ?? '');
         $workMode = $post->is_remote ? 'remote' : JobText::workMode($blob);
         $employment = JobText::employment($blob, (string) ($post->job_type ?? ''));

@@ -174,7 +174,6 @@ use App;
                     </div>
                   <?php endforeach; ?>
                 </div>
-                <p class="small text-secondary mt-2 mb-0">LinkedIn uses <a href="https://github.com/alexseif/php-jobspy" target="_blank" rel="noopener">php-jobspy</a> / python-jobspy (Germany, last 7 days). Indeed/StepStone still need <code>BRIGHT_DATA_API_TOKEN</code>.</p>
                 <?php if (!$serpConfigured && App::isDev()): ?>
                   <p class="small text-secondary mt-1 mb-0">SERP boards need <code>BRIGHT_DATA_API_TOKEN</code>. LinkedIn does not.</p>
                 <?php endif; ?>

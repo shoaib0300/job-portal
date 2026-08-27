@@ -423,6 +423,16 @@ final class JobText
         return date('j M Y', $ts);
     }
 
+    public static function displayHtml(string $text): string
+    {
+        if (self::looksLikeHtml($text)) {
+            return self::safeHtml($text);
+        }
+        if (self::looksLikeMarkdown($text)) {
+            return self::safeHtml(self::markdownToHtml($text));
+        }
+        return self::linkifyContacts(App::nl2p($text));
+    }
 
     /** Make emails, phones, URLs, and postal addresses bold + clickable. */
     public static function linkifyContacts(string $html): string

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+## Description: Run job index ingest (live fetch → job_listings)
+## Usage: jobs-ingest [--max-seeds=N] [--purge-only]
+## Example: ddev jobs-ingest --max-seeds=2
+
+set -euo pipefail
+php /var/www/html/bin/jobs_ingest.php "$@"
