@@ -18,7 +18,7 @@ use KaamMilo\Jobs\JobText;
  */
 final class LinkedInSource
 {
-    private const RESULTS_WANTED = 15;
+    private const RESULTS_WANTED = 50;
 
     /**
      * @return array{listings: list<JobListing>, notices: list<string>}
@@ -106,7 +106,7 @@ final class LinkedInSource
         return [
             'listings' => $listings,
             'notices' => $listings === []
-                ? ['LinkedIn JobSpy returned posts, but none passed Germany / 7-day filters.']
+                ? ['LinkedIn JobSpy returned posts, but none passed Germany / ' . JobQuery::MAX_POSTED_DAYS . '-day filters.']
                 : [],
         ];
     }

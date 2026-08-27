@@ -48,12 +48,12 @@ final class ArbeitsagenturSource
     /**
      * @return array{url:string,headers:list<string>}
      */
-    public static function httpSearchRequest(JobQuery $query): array
+    public static function httpSearchRequest(JobQuery $query, int $page = 1): array
     {
         $params = [
             'was' => $query->searchWas(),
             'wo' => $query->whereText(),
-            'page' => 1,
+            'page' => max(1, $page),
             'size' => 50,
             'zeitarbeit' => 'false',
         ];

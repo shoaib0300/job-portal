@@ -15,15 +15,19 @@ use KaamMilo\Jobs\JobListing;
 use KaamMilo\Jobs\JobQuery;
 use KaamMilo\Jobs\JobText;
 
-
 /**
  * Public Stellenbörse at jobexport.de — a distributor feed (BA, StepStone, Indeed, …).
- * HTML search only; we never pull the full ~40k catalogue.
+ * Newest listings appear on /stellenboerse with an empty suchbegriff (~40k catalogue).
+ * Keyword search is relevance-ranked and often returns older ads — we always also crawl
+ * the empty-search newest pages so fresh jobs (e.g. dated today) are not missed.
  */
 final class JobexportSource
 {
     private const BASE = 'https://www.jobexport.de';
-    private const PAGES = 3;
+    /** Keyword search pages (relevance order — often older). */
+    private const KEYWORD_PAGES = 6;
+    /** Empty-search newest-first pages (~10 jobs each). */
+    private const RECENT_PAGES = 30;
 
     /**
      * @return array{listings: list<JobListing>, notice: ?string}
@@ -37,9 +41,27 @@ final class JobexportSource
         $terms = array_slice($terms, 0, 4);
 
         $requests = [];
+
+        // Newest-first browse (matches https://www.jobexport.de/stellenboerse with no keyword).
+        for ($page = 1; $page <= self::RECENT_PAGES; $page++) {
+            $params = [
+                'suchbegriff' => '',
+                'ort' => $query->city,
+                'umkreis' => $query->city !== '' ? '50' : '0',
+                'page' => (string) $page,
+            ];
+            $requests['recent:' . $page] = [
+                'url' => self::BASE . '/stellenboerse?' . http_build_query($params),
+                'headers' => self::htmlHeaders(),
+            ];
+        }
+
         foreach ($terms as $i => $term) {
             $was = trim($term . ' ' . $query->extraKeywords());
-            for ($page = 1; $page <= self::PAGES; $page++) {
+            if ($was === '') {
+                continue; // already covered by recent crawl
+            }
+            for ($page = 1; $page <= self::KEYWORD_PAGES; $page++) {
                 $params = [
                     'suchbegriff' => $was,
                     'ort' => $query->city,
@@ -53,7 +75,7 @@ final class JobexportSource
             }
         }
 
-        $bodies = JobHttp::multiGet($requests, 10);
+        $bodies = JobHttp::multiGet($requests, 14);
         $listings = [];
         $ok = 0;
         foreach ($bodies as $html) {
@@ -230,51 +252,15 @@ final class JobexportSource
                     $bundesland = $region;
                 }
             }
-            $ldDesc = trim(JobText::stripHtml((string) ($ld['description'] ?? '')));
-            if ($ldDesc !== '') {
-                $desc = (string) $ld['description'];
+            $d = trim((string) ($ld['description'] ?? ''));
+            if ($d !== '') {
+                $desc = strip_tags($d);
             }
-        }
-
-        if ($dom !== null) {
-            $xp = new DOMXPath($dom);
-            if ($title === '') {
-                $title = self::firstText($xp, $dom, '//h1');
-            }
-            foreach ($xp->query('//a[@href]') as $a) {
-                if (!$a instanceof DOMElement) {
-                    continue;
-                }
-                $rawHref = trim(html_entity_decode($a->getAttribute('href'), ENT_QUOTES, 'UTF-8'));
-                if ($rawHref === '' || !preg_match('#^https?://#i', $rawHref)) {
-                    continue;
-                }
-                $href = App::normalizeHttpUrl($rawHref);
-                if ($href === '' || str_contains(mb_strtolower($href), 'jobexport.de')) {
-                    continue;
-                }
-                $label = mb_strtolower(trim($a->textContent . ' ' . $a->getAttribute('title')));
-                if (preg_match('/bewerben|bewerbung|(^|\s)apply(\s|$)/iu', $label)
-                    || preg_match('#/(apply|bewerbung)(/|$|\?)#iu', $href)) {
-                    $apply = $href;
-                    break;
-                }
-            }
-            $fromBox = self::descriptionFromDom($xp, $dom);
-            if ($fromBox !== '') {
-                $desc = $fromBox;
-            }
-        }
-
-        if (trim(JobText::stripHtml($desc)) === '') {
-            $desc = self::descriptionFromRawHtml($html);
         }
 
         if ($title === '') {
             return $cached;
         }
-
-        $blob = $title . ' ' . JobText::stripHtml($desc);
         $job = new JobListing(
             'jobexport',
             $id,
@@ -283,9 +269,9 @@ final class JobexportSource
             $city,
             $bundesland,
             'Germany',
-            JobText::workMode($blob),
-            JobText::employment($blob, ''),
-            JobText::offerType($blob),
+            'unknown',
+            'unknown',
+            'job',
             [],
             [],
             '',
@@ -301,11 +287,11 @@ final class JobexportSource
     /** @return array<string, mixed>|null */
     private static function jobPostingLd(string $html): ?array
     {
-        if (!preg_match_all('#<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>#is', $html, $matches)) {
+        if (!preg_match_all('~<script[^>]+type="application/ld\+json"[^>]*>(.*?)</script>~is', $html, $all)) {
             return null;
         }
-        foreach ($matches[1] as $raw) {
-            $data = json_decode(html_entity_decode(trim($raw), ENT_QUOTES, 'UTF-8'), true);
+        foreach ($all[1] as $raw) {
+            $data = json_decode(html_entity_decode($raw, ENT_QUOTES | ENT_HTML5), true);
             if (!is_array($data)) {
                 continue;
             }
@@ -323,116 +309,21 @@ final class JobexportSource
         return null;
     }
 
-    private static function descriptionFromDom(DOMXPath $xp, DOMDocument $dom): string
+    private static function cityFromLocation(string $location): string
     {
-        $best = '';
-        $bestLen = 0;
-
-        $nodes = $xp->query(
-            '//*[@id="jobTplContainer"]'
-            . '|//*[contains(@class,"scheme-display-view")]'
-            . '|//*[contains(@class,"scheme-display")]'
-            . '|//*[@id="jobdetail"]//div[contains(@class,"whitebox")]'
-            . '|//div[contains(@class,"whitebox")]'
-            . '|//div[contains(@class,"col-md-7") and contains(@class,"main")]'
-            . '|//div[contains(@class,"main")]'
-        );
-        if ($nodes !== false) {
-            foreach ($nodes as $box) {
-                if (!$box instanceof DOMElement) {
-                    continue;
-                }
-                $cls = ' ' . $box->getAttribute('class') . ' ';
-                if (preg_match('/\b(sidebar|header|footer)\b/i', $cls)) {
-                    continue;
-                }
-                $heading = self::firstHeading($box);
-                if (preg_match('/^(details|kontakt)$/iu', $heading)) {
-                    continue;
-                }
-                $html = self::innerHtml($dom, $box);
-                $len = mb_strlen(trim(strip_tags($html)));
-                if ($len > $bestLen && $len >= 80) {
-                    $best = $html;
-                    $bestLen = $len;
-                }
-            }
+        $location = trim($location);
+        if ($location === '') {
+            return '';
         }
-
-        if ($bestLen >= 80) {
-            return $best;
+        if (preg_match('/^\d{5}\s+(.+)$/u', $location, $m)) {
+            return trim($m[1]);
         }
-
-        $parts = [];
-        $textNodes = $xp->query('//*[contains(@class,"content-text")]');
-        if ($textNodes !== false) {
-            foreach ($textNodes as $block) {
-                if ($block instanceof DOMElement) {
-                    $parts[] = self::innerHtml($dom, $block);
-                }
-            }
-        }
-        $joined = trim(implode("\n", $parts));
-        return mb_strlen(trim(strip_tags($joined))) >= 80 ? $joined : $best;
-    }
-
-    private static function descriptionFromRawHtml(string $html): string
-    {
-        $html = preg_replace('#<script\b[^>]*>.*?</script>#is', '', $html) ?? $html;
-        $html = preg_replace('#<style\b[^>]*>.*?</style>#is', '', $html) ?? $html;
-        if (preg_match('#<div[^>]*id=["\']jobTplContainer["\'][^>]*>(.*)</div>\s*</div>\s*</body>#is', $html, $m)) {
-            $chunk = trim($m[1]);
-            if (mb_strlen(trim(strip_tags($chunk))) >= 80) {
-                return $chunk;
-            }
-        }
-        if (preg_match('#<div[^>]*class=["\'][^"\']*col-md-7[^"\']*main[^"\']*["\'][^>]*>(.*?)</div>\s*<div[^>]*sidebar#is', $html, $m)
-            || preg_match('#<div[^>]*class=["\'][^"\']*\bmain\b[^"\']*["\'][^>]*>(.*?)</div>\s*<div[^>]*sidebar#is', $html, $m)) {
-            $chunk = trim($m[1]);
-            if (mb_strlen(trim(strip_tags($chunk))) >= 80) {
-                return $chunk;
-            }
-        }
-        if (preg_match_all('#<div[^>]*class=["\'][^"\']*content-text[^"\']*["\'][^>]*>(.*?)</div>#is', $html, $matches)) {
-            $joined = trim(implode("\n", $matches[1]));
-            if (mb_strlen(trim(strip_tags($joined))) >= 80) {
-                return $joined;
-            }
-        }
-        return '';
-    }
-
-    private static function firstHeading(DOMElement $box): string
-    {
-        foreach ($box->childNodes as $child) {
-            if ($child instanceof DOMElement && preg_match('/^h[1-6]$/i', $child->tagName)) {
-                return trim($child->textContent);
-            }
-        }
-        return '';
-    }
-
-    private static function innerHtml(DOMDocument $dom, DOMElement $el): string
-    {
-        $html = '';
-        foreach ($el->childNodes as $child) {
-            $html .= $dom->saveHTML($child);
-        }
-        $html = preg_replace('#<style\b[^>]*>.*?</style>#is', '', $html) ?? $html;
-        $html = preg_replace('#<script\b[^>]*>.*?</script>#is', '', $html) ?? $html;
-        return trim($html);
+        return $location;
     }
 
     private static function isDistributorName(string $name): bool
     {
         return (bool) preg_match('/^(joblica|jobexport|jobbox|vonq)$/iu', trim($name));
-    }
-
-    private static function cityFromLocation(string $location): string
-    {
-        $location = trim(preg_replace('/\s+/u', ' ', $location) ?? $location);
-        $location = preg_replace('/^\d{5}\s+/u', '', $location) ?? $location;
-        return trim($location);
     }
 
     private static function parseDeDate(string $raw): ?string

@@ -14,7 +14,7 @@ final class JobCache
     public const JOB_TTL = 3600;
 
     /** Drop cached rows / jobs older than this (matches JobQuery::MAX_POSTED_DAYS). */
-    public const MAX_JOB_AGE_DAYS = 7;
+    public const MAX_JOB_AGE_DAYS = 14;
 
     private static bool $purgedThisRequest = false;
 

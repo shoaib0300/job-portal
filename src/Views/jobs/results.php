@@ -33,7 +33,7 @@ use KaamMilo\Jobs\ResumeJobMatch;
           <div class="card-body">
             <p class="mb-2">Pick filters and search. Default sources are Bundesagentur für Arbeit and Jobexport — your last search is restored until you Reset.</p>
             <p class="text-secondary small mb-0">Student preset: Werkstudent + Praktikum in Berlin.</p>
-            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs?search=1&amp;posted=7&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
+            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs?search=1&amp;posted=14&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
           </div>
         </div>
       <?php else: ?>

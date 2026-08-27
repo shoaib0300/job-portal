@@ -26,6 +26,7 @@ final class JobStore
                 source VARCHAR(32) NOT NULL,
                 external_id VARCHAR(191) NOT NULL,
                 fingerprint VARCHAR(191) NOT NULL DEFAULT \'\',
+                content_key CHAR(64) NOT NULL DEFAULT \'\',
                 title VARCHAR(512) NOT NULL,
                 company VARCHAR(255) NOT NULL DEFAULT \'\',
                 city VARCHAR(128) NOT NULL DEFAULT \'\',
@@ -47,9 +48,23 @@ final class JobStore
                 KEY idx_job_fetched (fetched_at),
                 KEY idx_job_city (city),
                 KEY idx_job_source (source),
-                KEY idx_job_company (company(100))
+                KEY idx_job_company (company(100)),
+                KEY idx_job_content (content_key)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
+        // Older installs: add content_key if missing.
+        $cols = [];
+        foreach ($pdo->query('SHOW COLUMNS FROM job_listings')->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $cols[(string) ($row['Field'] ?? '')] = true;
+        }
+        if (!isset($cols['content_key'])) {
+            $pdo->exec('ALTER TABLE job_listings ADD COLUMN content_key CHAR(64) NOT NULL DEFAULT \'\' AFTER fingerprint');
+            try {
+                $pdo->exec('ALTER TABLE job_listings ADD KEY idx_job_content (content_key)');
+            } catch (\Throwable) {
+                // index may already exist
+            }
+        }
         self::$ready = true;
     }
 
@@ -59,7 +74,8 @@ final class JobStore
      *   upserted: int,
      *   inserted: int,
      *   updated: int,
-     *   by_source: array<string, array{inserted: int, updated: int, upserted: int}>
+     *   skipped: int,
+     *   by_source: array<string, array{inserted: int, updated: int, upserted: int, skipped: int}>
      * }
      */
     public static function upsertMany(array $jobs): array
@@ -69,46 +85,65 @@ final class JobStore
             'upserted' => 0,
             'inserted' => 0,
             'updated' => 0,
+            'skipped' => 0,
             'by_source' => [],
         ];
         if ($jobs === []) {
             return $stats;
         }
-        $sql = 'INSERT INTO job_listings (
-            source, external_id, fingerprint, title, company, city, bundesland, country,
-            work_mode, employment, offer_type, salary_text, posted_at, url, apply_url, description, payload, fetched_at
-        ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
-        ) ON DUPLICATE KEY UPDATE
-            fingerprint = VALUES(fingerprint),
-            title = VALUES(title),
-            company = VALUES(company),
-            city = VALUES(city),
-            bundesland = VALUES(bundesland),
-            country = VALUES(country),
-            work_mode = VALUES(work_mode),
-            employment = VALUES(employment),
-            offer_type = VALUES(offer_type),
-            salary_text = VALUES(salary_text),
-            posted_at = VALUES(posted_at),
-            url = VALUES(url),
-            apply_url = VALUES(apply_url),
-            description = VALUES(description),
-            payload = VALUES(payload),
-            fetched_at = NOW()';
-        $stmt = \Db::pdo()->prepare($sql);
+
+        $minPosted = (new \DateTimeImmutable('today'))
+            ->modify('-' . JobQuery::MAX_POSTED_DAYS . ' days')
+            ->format('Y-m-d');
+        $pdo = \Db::pdo();
+        $findSame = $pdo->prepare(
+            'SELECT id FROM job_listings WHERE source = ? AND external_id = ? LIMIT 1'
+        );
+        $findContent = $pdo->prepare(
+            'SELECT id, source FROM job_listings WHERE content_key = ? AND content_key != \'\' LIMIT 1'
+        );
+        $insert = $pdo->prepare(
+            'INSERT INTO job_listings (
+                source, external_id, fingerprint, content_key, title, company, city, bundesland, country,
+                work_mode, employment, offer_type, salary_text, posted_at, url, apply_url, description, payload, fetched_at
+            ) VALUES (
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()
+            )'
+        );
+        $update = $pdo->prepare(
+            'UPDATE job_listings SET
+                fingerprint = ?, content_key = ?, title = ?, company = ?, city = ?, bundesland = ?, country = ?,
+                work_mode = ?, employment = ?, offer_type = ?, salary_text = ?, posted_at = ?,
+                url = ?, apply_url = ?, description = ?, payload = ?, fetched_at = NOW()
+             WHERE source = ? AND external_id = ?'
+        );
+
         foreach ($jobs as $job) {
             if (!$job instanceof JobListing || $job->source === '' || $job->externalId === '') {
                 continue;
             }
+            $src = $job->source;
+            if (!isset($stats['by_source'][$src])) {
+                $stats['by_source'][$src] = ['inserted' => 0, 'updated' => 0, 'upserted' => 0, 'skipped' => 0];
+            }
+
             $posted = ($job->postedAt !== null && $job->postedAt !== '') ? substr($job->postedAt, 0, 10) : null;
             if ($posted !== null && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $posted)) {
                 $posted = null;
             }
-            $stmt->execute([
-                $job->source,
-                $job->externalId,
-                $job->fingerprint,
+            // Only keep jobs within MAX_POSTED_DAYS when a posted date is known.
+            if ($posted !== null && $posted < $minPosted) {
+                $stats['skipped']++;
+                $stats['by_source'][$src]['skipped']++;
+                continue;
+            }
+
+            $contentKey = JobListing::contentKey($job->company, $job->title, $posted);
+            $fingerprint = mb_substr($job->fingerprint !== '' ? $job->fingerprint : JobListing::makeFingerprint($job->company, $job->title, $job->city), 0, 191);
+            $payload = json_encode($job->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $row = [
+                $fingerprint,
+                $contentKey,
                 mb_substr($job->title, 0, 512),
                 mb_substr($job->company, 0, 255),
                 mb_substr($job->city, 0, 128),
@@ -122,23 +157,39 @@ final class JobStore
                 mb_substr($job->url, 0, 1024),
                 mb_substr($job->applyUrl, 0, 1024),
                 $job->description !== '' ? $job->description : null,
-                json_encode($job->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-            ]);
-            // MySQL: 1 = insert, 2 = update on duplicate.
-            $affected = $stmt->rowCount();
-            $isInsert = $affected === 1;
-            $src = $job->source;
-            if (!isset($stats['by_source'][$src])) {
-                $stats['by_source'][$src] = ['inserted' => 0, 'updated' => 0, 'upserted' => 0];
-            }
-            if ($isInsert) {
-                $stats['inserted']++;
-                $stats['by_source'][$src]['inserted']++;
-            } else {
+                $payload,
+            ];
+
+            $findSame->execute([$job->source, $job->externalId]);
+            $same = $findSame->fetch(PDO::FETCH_ASSOC);
+            if ($same !== false) {
+                $update->execute([...$row, $job->source, $job->externalId]);
                 $stats['updated']++;
+                $stats['upserted']++;
                 $stats['by_source'][$src]['updated']++;
+                $stats['by_source'][$src]['upserted']++;
+                continue;
             }
+
+            // Same company + title + posted date already stored from another platform → skip.
+            if ($contentKey !== '') {
+                $findContent->execute([$contentKey]);
+                $dup = $findContent->fetch(PDO::FETCH_ASSOC);
+                if ($dup !== false) {
+                    $stats['skipped']++;
+                    $stats['by_source'][$src]['skipped']++;
+                    continue;
+                }
+            }
+
+            $insert->execute([
+                $job->source,
+                $job->externalId,
+                ...$row,
+            ]);
+            $stats['inserted']++;
             $stats['upserted']++;
+            $stats['by_source'][$src]['inserted']++;
             $stats['by_source'][$src]['upserted']++;
         }
         return $stats;

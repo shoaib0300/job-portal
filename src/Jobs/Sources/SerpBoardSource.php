@@ -19,9 +19,9 @@ final class SerpBoardSource
         'indeed' => ['label' => 'Indeed', 'site' => 'site:indeed.de OR site:de.indeed.com'],
         'stepstone' => ['label' => 'StepStone', 'site' => 'site:stepstone.de'],
         'xing' => ['label' => 'XING', 'site' => 'site:xing.com/jobs'],
-        'jobware' => ['label' => 'Jobware', 'site' => 'site:jobware.de'],
         'glassdoor' => ['label' => 'Glassdoor', 'site' => 'site:glassdoor.de/Job OR site:www.glassdoor.com/job-listing'],
     ];
+    // Jobware uses JobwareSource (HTML), not Google SERP.
 
     public static function token(): string
     {
@@ -57,8 +57,14 @@ final class SerpBoardSource
 
         $was = $query->serpWas();
         $where = $query->whereText();
-        // Google time filter: past day or past week (never older than 7 days).
-        $tbs = $query->effectivePostedDays() === 1 ? 'qdr:d' : 'qdr:w';
+        // Google time filter: past day or past 2 weeks.
+        if ($query->effectivePostedDays() === 1) {
+            $tbs = 'qdr:d';
+        } else {
+            $min = date('m/d/Y', time() - JobQuery::MAX_POSTED_DAYS * 86400);
+            $max = date('m/d/Y');
+            $tbs = 'cdr:1,cd_min:' . $min . ',cd_max:' . $max;
+        }
         $requests = [];
         foreach ($wanted as $id) {
             $q = trim(self::BOARDS[$id]['site'] . ' ' . $was . ' ' . $where . ' Germany jobs');

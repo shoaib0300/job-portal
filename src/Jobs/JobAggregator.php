@@ -9,6 +9,7 @@ use KaamMilo\Jobs\Sources\ArbeitsagenturSource;
 use KaamMilo\Jobs\Sources\AtsBoardSource;
 use KaamMilo\Jobs\Sources\InteramtSource;
 use KaamMilo\Jobs\Sources\JobexportSource;
+use KaamMilo\Jobs\Sources\JobwareSource;
 use KaamMilo\Jobs\Sources\LinkedInSource;
 use KaamMilo\Jobs\Sources\SerpBoardSource;
 
@@ -101,21 +102,33 @@ final class JobAggregator
 
         $fanout = [];
         if ($query->wantsSource('arbeitsagentur')) {
-            $fanout['aa'] = ArbeitsagenturSource::httpSearchRequest($query);
+            // Up to 5 pages × 50 = 250 jobs per keyword (age via veroeffentlichtseit).
+            for ($page = 1; $page <= 5; $page++) {
+                $fanout['aa' . $page] = ArbeitsagenturSource::httpSearchRequest($query, $page);
+            }
         }
-        $bodies = $fanout !== [] ? JobHttp::multiGet($fanout, 10) : [];
+        $bodies = $fanout !== [] ? JobHttp::multiGet($fanout, 14) : [];
 
         if ($query->wantsSource('arbeitsagentur')) {
-            $raw = $bodies['aa'] ?? null;
-            if (!is_string($raw) || $raw === '') {
-                $notices[] = 'Arbeitsagentur did not respond. Try again in a moment.';
-            } else {
+            $got = false;
+            for ($page = 1; $page <= 5; $page++) {
+                $raw = $bodies['aa' . $page] ?? null;
+                if (!is_string($raw) || $raw === '') {
+                    continue;
+                }
                 $data = json_decode($raw, true);
                 if (!is_array($data)) {
-                    $notices[] = 'Arbeitsagentur did not respond. Try again in a moment.';
-                } else {
-                    $listings = array_merge($listings, ArbeitsagenturSource::listingsFromData($data, $query));
+                    continue;
                 }
+                $got = true;
+                $chunk = ArbeitsagenturSource::listingsFromData($data, $query);
+                if ($chunk === []) {
+                    break;
+                }
+                $listings = array_merge($listings, $chunk);
+            }
+            if (!$got) {
+                $notices[] = 'Arbeitsagentur did not respond. Try again in a moment.';
             }
         }
 
@@ -158,15 +171,42 @@ final class JobAggregator
             }
         }
 
-        $listings = self::dedupe($listings);
-        $listings = self::postFilter($listings, $query);
-        $listings = self::rank($listings, $query);
+        if ($query->wantsSource('jobware')) {
+            $jw = JobwareSource::search($query);
+            $listings = array_merge($listings, $jw['listings']);
+            $notices = array_merge($notices, $jw['notices']);
+        }
+
+        // Keep every board’s results for the store. Cross-platform duplicates are
+        // skipped in JobStore by company+title+posted date (content_key).
+        // Do not fingerprint-dedupe here — that preferred AA and wiped Jobexport.
+        $listings = self::ingestKeepFilter($listings, $query);
 
         foreach ($listings as $job) {
             JobCache::putListing($job);
         }
 
         return ['listings' => $listings, 'notices' => $notices];
+    }
+
+    /**
+     * Light filter for cron ingest only (age + Germany). Full postFilter is for dashboard DB search.
+     *
+     * @param list<JobListing> $listings
+     * @return list<JobListing>
+     */
+    private static function ingestKeepFilter(array $listings, JobQuery $query): array
+    {
+        $days = $query->effectivePostedDays();
+        return array_values(array_filter($listings, static function (JobListing $job) use ($days): bool {
+            if (!self::isWithinPostedWindow($job, $days)) {
+                return false;
+            }
+            if (JobText::isForeignPrimaryLocation($job->city, $job->country, $job->title)) {
+                return false;
+            }
+            return $job->title !== '';
+        }));
     }
 
     public static function details(string $source, string $externalId): ?JobListing
@@ -180,6 +220,9 @@ final class JobAggregator
         }
         if ($source === 'linkedin') {
             return LinkedInSource::details($externalId) ?? $cached;
+        }
+        if ($source === 'jobware') {
+            return JobwareSource::details($externalId) ?? $cached;
         }
         if (isset(SerpBoardSource::BOARDS[$source])) {
             return SerpBoardSource::details($source, $externalId) ?? $cached;
@@ -284,7 +327,7 @@ final class JobAggregator
             if ($query->hasSalary && $job->salaryText === '' && !JobText::looksLikeSalary($job->description)) {
                 return false;
             }
-            // Always drop jobs older than the posted window (max 7 days).
+            // Always drop jobs older than the posted window (max 14 days).
             if (!self::isWithinPostedWindow($job, $query->effectivePostedDays())) {
                 return false;
             }

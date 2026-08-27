@@ -56,7 +56,7 @@ final class JobsController
             'companyOptions' => CareerCompanies::filterOptions(Auth::id()),
             'postedOptions' => [
                 1 => 'Today · 24h',
-                7 => 'This week (max)',
+                14 => 'Last 14 days (max)',
             ],
             'resumeTitle' => ResumeJobMatch::activeTitle(),
             'serpConfigured' => SerpBoardSource::configured(),

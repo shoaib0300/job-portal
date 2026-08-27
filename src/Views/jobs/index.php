@@ -152,7 +152,7 @@ use App;
                 <a class="jobs-chip<?= $active ? ' is-active' : '' ?>" href="<?= App::e($href) ?>" data-jobs-posted-chip="<?= (int) $days ?>"><?= App::e($label) ?></a>
               <?php endforeach; ?>
             </div>
-            <p class="small text-secondary mb-0 mt-1">Older than 7 days are never shown.</p>
+            <p class="small text-secondary mb-0 mt-1">Older than 14 days are never shown.</p>
           </div>
         </div>
 

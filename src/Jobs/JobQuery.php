@@ -44,13 +44,13 @@ final class JobQuery
     ];
 
     /** SERP/Unlocker boards only — LinkedIn uses LinkedInSource (guest API). */
-    public const SERP_BOARDS = ['indeed', 'stepstone', 'xing', 'jobware', 'glassdoor'];
+    public const SERP_BOARDS = ['indeed', 'stepstone', 'xing', 'glassdoor'];
 
     /** Built-in defaults until the user saves a different Sources selection. */
     public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport', 'career'];
 
     /** Hard cap: never search/show jobs older than this many days. */
-    public const MAX_POSTED_DAYS = 7;
+    public const MAX_POSTED_DAYS = 14;
 
     private const FILTERS_SETTING = 'job_filters';
 
@@ -104,7 +104,7 @@ final class JobQuery
         if (!in_array($this->germanLevel, ['A1', 'A2', 'B1', 'B2', 'C1'], true)) {
             $this->germanLevel = '';
         }
-        // Only Today (1) or This week (7). Anything else (Any / 14 / missing) → 7.
+        // Only Today (1) or Last 14 days. Anything else → 14.
         if ($this->postedDays === 1) {
             // ok
         } else {
@@ -427,10 +427,10 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v14:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v15:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
-    /** Days window passed to boards / post-filter (always 1 or 7). */
+    /** Days window passed to boards / post-filter (always 1 or 14). */
     public function effectivePostedDays(): int
     {
         return $this->postedDays === 1 ? 1 : self::MAX_POSTED_DAYS;

@@ -64,9 +64,13 @@ super_layout_header('Jobs');
 ?>
 <?php if (!$hasBrightData): ?>
   <div class="alert alert-warning">
-    <strong>Indeed, StepStone, XING, Jobware, Glassdoor</strong> need
-    <code>BRIGHT_DATA_API_TOKEN</code> in <code>.env</code>. Without it, fetch only fills
-    LinkedIn, Arbeitsagentur, career pages, Jobexport, and public-sector (when available).
+    <p class="mb-1"><strong>Glassdoor / Indeed / StepStone / XING</strong> need <code>BRIGHT_DATA_API_TOKEN</code> — without it they are empty.</p>
+    <p class="mb-1"><strong>Jobware</strong> blocks our server IP (403); Unlocker fallback also needs that token.</p>
+    <p class="mb-0"><strong>Jobexport</strong> works without an API. We crawl the newest pages of stellenboerse (and keep last 14 days).</p>
+  </div>
+<?php else: ?>
+  <div class="alert alert-light border small">
+    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) and Jobware Unlocker can run on fetch.
   </div>
 <?php endif; ?>
 <div class="card shadow-sm border-success mb-4">
@@ -194,10 +198,10 @@ super_layout_header('Jobs');
     <h2 class="h5 mb-2">Delete old jobs</h2>
     <p class="small text-secondary">Remove stale listings from the database.</p>
     <div class="d-flex flex-wrap gap-2">
-      <form method="post" onsubmit="return confirm('Delete jobs older than 7 days?');">
+      <form method="post" onsubmit="return confirm('Delete jobs older than 14 days?');">
         <input type="hidden" name="action" value="purge">
-        <input type="hidden" name="days" value="7">
-        <button class="btn btn-outline-danger" type="submit">Older than 7 days</button>
+        <input type="hidden" name="days" value="14">
+        <button class="btn btn-outline-danger" type="submit">Older than 14 days</button>
       </form>
       <form method="post" onsubmit="return confirm('Delete jobs older than 30 days?');">
         <input type="hidden" name="action" value="purge">

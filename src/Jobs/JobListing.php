@@ -72,6 +72,21 @@ final class JobListing
         return $norm($company) . '|' . $norm($title) . '|' . $norm($city);
     }
 
+    /** Cross-platform identity: same company + title + posted date → same job. */
+    public static function contentKey(string $company, string $title, ?string $postedAt): string
+    {
+        $norm = static function (string $value): string {
+            $value = mb_strtolower(trim($value));
+            $value = preg_replace('/\s+/u', ' ', $value) ?? $value;
+            return $value;
+        };
+        $posted = '';
+        if ($postedAt !== null && $postedAt !== '') {
+            $posted = substr($postedAt, 0, 10);
+        }
+        return hash('sha256', $norm($company) . '|' . $norm($title) . '|' . $posted);
+    }
+
     public function locationLine(): string
     {
         $parts = array_filter([$this->city, $this->bundesland, $this->country], static fn(string $p): bool => $p !== '');

@@ -16,7 +16,7 @@ final class JobsIngest
     public const SETTING_LAST_RUN = 'jobs_ingest_last_run';
     public const SETTING_LAST_STATS = 'jobs_ingest_last_stats';
 
-    public const DEFAULT_AUTO_DELETE_DAYS = 7;
+    public const DEFAULT_AUTO_DELETE_DAYS = 14;
 
     /**
      * Built-in searches for cron / “Fetch all jobs”.
@@ -26,22 +26,50 @@ final class JobsIngest
      */
     public static function defaultSeeds(): array
     {
-        // All dashboard boards. Indeed/StepStone/XING/Jobware/Glassdoor need BRIGHT_DATA_API_TOKEN.
-        $sources = array_keys(JobQuery::SOURCES);
+        // Free boards that work without Bright Data SERP. Jobware HTML may need Unlocker fallback.
+        $sources = [
+            'arbeitsagentur',
+            'linkedin',
+            'jobexport',
+            'jobware',
+            'career',
+            'university',
+            'public_sector',
+        ];
+        // German first — AA/Jobexport return far more for DE terms than EN-only.
         $keywords = [
+            'Qualitätssicherung',
+            'Softwaretester',
+            'Testingenieur',
+            'Testautomatisierung',
+            'Qualitätsingenieur',
+            'QS-Ingenieur',
+            'Prüfingenieur',
+            'Testmanager',
+            'Tester',
             'QA Engineer',
             'Software Tester',
             'Test Automation',
             'Quality Assurance',
+            'Manual Tester',
+            'Automation Engineer',
+            'QS Engineer',
+            'QA Specialist',
         ];
         $seeds = [];
         foreach ($keywords as $q) {
             $seeds[] = [
                 'q' => $q,
-                'city' => '', // all of Germany — no per-city fan-out
+                'city' => '',
                 'sources' => $sources,
             ];
         }
+        // Jobexport newest-first crawl (empty keyword = same as stellenboerse home, ~40k pool).
+        $seeds[] = [
+            'q' => '',
+            'city' => '',
+            'sources' => ['jobexport'],
+        ];
         return $seeds;
     }
 
@@ -154,8 +182,9 @@ final class JobsIngest
         $fetched = 0;
         $inserted = 0;
         $updated = 0;
+        $skipped = 0;
         $upserted = 0;
-        /** @var array<string, array{inserted:int, updated:int, upserted:int}> $bySource */
+        /** @var array<string, array{inserted:int, updated:int, upserted:int, skipped:int}> $bySource */
         $bySource = [];
         $errors = [];
         $i = 0;
@@ -182,20 +211,23 @@ final class JobsIngest
                 $up = JobStore::upsertMany($result['listings']);
                 $inserted += $up['inserted'];
                 $updated += $up['updated'];
+                $skipped += (int) ($up['skipped'] ?? 0);
                 $upserted += $up['upserted'];
                 foreach ($up['by_source'] as $src => $counts) {
                     if (!isset($bySource[$src])) {
-                        $bySource[$src] = ['inserted' => 0, 'updated' => 0, 'upserted' => 0];
+                        $bySource[$src] = ['inserted' => 0, 'updated' => 0, 'upserted' => 0, 'skipped' => 0];
                     }
                     $bySource[$src]['inserted'] += (int) ($counts['inserted'] ?? 0);
                     $bySource[$src]['updated'] += (int) ($counts['updated'] ?? 0);
                     $bySource[$src]['upserted'] += (int) ($counts['upserted'] ?? 0);
+                    $bySource[$src]['skipped'] += (int) ($counts['skipped'] ?? 0);
                 }
                 $log(sprintf(
-                    '  → %d fetched | +%d new | ~%d updated | notices: %d',
+                    '  → %d fetched | +%d new | ~%d updated | skip %d (dup/old) | notices: %d',
                     count($result['listings']),
                     $up['inserted'],
                     $up['updated'],
+                    (int) ($up['skipped'] ?? 0),
                     count($result['notices'])
                 ));
                 foreach ($result['notices'] as $notice) {
@@ -214,9 +246,10 @@ final class JobsIngest
         $finishedAt = date('Y-m-d H:i:s');
         $duration = (int) round(microtime(true) - $t0);
         $log(sprintf(
-            'Done: +%d new, ~%d updated, purged %d (>%d days). Store total: %d (%ds)',
+            'Done: +%d new, ~%d updated, skipped %d, purged %d (>%d days). Store total: %d (%ds)',
             $inserted,
             $updated,
+            $skipped,
             $purged,
             $days,
             $totalAfter,
@@ -230,6 +263,7 @@ final class JobsIngest
             'upserted' => $upserted,
             'inserted' => $inserted,
             'updated' => $updated,
+            'skipped' => $skipped,
             'purged' => $purged,
             'errors' => $errors,
             'by_source' => $bySource,
@@ -254,7 +288,7 @@ final class JobsIngest
             'duration_sec' => $duration,
             'by_source' => $bySource,
             'errors' => $errors,
-            'notes' => null,
+            'notes' => $skipped > 0 ? ("skipped_dups_or_old=" . $skipped) : null,
         ]);
         JobIngestLog::clearOlderThanDays(90);
 
