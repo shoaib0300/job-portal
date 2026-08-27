@@ -63,8 +63,8 @@ super_layout_header('User #' . $id);
       <form method="post">
         <input type="hidden" name="action" value="toggle_active">
         <input type="hidden" name="value" value="<?= (int) $user['is_active'] === 1 ? '0' : '1' ?>">
-        <button class="btn btn-sm <?= (int) $user['is_active'] === 1 ? 'btn-success' : 'btn-outline-secondary' ?>" type="submit">
-          Login: <?= (int) $user['is_active'] === 1 ? 'Allowed' : 'Blocked' ?>
+        <button class="btn btn-sm <?= (int) $user['is_active'] === 1 ? 'btn-success' : 'btn-warning' ?>" type="submit">
+          Login: <?= (int) $user['is_active'] === 1 ? 'Allowed' : 'Pending' ?>
         </button>
       </form>
       <form method="post">

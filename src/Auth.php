@@ -6,6 +6,9 @@ final class Auth
 {
     private static ?array $user = null;
 
+    /** Allow Auth::user() for inactive accounts during workspace provisioning. */
+    private static bool $allowInactiveSession = false;
+
     public static function ensureSchema(): void
     {
         $pdo = Db::pdo();
@@ -160,7 +163,7 @@ final class Auth
             unset($_SESSION['user_id']);
             return null;
         }
-        if ((int) ($row['is_active'] ?? 1) !== 1) {
+        if ((int) ($row['is_active'] ?? 1) !== 1 && !self::$allowInactiveSession) {
             unset($_SESSION['user_id']);
             self::$user = null;
             return null;
@@ -205,7 +208,7 @@ final class Auth
             return false;
         }
         if ((int) ($row['is_active'] ?? 1) !== 1) {
-            return false;
+            throw new AuthAccountPendingException(self::pendingAccessMessage());
         }
         self::impersonate((int) $row['id']);
         try {
@@ -213,6 +216,17 @@ final class Auth
         } catch (Throwable) {
         }
         return true;
+    }
+
+    /** Shown after signup and when a pending user tries to sign in. */
+    public static function pendingAccessMessage(): string
+    {
+        return "Your account is not enabled yet.\n\n"
+            . "Contact the admin to enable login:\n"
+            . "Shoaib Sarwar\n"
+            . "Email: shoaibsarwar187@gmail.com\n"
+            . "Phone: +49 173 5732949\n\n"
+            . "Write from your registered email and ask to enable your user.";
     }
 
     public static function register(string $name, string $email, string $password): int
@@ -235,13 +249,66 @@ final class Auth
 
         $username = self::uniqueUsername($email, $name);
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $pdo->prepare(
-            'INSERT INTO users (name, username, email, password_hash) VALUES (?, ?, ?, ?)'
-        )->execute([$name, $username, $email, $hash]);
+        // New public signups stay blocked until a super admin enables login.
+        try {
+            $pdo->prepare(
+                'INSERT INTO users (name, username, email, password_hash, is_active, can_translate)
+                 VALUES (?, ?, ?, ?, 0, 1)'
+            )->execute([$name, $username, $email, $hash]);
+        } catch (PDOException $e) {
+            if ((int) ($e->errorInfo[1] ?? 0) === 1062) {
+                throw new InvalidArgumentException('That email is already registered.');
+            }
+            throw $e;
+        }
         $userId = (int) $pdo->lastInsertId();
         self::provisionWorkspace($userId, $name, $email);
-        self::impersonate($userId);
+        self::notifyPendingRegistration($userId, $name, $username, $email);
         return $userId;
+    }
+
+    private static function notifyPendingRegistration(int $userId, string $name, string $username, string $email): void
+    {
+        $userBody = "Hi {$name},\n\n"
+            . "Your KaamMilo account (@{$username}) was created, but login is disabled until an admin enables it.\n\n"
+            . self::pendingAccessMessage() . "\n\n"
+            . "— KaamMilo\n";
+        try {
+            SuperAdmin::tryMail($email, 'KaamMilo — account pending enablement', $userBody);
+        } catch (Throwable) {
+        }
+
+        $adminBody = "A new user requested account enablement.\n\n"
+            . "ID: {$userId}\n"
+            . "Name: {$name}\n"
+            . "Username: @{$username}\n"
+            . "Email: {$email}\n\n"
+            . "Enable login in Super Admin → Users.\n";
+        foreach (self::adminNotifyEmails() as $to) {
+            try {
+                SuperAdmin::tryMail($to, 'KaamMilo — new user pending enablement', $adminBody);
+            } catch (Throwable) {
+            }
+        }
+    }
+
+    /** @return list<string> */
+    private static function adminNotifyEmails(): array
+    {
+        $emails = ['shoaibsarwar187@gmail.com'];
+        try {
+            $row = Db::pdo()->query('SELECT email FROM super_admins ORDER BY id ASC LIMIT 1')->fetch();
+            if (is_array($row) && filter_var((string) ($row['email'] ?? ''), FILTER_VALIDATE_EMAIL)) {
+                $emails[] = strtolower(trim((string) $row['email']));
+            }
+            foreach (SuperAdmin::recoveryEmails() as $e) {
+                if (filter_var($e, FILTER_VALIDATE_EMAIL)) {
+                    $emails[] = strtolower(trim($e));
+                }
+            }
+        } catch (Throwable) {
+        }
+        return array_values(array_unique($emails));
     }
 
     public static function uniqueUsername(string $email, string $name): string
@@ -323,18 +390,26 @@ final class Auth
 
         $previous = $_SESSION['user_id'] ?? null;
         self::impersonate($userId);
-        $snapshot = Versions::captureSnapshot();
-        Versions::saveResumeVersion(
-            'Main resume',
-            $snapshot,
-            '',
-            'Stable base resume.',
-            true,
-            null,
-            true
-        );
+        self::$allowInactiveSession = true;
+        try {
+            $snapshot = Versions::captureSnapshot();
+            Versions::saveResumeVersion(
+                'Main resume',
+                $snapshot,
+                '',
+                'Stable base resume.',
+                true,
+                null,
+                true
+            );
+        } finally {
+            self::$allowInactiveSession = false;
+        }
         if (is_int($previous) || (is_string($previous) && $previous !== '')) {
             $_SESSION['user_id'] = (int) $previous;
+            self::$user = null;
+        } else {
+            unset($_SESSION['user_id']);
             self::$user = null;
         }
     }
@@ -424,4 +499,9 @@ final class Auth
         $hash = password_hash($new, PASSWORD_DEFAULT);
         Db::pdo()->prepare('UPDATE users SET password_hash = ? WHERE id = ?')->execute([$hash, $userId]);
     }
+}
+
+/** Thrown when password is correct but the account is not enabled yet. */
+final class AuthAccountPendingException extends RuntimeException
+{
 }

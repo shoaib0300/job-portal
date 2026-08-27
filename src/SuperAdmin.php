@@ -320,10 +320,17 @@ final class SuperAdmin
             throw new InvalidArgumentException('Username or email already taken.');
         }
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $pdo->prepare(
-            'INSERT INTO users (name, username, email, password_hash, is_active, can_translate)
-             VALUES (?, ?, ?, ?, 1, 1)'
-        )->execute([$name, $username, $email, $hash]);
+        try {
+            $pdo->prepare(
+                'INSERT INTO users (name, username, email, password_hash, is_active, can_translate)
+                 VALUES (?, ?, ?, ?, 1, 1)'
+            )->execute([$name, $username, $email, $hash]);
+        } catch (PDOException $e) {
+            if ((int) ($e->errorInfo[1] ?? 0) === 1062) {
+                throw new InvalidArgumentException('Username or email already taken.');
+            }
+            throw $e;
+        }
         return (int) $pdo->lastInsertId();
     }
 
@@ -331,6 +338,32 @@ final class SuperAdmin
     {
         Db::pdo()->prepare('UPDATE users SET is_active = ? WHERE id = ?')
             ->execute([$active ? 1 : 0, $userId]);
+        if (!$active) {
+            return;
+        }
+        $user = self::getUser($userId);
+        if ($user === null) {
+            return;
+        }
+        $email = (string) ($user['email'] ?? '');
+        $name = (string) ($user['name'] ?? 'there');
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return;
+        }
+        $body = "Hi {$name},\n\n"
+            . "Your KaamMilo account has been enabled. You can sign in now.\n\n"
+            . "— KaamMilo\n";
+        try {
+            self::tryMail($email, 'KaamMilo — account enabled', $body);
+        } catch (Throwable) {
+        }
+    }
+
+    public static function countPendingUsers(): int
+    {
+        return (int) Db::pdo()->query(
+            'SELECT COUNT(*) FROM users WHERE is_active = 0'
+        )->fetchColumn();
     }
 
     public static function setUserCanTranslate(int $userId, bool $can): void

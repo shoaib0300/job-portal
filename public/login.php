@@ -14,15 +14,19 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = (string) ($_POST['login'] ?? '');
     $password = (string) ($_POST['password'] ?? '');
-    if (Auth::login($login, $password)) {
-        $next = Site::sanitizeNext((string) ($_GET['next'] ?? $_POST['next'] ?? ''));
-        // Absolute portal URL when next is the portal home path on marketing host.
-        if ($next === '/dashboard' || $next === '/') {
-            App::redirect(Site::portalHomeUrl());
+    try {
+        if (Auth::login($login, $password)) {
+            $next = Site::sanitizeNext((string) ($_GET['next'] ?? $_POST['next'] ?? ''));
+            // Absolute portal URL when next is the portal home path on marketing host.
+            if ($next === '/dashboard' || $next === '/') {
+                App::redirect(Site::portalHomeUrl());
+            }
+            App::redirect($next);
         }
-        App::redirect($next);
+        $error = 'Wrong username/email or password.';
+    } catch (AuthAccountPendingException $e) {
+        $error = $e->getMessage();
     }
-    $error = 'Wrong username/email or password.';
 }
 
 $next = Site::sanitizeNext((string) ($_GET['next'] ?? ''));
@@ -34,7 +38,7 @@ site_layout_header('Sign in');
     <div class="card-body p-4">
       <h1 class="h3 mb-3">Sign in</h1>
       <?php if ($error !== ''): ?>
-        <div class="alert alert-danger"><?= App::e($error) ?></div>
+        <div class="alert alert-danger" style="white-space: pre-line"><?= App::e($error) ?></div>
       <?php endif; ?>
       <form method="post">
         <input type="hidden" name="next" value="<?= App::e($next) ?>">

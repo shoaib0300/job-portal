@@ -12,11 +12,14 @@ SuperAdmin::ensureSchema();
 if (SuperAdmin::id() > 0) {
     // Dashboard
     $users = SuperAdmin::listUsers();
+    $pending = 0;
     $active = 0;
     $translateOn = 0;
     foreach ($users as $u) {
         if ((int) ($u['is_active'] ?? 1) === 1) {
             $active++;
+        } else {
+            $pending++;
         }
         if ((int) ($u['can_translate'] ?? 1) === 1) {
             $translateOn++;
@@ -31,8 +34,14 @@ if (SuperAdmin::id() > 0) {
 
     super_layout_header('Dashboard');
     ?>
+  <?php if ($pending > 0): ?>
+    <div class="alert alert-warning">
+      <strong><?= (int) $pending ?></strong> user<?= $pending === 1 ? '' : 's' ?> waiting for login enablement.
+      <a href="/super-admin/users">Review users</a>
+    </div>
+  <?php endif; ?>
   <div class="row g-3 mb-4">
-    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Users</div><div class="h3 mb-0"><?= count($users) ?></div><div class="small text-secondary"><?= $active ?> active</div></div></div></div>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Users</div><div class="h3 mb-0"><?= count($users) ?></div><div class="small text-secondary"><?= $active ?> active · <?= $pending ?> pending</div></div></div></div>
     <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Translate enabled</div><div class="h3 mb-0"><?= $translateOn ?></div></div></div></div>
     <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Billed chars (month)</div><div class="h3 mb-0"><?= App::e(number_format($billedMonth)) ?></div><div class="small text-secondary"><?= App::e(LibreTranslate::formatEuro($billedMonth)) ?></div></div></div></div>
     <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Global companies</div><div class="h3 mb-0"><?= count($globalCompanies) ?></div></div></div></div>

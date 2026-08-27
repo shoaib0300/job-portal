@@ -91,8 +91,8 @@ super_layout_header('Users');
               <input type="hidden" name="action" value="toggle_active">
               <input type="hidden" name="id" value="<?= $uid ?>">
               <input type="hidden" name="value" value="<?= (int) $u['is_active'] === 1 ? '0' : '1' ?>">
-              <button class="btn btn-sm <?= (int) $u['is_active'] === 1 ? 'btn-success' : 'btn-outline-secondary' ?>" type="submit">
-                <?= (int) $u['is_active'] === 1 ? 'Allowed' : 'Blocked' ?>
+              <button class="btn btn-sm <?= (int) $u['is_active'] === 1 ? 'btn-success' : 'btn-warning' ?>" type="submit">
+                <?= (int) $u['is_active'] === 1 ? 'Allowed' : 'Pending' ?>
               </button>
             </form>
           </td>
