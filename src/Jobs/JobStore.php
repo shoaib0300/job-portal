@@ -251,7 +251,7 @@ final class JobStore
             array_push($params, $like, $like, $like, $like, $like);
         }
 
-        if ($query->keywords !== []) {
+        if ($query->keywords !== [] && !$query->matchResume) {
             $kwParts = [];
             foreach ($query->keywords as $kw) {
                 $kw = trim((string) $kw);

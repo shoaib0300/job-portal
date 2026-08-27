@@ -304,30 +304,33 @@ final class JobAggregator
                     return false;
                 }
             }
-            if ($query->hasKeywords()) {
+            if ($query->hasKeywords() && !$query->matchResume) {
                 $blob = $job->title . ' ' . $job->company . ' ' . $job->city . ' ' . $job->description;
                 if (!JobText::matchesAnyKeyword($blob, $query->keywords)) {
                     return false;
                 }
             }
-            if ($query->hasLevelFilter() && !self::matchesLevelFilter($job, $query)) {
-                return false;
-            }
-            if ($query->english) {
-                $hay = $job->title . "\n" . $job->description;
-                if (!in_array('en', $job->languages, true) && !preg_match('/english|englisch/iu', $hay)) {
+            // Level / language / salary are ignored in resume-match mode (JD vs resume only).
+            if (!$query->matchResume) {
+                if ($query->hasLevelFilter() && !self::matchesLevelFilter($job, $query)) {
                     return false;
                 }
-            }
-            if ($query->germanLevel !== '') {
-                $hay = $job->title . "\n" . $job->description;
-                if (!in_array($query->germanLevel, $job->languages, true)
-                    && !preg_match('/\b' . preg_quote($query->germanLevel, '/') . '\b/i', $hay)) {
+                if ($query->english) {
+                    $hay = $job->title . "\n" . $job->description;
+                    if (!in_array('en', $job->languages, true) && !preg_match('/english|englisch/iu', $hay)) {
+                        return false;
+                    }
+                }
+                if ($query->germanLevel !== '') {
+                    $hay = $job->title . "\n" . $job->description;
+                    if (!in_array($query->germanLevel, $job->languages, true)
+                        && !preg_match('/\b' . preg_quote($query->germanLevel, '/') . '\b/i', $hay)) {
+                        return false;
+                    }
+                }
+                if ($query->hasSalary && $job->salaryText === '' && !JobText::looksLikeSalary($job->description)) {
                     return false;
                 }
-            }
-            if ($query->hasSalary && $job->salaryText === '' && !JobText::looksLikeSalary($job->description)) {
-                return false;
             }
             // Always drop jobs older than the posted window (max 14 days).
             if (!self::isWithinPostedWindow($job, $query->effectivePostedDays())) {
@@ -450,7 +453,7 @@ final class JobAggregator
         }
         return array_values(array_filter(
             $listings,
-            static fn(JobListing $job): bool => ResumeJobMatch::fitScore($job, $terms) >= 5
+            static fn(JobListing $job): bool => ResumeJobMatch::fitScore($job, $terms) >= ResumeJobMatch::minFitScore()
         ));
     }
 

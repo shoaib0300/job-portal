@@ -651,6 +651,30 @@
 })();
 
 (() => {
+  const toggle = document.querySelector("[data-match-resume]");
+  const zone = document.querySelector("[data-match-resume-disable]");
+  const hint = document.querySelector("[data-match-resume-hint]");
+  if (!toggle || !zone) return;
+
+  function sync() {
+    const on = !!toggle.checked;
+    zone.querySelectorAll("input, select").forEach((el) => {
+      el.disabled = on;
+      if (on && el.type === "checkbox") {
+        el.checked = false;
+      }
+      if (on && el.tagName === "SELECT") {
+        el.value = "";
+      }
+    });
+    if (hint) hint.hidden = !on;
+  }
+
+  toggle.addEventListener("change", sync);
+  sync();
+})();
+
+(() => {
   const root = document.querySelector("[data-company-picker]");
   if (!root) return;
   const filter = root.querySelector("[data-company-filter]");

@@ -229,8 +229,14 @@ final class JobQuery
             self::parseKeywords($get['q_add'] ?? '')
         ));
         $matchResume = isset($get['match_resume']);
-        if ($matchResume && $keywords === []) {
-            $keywords = self::normalizeKeywords(ResumeJobMatch::searchKeywords());
+        if ($matchResume) {
+            // Resume mode: ignore Level / Language / salary filters — match on JD vs resume only.
+            $resumeKeywords = self::normalizeKeywords(ResumeJobMatch::searchKeywords());
+            if ($resumeKeywords !== []) {
+                $keywords = $resumeKeywords;
+            } elseif ($keywords === []) {
+                $keywords = $resumeKeywords;
+            }
         }
 
         $companies = [];
@@ -250,18 +256,18 @@ final class JobQuery
             trim((string) ($get['city'] ?? '')),
             trim((string) ($get['bundesland'] ?? '')),
             (string) ($get['work_mode'] ?? ''),
-            isset($get['student']),
-            isset($get['junior']),
-            isset($get['graduate']),
-            isset($get['internship']),
-            isset($get['no_experience']),
+            $matchResume ? false : isset($get['student']),
+            $matchResume ? false : isset($get['junior']),
+            $matchResume ? false : isset($get['graduate']),
+            $matchResume ? false : isset($get['internship']),
+            $matchResume ? false : isset($get['no_experience']),
             (string) ($get['employment'] ?? ''),
-            isset($get['english']),
-            (string) ($get['german_level'] ?? ''),
-            isset($get['has_salary']),
+            $matchResume ? false : isset($get['english']),
+            $matchResume ? '' : (string) ($get['german_level'] ?? ''),
+            $matchResume ? false : isset($get['has_salary']),
             $matchResume,
             (int) ($get['posted'] ?? self::MAX_POSTED_DAYS),
-            (string) ($get['sort'] ?? 'relevance'),
+            $matchResume ? 'relevance' : (string) ($get['sort'] ?? 'relevance'),
             $sources,
             (int) ($get['page'] ?? 1),
             20,
@@ -427,7 +433,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v16:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v17:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Days window passed to boards / post-filter (always 1 or 14). */

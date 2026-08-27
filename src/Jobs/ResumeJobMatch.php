@@ -16,19 +16,25 @@ final class ResumeJobMatch
         'and', 'or', 'the', 'with', 'for', 'from', 'into', 'your', 'our', 'you', 'und', 'der', 'die', 'das',
         'ein', 'eine', 'einer', 'einem', 'einen', 'oder', 'mit', 'bei', 'nach', 'über', 'von', 'zum', 'zur',
         'in', 'on', 'at', 'to', 'of', 'a', 'an', 'as', 'by', 'is', 'are', 'be', 'we', 'i', 'my', 'me',
-        'working', 'student', 'engineer', 'developer', 'manager', 'specialist', 'assistant', 'role',
+        'role', 'team', 'using', 'used', 'also', 'plus', 'etc', 'via', 'per', 'all', 'any',
         'germany', 'deutschland', 'munich', 'berlin', 'hamburg', 'remote', 'hybrid', 'onsite',
+        // Summary fluff — these match almost every JD and must not drive fit.
+        'background', 'currently', 'studying', 'experienced', 'structured', 'documentation',
+        'stakeholder', 'communication', 'tooling', 'motivated', 'careful', 'process', 'reliable',
+        'coordination', 'across', 'suppliers', 'internal', 'stakeholders', 'requirements',
+        'support', 'analysis', 'quality', 'office', 'work', 'data', 'strong', 'hands', 'open',
+        'based', 'skills', 'knowledge', 'experience', 'responsible', 'including', 'various',
     ];
 
-    /** Short role phrases for board search (OR / free-text). */
+    /** Short role phrases for board / SQL search (OR). */
     public static function searchKeywords(): array
     {
         $payload = self::payload();
         $title = trim((string) ($payload['profile']['title'] ?? ''));
         $phrases = [];
-        foreach (preg_split('/[|\/·•]+/u', $title) ?: [] as $part) {
+        foreach (preg_split('/[|\/·•,]+/u', $title) ?: [] as $part) {
             $part = trim(preg_replace('/\s+/u', ' ', $part) ?? $part);
-            $part = trim($part, " \t&,");
+            $part = trim($part, " \t&");
             if (mb_strlen($part) < 3) {
                 continue;
             }
@@ -39,6 +45,11 @@ final class ResumeJobMatch
                 $phrases[] = $pos;
             }
         }
+        // Add distinctive skill phrases so SQL recall is not only the title.
+        foreach (self::skillPhrases($payload, 6) as $skill) {
+            $phrases[] = $skill;
+        }
+
         $out = [];
         $seen = [];
         foreach ($phrases as $p) {
@@ -48,7 +59,7 @@ final class ResumeJobMatch
             }
             $seen[$key] = true;
             $out[] = $p;
-            if (count($out) >= 4) {
+            if (count($out) >= 8) {
                 break;
             }
         }
@@ -63,31 +74,56 @@ final class ResumeJobMatch
     public static function scoreTerms(): array
     {
         $payload = self::payload();
-        $chunks = [];
-        $chunks[] = (string) ($payload['profile']['title'] ?? '');
-        foreach ($payload['sections'] as $section) {
-            if (!is_array($section)) {
-                continue;
-            }
-            $key = mb_strtolower((string) ($section['section_key'] ?? ''));
-            $title = mb_strtolower((string) ($section['title'] ?? ''));
-            if ($key === 'skills' || str_contains($title, 'skill') || str_contains($title, 'kenntnis')) {
-                $chunks[] = (string) ($section['body'] ?? '');
-            }
-            if ($key === 'summary' || str_contains($title, 'summary') || str_contains($title, 'profil')) {
-                $chunks[] = (string) ($section['body'] ?? '');
-            }
+        $terms = [];
+        // Keep title phrases intact (high signal).
+        foreach (self::titlePhrases($payload) as $p) {
+            $terms[] = $p;
+        }
+        foreach (self::skillPhrases($payload, 24) as $p) {
+            $terms[] = $p;
         }
         foreach (self::recentPositions($payload) as $pos) {
-            $chunks[] = $pos;
+            $terms[] = $pos;
         }
-        return self::tokenize(implode("\n", $chunks), 40);
+        // Tokenize skills only (not the whole summary essay).
+        $skillsBody = self::skillsBody($payload);
+        foreach (self::tokenize($skillsBody, 24) as $tok) {
+            $terms[] = $tok;
+        }
+
+        $out = [];
+        $seen = [];
+        foreach ($terms as $t) {
+            $t = trim($t);
+            if ($t === '') {
+                continue;
+            }
+            $key = mb_strtolower($t);
+            if (isset($seen[$key]) || in_array($key, self::STOP, true)) {
+                continue;
+            }
+            $seen[$key] = true;
+            $out[] = $t;
+            if (count($out) >= 36) {
+                break;
+            }
+        }
+        return $out;
     }
 
     public static function activeTitle(): string
     {
         $payload = self::payload();
         return trim((string) ($payload['profile']['title'] ?? ''));
+    }
+
+    /**
+     * Minimum fit score to keep a job when “Match my resume” is on.
+     * Tuned so generic words alone are not enough — need real title/skill overlap.
+     */
+    public static function minFitScore(): int
+    {
+        return 12;
     }
 
     public static function fitScore(JobListing $job, ?array $terms = null): int
@@ -99,31 +135,38 @@ final class ResumeJobMatch
         $title = mb_strtolower($job->title);
         $blob = mb_strtolower($job->title . "\n" . $job->description . "\n" . $job->company);
         $score = 0;
+        $titleHits = 0;
         foreach ($terms as $term) {
-            $t = mb_strtolower($term);
+            $t = mb_strtolower(trim($term));
             if ($t === '' || mb_strlen($t) < 3) {
                 continue;
             }
+            $isPhrase = str_contains($t, ' ') || mb_strlen($t) >= 10;
             if (mb_strpos($title, $t) !== false) {
-                $score += mb_strlen($t) >= 8 ? 10 : 7;
+                $score += $isPhrase ? 14 : 8;
+                $titleHits++;
                 continue;
             }
             if (mb_strpos($blob, $t) !== false) {
-                $score += mb_strlen($t) >= 8 ? 3 : 2;
+                $score += $isPhrase ? 5 : 2;
             }
+        }
+        // Require at least one title hit for mid scores, or a strong overall score.
+        if ($titleHits === 0 && $score < 18) {
+            return (int) floor($score * 0.4);
         }
         return $score;
     }
 
     public static function fitLabel(int $score): string
     {
-        if ($score >= 24) {
+        if ($score >= 28) {
             return 'Strong fit';
         }
-        if ($score >= 12) {
+        if ($score >= 18) {
             return 'Good fit';
         }
-        if ($score >= 5) {
+        if ($score >= self::minFitScore()) {
             return 'Fair fit';
         }
         return 'Low fit';
@@ -146,6 +189,71 @@ final class ResumeJobMatch
         } catch (Throwable) {
             return ['profile' => [], 'sections' => [], 'experiences' => []];
         }
+    }
+
+    /** @param array<string, mixed> $payload @return list<string> */
+    private static function titlePhrases(array $payload): array
+    {
+        $title = trim((string) ($payload['profile']['title'] ?? ''));
+        $out = [];
+        foreach (preg_split('/[|\/·•,]+/u', $title) ?: [] as $part) {
+            $part = trim(preg_replace('/\s+/u', ' ', $part) ?? $part);
+            if (mb_strlen($part) >= 3) {
+                $out[] = $part;
+            }
+        }
+        return $out;
+    }
+
+    /** @param array<string, mixed> $payload */
+    private static function skillsBody(array $payload): string
+    {
+        foreach ($payload['sections'] as $section) {
+            if (!is_array($section)) {
+                continue;
+            }
+            $key = mb_strtolower((string) ($section['section_key'] ?? ''));
+            $title = mb_strtolower((string) ($section['title'] ?? ''));
+            if ($key === 'skills' || str_contains($title, 'skill') || str_contains($title, 'kenntnis')) {
+                return (string) ($section['body'] ?? '');
+            }
+        }
+        return '';
+    }
+
+    /**
+     * @param array<string, mixed> $payload
+     * @return list<string>
+     */
+    private static function skillPhrases(array $payload, int $limit): array
+    {
+        $body = self::skillsBody($payload);
+        if ($body === '') {
+            return [];
+        }
+        $parts = preg_split('/[\n,;·•|]+/u', $body) ?: [];
+        $out = [];
+        $seen = [];
+        foreach ($parts as $part) {
+            $part = trim(preg_replace('/\s+/u', ' ', $part) ?? $part);
+            if (mb_strlen($part) < 3 || mb_strlen($part) > 48) {
+                continue;
+            }
+            $key = mb_strtolower($part);
+            if (isset($seen[$key]) || in_array($key, self::STOP, true)) {
+                continue;
+            }
+            // Prefer concrete skills, not sentence fragments.
+            if (str_word_count($part) > 6) {
+                continue;
+            }
+            $seen[$key] = true;
+            $out[] = $part;
+            if (count($out) >= $limit) {
+                break;
+            }
+        }
+        return $out;
     }
 
     /** @param array<string, mixed> $payload @return list<string> */

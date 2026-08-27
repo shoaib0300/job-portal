@@ -52,12 +52,15 @@ use App;
               <button class="btn btn-outline-secondary" type="button" data-keyword-add>Add</button>
             </div>
             <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox" name="match_resume" value="1" id="f-resume"<?= $query->matchResume ? ' checked' : '' ?>>
+              <input class="form-check-input" type="checkbox" name="match_resume" value="1" id="f-resume"<?= $query->matchResume ? ' checked' : '' ?> data-match-resume>
               <label class="form-check-label" for="f-resume">Match my resume</label>
             </div>
             <?php if ($resumeTitle !== ''): ?>
               <p class="small text-secondary mb-0 mt-1">Active: <?= App::e($resumeTitle) ?></p>
             <?php endif; ?>
+            <p class="small text-secondary mb-0 mt-1" data-match-resume-hint<?= $query->matchResume ? '' : ' hidden' ?>>
+              Compares job descriptions to your resume. Level, English, salary, and German filters are ignored.
+            </p>
           </div>
 
           <div class="col-6 col-md-4 col-lg-2">
@@ -93,28 +96,28 @@ use App;
           </div>
         </div>
 
-        <div class="row g-3 mt-1">
+        <div class="row g-3 mt-1" data-match-resume-disable>
           <div class="col-lg-4">
             <div class="form-label mb-1">Level</div>
             <div class="d-flex flex-wrap gap-3">
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="student" value="1" id="f-student"<?= $query->student ? ' checked' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="student" value="1" id="f-student"<?= $query->student ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-student">Student</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="junior" value="1" id="f-junior"<?= $query->junior ? ' checked' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="junior" value="1" id="f-junior"<?= $query->junior ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-junior">Junior</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="graduate" value="1" id="f-graduate"<?= $query->graduate ? ' checked' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="graduate" value="1" id="f-graduate"<?= $query->graduate ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-graduate">Absolvent</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="internship" value="1" id="f-intern"<?= $query->internship ? ' checked' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="internship" value="1" id="f-intern"<?= $query->internship ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-intern">Praktikum</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="no_experience" value="1" id="f-noexp"<?= $query->noExperience ? ' checked' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="no_experience" value="1" id="f-noexp"<?= $query->noExperience ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-noexp">No experience</label>
               </div>
             </div>
@@ -123,16 +126,16 @@ use App;
             <div class="form-label mb-1">Language</div>
             <div class="d-flex flex-wrap align-items-center gap-3">
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="english" value="1" id="f-en"<?= $query->english ? ' checked' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="english" value="1" id="f-en"<?= $query->english ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-en">English</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="has_salary" value="1" id="f-sal"<?= $query->hasSalary ? ' checked' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="has_salary" value="1" id="f-sal"<?= $query->hasSalary ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
                 <label class="form-check-label" for="f-sal">Mentions salary</label>
               </div>
               <div>
                 <label class="visually-hidden" for="german_level">German level</label>
-                <select class="form-select form-select-sm" id="german_level" name="german_level" style="min-width:7rem">
+                <select class="form-select form-select-sm" id="german_level" name="german_level" style="min-width:7rem"<?= $query->matchResume ? ' disabled' : '' ?>>
                   <option value="">German: any</option>
                   <?php foreach (['A1', 'A2', 'B1', 'B2', 'C1'] as $lvl): ?>
                     <option value="<?= $lvl ?>"<?= $query->germanLevel === $lvl ? ' selected' : '' ?>><?= $lvl ?></option>
