@@ -7,7 +7,8 @@
   },
   "autoload": {
     "psr-4": {
-      "KaamMilo\\": "src/"
+      "KaamMilo\\": "src/",
+      "Freeworld\\PhpJobspy\\": "packages/php-jobspy/src/"
     }
   }
 }

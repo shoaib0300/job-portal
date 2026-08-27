@@ -149,7 +149,7 @@ final class JobAggregator
             return $fresh ?? $cached;
         }
         if ($source === 'linkedin') {
-            return $cached;
+            return LinkedInSource::details($externalId) ?? $cached;
         }
         if (isset(SerpBoardSource::BOARDS[$source])) {
             return SerpBoardSource::details($source, $externalId) ?? $cached;

@@ -410,16 +410,19 @@ final class JobText
         return $s;
     }
 
-    public static function displayHtml(string $text): string
+    /** Human-readable posted date for cards / detail (ISO → “24 Aug 2026”). */
+    public static function formatPosted(?string $postedAt): string
     {
-        if (self::looksLikeHtml($text)) {
-            return self::safeHtml($text);
+        if ($postedAt === null || trim($postedAt) === '') {
+            return '';
         }
-        if (self::looksLikeMarkdown($text)) {
-            return self::safeHtml(self::markdownToHtml($text));
+        $ts = strtotime($postedAt);
+        if ($ts === false) {
+            return trim($postedAt);
         }
-        return self::linkifyContacts(App::nl2p($text));
+        return date('j M Y', $ts);
     }
+
 
     /** Make emails, phones, URLs, and postal addresses bold + clickable. */
     public static function linkifyContacts(string $html): string

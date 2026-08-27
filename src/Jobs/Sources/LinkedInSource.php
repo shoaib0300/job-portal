@@ -5,81 +5,37 @@ declare(strict_types=1);
 namespace KaamMilo\Jobs\Sources;
 
 use App;
-use DOMDocument;
-use DOMElement;
-use DOMNode;
-use DOMXPath;
+use Freeworld\PhpJobspy\DTO\JobPostDTO;
 use KaamMilo\Jobs\JobCache;
 use KaamMilo\Jobs\JobHttp;
 use KaamMilo\Jobs\JobListing;
 use KaamMilo\Jobs\JobQuery;
 use KaamMilo\Jobs\JobText;
 
-
 /**
- * LinkedIn jobs via LinkedIn’s public guest job-search endpoints
- * (no Bright Data Marketplace / web_data / datasets API).
- *
- * Germany-only + max 7-day window. Empty/blocked responses stay empty
- * (dev notice only) — never falls back to Bright Data LinkedIn products.
+ * LinkedIn via php-jobspy / python-jobspy (https://github.com/alexseif/php-jobspy).
+ * Uses JobPostDTO from that package and bin/jobspy_scrape.py (JobSpy).
  */
 final class LinkedInSource
 {
-    private const SEARCH_URL = 'https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search';
-    private const DETAIL_URL = 'https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/';
-    /** LinkedIn geoId for Germany */
-    private const GEO_GERMANY = '102282651';
-    private const PAGE_SIZE = 25;
+    private const RESULTS_WANTED = 15;
 
     /**
      * @return array{listings: list<JobListing>, notices: list<string>}
      */
     public static function search(JobQuery $query): array
     {
-        $req = self::httpSearchRequest($query);
-        $html = self::fetchSearchHtml($req['url'], $req['headers']);
-        return self::listingsFromHtml($html, $query);
-    }
+        $python = self::pythonBinary();
+        $script = self::scriptPath();
+        if ($python === null || $script === null) {
+            return [
+                'listings' => [],
+                'notices' => [
+                    'LinkedIn needs python-jobspy. Run `ddev restart` after the web-build Dockerfile installs Python, or: pip install python-jobspy',
+                ],
+            ];
+        }
 
-    /**
-     * @param list<string> $headers
-     */
-    private static function fetchSearchHtml(string $url, array $headers): ?string
-    {
-        $html = JobHttp::get($url, $headers, 10);
-        if (self::looksLikeJobCards($html)) {
-            return $html;
-        }
-        // Direct fetch from DDEV/VPS IPs is usually stubbed by LinkedIn (HTTP 200, empty shell).
-        // Reuse Bright Data Web Unlocker when configured — same token as SERP boards, not Marketplace.
-        $unlocked = JobHttp::unlockHtml($url, 28);
-        if (self::looksLikeJobCards($unlocked)) {
-            return $unlocked;
-        }
-        // Prefer the richer body for notices / regex fallback.
-        if (is_string($unlocked) && strlen($unlocked) > (is_string($html) ? strlen($html) : 0)) {
-            return $unlocked;
-        }
-        return $html;
-    }
-
-    private static function looksLikeJobCards(?string $html): bool
-    {
-        if ($html === null || trim($html) === '' || strlen($html) < 200) {
-            return false;
-        }
-        return str_contains($html, 'base-card')
-            || str_contains($html, 'job-search-card')
-            || str_contains($html, 'base-search-card')
-            || str_contains($html, 'jobPosting')
-            || preg_match('#/jobs/view/#', $html) === 1;
-    }
-
-    /**
-     * @return array{url:string,headers:list<string>}
-     */
-    public static function httpSearchRequest(JobQuery $query): array
-    {
         $keywords = trim($query->searchWas());
         if ($keywords === '') {
             $keywords = 'Software';
@@ -87,73 +43,54 @@ final class LinkedInSource
         $location = $query->city !== ''
             ? $query->city . ', Germany'
             : ($query->bundesland !== '' ? $query->bundesland . ', Germany' : 'Germany');
-        $params = [
-            'keywords' => $keywords,
+
+        $args = [
+            'site_name' => ['linkedin'],
+            'search_term' => $keywords,
             'location' => $location,
-            'geoId' => self::GEO_GERMANY,
-            'f_TPR' => $query->effectivePostedDays() === 1 ? 'r86400' : 'r604800',
-            'start' => '0',
-            'position' => '1',
-            'pageNum' => '0',
+            'results_wanted' => self::RESULTS_WANTED,
+            'hours_old' => $query->effectivePostedDays() === 1 ? 24 : (JobQuery::MAX_POSTED_DAYS * 24),
+            'country_indeed' => 'Germany',
+            'linkedin_fetch_description' => true,
+            'description_format' => 'markdown',
         ];
-        $wt = match ($query->workMode) {
-            'remote' => '2',
-            'onsite' => '1',
-            'hybrid' => '3',
-            default => '',
-        };
-        if ($wt !== '') {
-            $params['f_WT'] = $wt;
-        }
-        $jt = match ($query->employment) {
-            'fulltime' => 'F',
-            'parttime' => 'P',
-            default => '',
-        };
-        if ($query->internship) {
-            $jt = 'I';
-        }
-        if ($jt !== '') {
-            $params['f_JT'] = $jt;
+        if ($query->workMode === 'remote') {
+            $args['is_remote'] = true;
         }
 
-        return [
-            'url' => self::SEARCH_URL . '?' . http_build_query($params),
-            'headers' => self::headers(),
-        ];
-    }
+        $payload = json_encode($args, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if (!is_string($payload)) {
+            return ['listings' => [], 'notices' => ['LinkedIn JobSpy could not encode the search.']];
+        }
 
-    /**
-     * @return array{listings: list<JobListing>, notices: list<string>}
-     */
-    public static function listingsFromHtml(?string $html, JobQuery $query): array
-    {
-        if ($html === null || trim($html) === '' || strlen($html) < 200) {
+        $result = self::runJobspy($python, $script, $payload);
+        if ($result['error'] !== null) {
             return [
                 'listings' => [],
-                'notices' => [self::blockedNotice()],
+                'notices' => [
+                    App::isDev()
+                        ? ('LinkedIn JobSpy: ' . $result['error'])
+                        : 'LinkedIn JobSpy failed. Try again or check Python / python-jobspy install.',
+                ],
             ];
         }
-        $cards = self::parseCards($html);
-        if ($cards === []) {
-            if (!self::looksLikeJobCards($html)) {
-                return [
-                    'listings' => [],
-                    'notices' => [self::blockedNotice()],
-                ];
-            }
-            $notice = App::isDev()
-                ? 'LinkedIn returned HTML but no job cards could be parsed (markup may have changed).'
-                : 'LinkedIn returned no usable job cards for this search.';
+
+        $rows = $result['rows'];
+        if ($rows === []) {
             return [
                 'listings' => [],
-                'notices' => [$notice],
+                'notices' => ['LinkedIn JobSpy returned no jobs for this search.'],
             ];
         }
+
         $maxAge = JobQuery::MAX_POSTED_DAYS * 86400;
-        $pending = [];
-        foreach ($cards as $card) {
-            $job = self::toListing($card, $query);
+        $listings = [];
+        foreach ($rows as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $post = self::dtoFromRow($row);
+            $job = self::fromDto($post, $query);
             if ($job === null) {
                 continue;
             }
@@ -163,275 +100,147 @@ final class LinkedInSource
                     continue;
                 }
             }
-            $pending[] = $job;
-        }
-        $detailReqs = [];
-        $n = 0;
-        foreach ($pending as $job) {
-            if ($n >= 3) {
-                break;
-            }
-            if ($job->description === '' && ctype_digit($job->externalId)) {
-                $detailReqs[$job->externalId] = [
-                    'url' => self::DETAIL_URL . $job->externalId,
-                    'headers' => self::headers(),
-                ];
-                $n++;
-            }
-        }
-        $detailBodies = $detailReqs !== [] ? JobHttp::multiGet($detailReqs, 8) : [];
-        $listings = [];
-        foreach ($pending as $job) {
-            $raw = $detailBodies[$job->externalId] ?? null;
-            if (is_string($raw) && $raw !== '' && $job->description === '') {
-                $desc = self::parseDetailSnippet($raw);
-                if ($desc !== '') {
-                    $job->description = $desc;
-                }
-            }
             $listings[] = JobText::enrich($job);
         }
-        return ['listings' => $listings, 'notices' => []];
-    }
 
-    private static function blockedNotice(): string
-    {
-        if (SerpBoardSource::configured()) {
-            return 'LinkedIn blocked the direct request and Unlocker returned no job cards. Try again or broaden keywords.';
-        }
-        return 'LinkedIn blocks this server’s IP (empty response). Set BRIGHT_DATA_API_TOKEN in .env to fetch via Web Unlocker — same token as Indeed/StepStone, not the Marketplace dump. Or search Arbeitsagentur / Jobexport / company boards (no token).';
-    }
-
-    /** @return list<string> */
-    private static function headers(): array
-    {
         return [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language: de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'listings' => $listings,
+            'notices' => $listings === []
+                ? ['LinkedIn JobSpy returned posts, but none passed Germany / 7-day filters.']
+                : [],
         ];
     }
 
     /**
-     * @return list<array{
-     *   id: string,
-     *   title: string,
-     *   company: string,
-     *   location: string,
-     *   url: string,
-     *   posted: ?string,
-     *   snippet: string
-     * }>
+     * @return array{rows: list<array<string, mixed>>, error: ?string}
      */
-    private static function parseCards(string $html): array
+    private static function runJobspy(string $python, string $script, string $payload): array
     {
-        $cards = [];
-        $prev = libxml_use_internal_errors(true);
-        $dom = new DOMDocument();
-        $wrapped = '<?xml encoding="UTF-8"><div>' . $html . '</div>';
-        if (!$dom->loadHTML($wrapped, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET)) {
-            libxml_clear_errors();
-            libxml_use_internal_errors($prev);
-            return self::parseCardsRegex($html);
+        $cmd = escapeshellarg($python) . ' ' . escapeshellarg($script);
+        $descriptors = [
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w'],
+        ];
+        $proc = proc_open($cmd, $descriptors, $pipes, dirname(__DIR__, 3));
+        if (!is_resource($proc)) {
+            return ['rows' => [], 'error' => 'Could not start Python JobSpy process.'];
         }
-        libxml_clear_errors();
-        libxml_use_internal_errors($prev);
+        fwrite($pipes[0], $payload);
+        fclose($pipes[0]);
+        $stdout = stream_get_contents($pipes[1]) ?: '';
+        $stderr = stream_get_contents($pipes[2]) ?: '';
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $code = proc_close($proc);
 
-        $xpath = new DOMXPath($dom);
-        $nodes = $xpath->query(
-            '//*[contains(concat(" ", normalize-space(@class), " "), " base-card ")'
-            . ' or contains(concat(" ", normalize-space(@class), " "), " job-search-card ")'
-            . ' or @data-entity-urn]'
-        );
-        if ($nodes === false || $nodes->length === 0) {
-            return self::parseCardsRegex($html);
-        }
-
-        $seen = [];
-        foreach ($nodes as $node) {
-            if (!$node instanceof DOMElement) {
-                continue;
+        if ($code !== 0) {
+            $err = trim($stderr);
+            if ($err === '') {
+                $err = trim($stdout);
             }
-            $urn = trim($node->getAttribute('data-entity-urn'));
-            $id = '';
-            if (preg_match('/jobPosting:(\d+)/', $urn, $m)) {
-                $id = $m[1];
-            }
-
-            $title = self::xpathText($xpath, $node, './/*[contains(@class,"base-search-card__title")]');
-            $company = self::xpathText($xpath, $node, './/*[contains(@class,"base-search-card__subtitle")]');
-            $location = self::xpathText($xpath, $node, './/*[contains(@class,"job-search-card__location")]');
-            $snippet = self::xpathText($xpath, $node, './/*[contains(@class,"job-search-card__snippet")]');
-
-            $url = '';
-            $link = $xpath->query('.//a[contains(@class,"base-card__full-link") or contains(@href,"/jobs/view/")]', $node);
-            if ($link !== false && $link->length > 0 && $link->item(0) instanceof DOMElement) {
-                $url = trim($link->item(0)->getAttribute('href'));
-            }
-            if ($url === '') {
-                $any = $xpath->query('.//a[@href]', $node);
-                if ($any !== false && $any->length > 0 && $any->item(0) instanceof DOMElement) {
-                    $url = trim($any->item(0)->getAttribute('href'));
+            if ($err !== '' && str_starts_with(ltrim($err), '{')) {
+                $decoded = json_decode($err, true);
+                if (is_array($decoded) && isset($decoded['error'])) {
+                    $err = (string) $decoded['error'];
                 }
             }
-            $url = self::normalizeJobUrl($url);
-            if ($id === '' && preg_match('#/jobs/view/(?:[\w-]+-)?(\d+)#', $url, $m)) {
-                $id = $m[1];
-            }
+            return ['rows' => [], 'error' => $err !== '' ? $err : ('exit ' . $code)];
+        }
 
+        $data = json_decode($stdout, true);
+        if (!is_array($data)) {
+            return ['rows' => [], 'error' => 'JobSpy returned invalid JSON.'];
+        }
+        if (isset($data['error'])) {
+            return ['rows' => [], 'error' => (string) $data['error']];
+        }
+        // list of job dicts
+        if ($data !== [] && !array_is_list($data)) {
+            return ['rows' => [], 'error' => 'JobSpy JSON was not a list of jobs.'];
+        }
+        /** @var list<array<string, mixed>> $data */
+        return ['rows' => $data, 'error' => null];
+    }
+
+    /** @param array<string, mixed> $item */
+    private static function dtoFromRow(array $item): JobPostDTO
+    {
+        $posted = $item['date_posted'] ?? null;
+        if ($posted !== null && !is_string($posted)) {
+            $posted = (string) $posted;
+        }
+        if (is_string($posted) && (strcasecmp($posted, 'nan') === 0 || strcasecmp($posted, 'null') === 0)) {
             $posted = null;
-            $timeNodes = $xpath->query('.//time[@datetime]', $node);
-            if ($timeNodes !== false && $timeNodes->length > 0 && $timeNodes->item(0) instanceof DOMElement) {
-                $dt = trim($timeNodes->item(0)->getAttribute('datetime'));
-                if ($dt !== '') {
-                    $ts = strtotime($dt);
-                    $posted = $ts !== false ? date('Y-m-d', $ts) : JobText::parsePostedDate($dt);
-                }
-                if ($posted === null) {
-                    $posted = JobText::parsePostedDate(trim($timeNodes->item(0)->textContent ?? ''));
-                }
-            }
-
-            if ($title === '' || $url === '') {
-                continue;
-            }
-            $key = $id !== '' ? $id : $url;
-            if (isset($seen[$key])) {
-                continue;
-            }
-            $seen[$key] = true;
-            if (count($cards) >= self::PAGE_SIZE) {
-                break;
-            }
-            $cards[] = [
-                'id' => $id !== '' ? $id : hash('sha256', $url),
-                'title' => $title,
-                'company' => $company,
-                'location' => $location,
-                'url' => $url,
-                'posted' => $posted,
-                'snippet' => $snippet,
-            ];
         }
 
-        return $cards !== [] ? $cards : self::parseCardsRegex($html);
-    }
-
-    /**
-     * Fallback when DOM structure drifts.
-     *
-     * @return list<array{id:string,title:string,company:string,location:string,url:string,posted:?string,snippet:string}>
-     */
-    private static function parseCardsRegex(string $html): array
-    {
-        $cards = [];
-        if (!preg_match_all(
-            '#href="(https?://(?:www\.)?linkedin\.com/jobs/view/[^"]+)"[^>]*>.*?'
-            . 'base-search-card__title[^>]*>(.*?)</(?:h3|a|div|span)>.*?'
-            . 'base-search-card__subtitle[^>]*>(.*?)</(?:h4|a|div|span)>#is',
-            $html,
-            $matches,
-            PREG_SET_ORDER
-        )) {
-            return [];
-        }
-
-        foreach ($matches as $m) {
-            $url = self::normalizeJobUrl(html_entity_decode($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8'));
-            $title = trim(JobText::stripHtml($m[2]));
-            $company = trim(JobText::stripHtml($m[3]));
-            $id = '';
-            if (preg_match('#/jobs/view/(?:[\w-]+-)?(\d+)#', $url, $im)) {
-                $id = $im[1];
-            }
-            if ($title === '' || $url === '') {
-                continue;
-            }
-            $cards[] = [
-                'id' => $id !== '' ? $id : hash('sha256', $url),
-                'title' => $title,
-                'company' => $company,
-                'location' => '',
-                'url' => $url,
-                'posted' => null,
-                'snippet' => '',
-            ];
-            if (count($cards) >= self::PAGE_SIZE) {
-                break;
-            }
-        }
-        return $cards;
-    }
-
-    private static function xpathText(DOMXPath $xpath, DOMNode $ctx, string $query): string
-    {
-        $nodes = $xpath->query($query, $ctx);
-        if ($nodes === false || $nodes->length === 0) {
-            return '';
-        }
-        return trim(preg_replace('/\s+/u', ' ', $nodes->item(0)->textContent ?? '') ?? '');
-    }
-
-    private static function normalizeJobUrl(string $url): string
-    {
-        $url = html_entity_decode(trim($url), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        if ($url === '') {
-            return '';
-        }
-        if (str_starts_with($url, '/')) {
-            $url = 'https://www.linkedin.com' . $url;
-        }
-        $url = preg_replace('/\?.*$/', '', $url) ?? $url;
-        return $url;
-    }
-
-    private static function fetchDetailSnippet(string $jobId): string
-    {
-        if (!ctype_digit($jobId)) {
-            return '';
-        }
-        $raw = JobHttp::get(self::DETAIL_URL . $jobId, self::headers(), 8);
-        if ($raw === null || $raw === '') {
-            return '';
-        }
-        return self::parseDetailSnippet($raw);
-    }
-
-    private static function parseDetailSnippet(string $raw): string
-    {
-        $prev = libxml_use_internal_errors(true);
-        $dom = new DOMDocument();
-        $ok = $dom->loadHTML('<?xml encoding="UTF-8">' . $raw, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET);
-        libxml_clear_errors();
-        libxml_use_internal_errors($prev);
-        if (!$ok) {
-            return mb_substr(trim(JobText::stripHtml($raw)), 0, 1200);
-        }
-        $xpath = new DOMXPath($dom);
-        $desc = self::xpathText(
-            $xpath,
-            $dom,
-            '//*[contains(@class,"description__text") or contains(@class,"show-more-less-html__markup")'
-            . ' or contains(@class,"jobs-description-content__text")]'
+        return new JobPostDTO(
+            site: (string) ($item['site'] ?? 'linkedin'),
+            title: (string) ($item['title'] ?? ''),
+            company: (string) ($item['company'] ?? ''),
+            company_url: (string) ($item['company_url'] ?? ''),
+            job_url: (string) ($item['job_url'] ?? $item['job_url_direct'] ?? ''),
+            location: (string) ($item['location'] ?? ''),
+            is_remote: (bool) ($item['is_remote'] ?? false),
+            description: (string) ($item['description'] ?? ''),
+            job_type: isset($item['job_type']) ? (string) $item['job_type'] : null,
+            interval: isset($item['interval']) ? (string) $item['interval'] : null,
+            min_amount: isset($item['min_amount']) && is_numeric($item['min_amount']) ? $item['min_amount'] + 0 : null,
+            max_amount: isset($item['max_amount']) && is_numeric($item['max_amount']) ? $item['max_amount'] + 0 : null,
+            currency: isset($item['currency']) ? (string) $item['currency'] : null,
+            date_posted: $posted,
         );
-        if ($desc === '') {
-            $desc = mb_substr(trim(JobText::stripHtml($raw)), 0, 1200);
-        }
-        return mb_substr($desc, 0, 4000);
     }
 
-    /**
-     * @param array{id:string,title:string,company:string,location:string,url:string,posted:?string,snippet:string} $card
-     */
-    private static function toListing(array $card, JobQuery $query): ?JobListing
+    private static function pythonBinary(): ?string
     {
-        $title = trim($card['title']);
-        $url = trim($card['url']);
+        $configured = trim((string) (getenv('JOBSPY_PYTHON') ?: ''));
+        $candidates = array_values(array_filter([
+            $configured !== '' ? $configured : null,
+            dirname(__DIR__, 3) . '/.venv-jobspy/bin/python',
+            'python3',
+            'python',
+        ]));
+        foreach ($candidates as $bin) {
+            if (str_contains($bin, '/') && !is_executable($bin)) {
+                continue;
+            }
+            if (!str_contains($bin, '/')) {
+                $which = trim((string) shell_exec('command -v ' . escapeshellarg($bin) . ' 2>/dev/null'));
+                if ($which === '' || !is_executable($which)) {
+                    continue;
+                }
+                $bin = $which;
+            }
+            $code = 0;
+            exec(escapeshellarg($bin) . ' -c ' . escapeshellarg('import jobspy') . ' 2>/dev/null', $out, $code);
+            if ($code === 0) {
+                return $bin;
+            }
+        }
+        return null;
+    }
+
+    private static function scriptPath(): ?string
+    {
+        $root = dirname(__DIR__, 3);
+        $local = $root . '/bin/jobspy_scrape.py';
+        if (is_readable($local)) {
+            return $local;
+        }
+        $pkg = $root . '/packages/php-jobspy/src/python/scrape.py';
+        return is_readable($pkg) ? $pkg : null;
+    }
+
+    private static function fromDto(JobPostDTO $post, JobQuery $query): ?JobListing
+    {
+        $title = trim($post->title);
+        $url = trim($post->job_url);
         if ($title === '' || $url === '') {
             return null;
         }
 
-        $loc = trim($card['location']);
+        $loc = trim($post->location);
         $city = '';
         $bundesland = '';
         $country = '';
@@ -449,17 +258,16 @@ final class LinkedInSource
                 }
             }
         }
-        if ($country === '' && JobText::looksLikeGermany($city, $bundesland, '', $loc . ' Germany')) {
-            $country = 'Germany';
-        }
         if ($query->city !== '' && $city === '') {
             $city = $query->city;
         }
         if ($query->bundesland !== '' && $bundesland === '') {
             $bundesland = $query->bundesland;
         }
+        if ($country === '' && JobText::looksLikeGermany($city, $bundesland, '', $loc . ' Germany')) {
+            $country = 'Germany';
+        }
 
-        // Germany-only gate.
         if (JobText::isForeignPrimaryLocation($city, $country !== '' ? $country : $loc, $title)) {
             return null;
         }
@@ -476,30 +284,125 @@ final class LinkedInSource
             $country = 'Germany';
         }
 
-        $posted = $card['posted'];
-        $company = trim($card['company']);
-        $desc = trim($card['snippet']);
-        $blob = $title . ' ' . $loc . ' ' . $desc;
+        $posted = null;
+        $rawPosted = trim((string) ($post->date_posted ?? ''));
+        if ($rawPosted !== '') {
+            $ts = strtotime($rawPosted);
+            if ($ts !== false) {
+                $posted = date('Y-m-d', $ts);
+            } else {
+                $posted = JobText::parsePostedDate($rawPosted);
+            }
+        }
+
+        $desc = trim($post->description);
+        $blob = $title . ' ' . $loc . ' ' . $desc . ' ' . (string) ($post->job_type ?? '');
+        $workMode = $post->is_remote ? 'remote' : JobText::workMode($blob);
+        $employment = JobText::employment($blob, (string) ($post->job_type ?? ''));
+
+        $salary = '';
+        if ($post->min_amount !== null || $post->max_amount !== null) {
+            $cur = trim((string) ($post->currency ?? ''));
+            $min = $post->min_amount !== null ? (string) $post->min_amount : '';
+            $max = $post->max_amount !== null ? (string) $post->max_amount : '';
+            $salary = trim($cur . ' ' . ($min !== '' && $max !== '' ? "{$min}–{$max}" : ($min !== '' ? $min : $max)));
+        }
+
+        $externalId = '';
+        if (preg_match('#/jobs/view/(?:[\w-]+-)?(\d+)#', $url, $m)) {
+            $externalId = $m[1];
+        }
+        if ($externalId === '') {
+            $externalId = hash('sha256', $url);
+        }
 
         $job = new JobListing(
             'linkedin',
-            $card['id'],
+            $externalId,
             $title,
-            $company !== '' ? $company : 'LinkedIn',
+            trim($post->company) !== '' ? trim($post->company) : 'LinkedIn',
             $city,
             $bundesland,
             $country,
-            JobText::workMode($blob),
-            JobText::employment($blob),
-            'job',
+            $workMode,
+            $employment,
+            JobText::offerType($blob),
             [],
             [],
-            '',
+            $salary,
             $posted,
             $url,
             $desc,
         );
         $job->applyUrl = $url;
         return $job;
+    }
+
+    public static function details(string $externalId): ?JobListing
+    {
+        $cached = JobCache::getListing('linkedin', $externalId);
+        if ($cached === null) {
+            return null;
+        }
+        if (trim($cached->description) !== '' && $cached->postedAt !== null && $cached->postedAt !== '') {
+            return $cached;
+        }
+
+        $numericId = $externalId;
+        if (preg_match('/(\d{8,})/', $externalId, $m)) {
+            $numericId = $m[1];
+        } elseif (preg_match('#/jobs/view/(?:[\w-]+-)?(\d+)#', $cached->url, $m)) {
+            $numericId = $m[1];
+        }
+
+        $desc = self::fetchGuestDescription($numericId);
+        if ($desc !== '') {
+            $cached->description = $desc;
+        }
+        if (($cached->postedAt === null || $cached->postedAt === '') && $desc !== '') {
+            $parsed = JobText::parsePostedDate($desc);
+            if ($parsed !== null) {
+                $cached->postedAt = $parsed;
+            }
+        }
+        if (trim($cached->description) !== '' || ($cached->postedAt !== null && $cached->postedAt !== '')) {
+            JobCache::putListing($cached);
+        }
+        return $cached;
+    }
+
+    private static function fetchGuestDescription(string $jobId): string
+    {
+        if (!ctype_digit($jobId)) {
+            return '';
+        }
+        $url = 'https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/' . $jobId;
+        $headers = [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: de-DE,de;q=0.9,en;q=0.8',
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        ];
+        $html = JobHttp::get($url, $headers, 12);
+        if ($html === null || strlen($html) < 200) {
+            $html = JobHttp::unlockHtml($url, 28);
+        }
+        if ($html === null || strlen($html) < 200) {
+            return '';
+        }
+        if (preg_match(
+            '#class="[^"]*(?:description__text|show-more-less-html__markup|jobs-description)[^"]*"[^>]*>(.*?)</div>#is',
+            $html,
+            $m
+        )) {
+            $text = JobText::stripHtml($m[1]);
+            if (mb_strlen($text) > 80) {
+                return mb_substr($text, 0, 12000);
+            }
+        }
+        $plain = JobText::stripHtml($html);
+        if (mb_strlen($plain) > 120) {
+            return mb_substr($plain, 0, 12000);
+        }
+        return '';
     }
 }

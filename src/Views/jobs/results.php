@@ -10,6 +10,7 @@ declare(strict_types=1);
 /** @var array<string, int> $resumeTerms */
 
 use App;
+use KaamMilo\Jobs\JobText;
 use KaamMilo\Jobs\ResumeJobMatch;
 ?>
       <div class="d-flex flex-wrap align-items-center gap-2 mb-3" data-jobs-meta>
@@ -83,11 +84,12 @@ use KaamMilo\Jobs\ResumeJobMatch;
                     </h2>
                     <p class="small mb-1"><strong><?= App::e($job->company) ?></strong></p>
                     <p class="small text-secondary mb-2"><?= App::e($job->locationLine()) ?></p>
-                    <?php if ($job->postedAt): ?>
-                      <p class="small text-secondary mb-3">Posted <?= App::e($job->postedAt) ?></p>
-                    <?php else: ?>
-                      <p class="small text-secondary mb-3">&nbsp;</p>
-                    <?php endif; ?>
+                    <?php
+                    $postedLabel = JobText::formatPosted($job->postedAt);
+                    ?>
+                    <p class="small text-secondary mb-3"><?= $postedLabel !== ''
+                        ? ('Posted ' . App::e($postedLabel))
+                        : 'Posted date not listed' ?></p>
                     <div class="mt-auto d-flex flex-wrap gap-2 position-relative" style="z-index:1">
                       <?php if ($job->applyHref() !== ''): ?>
                         <a class="btn btn-sm btn-primary" href="<?= App::e($job->applyHref()) ?>" target="_blank" rel="noopener">Apply</a>

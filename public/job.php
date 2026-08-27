@@ -101,7 +101,9 @@ layout_header($job->title !== '' ? $job->title : 'Job');
       <strong><?= App::e($job->company) ?></strong>
       · <?= App::e($job->locationLine()) ?>
       <?php if ($job->postedAt): ?>
-        · Posted <?= App::e($job->postedAt) ?>
+        · Posted <?= App::e(JobText::formatPosted($job->postedAt)) ?>
+      <?php else: ?>
+        · Posted date not listed
       <?php endif; ?>
     </p>
     <div class="preview-links d-flex flex-wrap gap-2">

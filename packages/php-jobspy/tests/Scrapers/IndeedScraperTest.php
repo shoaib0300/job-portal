@@ -1,0 +1,78 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Freeworld\PhpJobspy\Tests\Scrapers;
+
+use Freeworld\PhpJobspy\Contracts\FetcherInterface;
+use Freeworld\PhpJobspy\Scrapers\IndeedScraper;
+use PHPUnit\Framework\TestCase;
+
+class IndeedScraperTest extends TestCase
+{
+    public function test_scrape_parses_html_into_job_post_dtos(): void
+    {
+        $dummyHtml = <<<HTML
+        <html>
+            <body>
+                <div class="job_seen_beacon">
+                    <h2 class="jobTitle"><span>Senior PHP Engineer</span></h2>
+                    <span class="companyName">Tech Innovations Inc.</span>
+                    <div class="companyLocation">Remote, NY</div>
+                    <div class="jobMetaDataGroup">Full-time</div>
+                    <div class="job-snippet"><li>Strong PHP skills required.</li></div>
+                    <a class="jcs-JobTitle" href="/rc/clk?jk=12345">Link</a>
+                </div>
+            </body>
+        </html>
+        HTML;
+
+        $fetcherMock = $this->createMock(FetcherInterface::class);
+        $fetcherMock->method('getHtml')->willReturn($dummyHtml);
+        
+        $scraper = new IndeedScraper($fetcherMock);
+        
+        $results = $scraper->scrape([
+            'search_term' => 'PHP',
+            'location' => 'Remote',
+            'results_wanted' => 1
+        ]);
+
+        $this->assertCount(1, $results);
+        $this->assertEquals('Indeed', $results[0]->site);
+        $this->assertEquals('Senior PHP Engineer', $results[0]->title);
+        $this->assertEquals('Tech Innovations Inc.', $results[0]->company);
+        $this->assertEquals('Remote, NY', $results[0]->location);
+        $this->assertTrue($results[0]->is_remote);
+        $this->assertEquals('https://www.indeed.com/viewjob?jk=12345', $results[0]->job_url);
+        $this->assertEquals('Strong PHP skills required.', trim($results[0]->description));
+    }
+
+    public function test_scrape_returns_empty_array_when_html_is_empty(): void
+    {
+        $fetcherMock = $this->createMock(FetcherInterface::class);
+        $fetcherMock->method('getHtml')->willReturn('');
+        
+        $scraper = new IndeedScraper($fetcherMock);
+        $results = $scraper->scrape([
+            'search_term' => 'PHP',
+            'location' => 'Remote'
+        ]);
+
+        $this->assertEmpty($results);
+    }
+
+    public function test_scrape_returns_empty_array_on_fetcher_exception(): void
+    {
+        $fetcherMock = $this->createMock(FetcherInterface::class);
+        $fetcherMock->method('getHtml')->willThrowException(new \Exception('Network error'));
+        
+        $scraper = new IndeedScraper($fetcherMock);
+        $results = $scraper->scrape([
+            'search_term' => 'PHP',
+            'location' => 'Remote'
+        ]);
+
+        $this->assertEmpty($results);
+    }
+}
