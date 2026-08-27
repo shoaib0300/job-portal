@@ -74,8 +74,10 @@ final class JobAggregator
             $notices[] = 'Job index is empty. Jobs are refreshed every 2 hours in the background.';
         }
 
-        $listings = self::dedupe($listings);
+        // Filter first, then dedupe — otherwise a preferred source (e.g. BA) can replace
+        // a Jobware/Jobexport twin and then fail filters, shrinking the result set.
         $listings = self::postFilter($listings, $query);
+        $listings = self::dedupe($listings);
         if ($query->matchResume) {
             $listings = self::filterByResumeFit($listings);
         }

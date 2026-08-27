@@ -15,19 +15,19 @@ final class JobsIngest
     public const SETTING_SEEDS = 'jobs_ingest_seeds';
     public const SETTING_LAST_RUN = 'jobs_ingest_last_run';
     public const SETTING_LAST_STATS = 'jobs_ingest_last_stats';
+    public const SETTING_PROGRESS = 'jobs_ingest_progress';
 
     public const DEFAULT_AUTO_DELETE_DAYS = 14;
 
     /**
      * Built-in searches for cron / “Fetch all jobs”.
-     * Nationwide only (no city × keyword matrix) — keep this short.
+     * Broad by design: all fields + levels (student, junior, full-time, experienced), not QA-only.
      *
-     * @return list<array{q:string,city:string,sources?:list<string>}>
+     * @return list<array{q:string,city:string,sources?:list<string>,companies?:list<string>}>
      */
     public static function defaultSeeds(): array
     {
-        // Free boards that work without Bright Data SERP. Jobware HTML may need Unlocker fallback.
-        $sources = [
+        $boards = [
             'arbeitsagentur',
             'linkedin',
             'jobexport',
@@ -36,41 +36,83 @@ final class JobsIngest
             'university',
             'public_sector',
         ];
-        // German first — AA/Jobexport return far more for DE terms than EN-only.
-        $keywords = [
+
+        // Field / industry buckets (DE first — BA & Jobexport return far more).
+        $fields = [
+            // IT & digital
+            'Informatik',
+            'Softwareentwickler',
+            'IT',
+            'Systemadministrator',
+            'Datenbank',
+            'DevOps',
+            'SAP',
+            'Webentwickler',
+            // QA / quality (still included, not exclusive)
             'Qualitätssicherung',
             'Softwaretester',
-            'Testingenieur',
-            'Testautomatisierung',
-            'Qualitätsingenieur',
-            'QS-Ingenieur',
-            'Prüfingenieur',
-            'Testmanager',
-            'Tester',
             'QA Engineer',
-            'Software Tester',
-            'Test Automation',
-            'Quality Assurance',
-            'Manual Tester',
-            'Automation Engineer',
-            'QS Engineer',
-            'QA Specialist',
+            // Engineering & tech
+            'Ingenieur',
+            'Elektroniker',
+            'Mechatroniker',
+            'Techniker',
+            'Maschinenbau',
+            // Business & office
+            'Kaufmann',
+            'Sachbearbeiter',
+            'Bürokauffrau',
+            'Projektmanagement',
+            'Controlling',
+            'Buchhaltung',
+            'Personal',
+            'Marketing',
+            'Vertrieb',
+            'Customer Service',
+            // Ops / logistics / care
+            'Logistik',
+            'Lagerist',
+            'Produktion',
+            'Pflege',
+            'Erzieher',
         ];
+
+        // Level / contract types — so beginners, students, and full-time all land in the index.
+        $levels = [
+            'Werkstudent',
+            'Working Student',
+            'Praktikum',
+            'Internship',
+            'Trainee',
+            'Junior',
+            'Berufseinsteiger',
+            'Absolvent',
+            'Vollzeit',
+            'Teilzeit',
+            'Fachkraft',
+            'Quereinsteiger',
+        ];
+
         $seeds = [];
-        foreach ($keywords as $q) {
+        foreach (array_merge($fields, $levels) as $q) {
             $seeds[] = [
                 'q' => $q,
                 'city' => '',
-                'sources' => $sources,
+                'sources' => $boards,
             ];
         }
-        // Jobexport newest-first crawl (empty keyword = stellenboerse home).
+
+        // Newest-first board crawls (no keyword = all fields / levels in the last 14 days).
+        $seeds[] = [
+            'q' => '',
+            'city' => '',
+            'sources' => ['arbeitsagentur'],
+        ];
         $seeds[] = [
             'q' => '',
             'city' => '',
             'sources' => ['jobexport'],
         ];
-        // Jobware public sitemap (SPA pages need JS; sitemap has lastmod for all ads).
         $seeds[] = [
             'q' => '',
             'city' => '',
@@ -81,6 +123,13 @@ final class JobsIngest
             'city' => '',
             'sources' => ['jobware'],
         ];
+        $seeds[] = [
+            'q' => '',
+            'city' => '',
+            'sources' => ['career'],
+            'companies' => ['successfactors:jobs.nordex-online.com'],
+        ];
+
         return $seeds;
     }
 
@@ -127,20 +176,55 @@ final class JobsIngest
     /**
      * Start ingest in the background (admin button / HTTP trigger).
      *
-     * @return array{ok:bool,pid:?string,log:string}
+     * @return array{ok:bool,pid:?string,log:string,already_running:bool}
      */
     public static function startBackground(?int $maxSeeds = null, string $trigger = 'admin'): array
     {
+        $current = self::progress();
+        if (($current['status'] ?? '') === 'running' && self::isPidAlive((string) ($current['pid'] ?? ''))) {
+            return [
+                'ok' => true,
+                'pid' => isset($current['pid']) ? (string) $current['pid'] : null,
+                'log' => 'storage/logs/jobs_ingest.log',
+                'already_running' => true,
+            ];
+        }
+
         $root = dirname(__DIR__, 2);
         $logDir = $root . '/storage/logs';
         if (!is_dir($logDir)) {
             @mkdir($logDir, 0775, true);
         }
         $logFile = $logDir . '/jobs_ingest.log';
-        $php = PHP_BINARY !== '' ? PHP_BINARY : 'php';
+        $php = self::phpCliBinary();
         $script = $root . '/bin/jobs_ingest.php';
         $extra = $maxSeeds !== null && $maxSeeds > 0 ? ' --max-seeds=' . $maxSeeds : '';
         $trigger = preg_replace('/[^a-z0-9_-]/i', '', $trigger) ?: 'admin';
+        $seedTotal = count(self::seeds());
+        if ($maxSeeds !== null && $maxSeeds > 0) {
+            $seedTotal = min($seedTotal, $maxSeeds);
+        }
+
+        self::writeProgress([
+            'status' => 'starting',
+            'pid' => null,
+            'trigger' => $trigger,
+            'started_at' => date('c'),
+            'updated_at' => date('c'),
+            'finished_at' => null,
+            'seed_index' => 0,
+            'seed_total' => $seedTotal,
+            'seed_label' => 'Starting…',
+            'percent' => 0,
+            'fetched' => 0,
+            'inserted' => 0,
+            'updated' => 0,
+            'message' => 'Launching job fetch…',
+            'log_id' => null,
+            'duration_sec' => 0,
+            'errors' => 0,
+        ]);
+
         $cmd = sprintf(
             'JOBS_INGEST_TRIGGER=%s %s %s%s >> %s 2>&1 & echo $!',
             escapeshellarg($trigger),
@@ -150,11 +234,145 @@ final class JobsIngest
             escapeshellarg($logFile)
         );
         $pid = trim((string) shell_exec($cmd));
+        self::writeProgress([
+            'status' => 'running',
+            'pid' => $pid !== '' ? $pid : null,
+            'message' => $pid !== '' ? ('Running (pid ' . $pid . ')') : 'Running…',
+            'updated_at' => date('c'),
+        ]);
+
         return [
             'ok' => true,
             'pid' => $pid !== '' ? $pid : null,
             'log' => 'storage/logs/jobs_ingest.log',
+            'already_running' => false,
         ];
+    }
+
+    /**
+     * Live progress for Super Admin UI (poll JSON).
+     *
+     * @return array<string, mixed>
+     */
+    public static function progress(): array
+    {
+        $raw = self::globalSetting(self::SETTING_PROGRESS) ?? '';
+        $data = is_string($raw) && $raw !== '' ? json_decode($raw, true) : null;
+        if (!is_array($data) || $data === []) {
+            return [
+                'status' => 'idle',
+                'percent' => 0,
+                'message' => 'No fetch running.',
+                'seed_index' => 0,
+                'seed_total' => 0,
+                'alive' => false,
+            ];
+        }
+
+        $status = (string) ($data['status'] ?? 'idle');
+        $pid = isset($data['pid']) ? (string) $data['pid'] : '';
+        $alive = $pid !== '' && self::isPidAlive($pid);
+        $data['alive'] = $alive;
+
+        // Live elapsed time while a seed is blocked on network I/O.
+        if (in_array($status, ['running', 'starting'], true)) {
+            $started = (string) ($data['started_at'] ?? '');
+            if ($started !== '') {
+                $ts = strtotime($started);
+                if ($ts !== false) {
+                    $data['duration_sec'] = max(0, time() - $ts);
+                }
+            }
+        }
+
+        // Stale: marked running but process is gone and no finish yet.
+        if (in_array($status, ['running', 'starting'], true) && $pid !== '' && !$alive) {
+            $updated = (string) ($data['updated_at'] ?? '');
+            $age = $updated !== '' ? (time() - (int) strtotime($updated)) : 9999;
+            if ($age > 90) {
+                $data['status'] = 'error';
+                $data['message'] = 'Fetch process stopped unexpectedly. Check storage/logs/jobs_ingest.log.';
+                $data['finished_at'] = $data['finished_at'] ?? date('c');
+                $data['percent'] = (int) ($data['percent'] ?? 0);
+                self::writeProgress($data);
+            }
+        }
+
+        return $data;
+    }
+
+    /** @param array<string, mixed> $patch */
+    public static function writeProgress(array $patch): void
+    {
+        $cur = [];
+        $raw = self::globalSetting(self::SETTING_PROGRESS);
+        if (is_string($raw) && $raw !== '') {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded)) {
+                $cur = $decoded;
+            }
+        }
+        $next = array_merge($cur, $patch);
+        $next['updated_at'] = date('c');
+        self::setGlobalSetting(
+            self::SETTING_PROGRESS,
+            json_encode($next, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '{}'
+        );
+    }
+
+    /** Progress must be global — background CLI has no logged-in Auth user. */
+    private static function globalSetting(string $key): ?string
+    {
+        $stmt = \Db::pdo()->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
+        $stmt->execute([$key]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if ($row === false) {
+            return null;
+        }
+        return (string) $row['value'];
+    }
+
+    private static function setGlobalSetting(string $key, string $value): void
+    {
+        $stmt = \Db::pdo()->prepare(
+            'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+        );
+        $stmt->execute([$key, $value]);
+    }
+
+    public static function isPidAlive(string $pid): bool
+    {
+        $pid = trim($pid);
+        if ($pid === '' || !ctype_digit($pid)) {
+            return false;
+        }
+        $n = (int) $pid;
+        if ($n <= 1) {
+            return false;
+        }
+        if (function_exists('posix_kill')) {
+            return @posix_kill($n, 0);
+        }
+        return is_dir('/proc/' . $n);
+    }
+
+    /** Prefer PHP CLI — PHP_BINARY under php-fpm is not usable for background scripts. */
+    private static function phpCliBinary(): string
+    {
+        $bin = PHP_BINARY;
+        if (is_string($bin) && $bin !== '' && is_executable($bin) && !str_contains(mb_strtolower(basename($bin)), 'fpm')) {
+            return $bin;
+        }
+        foreach (['/usr/bin/php', '/usr/local/bin/php', 'php'] as $candidate) {
+            if ($candidate === 'php') {
+                return 'php';
+            }
+            if (is_executable($candidate)) {
+                return $candidate;
+            }
+        }
+        return 'php';
     }
 
     /**
@@ -191,6 +409,26 @@ final class JobsIngest
             $seeds = array_slice($seeds, 0, $maxSeeds);
         }
 
+        $seedTotal = count($seeds);
+        self::writeProgress([
+            'status' => 'running',
+            'trigger' => $trigger,
+            'started_at' => date('c'),
+            'finished_at' => null,
+            'seed_index' => 0,
+            'seed_total' => $seedTotal,
+            'seed_label' => 'Preparing…',
+            'percent' => 0,
+            'fetched' => 0,
+            'inserted' => 0,
+            'updated' => 0,
+            'message' => 'Fetch started (' . $seedTotal . ' searches)…',
+            'log_id' => null,
+            'duration_sec' => 0,
+            'errors' => 0,
+            'pid' => (string) getmypid(),
+        ]);
+
         $fetched = 0;
         $inserted = 0;
         $updated = 0;
@@ -208,16 +446,50 @@ final class JobsIngest
             if (!is_array($sources) || $sources === []) {
                 $sources = array_keys(JobQuery::SOURCES);
             }
-            $log(sprintf('[%d/%d] ingest q=%s city=%s', $i, count($seeds), $q, $city !== '' ? $city : '(any)'));
+            $companies = $seed['companies'] ?? [];
+            if (!is_array($companies)) {
+                $companies = [];
+            }
+            $label = $q !== '' ? $q : ('(' . implode(',', array_map('strval', $sources)) . ')');
+            $percent = (int) max(1, floor((($i - 1) / max(1, $seedTotal)) * 100));
+            if ($seedTotal === 1) {
+                $percent = 5;
+            }
+            self::writeProgress([
+                'status' => 'running',
+                'seed_index' => $i,
+                'seed_total' => $seedTotal,
+                'seed_label' => $label,
+                'percent' => min(99, $percent),
+                'fetched' => $fetched,
+                'inserted' => $inserted,
+                'updated' => $updated,
+                'message' => sprintf('[%d/%d] %s', $i, $seedTotal, $label),
+                'duration_sec' => (int) round(microtime(true) - $t0),
+                'errors' => count($errors),
+                'pid' => (string) getmypid(),
+            ]);
+            $log(sprintf(
+                '[%d/%d] ingest q=%s city=%s companies=%s',
+                $i,
+                count($seeds),
+                $q !== '' ? $q : '(any)',
+                $city !== '' ? $city : '(any)',
+                $companies !== [] ? implode(',', $companies) : '(all)'
+            ));
             try {
-                $query = JobQuery::fromRequest([
+                $req = [
                     'q' => $q,
                     'city' => $city,
                     'sources' => $sources,
                     'posted' => (string) JobQuery::MAX_POSTED_DAYS,
                     'page' => '1',
                     'size' => '50',
-                ]);
+                ];
+                if ($companies !== []) {
+                    $req['companies'] = array_values(array_map('strval', $companies));
+                }
+                $query = JobQuery::fromRequest($req);
                 $result = JobAggregator::searchLive($query);
                 $fetched += count($result['listings']);
                 $up = JobStore::upsertMany($result['listings']);
@@ -234,6 +506,14 @@ final class JobsIngest
                     $bySource[$src]['upserted'] += (int) ($counts['upserted'] ?? 0);
                     $bySource[$src]['skipped'] += (int) ($counts['skipped'] ?? 0);
                 }
+                self::writeProgress([
+                    'fetched' => $fetched,
+                    'inserted' => $inserted,
+                    'updated' => $updated,
+                    'percent' => min(99, (int) floor(($i / max(1, $seedTotal)) * 100)),
+                    'message' => sprintf('[%d/%d] done · +%d new this search', $i, $seedTotal, $up['inserted']),
+                    'duration_sec' => (int) round(microtime(true) - $t0),
+                ]);
                 $log(sprintf(
                     '  → %d fetched | +%d new | ~%d updated | skip %d (dup/old) | notices: %d',
                     count($result['listings']),
@@ -249,10 +529,19 @@ final class JobsIngest
                 $msg = sprintf('seed failed (%s / %s): %s', $q, $city, $e->getMessage());
                 $errors[] = $msg;
                 $log('  ERROR: ' . $msg);
+                self::writeProgress([
+                    'errors' => count($errors),
+                    'message' => sprintf('[%d/%d] error: %s', $i, $seedTotal, $e->getMessage()),
+                ]);
             }
         }
 
         $days = self::autoDeleteDays();
+        self::writeProgress([
+            'percent' => 99,
+            'message' => 'Purging jobs older than ' . $days . ' days…',
+            'seed_label' => 'Cleanup',
+        ]);
         $purged = JobStore::purgeOlderThanDays($days);
         $totalAfter = JobStore::count();
         $finishedAt = date('Y-m-d H:i:s');
@@ -303,6 +592,29 @@ final class JobsIngest
             'notes' => $skipped > 0 ? ("skipped_dups_or_old=" . $skipped) : null,
         ]);
         JobIngestLog::clearOlderThanDays(90);
+
+        self::writeProgress([
+            'status' => count($errors) > 0 && $upserted === 0 ? 'error' : 'done',
+            'percent' => 100,
+            'seed_index' => $seedTotal,
+            'seed_total' => $seedTotal,
+            'seed_label' => 'Finished',
+            'fetched' => $fetched,
+            'inserted' => $inserted,
+            'updated' => $updated,
+            'message' => sprintf(
+                'Completed · +%d new · ~%d updated · total %d · %ds',
+                $inserted,
+                $updated,
+                $totalAfter,
+                $duration
+            ),
+            'finished_at' => date('c'),
+            'log_id' => $logId,
+            'duration_sec' => $duration,
+            'errors' => count($errors),
+            'alive' => false,
+        ]);
 
         return [
             'seeds' => count($seeds),

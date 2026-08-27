@@ -8,6 +8,7 @@ use KaamMilo\Jobs\JobCache;
 use KaamMilo\Jobs\JobHttp;
 use KaamMilo\Jobs\JobListing;
 use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobStore;
 use KaamMilo\Jobs\JobText;
 
 /**
@@ -79,29 +80,201 @@ final class JobwareSource
     public static function details(string $externalId): ?JobListing
     {
         $cached = JobCache::getListing('jobware', $externalId);
+        if ($cached === null) {
+            $cached = JobStore::get('jobware', $externalId);
+        }
+        if ($cached !== null && mb_strlen(trim(strip_tags($cached->description))) >= 120) {
+            return $cached;
+        }
+
+        $fresh = self::hydrateFromApi($externalId, $cached);
+        if ($fresh !== null) {
+            JobCache::putListing($fresh);
+            JobStore::upsertMany([$fresh]);
+            return $fresh;
+        }
+
+        // Last resort: SPA HTML (usually empty without Unlocker).
         $urls = [];
         if ($cached !== null && $cached->url !== '') {
             $urls[] = $cached->url;
         }
         $urls[] = self::BASE . '/job/' . rawurlencode($externalId);
         $urls = array_values(array_unique($urls));
-
         foreach ($urls as $url) {
             $html = self::fetchHtml($url);
             if ($html === null || strlen($html) < 1000) {
                 continue;
             }
-            // SPA shell has no JobPosting — Unlocker/browser may return real HTML.
             if (!str_contains($html, 'JobPosting') && !preg_match('/<h1[\s>]/i', $html)) {
                 continue;
             }
-            $fresh = self::parseDetailHtml($html, $externalId, $cached, $url);
-            if ($fresh !== null) {
-                JobCache::putListing($fresh);
-                return $fresh;
+            $parsed = self::parseDetailHtml($html, $externalId, $cached, $url);
+            if ($parsed !== null) {
+                JobCache::putListing($parsed);
+                JobStore::upsertMany([$parsed]);
+                return $parsed;
             }
         }
         return $cached;
+    }
+
+    /**
+     * Jobware SPA pages are empty shells; the Angular app loads ads via /api/d48b2/*.
+     * Resolve listing id → businessReference → full advertisement (rawText).
+     */
+    private static function hydrateFromApi(string $externalId, ?JobListing $cached): ?JobListing
+    {
+        $card = self::findApiCard($externalId, $cached);
+        if ($card === null) {
+            return null;
+        }
+        $br = trim((string) ($card['businessReference'] ?? ''));
+        $detail = $br !== '' ? self::fetchApiAdvertisement($br) : null;
+        $item = is_array($detail) ? ($detail['items'][0] ?? null) : null;
+        if (!is_array($item)) {
+            $item = $card;
+        }
+
+        $title = trim((string) ($item['title'] ?? $card['title'] ?? $cached?->title ?? ''));
+        if ($title === '') {
+            return null;
+        }
+        $company = trim((string) ($item['advertiser']['name'] ?? $card['advertiser']['name'] ?? ''));
+        if ($company === '') {
+            $company = $cached?->company !== '' && $cached?->company !== 'Employer'
+                ? (string) $cached->company
+                : 'Employer';
+        }
+        $city = trim((string) ($item['location'] ?? $card['location'] ?? $cached?->city ?? ''));
+        $desc = trim((string) ($item['rawText'] ?? ''));
+        if ($desc === '') {
+            $desc = trim((string) ($card['task'] ?? $cached?->description ?? ''));
+        }
+        $apply = trim((string) ($item['apply']['url'] ?? $card['apply']['url'] ?? $cached?->applyUrl ?? ''));
+        $url = trim((string) ($item['canonicalUrl'] ?? ''));
+        if ($url === '') {
+            $path = trim((string) ($card['url'] ?? ''));
+            $url = $path !== ''
+                ? (str_starts_with($path, 'http') ? $path : self::BASE . '/job/' . ltrim($path, '/'))
+                : ($cached?->url ?: self::BASE . '/job/' . $externalId);
+        }
+        $posted = $cached?->postedAt;
+        $ms = $item['date'] ?? $card['date'] ?? null;
+        if (is_numeric($ms)) {
+            $posted = date('Y-m-d', (int) floor(((float) $ms) / 1000));
+        }
+
+        $job = new JobListing(
+            'jobware',
+            $externalId,
+            $title,
+            $company,
+            $city,
+            '',
+            'Germany',
+            'unknown',
+            'unknown',
+            'job',
+            [],
+            [],
+            '',
+            $posted,
+            $url,
+            $desc,
+            '',
+            $apply,
+        );
+        return JobText::enrich($job);
+    }
+
+    /** @return array<string, mixed>|null */
+    private static function findApiCard(string $externalId, ?JobListing $cached): ?array
+    {
+        $queries = [];
+        if ($cached !== null && trim($cached->title) !== '') {
+            $queries[] = trim($cached->title);
+        }
+        if ($cached !== null && $cached->url !== '' && preg_match('~/job/([^/?#]+)~', $cached->url, $m)) {
+            $slug = preg_replace('/\.html$/i', '', $m[1]) ?? $m[1];
+            $slug = preg_replace('/(\.|-)\d{6,}$/', '', $slug) ?? $slug;
+            $queries[] = trim(str_replace(['-', '_', '.'], ' ', $slug));
+        }
+        $queries[] = $externalId;
+        $queries = array_values(array_unique(array_filter($queries)));
+
+        foreach ($queries as $q) {
+            $rows = self::apiSearchCards($q, 25);
+            foreach ($rows as $row) {
+                if ((string) ($row['id'] ?? '') === $externalId) {
+                    return $row;
+                }
+            }
+            foreach ($rows as $row) {
+                $url = (string) ($row['url'] ?? $row['canonicalUrl'] ?? '');
+                if ($url !== '' && str_contains($url, $externalId)) {
+                    return $row;
+                }
+            }
+        }
+        return null;
+    }
+
+    /** @return list<array<string, mixed>> */
+    private static function apiSearchCards(string $jobname, int $limit = 20): array
+    {
+        $jobname = trim($jobname);
+        if ($jobname === '') {
+            return [];
+        }
+        $url = self::BASE . '/api/d48b2/xnfwe?' . http_build_query([
+            'jw_jobname' => $jobname,
+            'jw_row_count' => (string) max(1, min(50, $limit)),
+            'jw_detaildata' => 'true',
+        ]);
+        $body = JobHttp::get($url, self::apiHeaders(), 18);
+        if (!is_string($body) || $body === '') {
+            return [];
+        }
+        $data = json_decode($body, true);
+        if (!is_array($data) || !isset($data['data']) || !is_array($data['data'])) {
+            return [];
+        }
+        $out = [];
+        foreach ($data['data'] as $row) {
+            if (is_array($row)) {
+                $out[] = $row;
+            }
+        }
+        return $out;
+    }
+
+    /** @return array<string, mixed>|null */
+    private static function fetchApiAdvertisement(string $businessReference): ?array
+    {
+        $businessReference = trim($businessReference);
+        if ($businessReference === '') {
+            return null;
+        }
+        $url = self::BASE . '/api/d48b2/huxio/' . rawurlencode($businessReference);
+        $body = JobHttp::get($url, self::apiHeaders(), 18);
+        if (!is_string($body) || $body === '') {
+            return null;
+        }
+        $data = json_decode($body, true);
+        return is_array($data) ? $data : null;
+    }
+
+    /** @return list<string> */
+    private static function apiHeaders(): array
+    {
+        return [
+            'Accept: application/json, text/plain, */*',
+            'Accept-Language: de-DE,de;q=0.9,en;q=0.8',
+            'Origin: https://www.jobware.de',
+            'Referer: https://www.jobware.de/',
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        ];
     }
 
     /**

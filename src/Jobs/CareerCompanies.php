@@ -11,7 +11,7 @@ use Db;
 
 /**
  * Company career boards for Jobs → Company career pages source.
- * Types: greenhouse, personio, smartrecruiters, site (Google site: via Bright Data).
+ * Types: greenhouse, personio, smartrecruiters, successfactors, site, sitemap.
  */
 final class CareerCompanies
 {
@@ -34,6 +34,30 @@ final class CareerCompanies
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
         self::seedGlobalIfEmpty();
+        self::syncMissingCatalogEntries(0);
+    }
+
+    /** Insert catalog rows that are not yet in the shared list (e.g. new Nordex board). */
+    public static function syncMissingCatalogEntries(int $userId = 0): int
+    {
+        $pdo = Db::pdo();
+        $ins = $pdo->prepare(
+            'INSERT IGNORE INTO career_companies (user_id, name, board_type, board_key, careers_url, enabled, sort_order)
+             VALUES (?, ?, ?, ?, ?, 1, ?)'
+        );
+        $n = 0;
+        foreach (self::catalog() as $i => $row) {
+            $ins->execute([
+                $userId,
+                $row['name'],
+                $row['type'],
+                $row['key'],
+                $row['url'],
+                $i,
+            ]);
+            $n += $ins->rowCount() > 0 ? 1 : 0;
+        }
+        return $n;
     }
 
     /** Shared catalog managed by super-admin (user_id = 0). */
@@ -95,7 +119,7 @@ final class CareerCompanies
                 continue;
             }
             $type = strtolower($parts[0]);
-            if (!in_array($type, ['personio', 'greenhouse', 'smartrecruiters', 'site'], true)) {
+            if (!in_array($type, ['personio', 'greenhouse', 'smartrecruiters', 'successfactors', 'site', 'sitemap'], true)) {
                 continue;
             }
             $key = $parts[1];
@@ -172,7 +196,7 @@ final class CareerCompanies
     /**
      * Select options for Jobs filter (global enabled + personal enabled extras only).
      *
-     * @return list<array{key:string,label:string,scope:string}>
+     * @return list<array{key:string,label:string,scope:string,accent:string,type:string}>
      */
     public static function filterOptions(int $userId): array
     {
@@ -185,6 +209,8 @@ final class CareerCompanies
                 'key' => $key,
                 'label' => $row['name'],
                 'scope' => 'shared',
+                'type' => $row['board_type'],
+                'accent' => self::accentFor($key, $row['name']),
             ];
         }
         if ($userId > 0) {
@@ -197,10 +223,41 @@ final class CareerCompanies
                     'key' => $key,
                     'label' => $row['name'] . ' (mine)',
                     'scope' => 'personal',
+                    'type' => $row['board_type'],
+                    'accent' => self::accentFor($key, $row['name']),
                 ];
             }
         }
         return $out;
+    }
+
+    /** Stable brand accent for company chips (Nordex = wind green). */
+    public static function accentFor(string $key, string $label): string
+    {
+        $hay = mb_strtolower($key . ' ' . $label);
+        $known = [
+            'nordex' => '#0B8F4E',
+            'n26' => '#36A18B',
+            'celonis' => '#1B4DFF',
+            'trade-republic' => '#0D0D0D',
+            'personio' => '#0B6BCB',
+            'deliveryhero' => '#D70F64',
+            'hellofresh' => '#91C11E',
+            'flix' => '#FFE16A',
+            'siemens' => '#009999',
+            'bmw' => '#1C69D4',
+            'mercedes' => '#333333',
+            'zalando' => '#FF6900',
+            'sap' => '#0FAAFF',
+            'rossmann' => '#C8102E',
+        ];
+        foreach ($known as $needle => $color) {
+            if (str_contains($hay, $needle)) {
+                return $color;
+            }
+        }
+        $h = (int) sprintf('%u', crc32($key)) % 360;
+        return sprintf('hsl(%d 48%% 40%%)', $h);
     }
 
     /**
@@ -257,13 +314,13 @@ final class CareerCompanies
         $type = strtolower(trim($type));
         $key = trim($key);
         $url = trim($url);
-        if ($name === '' || $key === '' || !in_array($type, ['greenhouse', 'personio', 'smartrecruiters', 'site', 'sitemap'], true)) {
-            throw new InvalidArgumentException('Need company name, type (greenhouse/personio/smartrecruiters/site/sitemap), and key.');
+        if ($name === '' || $key === '' || !in_array($type, ['greenhouse', 'personio', 'smartrecruiters', 'successfactors', 'site', 'sitemap'], true)) {
+            throw new InvalidArgumentException('Need company name, type (greenhouse/personio/smartrecruiters/successfactors/site/sitemap), and key.');
         }
-        if ($type === 'site' || $type === 'sitemap') {
+        if ($type === 'site' || $type === 'sitemap' || $type === 'successfactors') {
             $host = self::hostFromUrl($url !== '' ? $url : $key);
             if ($host === '') {
-                throw new InvalidArgumentException('Site/sitemap boards need a careers URL like https://jobs.example.com/');
+                throw new InvalidArgumentException('Site/sitemap/SuccessFactors boards need a careers URL like https://jobs.example.com/');
             }
             $key = $host;
             if ($url === '') {
@@ -342,6 +399,9 @@ final class CareerCompanies
             ['name' => 'Wunder Mobility', 'type' => 'greenhouse', 'key' => 'wundermobility', 'url' => 'https://www.wundermobility.com/careers'],
             ['name' => 'Forto', 'type' => 'greenhouse', 'key' => 'forto', 'url' => 'https://forto.com/en/careers'],
             ['name' => 'Contentful Berlin', 'type' => 'greenhouse', 'key' => 'contentful', 'url' => 'https://www.contentful.com/careers'],
+
+            // SuccessFactors (public career site HTML — no Bright Data)
+            ['name' => 'Nordex SE', 'type' => 'successfactors', 'key' => 'jobs.nordex-online.com', 'url' => 'https://jobs.nordex-online.com/search'],
 
             // Personio
             ['name' => 'Personio', 'type' => 'personio', 'key' => 'personio', 'url' => 'https://www.personio.com/about-personio/careers'],

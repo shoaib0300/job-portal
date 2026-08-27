@@ -38,7 +38,8 @@ final class LinkedInSource
 
         $keywords = trim($query->searchWas());
         if ($keywords === '') {
-            $keywords = 'Software';
+            // Broad DE term — empty ingest must not collapse to “Software” only.
+            $keywords = 'Mitarbeiter';
         }
         $location = $query->city !== ''
             ? $query->city . ', Germany'

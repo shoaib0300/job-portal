@@ -18,10 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         if ($action === 'ingest_now') {
             $started = JobsIngest::startBackground(null, 'admin');
-            App::flash(
-                'Job fetch started. Refresh in a few minutes to see new/updated counts in the log.'
-                . ($started['pid'] ? ' (pid ' . $started['pid'] . ')' : '')
-            );
+            if (!empty($started['already_running'])) {
+                App::flash('A job fetch is already running' . ($started['pid'] ? ' (pid ' . $started['pid'] . ')' : '') . '. Watch the progress bar below.');
+            } else {
+                App::flash(
+                    'Job fetch started — watch the progress bar below.'
+                    . ($started['pid'] ? ' (pid ' . $started['pid'] . ')' : '')
+                );
+            }
         } elseif ($action === 'purge') {
             $days = (int) ($_POST['days'] ?? 0);
             if ($days === 0) {
@@ -59,30 +63,47 @@ $ingestUrl = $ingestKey !== ''
     ? 'https://' . ($_SERVER['HTTP_HOST'] ?? 'kaammilo.ddev.site') . '/cron/jobs-ingest?key=' . rawurlencode($ingestKey)
     : '';
 $hasBrightData = trim((string) (getenv('BRIGHT_DATA_API_TOKEN') ?: '')) !== '';
+$progress = JobsIngest::progress();
+$progressRunning = in_array((string) ($progress['status'] ?? ''), ['running', 'starting'], true);
 
 super_layout_header('Jobs');
 ?>
 <?php if (!$hasBrightData): ?>
   <div class="alert alert-warning">
     <p class="mb-1"><strong>Glassdoor / Indeed / StepStone / XING</strong> need <code>BRIGHT_DATA_API_TOKEN</code> — without it they are empty.</p>
-    <p class="mb-1"><strong>Jobware</strong> listing pages are a JS app (curl gets an empty shell). We ingest via the public sitemap (<code>/sitemap-advertisements.xml</code>) — last 14 days, no token. Detail hydrate still needs Unlocker if you want full descriptions.</p>
+    <p class="mb-1"><strong>Jobware</strong> listings come from the public sitemap (no token). Opening a job loads the full description via Jobware’s JSON API.</p>
     <p class="mb-0"><strong>Jobexport</strong> works without an API. We crawl the newest pages of stellenboerse (and keep last 14 days).</p>
   </div>
 <?php else: ?>
   <div class="alert alert-light border small">
-    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) and Jobware detail Unlocker can run on fetch. Jobware listings still come from the public sitemap.
+    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) can run on fetch. Jobware listings use the sitemap; detail text uses Jobware’s API.
   </div>
 <?php endif; ?>
 <div class="card shadow-sm border-success mb-4">
-  <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3">
-    <div>
-      <h2 class="h4 mb-1">Fetch jobs now</h2>
-      <p class="text-secondary mb-0">Downloads jobs from LinkedIn, Arbeitsagentur, career sites, etc. into the database. Dashboard users then search this list (fast, no internet).</p>
+  <div class="card-body">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+      <div>
+        <h2 class="h4 mb-1">Fetch jobs now</h2>
+        <p class="text-secondary mb-0">Downloads jobs across all fields and levels (student, junior, full-time, experienced) from LinkedIn, Arbeitsagentur, Jobware, Jobexport, career sites, etc. Dashboard users then search this list (fast, no internet).</p>
+      </div>
+      <form method="post" class="m-0" data-ingest-form>
+        <input type="hidden" name="action" value="ingest_now">
+        <button class="btn btn-success btn-lg px-4" type="submit" data-ingest-btn<?= $progressRunning ? ' disabled' : '' ?>>
+          <?= $progressRunning ? 'Fetch running…' : 'Fetch all jobs' ?>
+        </button>
+      </form>
     </div>
-    <form method="post" class="m-0">
-      <input type="hidden" name="action" value="ingest_now">
-      <button class="btn btn-success btn-lg px-4" type="submit">Fetch all jobs</button>
-    </form>
+
+    <div class="jobs-ingest-progress" data-ingest-progress hidden>
+      <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-1">
+        <strong class="small" data-ingest-status>Idle</strong>
+        <span class="small text-secondary" data-ingest-meta></span>
+      </div>
+      <div class="progress" style="height: 1.1rem" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-ingest-bar-wrap>
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 0%" data-ingest-bar>0%</div>
+      </div>
+      <p class="small text-secondary mb-0 mt-2" data-ingest-message>No fetch running.</p>
+    </div>
   </div>
 </div>
 
@@ -226,5 +247,107 @@ super_layout_header('Jobs');
   </div></div>
 </details>
 <?php endif; ?>
+<script>
+(() => {
+  const root = document.querySelector("[data-ingest-progress]");
+  const btn = document.querySelector("[data-ingest-btn]");
+  if (!root) return;
+
+  const statusEl = root.querySelector("[data-ingest-status]");
+  const metaEl = root.querySelector("[data-ingest-meta]");
+  const msgEl = root.querySelector("[data-ingest-message]");
+  const bar = root.querySelector("[data-ingest-bar]");
+  const barWrap = root.querySelector("[data-ingest-bar-wrap]");
+  let timer = null;
+  let lastStatus = "";
+
+  function paint(data) {
+    const status = String(data.status || "idle");
+    const pct = Math.max(0, Math.min(100, Number(data.percent || 0)));
+    const running = status === "running" || status === "starting";
+    root.hidden = status === "idle";
+
+    if (statusEl) {
+      statusEl.textContent =
+        status === "running" || status === "starting"
+          ? "Fetching jobs…"
+          : status === "done"
+            ? "Completed"
+            : status === "error"
+              ? "Stopped with errors"
+              : "Idle";
+      statusEl.className =
+        "small " +
+        (status === "done"
+          ? "text-success"
+          : status === "error"
+            ? "text-danger"
+            : "text-body");
+    }
+
+    if (metaEl) {
+      const parts = [];
+      if (data.seed_total) {
+        parts.push((data.seed_index || 0) + "/" + data.seed_total + " searches");
+      }
+      if (data.inserted != null) parts.push("+" + data.inserted + " new");
+      if (data.updated != null) parts.push("~" + data.updated + " updated");
+      if (data.duration_sec) parts.push(data.duration_sec + "s");
+      if (data.pid && running) parts.push("pid " + data.pid);
+      metaEl.textContent = parts.join(" · ");
+    }
+
+    if (msgEl) {
+      msgEl.textContent = data.message || "";
+    }
+
+    if (bar && barWrap) {
+      bar.style.width = pct + "%";
+      bar.textContent = pct + "%";
+      barWrap.setAttribute("aria-valuenow", String(pct));
+      bar.classList.toggle("progress-bar-animated", running);
+      bar.classList.toggle("progress-bar-striped", running || status === "done");
+      bar.classList.remove("bg-success", "bg-danger", "bg-primary");
+      bar.classList.add(
+        status === "error" ? "bg-danger" : status === "done" ? "bg-success" : "bg-primary"
+      );
+    }
+
+    if (btn) {
+      btn.disabled = running;
+      btn.textContent = running ? "Fetch running…" : "Fetch all jobs";
+    }
+
+    if (status === "done" && lastStatus === "running") {
+      // Refresh counts / history once when a run finishes.
+      window.setTimeout(() => window.location.reload(), 1200);
+    }
+    lastStatus = status;
+  }
+
+  async function tick() {
+    try {
+      const res = await fetch("/super-admin/jobs-progress.php", {
+        headers: { Accept: "application/json" },
+        credentials: "same-origin",
+        cache: "no-store",
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      paint(data);
+      const running = data.status === "running" || data.status === "starting";
+      if (!running && timer) {
+        // Keep polling slowly after done so a new click still updates without reload race.
+      }
+    } catch (_) {
+      /* ignore transient errors */
+    }
+  }
+
+  paint(<?= json_encode($progress, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>);
+  timer = window.setInterval(tick, 2000);
+  tick();
+})();
+</script>
 <?php
 super_layout_footer();

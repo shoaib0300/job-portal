@@ -213,17 +213,37 @@ final class JobStore
     public static function search(JobQuery $query): array
     {
         self::ensureSchema();
-        $where = ['1=1'];
-        $params = [];
-
         $sources = $query->sources !== []
             ? $query->sources
             : array_merge(['arbeitsagentur', 'linkedin', 'jobexport', 'interamt'], array_keys(SerpBoardSource::BOARDS));
-        $placeholders = implode(',', array_fill(0, count($sources), '?'));
-        $where[] = "source IN ($placeholders)";
-        foreach ($sources as $s) {
-            $params[] = $s;
+        $sources = array_values(array_unique(array_map('strval', $sources)));
+        if ($sources === []) {
+            return [];
         }
+
+        // Each selected source is queried on its own with a high cap so adding BA
+        // cannot push Jobware/Jobexport rows out of a shared global LIMIT.
+        $perSource = 2500;
+        $out = [];
+        $seen = [];
+        foreach ($sources as $source) {
+            foreach (self::searchOneSource($query, $source, $perSource) as $job) {
+                $key = $job->source . ':' . $job->externalId;
+                if (isset($seen[$key])) {
+                    continue;
+                }
+                $seen[$key] = true;
+                $out[] = $job;
+            }
+        }
+        return $out;
+    }
+
+    /** @return list<JobListing> */
+    private static function searchOneSource(JobQuery $query, string $source, int $limit): array
+    {
+        $where = ['source = ?'];
+        $params = [$source];
 
         if ($query->city !== '') {
             $where[] = '(city LIKE ? OR bundesland LIKE ? OR country LIKE ? OR title LIKE ? OR company LIKE ?)';
@@ -263,8 +283,9 @@ final class JobStore
             $params[] = $query->employment;
         }
 
+        $limit = max(50, min(2000, $limit));
         $sql = 'SELECT payload FROM job_listings WHERE ' . implode(' AND ', $where)
-            . ' ORDER BY COALESCE(posted_at, DATE(fetched_at)) DESC, fetched_at DESC LIMIT 800';
+            . ' ORDER BY COALESCE(posted_at, DATE(fetched_at)) DESC, fetched_at DESC LIMIT ' . $limit;
         $stmt = \Db::pdo()->prepare($sql);
         $stmt->execute($params);
         $out = [];
@@ -273,8 +294,7 @@ final class JobStore
             if (!is_array($data)) {
                 continue;
             }
-            $job = JobListing::fromArray($data);
-            $out[] = $job;
+            $out[] = JobListing::fromArray($data);
         }
         return $out;
     }

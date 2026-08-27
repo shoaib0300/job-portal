@@ -43,12 +43,15 @@ final class AtsBoardSource
         $apiBoards = [];
         $siteBoards = [];
         $sitemapBoards = [];
+        $sfBoards = [];
         foreach ($boards as $board) {
             $t = (string) ($board['type'] ?? '');
             if ($t === 'site') {
                 $siteBoards[] = $board;
             } elseif ($t === 'sitemap') {
                 $sitemapBoards[] = $board;
+            } elseif ($t === 'successfactors') {
+                $sfBoards[] = $board;
             } else {
                 $apiBoards[] = $board;
             }
@@ -97,6 +100,13 @@ final class AtsBoardSource
         $ok += $sitemapResult['ok'];
         if ($sitemapResult['notice']) {
             $notices[] = $sitemapResult['notice'];
+        }
+
+        $sfResult = self::searchSuccessFactorsBoards($sfBoards, $query);
+        $listings = array_merge($listings, $sfResult['listings']);
+        $ok += $sfResult['ok'];
+        if ($sfResult['notice']) {
+            $notices[] = $sfResult['notice'];
         }
 
         $siteResult = self::searchSiteBoards($siteBoards, $query);
@@ -252,6 +262,221 @@ final class AtsBoardSource
         }
 
         return ['listings' => $listings, 'ok' => $ok, 'notice' => null];
+    }
+
+    /**
+     * SAP SuccessFactors career sites (e.g. jobs.nordex-online.com) — HTML list + startrow pages.
+     *
+     * @param list<array{type:string,slug:string,label:string,url?:string}> $boards
+     * @return array{listings: list<JobListing>, ok: int, notice: ?string}
+     */
+    private static function searchSuccessFactorsBoards(array $boards, JobQuery $query): array
+    {
+        if ($boards === []) {
+            return ['listings' => [], 'ok' => 0, 'notice' => null];
+        }
+
+        $listings = [];
+        $ok = 0;
+        $notices = [];
+        $focused = $query->companies !== [];
+
+        foreach ($boards as $board) {
+            $host = (string) ($board['slug'] ?? '');
+            $base = rtrim((string) ($board['url'] ?? ''), '/');
+            if ($base === '') {
+                $base = 'https://' . $host . '/search';
+            }
+            if (!str_contains(mb_strtolower($base), '/search')) {
+                $base = preg_replace('#/$#', '', $base) . '/search';
+            }
+            $origin = preg_replace('#^(https?://[^/]+).*$#i', '$1', $base) ?: ('https://' . $host);
+            // Focused company filter → crawl deeper; otherwise keep ingest bounded.
+            $maxPages = $focused ? 24 : 8;
+            $pageListings = [];
+            $boardOk = false;
+            for ($page = 0; $page < $maxPages; $page++) {
+                $start = $page * 25;
+                $url = $base . (str_contains($base, '?') ? '&' : '?') . 'startrow=' . $start;
+                $html = JobHttp::get($url, [
+                    'Accept: text/html,application/xhtml+xml',
+                    'Accept-Language: en-US,en;q=0.9,de;q=0.8',
+                    'User-Agent: Mozilla/5.0 (compatible; MNK-Jobs/1.1; +https://mnk.ddev.site/)',
+                ], 18);
+                if (!is_string($html) || $html === '' || !str_contains($html, 'data-row')) {
+                    break;
+                }
+                $boardOk = true;
+                $chunk = self::parseSuccessFactorsList($html, $origin, (string) ($board['label'] ?? $host));
+                if ($chunk === []) {
+                    break;
+                }
+                foreach ($chunk as $job) {
+                    $pageListings[$job->externalId] = $job;
+                }
+                if (count($chunk) < 20) {
+                    break;
+                }
+            }
+            if ($boardOk) {
+                $ok++;
+                foreach ($pageListings as $job) {
+                    $listings[] = $job;
+                }
+            } elseif (App::isDev()) {
+                $notices[] = ($board['label'] ?? $host) . ' SuccessFactors board did not respond.';
+            }
+        }
+
+        return [
+            'listings' => $listings,
+            'ok' => $ok,
+            'notice' => $notices !== [] ? implode(' ', $notices) : null,
+        ];
+    }
+
+    /** @return list<JobListing> */
+    private static function parseSuccessFactorsList(string $html, string $origin, string $company): array
+    {
+        $dom = new \DOMDocument();
+        $ok = @$dom->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_NOERROR | LIBXML_NOWARNING);
+        if (!$ok) {
+            return [];
+        }
+        $xp = new \DOMXPath($dom);
+        $out = [];
+        foreach ($xp->query('//tr[contains(@class,"data-row")]') as $tr) {
+            if (!$tr instanceof \DOMElement) {
+                continue;
+            }
+            $a = null;
+            foreach ($xp->query('.//a[contains(@class,"jobTitle-link")]', $tr) as $link) {
+                if ($link instanceof \DOMElement) {
+                    $a = $link;
+                    break;
+                }
+            }
+            if ($a === null) {
+                continue;
+            }
+            $href = html_entity_decode(trim($a->getAttribute('href')), ENT_QUOTES | ENT_HTML5);
+            $title = trim(preg_replace('/\s+/u', ' ', $a->textContent ?? '') ?? '');
+            if ($title === '' || $href === '') {
+                continue;
+            }
+            if (!preg_match('#/(\d+)/?\s*$#', $href, $im)) {
+                continue;
+            }
+            $id = $im[1];
+            $url = str_starts_with($href, 'http') ? $href : ($origin . (str_starts_with($href, '/') ? $href : '/' . $href));
+            $loc = '';
+            $locNode = $xp->query('.//span[contains(@class,"jobLocation")]', $tr);
+            if ($locNode !== false && $locNode->length > 0) {
+                $loc = trim(preg_replace('/\s+/u', ' ', $locNode->item(0)?->textContent ?? '') ?? '');
+                $loc = preg_replace('/\+\d+\s*more…?/iu', '', $loc) ?? $loc;
+                $loc = trim($loc);
+            }
+            $posted = null;
+            $dateNode = $xp->query('.//span[contains(@class,"jobDate")]', $tr);
+            if ($dateNode !== false && $dateNode->length > 0) {
+                $posted = self::parseSfDate(trim($dateNode->item(0)?->textContent ?? ''));
+            }
+            [$city, $country] = self::parseSfLocation($loc);
+            $job = new JobListing(
+                'career',
+                'sf:' . $id,
+                $title,
+                $company,
+                $city,
+                '',
+                $country !== '' ? $country : 'Germany',
+                'unknown',
+                'unknown',
+                'job',
+                [],
+                [],
+                '',
+                $posted,
+                $url,
+                '',
+            );
+            $job->applyUrl = $url;
+            $out[] = JobText::enrich($job);
+        }
+        return $out;
+    }
+
+    /** @return array{0:string,1:string} city, country */
+    private static function parseSfLocation(string $loc): array
+    {
+        $loc = trim($loc);
+        if ($loc === '') {
+            return ['', ''];
+        }
+        $ccMap = [
+            'DE' => 'Germany',
+            'AT' => 'Austria',
+            'CH' => 'Switzerland',
+            'US' => 'United States',
+            'ES' => 'Spain',
+            'FR' => 'France',
+            'CA' => 'Canada',
+            'IN' => 'India',
+            'PT' => 'Portugal',
+            'BR' => 'Brazil',
+            'TR' => 'Turkey',
+            'MX' => 'Mexico',
+            'GB' => 'United Kingdom',
+            'UK' => 'United Kingdom',
+            'NL' => 'Netherlands',
+            'PL' => 'Poland',
+            'IT' => 'Italy',
+            'SE' => 'Sweden',
+            'DK' => 'Denmark',
+            'FI' => 'Finland',
+            'NO' => 'Norway',
+            'IE' => 'Ireland',
+            'BE' => 'Belgium',
+            'CZ' => 'Czech Republic',
+            'AU' => 'Australia',
+            'CN' => 'China',
+            'JP' => 'Japan',
+            'KR' => 'South Korea',
+            'ZA' => 'South Africa',
+        ];
+        // Bare country code: "US", "DE"
+        if (preg_match('/^[A-Z]{2}$/', $loc)) {
+            return ['', $ccMap[$loc] ?? $loc];
+        }
+        // "... DE, 22419" or "... CA, H3B 2E3" — country near the end.
+        if (preg_match('/,\s*([A-Z]{2})\s*(?:,\s*[^,]+)?\s*$/u', $loc, $m)) {
+            $cc = strtoupper($m[1]);
+            $country = $ccMap[$cc] ?? $cc;
+            $city = trim(explode(',', $loc)[0]);
+            if (preg_match('/^(united states|canada|spain|india|france|germany|mexico|brazil)$/iu', $city)) {
+                return ['', $country];
+            }
+            return [$city, $country];
+        }
+        // "Hamburg, DE, 22419"
+        if (preg_match('/^([^,]+),\s*([A-Z]{2})\b/u', $loc, $m)) {
+            $cc = strtoupper($m[2]);
+            return [trim($m[1]), $ccMap[$cc] ?? $cc];
+        }
+        return [$loc, ''];
+    }
+
+    private static function parseSfDate(string $raw): ?string
+    {
+        $raw = trim($raw);
+        if ($raw === '') {
+            return null;
+        }
+        $ts = strtotime($raw);
+        if ($ts === false) {
+            return null;
+        }
+        return date('Y-m-d', $ts);
     }
 
     /**

@@ -651,6 +651,43 @@
 })();
 
 (() => {
+  const root = document.querySelector("[data-company-picker]");
+  if (!root) return;
+  const filter = root.querySelector("[data-company-filter]");
+  const countEl = root.querySelector("[data-company-selected-count]");
+  const chips = Array.from(root.querySelectorAll(".jobs-company-chip"));
+
+  function refresh() {
+    let selected = 0;
+    chips.forEach((chip) => {
+      const input = chip.querySelector("[data-company-input]");
+      const on = !!(input && input.checked);
+      chip.classList.toggle("is-checked", on);
+      if (on) selected += 1;
+    });
+    if (countEl) countEl.textContent = String(selected);
+  }
+
+  root.addEventListener("change", (event) => {
+    if (event.target && event.target.matches("[data-company-input]")) {
+      refresh();
+    }
+  });
+
+  if (filter) {
+    filter.addEventListener("input", () => {
+      const q = String(filter.value || "").trim().toLowerCase();
+      chips.forEach((chip) => {
+        const label = chip.getAttribute("data-company-label") || "";
+        chip.classList.toggle("is-hidden", q !== "" && !label.includes(q));
+      });
+    });
+  }
+
+  refresh();
+})();
+
+(() => {
   const form = document.querySelector("[data-jobs-ajax]");
   const results = document.querySelector("[data-jobs-results]");
   if (!form || !results) return;

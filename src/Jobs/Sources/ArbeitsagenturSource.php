@@ -50,24 +50,31 @@ final class ArbeitsagenturSource
      */
     public static function httpSearchRequest(JobQuery $query, int $page = 1): array
     {
+        $was = trim($query->searchWas());
+        // Empty keyword (ingest “all jobs”) → BA wildcard for newest listings.
+        if ($was === '') {
+            $was = '*';
+        }
         $params = [
-            'was' => $query->searchWas(),
+            'was' => $was,
             'wo' => $query->whereText(),
             'page' => max(1, $page),
             'size' => 50,
             'zeitarbeit' => 'false',
         ];
-        if ($params['was'] === '') {
-            unset($params['was']);
-        }
         if ($params['wo'] === '') {
             unset($params['wo']);
         }
         $params['veroeffentlichtseit'] = $query->effectivePostedDays();
-        if ($query->internship) {
+        // Only force Praktikum when that level alone is selected. Otherwise omit angebotsart
+        // so Werkstudent / Ausbildung / Vollzeit / beginner roles are not excluded from ingest.
+        if ($query->internship
+            && !$query->student
+            && !$query->junior
+            && !$query->graduate
+            && !$query->noExperience
+            && !$query->hasKeywords()) {
             $params['angebotsart'] = 34;
-        } else {
-            $params['angebotsart'] = 1;
         }
         $zeit = [];
         if ($query->employment === 'fulltime') {
@@ -77,8 +84,7 @@ final class ArbeitsagenturSource
             $zeit[] = 'tz';
         }
         if ($query->employment === 'mini') {
-            $was = trim((string) ($params['was'] ?? ''));
-            $params['was'] = $was !== '' ? ($was . ' Minijob') : 'Minijob';
+            $params['was'] = trim($params['was'] . ' Minijob');
         }
         if ($query->workMode === 'remote') {
             $zeit[] = 'ho';
