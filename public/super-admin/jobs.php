@@ -65,12 +65,12 @@ super_layout_header('Jobs');
 <?php if (!$hasBrightData): ?>
   <div class="alert alert-warning">
     <p class="mb-1"><strong>Glassdoor / Indeed / StepStone / XING</strong> need <code>BRIGHT_DATA_API_TOKEN</code> — without it they are empty.</p>
-    <p class="mb-1"><strong>Jobware</strong> blocks our server IP (403); Unlocker fallback also needs that token.</p>
+    <p class="mb-1"><strong>Jobware</strong> listing pages are a JS app (curl gets an empty shell). We ingest via the public sitemap (<code>/sitemap-advertisements.xml</code>) — last 14 days, no token. Detail hydrate still needs Unlocker if you want full descriptions.</p>
     <p class="mb-0"><strong>Jobexport</strong> works without an API. We crawl the newest pages of stellenboerse (and keep last 14 days).</p>
   </div>
 <?php else: ?>
   <div class="alert alert-light border small">
-    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) and Jobware Unlocker can run on fetch.
+    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) and Jobware detail Unlocker can run on fetch. Jobware listings still come from the public sitemap.
   </div>
 <?php endif; ?>
 <div class="card shadow-sm border-success mb-4">

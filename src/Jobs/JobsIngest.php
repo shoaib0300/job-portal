@@ -64,11 +64,22 @@ final class JobsIngest
                 'sources' => $sources,
             ];
         }
-        // Jobexport newest-first crawl (empty keyword = same as stellenboerse home, ~40k pool).
+        // Jobexport newest-first crawl (empty keyword = stellenboerse home).
         $seeds[] = [
             'q' => '',
             'city' => '',
             'sources' => ['jobexport'],
+        ];
+        // Jobware public sitemap (SPA pages need JS; sitemap has lastmod for all ads).
+        $seeds[] = [
+            'q' => '',
+            'city' => '',
+            'sources' => ['jobware'],
+        ];
+        $seeds[] = [
+            'q' => 'IT',
+            'city' => '',
+            'sources' => ['jobware'],
         ];
         return $seeds;
     }
@@ -92,11 +103,12 @@ final class JobsIngest
                 continue;
             }
             $q = trim((string) ($row['q'] ?? ''));
-            if ($q === '') {
-                continue;
-            }
             $city = trim((string) ($row['city'] ?? ''));
             $sources = $row['sources'] ?? null;
+            // Empty q is allowed for newest-first boards (Jobexport / Jobware sitemap).
+            if ($q === '' && (!is_array($sources) || $sources === [])) {
+                continue;
+            }
             $item = ['q' => $q, 'city' => $city];
             if (is_array($sources) && $sources !== []) {
                 $item['sources'] = array_values(array_map('strval', $sources));

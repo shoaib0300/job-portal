@@ -163,6 +163,20 @@ final class JobStore
             $findSame->execute([$job->source, $job->externalId]);
             $same = $findSame->fetch(PDO::FETCH_ASSOC);
             if ($same !== false) {
+                // Re-crawl list cards have empty description/apply — keep hydrated detail fields.
+                $existing = self::get($job->source, $job->externalId);
+                if ($existing !== null) {
+                    if ($job->description === '' && $existing->description !== '') {
+                        $job->description = $existing->description;
+                    }
+                    if ($job->applyUrl === '' && $existing->applyUrl !== '') {
+                        $job->applyUrl = $existing->applyUrl;
+                    }
+                    $payload = json_encode($job->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                    $row[13] = mb_substr($job->applyUrl, 0, 1024);
+                    $row[14] = $job->description !== '' ? $job->description : null;
+                    $row[15] = $payload;
+                }
                 $update->execute([...$row, $job->source, $job->externalId]);
                 $stats['updated']++;
                 $stats['upserted']++;

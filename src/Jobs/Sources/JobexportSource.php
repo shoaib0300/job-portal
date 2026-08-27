@@ -13,6 +13,7 @@ use KaamMilo\Jobs\JobCache;
 use KaamMilo\Jobs\JobHttp;
 use KaamMilo\Jobs\JobListing;
 use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobStore;
 use KaamMilo\Jobs\JobText;
 
 /**
@@ -111,6 +112,12 @@ final class JobexportSource
     public static function details(string $externalId): ?JobListing
     {
         $cached = JobCache::getListing('jobexport', $externalId);
+        if ($cached === null) {
+            $cached = JobStore::get('jobexport', $externalId);
+        }
+        if ($cached !== null && mb_strlen(trim(strip_tags($cached->description))) >= 120) {
+            return $cached;
+        }
         $urls = [];
         if ($cached !== null && trim($cached->url) !== '') {
             $urls[] = trim($cached->url);
@@ -118,7 +125,10 @@ final class JobexportSource
         if ($cached !== null && preg_match('~/detail/' . preg_quote($externalId, '~') . '/[^?]+~', (string) $cached->url, $m)) {
             $urls[] = self::BASE . $m[0];
         }
-        $urls[] = self::BASE . '/detail/' . rawurlencode($externalId);
+        // Slug-less /detail/{id} returns empty — only try when we have no better URL.
+        if ($urls === []) {
+            $urls[] = self::BASE . '/detail/' . rawurlencode($externalId);
+        }
         $urls = array_values(array_unique($urls));
 
         $html = null;
@@ -135,6 +145,8 @@ final class JobexportSource
         $fresh = self::parseDetail($html, $externalId, $cached);
         if ($fresh !== null) {
             JobCache::putListing($fresh);
+            // Persist description into the dashboard index so the next open is instant.
+            JobStore::upsertMany([$fresh]);
         }
         return $fresh ?? $cached;
     }
@@ -220,6 +232,7 @@ final class JobexportSource
         $posted = $cached->postedAt ?? null;
         $desc = $cached->description ?? '';
         $apply = $cached->applyUrl ?? '';
+        $employment = $cached->employment ?? 'unknown';
         $url = $cached !== null && $cached->url !== ''
             ? $cached->url
             : self::BASE . '/detail/' . rawurlencode($id);
@@ -252,9 +265,54 @@ final class JobexportSource
                     $bundesland = $region;
                 }
             }
+            // Jobexport JobPosting JSON often has an empty description — body HTML is the source of truth.
             $d = trim((string) ($ld['description'] ?? ''));
-            if ($d !== '') {
-                $desc = strip_tags($d);
+            if ($d !== '' && mb_strlen(strip_tags($d)) > 80) {
+                $desc = $d;
+            }
+        }
+
+        if ($dom !== null) {
+            $xp = new DOMXPath($dom);
+            if ($title === '') {
+                $title = self::firstText($xp, $dom, '//*[@id="jobdetail"]//h1');
+            }
+            // Main ad body: first col-md-12 whitebox (Über die Rolle / Aufgaben / Profil / Angebot).
+            $bodyHtml = self::firstWhiteboxHtml($dom, $xp);
+            if ($bodyHtml !== '' && mb_strlen(strip_tags($bodyHtml)) > mb_strlen(strip_tags($desc))) {
+                $desc = $bodyHtml;
+            }
+            if ($apply === '') {
+                $apply = self::applyHrefFromDom($xp);
+            }
+            // Meta table: Arbeitgeber, Arbeitszeitmodell, Veröffentlicht.
+            foreach ($xp->query('//*[@id="jobdetail"]//table//tr|//*[contains(@class,"whitebox")]//table//tr') as $tr) {
+                if (!$tr instanceof DOMElement) {
+                    continue;
+                }
+                $line = trim(preg_replace('/\s+/u', ' ', $tr->textContent ?? '') ?? '');
+                if (preg_match('/^Arbeitgeber:\s*(.+)$/iu', $line, $m) && ($company === '' || $company === 'Employer')) {
+                    $company = trim($m[1]);
+                }
+                if (preg_match('/^Arbeitszeitmodell:\s*(.+)$/iu', $line, $m)) {
+                    $model = mb_strtolower(trim($m[1]));
+                    if (str_contains($model, 'teilzeit') || str_contains($model, 'werkstudent')) {
+                        $employment = 'parttime';
+                    } elseif (str_contains($model, 'vollzeit')) {
+                        $employment = 'fulltime';
+                    }
+                }
+            }
+            if ($city === '') {
+                $locLine = self::firstText($xp, $dom, '//*[@id="jobdetail"]//*[contains(@class,"location") or contains(@class,"ort")]');
+                if ($locLine === '' && preg_match('/(\d{5})\s+([A-Za-zÄÖÜäöüß\- ]+)/u', strip_tags($html), $lm)) {
+                    $city = trim($lm[2]);
+                } elseif ($locLine !== '') {
+                    $city = self::cityFromLocation($locLine);
+                }
+            }
+            if ($posted === null && preg_match('/Veröffentlicht:\s*(\d{1,2}\.\d{1,2}\.\d{4})/u', $html, $pm)) {
+                $posted = self::parseDeDate($pm[1]);
             }
         }
 
@@ -270,7 +328,7 @@ final class JobexportSource
             $bundesland,
             'Germany',
             'unknown',
-            'unknown',
+            $employment,
             'job',
             [],
             [],
@@ -282,6 +340,49 @@ final class JobexportSource
             $apply,
         );
         return JobText::enrich($job);
+    }
+
+    private static function firstWhiteboxHtml(DOMDocument $dom, DOMXPath $xp): string
+    {
+        $nodes = $xp->query('//*[contains(@class,"whitebox") and contains(@class,"col-md-12")]');
+        if ($nodes === false || $nodes->length === 0) {
+            $nodes = $xp->query('//*[contains(@class,"whitebox")]');
+        }
+        if ($nodes === false || $nodes->length === 0) {
+            return '';
+        }
+        $el = $nodes->item(0);
+        if (!$el instanceof DOMElement) {
+            return '';
+        }
+        $inner = '';
+        foreach ($el->childNodes as $child) {
+            $inner .= $dom->saveHTML($child);
+        }
+        // Drop trailing apply buttons / empty noise; keep headings + lists.
+        $inner = preg_replace('~<a\b[^>]*>\s*(Weitere Details und Bewerbung|Jetzt bewerben)\s*</a>~iu', '', $inner) ?? $inner;
+        $inner = trim($inner);
+        return mb_strlen(strip_tags($inner)) >= 80 ? $inner : '';
+    }
+
+    private static function applyHrefFromDom(DOMXPath $xp): string
+    {
+        foreach ($xp->query('//a[contains(.,"Jetzt bewerben") or contains(.,"Weitere Details und Bewerbung") or contains(.,"Bewerbung")]') as $a) {
+            if (!$a instanceof DOMElement) {
+                continue;
+            }
+            $href = trim($a->getAttribute('href'));
+            if ($href === '' || str_starts_with($href, '#')) {
+                continue;
+            }
+            if (str_starts_with($href, '/')) {
+                $href = self::BASE . $href;
+            }
+            if (preg_match('~^https?://~i', $href)) {
+                return $href;
+            }
+        }
+        return '';
     }
 
     /** @return array<string, mixed>|null */
