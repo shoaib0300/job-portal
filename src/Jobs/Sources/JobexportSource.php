@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace KaamMilo\Jobs\Sources;
 
 use App;
+use DOMDocument;
+use DOMElement;
+use DOMNode;
+use DOMXPath;
 use KaamMilo\Jobs\JobCache;
 use KaamMilo\Jobs\JobHttp;
 use KaamMilo\Jobs\JobListing;
