@@ -24,7 +24,7 @@ function applypath_logo_mark(string $size = 'md'): string
 }
 
 /** Simple cartoon-style SVG icons for marketing pages. */
-function kaammilo_icon_paths(string $name): string
+function kaammilo_icon(string $name): string
 {
     $icons = [
         'search' => '<circle cx="14" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M20 20l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.25"/>',
@@ -37,23 +37,9 @@ function kaammilo_icon_paths(string $name): string
         'lab' => '<path d="M12 4h8v8l5 12H7l5-12V4z" fill="currentColor" opacity="0.15"/><path d="M12 4h8v8l5 12H7l5-12V4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 18h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
         'user' => '<circle cx="16" cy="11" r="5" fill="currentColor" opacity="0.18"/><circle cx="16" cy="11" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 27c2-5 6-7 10-7s8 2 10 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
         'spark' => '<path d="M16 3l2.2 8.2L26 16l-7.8 2.2L16 29l-2.2-10.8L6 16l7.8-4.8L16 3z" fill="currentColor" opacity="0.2"/><path d="M16 3l2.2 8.2L26 16l-7.8 2.2L16 29l-2.2-10.8L6 16l7.8-4.8L16 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
-        'home' => '<path d="M6 14L16 5l10 9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 13v12h5v-7h4v7h5V13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
-        'gear' => '<circle cx="16" cy="16" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 6.5v2.2M16 23.3v2.2M6.5 16h2.2M23.3 16h2.2M9.2 9.2l1.6 1.6M21.2 21.2l1.6 1.6M9.2 22.8l1.6-1.6M21.2 10.8l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
     ];
-    return $icons[$name] ?? $icons['spark'];
-}
-
-function kaammilo_icon(string $name): string
-{
-    $paths = kaammilo_icon_paths($name);
+    $paths = $icons[$name] ?? $icons['spark'];
     return '<span class="km-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">' . $paths . '</svg></span>';
-}
-
-/** Compact icon for portal sidebar / chrome (same artwork as marketing). */
-function kaammilo_nav_icon(string $name): string
-{
-    $paths = kaammilo_icon_paths($name);
-    return '<span class="km-nav-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">' . $paths . '</svg></span>';
 }
 
 /** @deprecated Use kaammilo_icon */
@@ -68,7 +54,6 @@ function site_layout_header(string $title, array $opts = []): void
     $bodyClass = trim('site-public ' . ($opts['body_class'] ?? ''));
     $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
     $loggedIn = Auth::id() > 0;
-    $portalHref = App::portalHomePath();
     $nav = [
         ['href' => '/', 'label' => 'Home', 'scripts' => ['index.php']],
         ['href' => '/guide.php', 'label' => 'How to use', 'scripts' => ['guide.php']],
@@ -88,7 +73,7 @@ function site_layout_header(string $title, array $opts = []): void
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260826s">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260826km2">
+  <link rel="stylesheet" href="/assets/css/site.css?v=20260826km1">
 </head>
 <body class="<?= App::e($bodyClass) ?>">
   <div class="site-test-banner" role="status">
@@ -122,7 +107,7 @@ function site_layout_header(string $title, array $opts = []): void
         </ul>
         <div class="d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center pt-2 pt-lg-0 border-top border-lg-0 mt-2 mt-lg-0">
           <?php if ($loggedIn): ?>
-            <a class="btn btn-primary" href="<?= App::e($portalHref) ?>">Open portal</a>
+            <a class="btn btn-primary" href="/">Dashboard</a>
             <a class="btn btn-outline-secondary" href="/logout.php">Log out</a>
           <?php else: ?>
             <a class="btn btn-outline-secondary" href="/login.php">Sign in</a>

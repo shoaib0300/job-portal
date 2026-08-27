@@ -58,31 +58,57 @@ final class JobText
         return 'job';
     }
 
+    /** Foreign cities/countries that must never be rescued by a Berlin/Germany mention in the JD. */
+    private const FOREIGN_LOCATION_RE = '/\b(spain|españa|spanish\s+market|madrid|barcelona|valencia|seville|sevilla|malaga|france|french\s+market|paris|lyon|marseille|italy|italia|italian\s+market|rome|roma|milan|milano|portugal|lisbon|lisboa|netherlands|holland|amsterdam|rotterdam|belgium|brussels|bruxelles|poland|warsaw|warszawa|krakow|austria|österreich|wien|vienna|switzerland|schweiz|zürich|zurich|geneva|uk\b|united kingdom|london|manchester|ireland|dublin|usa|united states|new york|san francisco|toronto|canada|india|bangalore|bengaluru|hyderabad|singapore|dubai|uae|czech|prague|praha|sweden|stockholm|denmark|copenhagen|norway|oslo|finland|helsinki|hungary|budapest|romania|bucharest|greece|athens|turkey|istanbul)\b/u';
+
+    private const GERMANY_PLACE_RE = '/\b(germany|deutschland|federal republic of germany|bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg-vorpommern|saarland|bremen|hamburg|berlin|münchen|munich|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|erfurt|mainz|rostock|kassel|saarbrücken|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|jena|wolfsburg|göttingen|reutlingen|koblenz|trier|passau|bamberg|bayreuth|konstanz|flensburg|schweinfurt)\b/u';
+
+    /**
+     * True when city/country/title clearly place the role outside Germany.
+     * Description text is ignored — HQ mentions must not override Madrid/Barcelona.
+     */
+    public static function isForeignPrimaryLocation(string $city = '', string $country = '', string $title = ''): bool
+    {
+        $primary = self::haystack($city, $country, $title);
+        if ($primary === '') {
+            return false;
+        }
+        return (bool) preg_match(self::FOREIGN_LOCATION_RE, $primary);
+    }
+
     /**
      * True when the posting looks based in Germany (career boards often list EU-wide roles).
+     * Primary location wins: foreign city/country/title → false even if JD mentions Berlin.
      */
     public static function looksLikeGermany(string $city = '', string $bundesland = '', string $country = '', string $extra = ''): bool
     {
+        if (self::isForeignPrimaryLocation($city, $country, '')) {
+            return false;
+        }
+        $primary = self::haystack($city, $bundesland, $country);
+        if ($primary !== '' && preg_match(self::GERMANY_PLACE_RE, $primary)) {
+            return true;
+        }
+        if ($primary !== '' && preg_match('/(^|[\s,\/|(])de([\s,\/)|]|$)/u', $primary)) {
+            return true;
+        }
+        // Blank / remote / unknown primary: fall back to body text, but still reject foreign signals there
+        // only when no foreign primary was already ruled out above.
         $hay = self::haystack($city, $bundesland, $country, $extra);
         if ($hay === '') {
             return false;
         }
-        if (preg_match('/\b(spain|españa|madrid|barcelona|valencia|france|paris|lyon|italy|italia|rome|roma|milan|milano|portugal|lisbon|lisboa|netherlands|holland|amsterdam|rotterdam|belgium|brussels|bruxelles|poland|warsaw|warszawa|krakow|austria|österreich|wien|vienna|switzerland|schweiz|zürich|zurich|geneva|uk\b|united kingdom|london|manchester|ireland|dublin|usa|united states|new york|san francisco|toronto|canada|india|bangalore|bengaluru|hyderabad|singapore|dubai|uae)\b/u', $hay)) {
-            // Still allow if Germany is also named (e.g. "Berlin / Madrid").
-            if (!preg_match('/\b(germany|deutschland|\bde\b|berlin|münchen|munich|hamburg|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|bremen|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|gelsenkirchen|mönchengladbach|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|oberhausen|erfurt|mainz|rostock|kassel|hagen|hamm|saarbrücken|mülheim|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|offenbach|bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg|saarland|bremen|hamburg)\b/u', $hay)) {
-                return false;
-            }
+        if (preg_match(self::FOREIGN_LOCATION_RE, $hay) && !preg_match(self::GERMANY_PLACE_RE, self::haystack($city, $bundesland, $country))) {
+            // Body mentions Spain/Madrid with no German primary location → not Germany.
+            // Dual locations in body alone (Berlin + Madrid) without a German primary stay false.
+            return false;
         }
         if (preg_match('/\b(germany|deutschland|federal republic of germany)\b/u', $hay)) {
             return true;
         }
-        if (preg_match('/\b(bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg-vorpommern|saarland|bremen|hamburg|berlin)\b/u', $hay)) {
+        if (preg_match(self::GERMANY_PLACE_RE, $hay)) {
             return true;
         }
-        if (preg_match('/\b(berlin|münchen|munich|hamburg|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|bremen|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|erfurt|mainz|rostock|kassel|saarbrücken|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|jena|wolfsburg|göttingen|reutlingen|koblenz|trier|passau|bamberg|bayreuth|konstanz|flensburg|schweinfurt|würzburg)\b/u', $hay)) {
-            return true;
-        }
-        // "DE" as country code, not part of other words
         if (preg_match('/(^|[\s,\/|(])de([\s,\/)|]|$)/u', $hay)) {
             return true;
         }

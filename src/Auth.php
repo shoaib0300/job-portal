@@ -353,7 +353,7 @@ final class Auth
         if (self::id() > 0) {
             return;
         }
-        $next = (string) ($_SERVER['REQUEST_URI'] ?? App::portalHomePath());
+        $next = (string) ($_SERVER['REQUEST_URI'] ?? '/');
         header('Location: /login.php?next=' . rawurlencode($next));
         exit;
     }

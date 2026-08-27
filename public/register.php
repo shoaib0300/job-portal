@@ -7,7 +7,7 @@ require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/site_layout.php';
 
 if (Auth::id() > 0) {
-    App::redirect(App::portalHomePath());
+    App::redirect('/');
 }
 
 $error = '';
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (string) ($_POST['password'] ?? '')
         );
         App::flash('Account created.');
-        App::redirect(App::portalHomePath());
+        App::redirect('/');
     } catch (Throwable $e) {
         $error = $e->getMessage();
     }

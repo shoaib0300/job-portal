@@ -121,15 +121,22 @@ final class AtsBoardSource
         }
 
         // Greenhouse/Personio boards are global (N26 Madrid, Celonis Spain, …). Keep Germany only.
+        // Primary city/country/title wins — Berlin HQ mentions in the JD must not keep Madrid roles.
         $listings = array_values(array_filter(
             $listings,
             static function (JobListing $job): bool {
-                if (JobText::looksLikeGermany($job->city, $job->bundesland, $job->country, $job->title . ' ' . $job->description)) {
+                if (JobText::isForeignPrimaryLocation($job->city, $job->country, $job->title)) {
+                    return false;
+                }
+                if (JobText::looksLikeGermany($job->city, $job->bundesland, $job->country, $job->title)) {
                     return true;
                 }
-                // Remote / blank location: keep only if text clearly ties to Germany.
+                // Remote / blank location: keep only if text clearly ties to Germany (and not a foreign market title).
                 $hay = mb_strtolower($job->city . ' ' . $job->country . ' ' . $job->title . ' ' . mb_substr($job->description, 0, 800));
                 if ($job->city === '' || preg_match('/\b(remote|home.?office|anywhere|emea|europe|eu\b)\b/u', $hay)) {
+                    if (JobText::isForeignPrimaryLocation('', '', $job->title)) {
+                        return false;
+                    }
                     return JobText::looksLikeGermany('', '', '', $hay);
                 }
                 return false;
@@ -565,14 +572,18 @@ final class AtsBoardSource
             $emp = trim((string) ($pos->employmentType ?? ''));
             $created = trim((string) ($pos->createdAt ?? ''));
             $url = 'https://' . $slug . '.jobs.personio.de/job/' . rawurlencode($id);
+            $country = self::countryFromLocation($office);
+            if ($country === '' && JobText::looksLikeGermany($office, '', '', '')) {
+                $country = 'Germany';
+            }
             $job = new JobListing(
                 'career',
                 'pe:' . $slug . ':' . $id,
                 $title,
                 $company,
-                $office,
+                self::cityFromLocation($office) !== '' ? self::cityFromLocation($office) : $office,
                 '',
-                'Germany',
+                $country,
                 JobText::workMode($schedule . ' ' . implode(' ', $descParts)),
                 JobText::employment($emp . ' ' . $schedule),
                 'job',
@@ -622,14 +633,21 @@ final class AtsBoardSource
                 $loc = trim($city . ($city && $region ? ', ' : '') . $region);
             }
             $desc = JobText::stripHtml((string) ($row['jobAd']['sections']['jobDescription']['text'] ?? $row['description'] ?? ''));
+            $city = self::cityFromLocation($loc);
+            $country = self::countryFromLocation($loc);
+            if ($country === '' && !JobText::isForeignPrimaryLocation($city, '', '')) {
+                if (JobText::looksLikeGermany($city, '', '', '')) {
+                    $country = 'Germany';
+                }
+            }
             $job = new JobListing(
                 'career',
                 'sr:' . $slug . ':' . $id,
                 $title,
                 $company,
-                self::cityFromLocation($loc),
+                $city,
                 '',
-                self::countryFromLocation($loc) ?: 'Germany',
+                $country,
                 'unknown',
                 'unknown',
                 'job',
@@ -665,8 +683,31 @@ final class AtsBoardSource
         if (JobText::looksLikeGermany('', '', '', $loc)) {
             return 'Germany';
         }
-        if (preg_match('/\b(spain|españa)\b/iu', $loc)) {
-            return 'Spain';
+        if (JobText::isForeignPrimaryLocation(self::cityFromLocation($loc), '', '')
+            || preg_match('/\b(spain|españa)\b/iu', $loc)) {
+            if (preg_match('/\b(spain|españa)\b/iu', $loc)) {
+                return 'Spain';
+            }
+            // Known foreign city without country word — still mark non-Germany
+            $city = self::cityFromLocation($loc);
+            if (preg_match('/\b(madrid|barcelona|valencia|seville|sevilla|malaga)\b/iu', $city)) {
+                return 'Spain';
+            }
+            if (preg_match('/\b(paris|lyon|marseille)\b/iu', $city)) {
+                return 'France';
+            }
+            if (preg_match('/\b(london|manchester)\b/iu', $city)) {
+                return 'United Kingdom';
+            }
+            if (preg_match('/\b(amsterdam|rotterdam)\b/iu', $city)) {
+                return 'Netherlands';
+            }
+            if (preg_match('/\b(vienna|wien)\b/iu', $city)) {
+                return 'Austria';
+            }
+            if (preg_match('/\b(zurich|zürich|geneva)\b/iu', $city)) {
+                return 'Switzerland';
+            }
         }
         if (preg_match('/\b(france)\b/iu', $loc)) {
             return 'France';

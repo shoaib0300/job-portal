@@ -7,22 +7,24 @@ require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/site_layout.php';
 
 if (Auth::id() > 0) {
-    App::redirect(App::portalHomePath());
+    App::redirect('/');
 }
 
 $error = '';
-$defaultNext = App::portalHomePath();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = (string) ($_POST['login'] ?? '');
     $password = (string) ($_POST['password'] ?? '');
     if (Auth::login($login, $password)) {
-        $next = App::safeAppNext((string) ($_GET['next'] ?? $_POST['next'] ?? $defaultNext), $defaultNext);
+        $next = (string) ($_GET['next'] ?? $_POST['next'] ?? '/');
+        if ($next === '' || !str_starts_with($next, '/') || str_starts_with($next, '//')) {
+            $next = '/';
+        }
         App::redirect($next);
     }
     $error = 'Wrong username/email or password.';
 }
 
-$next = App::safeAppNext((string) ($_GET['next'] ?? $defaultNext), $defaultNext);
+$next = (string) ($_GET['next'] ?? '/');
 
 site_layout_header('Sign in');
 ?>

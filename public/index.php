@@ -6,19 +6,9 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/site_layout.php';
 
-// Portal subdomain: authenticated app home (not marketing).
-if (App::isPortalHost()) {
-    require_once dirname(__DIR__) . '/src/dashboard_home.php';
-    dashboard_home_render();
-    exit;
-}
-
-// Main host root is always the marketing site — even when logged in.
-$loggedIn = Auth::id() > 0;
-$portalHref = App::portalHomePath();
-
-site_layout_header('Home');
-?>
+if (Auth::id() <= 0) {
+    site_layout_header('Home');
+    ?>
   <section class="site-hero">
     <div class="site-hero-grid">
       <div>
@@ -29,13 +19,8 @@ site_layout_header('Home');
         <h1>Your German job-hunt cockpit — search, tailor, track.</h1>
         <p class="lead">A testing portal to find roles, customize resume &amp; cover letter copies for each company, export EN/DE PDFs, and keep applications organized.</p>
         <div class="site-hero-cta">
-          <?php if ($loggedIn): ?>
-            <a class="btn btn-primary btn-lg" href="<?= App::e($portalHref) ?>">Open portal</a>
-            <a class="btn btn-outline-secondary btn-lg" href="/guide.php">How to use</a>
-          <?php else: ?>
-            <a class="btn btn-primary btn-lg" href="/register.php">Try the demo</a>
-            <a class="btn btn-outline-secondary btn-lg" href="/guide.php">How to use</a>
-          <?php endif; ?>
+          <a class="btn btn-primary btn-lg" href="/register.php">Try the demo</a>
+          <a class="btn btn-outline-secondary btn-lg" href="/guide.php">How to use</a>
         </div>
       </div>
       <div class="site-hero-art" aria-hidden="true">
@@ -123,21 +108,139 @@ site_layout_header('Home');
   <section class="site-cta-band site-reveal">
     <div class="site-cta-band-inner">
       <div>
-        <h2><?= $loggedIn ? 'Continue in the portal' : 'Ready to poke around?' ?></h2>
-        <p><?= $loggedIn
-            ? 'You are signed in. Open the job portal to search roles, tailor docs, and track applications.'
-            : 'Create a test account and walk through a sample application flow in a few minutes.' ?></p>
+        <h2>Ready to poke around?</h2>
+        <p>Create a test account and walk through a sample application flow in a few minutes.</p>
       </div>
       <div class="d-flex flex-wrap gap-2">
-        <?php if ($loggedIn): ?>
-          <a class="btn btn-light" href="<?= App::e($portalHref) ?>">Open portal</a>
-          <a class="btn btn-outline-light" href="/logout.php">Log out</a>
-        <?php else: ?>
-          <a class="btn btn-light" href="/register.php">Create account</a>
-          <a class="btn btn-outline-light" href="/login.php">Sign in</a>
-        <?php endif; ?>
+        <a class="btn btn-light" href="/register.php">Create account</a>
+        <a class="btn btn-outline-light" href="/login.php">Sign in</a>
       </div>
     </div>
   </section>
+    <?php
+    site_layout_footer();
+    exit;
+}
+
+$apps = App::applications(null);
+$counts = App::applicationCounts();
+$recent = array_slice($apps, 0, 6);
+
+layout_header('Home');
+?>
+<main class="home">
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex gap-3">
+          <span class="step-n">1</span>
+          <div>
+            <h2 class="h5">Find or paste a job</h2>
+            <p class="text-secondary small mb-3">Search boards, or paste a JD. We copy Main resume and Main letter into separate documents.</p>
+            <a class="btn btn-primary" href="/jobs.php">Find jobs</a>
+            <a class="btn btn-outline-secondary" href="/tailor.php">Paste a JD</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex gap-3">
+          <span class="step-n">2</span>
+          <div>
+            <h2 class="h5">Edit your resume</h2>
+            <p class="text-secondary small mb-3">Change summary and skills for that company. Main stays untouched.</p>
+            <a class="btn btn-outline-secondary" href="/editor.php">Open resume</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex gap-3">
+          <span class="step-n">3</span>
+          <div>
+            <h2 class="h5">Download resume PDF</h2>
+            <p class="text-secondary small mb-3">Pick a look for the resume, then print or save.</p>
+            <a class="btn btn-outline-secondary" href="/design.php">Resume style</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h2 class="h5">Cover letter</h2>
+          <p class="text-secondary small mb-3">Write the letter on its own page. Style is separate from the resume.</p>
+          <a class="btn btn-outline-secondary" href="/cover.php">Open cover letter</a>
+          <a class="btn btn-outline-secondary" href="/cover-design.php">Cover style</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4" aria-label="Application counts">
+    <?php
+    $statMeta = [
+        'all' => 'All',
+        'applied' => 'Applied',
+        'interview' => 'Interview',
+        'offer' => 'Offer',
+        'rejected' => 'Rejected',
+    ];
+    foreach ($statMeta as $key => $label):
+    ?>
+      <div class="col">
+        <a class="card shadow-sm h-100 text-decoration-none text-reset" href="/applications.php?status=<?= App::e($key) ?>">
+          <div class="card-body">
+            <div class="fs-3 fw-semibold"><?= (int) ($counts[$key] ?? 0) ?></div>
+            <div class="text-secondary small text-uppercase"><?= App::e($label) ?></div>
+          </div>
+        </a>
+      </div>
+    <?php endforeach; ?>
+  </div>
+
+  <section class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h2 class="h5 mb-0">Recent</h2>
+        <a class="btn btn-sm btn-outline-secondary" href="/applications.php">All applications</a>
+      </div>
+      <?php if (!$recent): ?>
+        <p class="text-secondary mb-0">Nothing yet. Start with <a href="/tailor.php">New job</a>.</p>
+      <?php else: ?>
+        <div class="list-group list-group-flush">
+          <?php foreach ($recent as $app): ?>
+            <?php
+            $badge = match ($app['status']) {
+                'rejected' => 'text-bg-danger',
+                'interview' => 'text-bg-info',
+                'offer' => 'text-bg-success',
+                'custom' => 'text-bg-secondary',
+                default => 'text-bg-primary',
+            };
+            ?>
+            <a class="list-group-item list-group-item-action d-flex flex-wrap justify-content-between gap-2 px-0" href="/applications.php?action=edit&amp;id=<?= (int) $app['id'] ?>">
+              <div>
+                <strong><?= App::e($app['company']) ?></strong>
+                <div class="text-secondary small"><?= App::e($app['role']) ?></div>
+              </div>
+              <div class="d-flex align-items-center gap-2 small text-secondary">
+                <span class="badge <?= $badge ?>"><?= App::e(App::statusLabel($app['status'])) ?></span>
+                <?php if (!empty($app['location'])): ?>
+                  <span><?= App::e((string) $app['location']) ?></span>
+                <?php endif; ?>
+              </div>
+            </a>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+  </section>
+</main>
 <?php
-site_layout_footer();
+layout_footer();

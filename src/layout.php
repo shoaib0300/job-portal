@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/site_layout.php';
-
 function layout_accent_rgb(string $hex): string
 {
     $hex = ltrim($hex, '#');
     if (strlen($hex) !== 6) {
-        return '13, 115, 119';
+        return '91, 76, 219';
     }
     return hexdec(substr($hex, 0, 2)) . ', ' . hexdec(substr($hex, 2, 2)) . ', ' . hexdec(substr($hex, 4, 2));
 }
@@ -36,7 +34,7 @@ function layout_header(string $title, array $opts = []): void
     $pdfMode = array_key_exists('pdf_mode', $opts)
         ? (bool) $opts['pdf_mode']
         : ((App::setting('pdf_mode', '0') ?: '0') === '1');
-    $bodyClass = trim(($opts['body_class'] ?? '') . ($pdfMode ? ' pdf-mode' : '') . ' km-portal');
+    $bodyClass = trim(($opts['body_class'] ?? '') . ($pdfMode ? ' pdf-mode' : ''));
     $flash = empty($opts['hide_flash']) ? App::flash() : null;
     $hideNav = !empty($opts['hide_nav']);
     $isDoc = str_contains(' ' . $bodyClass . ' ', ' page-doc ');
@@ -48,8 +46,6 @@ function layout_header(string $title, array $opts = []): void
     $navKey = App::currentNavKey();
     $profile = App::profile();
     $bsTheme = $uiMode === 'warm-dark' ? 'dark' : 'light';
-    $homeHref = App::portalHomePath();
-    $marketingHref = App::isPortalHost() ? App::marketingUrl('/') : '/';
     $activeResume = null;
     $activeCover = null;
     try {
@@ -60,12 +56,12 @@ function layout_header(string $title, array $opts = []): void
     }
 
     $nav = [
-        ['key' => 'dashboard', 'href' => $homeHref, 'label' => 'Home', 'icon' => 'home'],
-        ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'New job', 'icon' => 'rocket'],
-        ['key' => 'jobs', 'href' => '/jobs.php', 'label' => 'Jobs', 'icon' => 'search'],
-        ['key' => 'companies', 'href' => '/companies.php', 'label' => 'Companies', 'icon' => 'company'],
-        ['key' => 'applications', 'href' => '/applications.php', 'label' => 'Applications', 'icon' => 'track'],
-        ['key' => 'resume', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'doc'],
+        ['key' => 'dashboard', 'href' => '/', 'label' => 'Home', 'icon' => 'home'],
+        ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'New job', 'icon' => 'apply'],
+        ['key' => 'jobs', 'href' => '/jobs.php', 'label' => 'Jobs', 'icon' => 'jobs'],
+        ['key' => 'companies', 'href' => '/companies.php', 'label' => 'Companies', 'icon' => 'jobs'],
+        ['key' => 'applications', 'href' => '/applications.php', 'label' => 'Applications', 'icon' => 'apps'],
+        ['key' => 'resume', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover.php', 'label' => 'Cover letter', 'icon' => 'letter'],
         ['key' => 'account', 'href' => '/settings.php', 'label' => 'Account', 'icon' => 'gear'],
     ];
@@ -83,14 +79,10 @@ function layout_header(string $title, array $opts = []): void
   <title><?= App::e($htmlTitle) ?></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;650&display=swap" rel="stylesheet">
-  <?php if (!$pdfMode): ?>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
-  <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260814h">
-  <link rel="stylesheet" href="/assets/css/site.css?v=20260826km2">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260826km1">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260826a">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814h">
   <style>
     :root {
@@ -118,10 +110,7 @@ function layout_header(string $title, array $opts = []): void
 <?php elseif ($isDoc): ?>
   <div class="site-shell site-shell-doc">
     <header class="doc-chrome no-print d-flex align-items-center gap-3 px-3 py-2 border-bottom bg-white">
-      <a class="brand text-decoration-none fw-semibold d-flex align-items-center gap-2" href="<?= App::e($homeHref) ?>">
-        <?= kaammilo_logo_mark('sm') ?>
-        <span>KaamMilo</span>
-      </a>
+      <a class="brand text-decoration-none fw-semibold" href="/">KaamMilo</a>
       <span class="doc-chrome-title text-secondary small me-auto"><?= App::e($title) ?></span>
       <a class="btn btn-sm btn-outline-secondary" href="<?= basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-letter.php' ? '/cover-design.php' : '/design.php' ?>">Style</a>
     </header>
@@ -130,12 +119,12 @@ function layout_header(string $title, array $opts = []): void
   <div class="dash d-flex min-vh-100">
     <aside class="offcanvas-lg offcanvas-start dash-sidebar" tabindex="-1" id="dashSidebar" aria-label="Main">
       <div class="offcanvas-header d-lg-none">
-        <h5 class="offcanvas-title d-flex align-items-center gap-2"><?= kaammilo_logo_mark('sm') ?> KaamMilo</h5>
+        <h5 class="offcanvas-title">KaamMilo</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashSidebar" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column p-3">
-        <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="<?= App::e($homeHref) ?>">
-          <?= kaammilo_logo_mark() ?>
+        <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="/">
+          <span class="dash-mark">K</span>
           <span class="dash-brand-text">KaamMilo</span>
         </a>
         <nav class="nav flex-column dash-nav gap-1 flex-grow-1">
@@ -143,7 +132,7 @@ function layout_header(string $title, array $opts = []): void
             <a class="nav-link dash-nav-link d-flex align-items-center gap-2<?= $navKey === $item['key'] ? ' active' : '' ?>"
                href="<?= App::e($item['href']) ?>"
                data-nav="<?= App::e($item['key']) ?>">
-              <?= kaammilo_nav_icon($item['icon']) ?>
+              <span class="dash-ico" aria-hidden="true" data-ico="<?= App::e($item['icon']) ?>"></span>
               <span class="dash-nav-label"><?= App::e($item['label']) ?></span>
             </a>
           <?php endforeach; ?>
@@ -152,7 +141,6 @@ function layout_header(string $title, array $opts = []): void
           <?php $authUser = Auth::user(); ?>
           <p class="dash-user mb-0 fw-semibold"><?= App::e((string) ($authUser['name'] ?? $profile['full_name'] ?? 'You')) ?></p>
           <p class="dash-user-meta small text-secondary mb-2"><?= App::e((string) ($authUser['email'] ?? $authUser['username'] ?? '')) ?></p>
-          <a class="dash-site-link small d-block mb-1" href="<?= App::e($marketingHref) ?>">Marketing site</a>
           <a class="dash-logout small" href="/logout.php">Log out</a>
         </div>
       </div>

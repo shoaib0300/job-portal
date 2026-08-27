@@ -234,7 +234,7 @@ final class SuperAdmin
         Db::pdo()->prepare(
             'INSERT INTO super_admin_reset_tokens (token_hash, expires_at) VALUES (?, ?)'
         )->execute([$hash, $expires]);
-        $base = rtrim((string) (getenv('MNK_PUBLIC_URL') ?: 'https://kaammilo.ddev.site'), '/');
+        $base = rtrim((string) (getenv('MNK_PUBLIC_URL') ?: 'https://mnk.ddev.site'), '/');
         return [
             'token' => $token,
             'url' => $base . '/super-admin/reset.php?token=' . rawurlencode($token),

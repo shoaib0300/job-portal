@@ -212,6 +212,10 @@ final class JobAggregator
             if (!self::isWithinPostedWindow($job, $query->effectivePostedDays())) {
                 return false;
             }
+            // Germany-only: foreign primary city/country/title (e.g. N26 Madrid) never shown.
+            if (JobText::isForeignPrimaryLocation($job->city, $job->country, $job->title)) {
+                return false;
+            }
             return true;
         }));
     }
