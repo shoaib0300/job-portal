@@ -649,3 +649,131 @@
     });
   }
 })();
+
+(() => {
+  const form = document.querySelector("[data-jobs-ajax]");
+  const results = document.querySelector("[data-jobs-results]");
+  if (!form || !results) return;
+
+  const panel = results.querySelector("[data-jobs-panel]");
+  const loading = results.querySelector("[data-jobs-loading]");
+  let abort = null;
+  let seq = 0;
+
+  function setLoading(on) {
+    if (!loading) return;
+    if (on) {
+      loading.removeAttribute("hidden");
+      loading.setAttribute("aria-hidden", "false");
+      results.classList.add("is-loading");
+    } else {
+      loading.setAttribute("hidden", "");
+      loading.setAttribute("aria-hidden", "true");
+      results.classList.remove("is-loading");
+    }
+  }
+
+  function syncPostedHidden(days) {
+    const hidden = form.querySelector("[data-jobs-posted]");
+    if (hidden) hidden.value = String(days);
+  }
+
+  async function loadJobs(params, { push = true } = {}) {
+    const mySeq = ++seq;
+    if (abort) abort.abort();
+    abort = new AbortController();
+    setLoading(true);
+    params.set("format", "json");
+    if (!params.has("search")) params.set("search", "1");
+    const url = "/jobs?" + params.toString();
+    try {
+      const res = await fetch(url, {
+        headers: { Accept: "application/json" },
+        signal: abort.signal,
+        credentials: "same-origin",
+      });
+      const json = await res.json();
+      if (mySeq !== seq) return;
+      if (!json || !json.ok || typeof json.html !== "string") {
+        throw new Error("bad response");
+      }
+      if (panel) panel.innerHTML = json.html;
+      if (push) {
+        const clean = new URLSearchParams(params);
+        clean.delete("format");
+        const next = "/jobs?" + clean.toString();
+        window.history.pushState({ jobsAjax: true }, "", next);
+      }
+      results.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+      // Fallback: full navigation
+      const clean = new URLSearchParams(params);
+      clean.delete("format");
+      window.location.href = "/jobs?" + clean.toString();
+    } finally {
+      if (mySeq === seq) setLoading(false);
+    }
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const kwInput = form.querySelector("[data-keyword-input]");
+    if (kwInput && kwInput.value.trim()) {
+      const addBtn = form.querySelector("[data-keyword-add]");
+      if (addBtn) addBtn.click();
+      else {
+        // ensure chip path ran; keyword IIFE may have emptied name
+      }
+    }
+    if (kwInput) {
+      kwInput.value = "";
+      kwInput.removeAttribute("name");
+    }
+    const params = new URLSearchParams(new FormData(form));
+    params.set("page", "1");
+    loadJobs(params);
+  });
+
+  form.addEventListener("change", (event) => {
+    const sort = event.target.closest("[data-jobs-sort]");
+    if (!sort) return;
+    const params = new URLSearchParams(new FormData(form));
+    params.set("page", "1");
+    loadJobs(params);
+  });
+
+  results.addEventListener("click", (event) => {
+    const link = event.target.closest("[data-jobs-page]");
+    if (!link || !results.contains(link)) return;
+    event.preventDefault();
+    const page = link.getAttribute("data-jobs-page") || "1";
+    const params = new URLSearchParams(new FormData(form));
+    params.set("page", page);
+    loadJobs(params);
+  });
+
+  form.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-jobs-posted-chip]");
+    if (!chip || !form.contains(chip)) return;
+    event.preventDefault();
+    const days = chip.getAttribute("data-jobs-posted-chip") || "7";
+    syncPostedHidden(days);
+    form.querySelectorAll("[data-jobs-posted-chip]").forEach((el) => {
+      el.classList.toggle("is-active", el === chip);
+    });
+    const params = new URLSearchParams(new FormData(form));
+    params.set("posted", days);
+    params.set("page", "1");
+    loadJobs(params);
+  });
+
+  window.addEventListener("popstate", () => {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has("search") && !params.toString()) {
+      window.location.reload();
+      return;
+    }
+    loadJobs(params, { push: false });
+  });
+})();

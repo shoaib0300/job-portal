@@ -5,6 +5,9 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 
+use KaamMilo\Jobs\CareerCompanies;
+use KaamMilo\Jobs\JobQuery;
+
 CareerCompanies::ensureSchema();
 $uid = Auth::id();
 CareerCompanies::purgePersonalDuplicates($uid);

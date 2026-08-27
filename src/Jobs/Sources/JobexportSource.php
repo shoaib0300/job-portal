@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs\Sources;
+
+use App;
+use KaamMilo\Jobs\JobCache;
+use KaamMilo\Jobs\JobHttp;
+use KaamMilo\Jobs\JobListing;
+use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobText;
+
+
 /**
  * Public Stellenbörse at jobexport.de — a distributor feed (BA, StepStone, Indeed, …).
  * HTML search only; we never pull the full ~40k catalogue.
@@ -39,7 +49,7 @@ final class JobexportSource
             }
         }
 
-        $bodies = JobHttp::multiGet($requests, 12);
+        $bodies = JobHttp::multiGet($requests, 10);
         $listings = [];
         $ok = 0;
         foreach ($bodies as $html) {

@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs\Sources;
+
+use App;
+use KaamMilo\Jobs\JobCache;
+use KaamMilo\Jobs\JobHttp;
+use KaamMilo\Jobs\JobListing;
+use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobText;
+
+
 final class SerpBoardSource
 {
     /** Google SERP boards via Bright Data Unlocker — LinkedIn is first-party (LinkedInSource). */
@@ -60,17 +70,20 @@ final class SerpBoardSource
         $listings = [];
         $notices = [];
         $zone = trim((string) (getenv('BRIGHT_DATA_ZONE') ?: 'web_unlocker1'));
+        $postReqs = [];
         foreach ($requests as $id => $googleUrl) {
-            $data = JobHttp::postJson(
-                'https://api.brightdata.com/request',
-                [
+            $postReqs[$id] = [
+                'url' => 'https://api.brightdata.com/request',
+                'payload' => [
                     'zone' => $zone,
                     'url' => $googleUrl,
                     'format' => 'json',
                 ],
-                ['Authorization: Bearer ' . self::token()],
-                18
-            );
+                'headers' => ['Authorization: Bearer ' . self::token()],
+            ];
+        }
+        $responses = JobHttp::multiPostJson($postReqs, 12);
+        foreach ($responses as $id => $data) {
             if ($data === null) {
                 $notices[] = self::BOARDS[$id]['label'] . ' search failed.';
                 continue;

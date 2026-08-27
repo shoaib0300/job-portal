@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs;
+
+use App;
+use Auth;
+use Db;
+
+
 /**
  * Company career boards for Jobs → Company career pages source.
  * Types: greenhouse, personio, smartrecruiters, site (Google site: via Bright Data).

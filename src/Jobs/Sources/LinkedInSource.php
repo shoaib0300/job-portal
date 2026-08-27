@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs\Sources;
+
+use App;
+use KaamMilo\Jobs\JobCache;
+use KaamMilo\Jobs\JobHttp;
+use KaamMilo\Jobs\JobListing;
+use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobText;
+
+
 /**
  * LinkedIn jobs via LinkedIn’s public guest job-search endpoints
  * (no Bright Data Marketplace / web_data / datasets API).
@@ -22,15 +32,23 @@ final class LinkedInSource
      */
     public static function search(JobQuery $query): array
     {
+        $req = self::httpSearchRequest($query);
+        $html = JobHttp::get($req['url'], $req['headers'], 10);
+        return self::listingsFromHtml($html, $query);
+    }
+
+    /**
+     * @return array{url:string,headers:list<string>}
+     */
+    public static function httpSearchRequest(JobQuery $query): array
+    {
         $keywords = trim($query->searchWas());
         if ($keywords === '') {
             $keywords = 'Software';
         }
-
         $location = $query->city !== ''
             ? $query->city . ', Germany'
             : ($query->bundesland !== '' ? $query->bundesland . ', Germany' : 'Germany');
-
         $params = [
             'keywords' => $keywords,
             'location' => $location,
@@ -40,7 +58,6 @@ final class LinkedInSource
             'position' => '1',
             'pageNum' => '0',
         ];
-
         $wt = match ($query->workMode) {
             'remote' => '2',
             'onsite' => '1',
@@ -50,7 +67,6 @@ final class LinkedInSource
         if ($wt !== '') {
             $params['f_WT'] = $wt;
         }
-
         $jt = match ($query->employment) {
             'fulltime' => 'F',
             'parttime' => 'P',
@@ -63,8 +79,17 @@ final class LinkedInSource
             $params['f_JT'] = $jt;
         }
 
-        $url = self::SEARCH_URL . '?' . http_build_query($params);
-        $html = JobHttp::get($url, self::headers(), 14);
+        return [
+            'url' => self::SEARCH_URL . '?' . http_build_query($params),
+            'headers' => self::headers(),
+        ];
+    }
+
+    /**
+     * @return array{listings: list<JobListing>, notices: list<string>}
+     */
+    public static function listingsFromHtml(?string $html, JobQuery $query): array
+    {
         if ($html === null || trim($html) === '') {
             $notice = App::isDev()
                 ? 'LinkedIn guest search returned empty or was blocked — no Bright Data fallback.'
@@ -74,7 +99,6 @@ final class LinkedInSource
                 'notices' => $notice !== null ? [$notice] : [],
             ];
         }
-
         $cards = self::parseCards($html);
         if ($cards === []) {
             $notice = App::isDev()
@@ -85,10 +109,8 @@ final class LinkedInSource
                 'notices' => $notice !== null ? [$notice] : [],
             ];
         }
-
         $maxAge = JobQuery::MAX_POSTED_DAYS * 86400;
-        $listings = [];
-        $detailBudget = 3;
+        $pending = [];
         foreach ($cards as $card) {
             $job = self::toListing($card, $query);
             if ($job === null) {
@@ -100,17 +122,34 @@ final class LinkedInSource
                     continue;
                 }
             }
-            // Optional guest detail for a few cards only (short timeout; thin cards OK).
-            if ($detailBudget > 0 && $job->description === '' && ctype_digit($job->externalId)) {
-                $desc = self::fetchDetailSnippet($job->externalId);
-                $detailBudget--;
+            $pending[] = $job;
+        }
+        $detailReqs = [];
+        $n = 0;
+        foreach ($pending as $job) {
+            if ($n >= 3) {
+                break;
+            }
+            if ($job->description === '' && ctype_digit($job->externalId)) {
+                $detailReqs[$job->externalId] = [
+                    'url' => self::DETAIL_URL . $job->externalId,
+                    'headers' => self::headers(),
+                ];
+                $n++;
+            }
+        }
+        $detailBodies = $detailReqs !== [] ? JobHttp::multiGet($detailReqs, 8) : [];
+        $listings = [];
+        foreach ($pending as $job) {
+            $raw = $detailBodies[$job->externalId] ?? null;
+            if (is_string($raw) && $raw !== '' && $job->description === '') {
+                $desc = self::parseDetailSnippet($raw);
                 if ($desc !== '') {
                     $job->description = $desc;
                 }
             }
             $listings[] = JobText::enrich($job);
         }
-
         return ['listings' => $listings, 'notices' => []];
     }
 
@@ -306,6 +345,11 @@ final class LinkedInSource
         if ($raw === null || $raw === '') {
             return '';
         }
+        return self::parseDetailSnippet($raw);
+    }
+
+    private static function parseDetailSnippet(string $raw): string
+    {
         $prev = libxml_use_internal_errors(true);
         $dom = new DOMDocument();
         $ok = $dom->loadHTML('<?xml encoding="UTF-8">' . $raw, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET);

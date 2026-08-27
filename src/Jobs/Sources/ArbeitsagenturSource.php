@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs\Sources;
+
+use App;
+use KaamMilo\Jobs\JobCache;
+use KaamMilo\Jobs\JobHttp;
+use KaamMilo\Jobs\JobListing;
+use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobText;
+
+
 final class ArbeitsagenturSource
 {
     private const SEARCH = 'https://rest.arbeitsagentur.de/jobboerse/jobsuche-service/pc/v6/jobs';
@@ -23,6 +33,23 @@ final class ArbeitsagenturSource
      */
     public function search(JobQuery $query): array
     {
+        $req = self::httpSearchRequest($query);
+        $raw = JobHttp::get($req['url'], $req['headers'], 10);
+        if ($raw === null) {
+            return ['listings' => [], 'notice' => 'Arbeitsagentur did not respond. Try again in a moment.'];
+        }
+        $data = json_decode($raw, true);
+        if (!is_array($data)) {
+            return ['listings' => [], 'notice' => 'Arbeitsagentur did not respond. Try again in a moment.'];
+        }
+        return ['listings' => self::listingsFromData($data, $query), 'notice' => null];
+    }
+
+    /**
+     * @return array{url:string,headers:list<string>}
+     */
+    public static function httpSearchRequest(JobQuery $query): array
+    {
         $params = [
             'was' => $query->searchWas(),
             'wo' => $query->whereText(),
@@ -36,7 +63,6 @@ final class ArbeitsagenturSource
         if ($params['wo'] === '') {
             unset($params['wo']);
         }
-        // Always limit API results to ≤7 days (or Today when selected).
         $params['veroeffentlichtseit'] = $query->effectivePostedDays();
         if ($query->internship) {
             $params['angebotsart'] = 34;
@@ -61,22 +87,29 @@ final class ArbeitsagenturSource
             $params['arbeitszeit'] = implode(';', $zeit);
         }
 
-        $url = self::SEARCH . '?' . http_build_query($params);
-        $data = JobHttp::getJson($url, ['X-API-Key: ' . self::KEY], 14);
-        if ($data === null) {
-            return ['listings' => [], 'notice' => 'Arbeitsagentur did not respond. Try again in a moment.'];
-        }
+        return [
+            'url' => self::SEARCH . '?' . http_build_query($params),
+            'headers' => ['X-API-Key: ' . self::KEY],
+        ];
+    }
 
+    /**
+     * @param array<string, mixed> $data
+     * @return list<JobListing>
+     */
+    public static function listingsFromData(array $data, JobQuery $query): array
+    {
         $rows = $data['ergebnisliste'] ?? $data['stellenangebote'] ?? [];
         if (!is_array($rows)) {
             $rows = [];
         }
+        $src = new self();
         $listings = [];
         foreach ($rows as $row) {
             if (!is_array($row)) {
                 continue;
             }
-            $job = $this->fromSearchRow($row);
+            $job = $src->fromSearchRow($row);
             if ($job === null) {
                 continue;
             }
@@ -93,7 +126,7 @@ final class ArbeitsagenturSource
             }
             $listings[] = JobText::enrich($job);
         }
-        return ['listings' => $listings, 'notice' => null];
+        return $listings;
     }
 
     public function details(string $externalId): ?JobListing

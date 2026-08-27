@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs;
+
+use App;
+use Auth;
+use Versions;
+
+
 /** Build search / fit terms from the logged-in user's active resume. */
 final class ResumeJobMatch
 {

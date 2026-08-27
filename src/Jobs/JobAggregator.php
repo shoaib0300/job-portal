@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs;
+
+use App;
+use KaamMilo\Jobs\Sources\ArbeitsagenturSource;
+use KaamMilo\Jobs\Sources\AtsBoardSource;
+use KaamMilo\Jobs\Sources\InteramtSource;
+use KaamMilo\Jobs\Sources\JobexportSource;
+use KaamMilo\Jobs\Sources\LinkedInSource;
+use KaamMilo\Jobs\Sources\SerpBoardSource;
+
+
 final class JobAggregator
 {
     private const SOURCE_RANK = [
@@ -50,16 +61,35 @@ final class JobAggregator
         $listings = [];
         $notices = [];
 
+        // Fan-out independent primary GETs (AA + LinkedIn) in one curl_multi wave.
+        $fanout = [];
         if ($query->wantsSource('arbeitsagentur')) {
-            $aa = (new ArbeitsagenturSource())->search($query);
-            $listings = array_merge($listings, $aa['listings']);
-            if ($aa['notice']) {
-                $notices[] = $aa['notice'];
+            $fanout['aa'] = ArbeitsagenturSource::httpSearchRequest($query);
+        }
+        if ($query->wantsSource('linkedin')) {
+            $fanout['linkedin'] = LinkedInSource::httpSearchRequest($query);
+        }
+        $bodies = $fanout !== [] ? JobHttp::multiGet($fanout, 10) : [];
+
+        if ($query->wantsSource('arbeitsagentur')) {
+            $raw = $bodies['aa'] ?? null;
+            if (!is_string($raw) || $raw === '') {
+                $notices[] = 'Arbeitsagentur did not respond. Try again in a moment.';
+            } else {
+                $data = json_decode($raw, true);
+                if (!is_array($data)) {
+                    $notices[] = 'Arbeitsagentur did not respond. Try again in a moment.';
+                } else {
+                    $listings = array_merge($listings, ArbeitsagenturSource::listingsFromData($data, $query));
+                }
             }
         }
 
         if ($query->wantsSource('linkedin')) {
-            $li = LinkedInSource::search($query);
+            $li = LinkedInSource::listingsFromHtml(
+                is_string($bodies['linkedin'] ?? null) ? $bodies['linkedin'] : null,
+                $query
+            );
             $listings = array_merge($listings, $li['listings']);
             $notices = array_merge($notices, $li['notices']);
         }

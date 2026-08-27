@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs;
+
+use App;
+use Db;
+
+
 final class JobCache
 {
     public const SEARCH_TTL = 900;

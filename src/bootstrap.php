@@ -56,14 +56,25 @@ require_once $root . '/src/PdfExport.php';
 require_once $root . '/src/DeepL.php';
 require_once $root . '/src/LibreTranslate.php';
 require_once $root . '/src/DocTranslate.php';
-require_once $root . '/src/Jobs/load.php';
+
+$autoload = $root . '/vendor/autoload.php';
+if (!is_readable($autoload)) {
+    if (PHP_SAPI === 'cli') {
+        fwrite(STDERR, "Run: composer install (or ddev composer install)\n");
+        throw new RuntimeException('vendor/autoload.php missing — run composer install');
+    }
+    http_response_code(500);
+    echo 'Application autoloader missing. Run composer install.';
+    exit;
+}
+require_once $autoload;
 
 try {
     Versions::ensureSchema();
     App::ensureDashboardSchema();
     Auth::ensureSchema();
     SuperAdmin::ensureSchema();
-    JobAggregator::ensureSchema();
+    KaamMilo\Jobs\JobAggregator::ensureSchema();
     LibreTranslate::ensureSchema();
 } catch (Throwable $e) {
     // Pages that need the DB will surface the error; CLI without DATABASE_URL still loads classes.

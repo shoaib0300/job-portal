@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs\Sources;
+
+use App;
+use Auth;
+use KaamMilo\Jobs\JobCache;
+use KaamMilo\Jobs\JobHttp;
+use KaamMilo\Jobs\JobListing;
+use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobText;
+use KaamMilo\Jobs\CareerCompanies;
+
+
 final class AtsBoardSource
 {
     /** @return list<array{type:string,slug:string,label:string,url?:string}> */

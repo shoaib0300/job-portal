@@ -1,0 +1,13 @@
+{
+  "name": "kaammilo/app",
+  "description": "KaamMilo job-application portal",
+  "type": "project",
+  "require": {
+    "php": ">=8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "KaamMilo\\": "src/"
+    }
+  }
+}

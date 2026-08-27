@@ -579,3 +579,43 @@ body.page-doc.is-embed,
 body.page-doc.is-printing {
   background: #fff;
 }
+
+.jobs-results {
+  position: relative;
+  min-height: 8rem;
+}
+
+.jobs-results-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 3rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.jobs-results-loading[hidden] {
+  display: none !important;
+}
+
+.jobs-results.is-loading [data-jobs-panel] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.jobs-spinner {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 3px solid rgba(26, 95, 74, 0.2);
+  border-top-color: #1a5f4a;
+  border-radius: 50%;
+  animation: jobs-spin 0.7s linear infinite;
+}
+
+@keyframes jobs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

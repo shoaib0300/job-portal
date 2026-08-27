@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs;
+
+use App;
+
+
 final class JobHttp
 {
     /**
@@ -228,6 +233,80 @@ final class JobHttp
             $out[$key] = (is_string($body) && $code >= 200 && $code < 300) ? $body : null;
             curl_multi_remove_handle($mh, $ch);
             curl_close($ch);
+        }
+        curl_multi_close($mh);
+        return $out;
+    }
+
+    /**
+     * Parallel JSON POSTs (e.g. Bright Data Unlocker for several SERP boards).
+     *
+     * @param array<string, array{url:string,payload:array<string,mixed>,headers?:list<string>}> $requests
+     * @return array<string, array<string, mixed>|null>
+     */
+    public static function multiPostJson(array $requests, int $timeout = 12): array
+    {
+        $out = [];
+        foreach (array_keys($requests) as $key) {
+            $out[$key] = null;
+        }
+        if ($requests === [] || !function_exists('curl_multi_init')) {
+            foreach ($requests as $key => $req) {
+                $out[$key] = self::postJson(
+                    $req['url'],
+                    $req['payload'],
+                    $req['headers'] ?? [],
+                    $timeout
+                );
+            }
+            return $out;
+        }
+
+        $mh = curl_multi_init();
+        $handles = [];
+        foreach ($requests as $key => $req) {
+            $json = json_encode($req['payload'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            if (!is_string($json)) {
+                continue;
+            }
+            $ch = curl_init($req['url']);
+            if ($ch === false) {
+                continue;
+            }
+            $headers = array_merge([
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'User-Agent: MNK-Jobs/1.0',
+            ], $req['headers'] ?? []);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $json,
+                CURLOPT_TIMEOUT => $timeout,
+                CURLOPT_CONNECTTIMEOUT => 6,
+                CURLOPT_HTTPHEADER => $headers,
+            ]);
+            curl_multi_add_handle($mh, $ch);
+            $handles[$key] = $ch;
+        }
+
+        do {
+            $status = curl_multi_exec($mh, $running);
+            if ($running) {
+                curl_multi_select($mh, 1.0);
+            }
+        } while ($running && $status === CURLM_OK);
+
+        foreach ($handles as $key => $ch) {
+            $body = curl_multi_getcontent($ch);
+            $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
+            if (!is_string($body) || $code < 200 || $code >= 300) {
+                continue;
+            }
+            $data = json_decode($body, true);
+            $out[$key] = is_array($data) ? $data : null;
         }
         curl_multi_close($mh);
         return $out;

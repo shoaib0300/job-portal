@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs;
+
+use App;
+use KaamMilo\Jobs\ResumeJobMatch;
+
+
 final class JobQuery
 {
     public const SOURCES = [
@@ -72,7 +78,7 @@ final class JobQuery
         public string $sort = 'relevance',
         public array $sources = ['arbeitsagentur', 'jobexport'],
         public int $page = 1,
-        public int $size = 25,
+        public int $size = 20,
         public array $keywords = [],
         public array $companies = [],
     ) {
@@ -258,7 +264,7 @@ final class JobQuery
             (string) ($get['sort'] ?? 'relevance'),
             $sources,
             (int) ($get['page'] ?? 1),
-            25,
+            20,
             $keywords,
             $companies,
         );
@@ -421,7 +427,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v10:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v11:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Days window passed to boards / post-filter (always 1 or 7). */

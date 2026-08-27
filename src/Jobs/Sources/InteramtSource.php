@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs\Sources;
+
+use App;
+use KaamMilo\Jobs\JobCache;
+use KaamMilo\Jobs\JobHttp;
+use KaamMilo\Jobs\JobListing;
+use KaamMilo\Jobs\JobQuery;
+use KaamMilo\Jobs\JobText;
+
+
 final class InteramtSource
 {
     /**
@@ -9,14 +19,21 @@ final class InteramtSource
      */
     public static function search(JobQuery $query): array
     {
-        $urls = [
-            'https://gate.interamt.de/interamtApi/v1/api/Export/Praktikum',
-            'https://gate.interamt.de/interamtApi/v1/api/Stellenangebote',
+        $requests = [
+            'praktikum' => [
+                'url' => 'https://gate.interamt.de/interamtApi/v1/api/Export/Praktikum',
+                'headers' => ['Accept: application/json'],
+            ],
+            'stellen' => [
+                'url' => 'https://gate.interamt.de/interamtApi/v1/api/Stellenangebote',
+                'headers' => ['Accept: application/json'],
+            ],
         ];
+        $bodies = JobHttp::multiGet($requests, 8);
         $listings = [];
-        foreach ($urls as $url) {
-            $raw = JobHttp::get($url, ['Accept: application/json'], 10);
-            if ($raw === null) {
+        foreach (['praktikum', 'stellen'] as $key) {
+            $raw = $bodies[$key] ?? null;
+            if (!is_string($raw) || $raw === '') {
                 continue;
             }
             $data = json_decode($raw, true);

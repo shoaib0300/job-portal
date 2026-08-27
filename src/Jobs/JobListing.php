@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace KaamMilo\Jobs;
+
+use App;
+
+
 final class JobListing
 {
     /**
