@@ -58,6 +58,12 @@ final class JobAggregator
             }
         }
 
+        if ($query->wantsSource('linkedin')) {
+            $li = LinkedInSource::search($query);
+            $listings = array_merge($listings, $li['listings']);
+            $notices = array_merge($notices, $li['notices']);
+        }
+
         $serp = SerpBoardSource::search($query);
         $listings = array_merge($listings, $serp['listings']);
         $notices = array_merge($notices, $serp['notices']);
@@ -117,6 +123,9 @@ final class JobAggregator
         if ($source === 'arbeitsagentur') {
             $fresh = (new ArbeitsagenturSource())->details($externalId);
             return $fresh ?? $cached;
+        }
+        if ($source === 'linkedin') {
+            return $cached;
         }
         if (isset(SerpBoardSource::BOARDS[$source])) {
             return SerpBoardSource::details($source, $externalId) ?? $cached;

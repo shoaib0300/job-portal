@@ -98,6 +98,87 @@ final class JobHttp
     }
 
     /**
+     * POST JSON and return decoded body plus HTTP status (for Bright Data scrape/trigger).
+     *
+     * @param list<string> $headers
+     * @return array{code:int, data:mixed, raw:string}|null
+     */
+    public static function postJsonResult(string $url, array|string $payload, array $headers = [], int $timeout = 45): ?array
+    {
+        if (!function_exists('curl_init')) {
+            return null;
+        }
+        $json = is_string($payload)
+            ? $payload
+            : json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if (!is_string($json)) {
+            return null;
+        }
+        $headers = array_merge([
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'User-Agent: MNK-Jobs/1.0',
+        ], $headers);
+        $ch = curl_init($url);
+        if ($ch === false) {
+            return null;
+        }
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $json,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_CONNECTTIMEOUT => 8,
+        ]);
+        $body = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if (!is_string($body)) {
+            return null;
+        }
+        $data = json_decode($body, true);
+
+        return ['code' => $code, 'data' => $data, 'raw' => $body];
+    }
+
+    /**
+     * @param list<string> $headers
+     * @return array{code:int, data:mixed, raw:string}|null
+     */
+    public static function getJsonResult(string $url, array $headers = [], int $timeout = 20): ?array
+    {
+        if (!function_exists('curl_init')) {
+            return null;
+        }
+        $headers = array_merge([
+            'Accept: application/json',
+            'User-Agent: MNK-Jobs/1.0',
+        ], $headers);
+        $ch = curl_init($url);
+        if ($ch === false) {
+            return null;
+        }
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 2,
+            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_CONNECTTIMEOUT => 6,
+            CURLOPT_HTTPHEADER => $headers,
+        ]);
+        $body = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if (!is_string($body)) {
+            return null;
+        }
+        $data = json_decode($body, true);
+
+        return ['code' => $code, 'data' => $data, 'raw' => $body];
+    }
+
+    /**
      * @param array<string, array{url:string,headers?:list<string>}> $requests
      * @return array<string, string|null>
      */

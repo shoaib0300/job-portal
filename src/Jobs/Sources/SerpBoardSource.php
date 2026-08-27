@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 final class SerpBoardSource
 {
+    /** Google SERP boards via Bright Data Unlocker — LinkedIn is first-party (LinkedInSource). */
     public const BOARDS = [
-        'linkedin' => ['label' => 'LinkedIn', 'site' => 'site:linkedin.com/jobs'],
         'indeed' => ['label' => 'Indeed', 'site' => 'site:indeed.de OR site:de.indeed.com'],
         'stepstone' => ['label' => 'StepStone', 'site' => 'site:stepstone.de'],
         'xing' => ['label' => 'XING', 'site' => 'site:xing.com/jobs'],

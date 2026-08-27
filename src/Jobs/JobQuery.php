@@ -37,7 +37,8 @@ final class JobQuery
         'Thüringen',
     ];
 
-    public const SERP_BOARDS = ['linkedin', 'indeed', 'stepstone', 'xing', 'jobware', 'glassdoor'];
+    /** SERP/Unlocker boards only — LinkedIn uses LinkedInSource (guest API). */
+    public const SERP_BOARDS = ['indeed', 'stepstone', 'xing', 'jobware', 'glassdoor'];
 
     /** Built-in defaults until the user saves a different Sources selection. */
     public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport', 'career'];
@@ -420,7 +421,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v9:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v10:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Days window passed to boards / post-filter (always 1 or 7). */
