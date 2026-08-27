@@ -95,19 +95,16 @@ final class AtsBoardSource
         }
 
         $needle = mb_strtolower(trim($query->searchWas() . ($studentBias ? ' werkstudent praktikum hiwi' : '')));
-        if ($needle !== '') {
-            $tokens = preg_split('/\s+/u', $needle) ?: [];
-            $tokens = array_map([self::class, 'foldDe'], $tokens);
+        if ($query->hasKeywords() || $needle !== '') {
+            $keywords = $query->keywords;
+            if ($keywords === [] && $needle !== '') {
+                $keywords = preg_split('/\s+/u', $needle) ?: [];
+            }
             $listings = array_values(array_filter(
                 $listings,
-                static function (JobListing $job) use ($tokens): bool {
-                    $hay = self::foldDe($job->title . ' ' . $job->company . ' ' . $job->city . ' ' . $job->description);
-                    foreach ($tokens as $tok) {
-                        if ($tok !== '' && str_contains($hay, $tok)) {
-                            return true;
-                        }
-                    }
-                    return $tokens === [];
+                static function (JobListing $job) use ($keywords): bool {
+                    $hay = $job->title . ' ' . $job->company . ' ' . $job->city . ' ' . $job->description;
+                    return JobText::matchesAnyKeyword($hay, $keywords);
                 }
             ));
         }
@@ -257,12 +254,9 @@ final class AtsBoardSource
             return ['listings' => [], 'ok' => 0, 'notice' => null];
         }
 
-        $needle = mb_strtolower(trim($query->searchWas()));
-        $tokens = $needle !== '' ? (preg_split('/\s+/u', $needle) ?: []) : [];
-        $tokens = array_values(array_filter($tokens, static fn(string $t): bool => mb_strlen($t) >= 2));
-        $tokens = array_map([self::class, 'foldDe'], $tokens);
-        $limit = $tokens === [] ? 40 : 80;
-        $maxSitemapPages = $tokens === [] ? 2 : 8;
+        $keywords = $query->keywords;
+        $limit = $keywords === [] ? 40 : 80;
+        $maxSitemapPages = $keywords === [] ? 2 : 8;
 
         $listings = [];
         $ok = 0;
@@ -297,18 +291,8 @@ final class AtsBoardSource
                 $boardOk = true;
                 foreach (self::parseSitemapJobUrls($xml, $host) as $link) {
                     $title = self::titleFromJobUrl($link);
-                    if ($tokens !== []) {
-                        $hay = self::foldDe($title . ' ' . $link);
-                        $hit = false;
-                        foreach ($tokens as $tok) {
-                            if (str_contains($hay, $tok)) {
-                                $hit = true;
-                                break;
-                            }
-                        }
-                        if (!$hit) {
-                            continue;
-                        }
+                    if ($keywords !== [] && !JobText::matchesAnyKeyword($title . ' ' . $link, $keywords)) {
+                        continue;
                     }
                     $city = '';
                     if (preg_match('/(?:am[-_]?standort|standort|in|location)[-_]?([a-z0-9äöüß\-]+)/ui', $link, $m)) {
@@ -346,7 +330,7 @@ final class AtsBoardSource
         }
 
         $notice = $notices !== [] ? implode(' ', $notices) : null;
-        if ($tokens === [] && $listings !== [] && App::isDev()) {
+        if ($keywords === [] && $listings !== [] && App::isDev()) {
             $extra = 'Sitemap boards return a sample without keywords — add role keywords to search deeper.';
             $notice = $notice !== null ? ($notice . ' ' . $extra) : $extra;
         }
@@ -487,8 +471,193 @@ final class AtsBoardSource
 
     public static function details(string $externalId): ?JobListing
     {
-        return JobCache::getListing('career', $externalId)
+        $cached = JobCache::getListing('career', $externalId)
             ?? JobCache::getListing('university', $externalId);
+        if ($cached === null) {
+            return null;
+        }
+        if (trim($cached->description) !== '') {
+            return $cached;
+        }
+        $url = trim($cached->applyUrl !== '' ? $cached->applyUrl : $cached->url);
+        if ($url === '' || !preg_match('#^https?://#i', $url)) {
+            return $cached;
+        }
+        $html = self::fetchJobPageHtml($url);
+        if ($html === null || $html === '') {
+            return $cached;
+        }
+        $fresh = self::hydrateFromJobHtml($cached, $html);
+        if ($fresh !== null && trim($fresh->description) !== '') {
+            JobCache::putListing($fresh);
+            return $fresh;
+        }
+        return $cached;
+    }
+
+    private static function fetchJobPageHtml(string $url): ?string
+    {
+        $headers = [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: de-DE,de;q=0.9,en;q=0.8',
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        ];
+        $html = JobHttp::get($url, $headers, 18);
+        if (is_string($html) && $html !== '' && !self::isBlockedHtml($html)) {
+            return $html;
+        }
+        if (!SerpBoardSource::configured()) {
+            return null;
+        }
+        return JobHttp::unlockHtml($url, 22);
+    }
+
+    private static function isBlockedHtml(string $html): bool
+    {
+        $snip = mb_strtolower(mb_substr($html, 0, 2000));
+        return str_contains($snip, 'request rejected')
+            || str_contains($snip, 'access denied')
+            || str_contains($snip, 'just a moment')
+            || str_contains($snip, 'cf-browser-verification')
+            || str_contains($snip, 'attention required')
+            || (str_contains($snip, 'captcha') && mb_strlen($html) < 8000);
+    }
+
+    private static function hydrateFromJobHtml(JobListing $cached, string $html): ?JobListing
+    {
+        $desc = '';
+        $title = $cached->title;
+        $city = $cached->city;
+        $posted = $cached->postedAt;
+        $company = $cached->company;
+
+        if (preg_match_all('#<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>#is', $html, $blocks)) {
+            foreach ($blocks[1] as $raw) {
+                $data = json_decode(html_entity_decode(trim($raw), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true);
+                if (!is_array($data)) {
+                    continue;
+                }
+                $nodes = isset($data[0]) ? $data : [$data];
+                foreach ($nodes as $node) {
+                    if (!is_array($node)) {
+                        continue;
+                    }
+                    $type = $node['@type'] ?? '';
+                    $types = is_array($type) ? $type : [$type];
+                    $isJob = false;
+                    foreach ($types as $t) {
+                        if (is_string($t) && stripos($t, 'JobPosting') !== false) {
+                            $isJob = true;
+                            break;
+                        }
+                    }
+                    if (!$isJob) {
+                        continue;
+                    }
+                    $t = trim((string) ($node['title'] ?? ''));
+                    if ($t !== '') {
+                        $title = $t;
+                    }
+                    $d = trim(JobText::stripHtml((string) ($node['description'] ?? '')));
+                    if ($d !== '') {
+                        $desc = $d;
+                    }
+                    $postedLd = trim((string) ($node['datePosted'] ?? ''));
+                    if ($postedLd !== '') {
+                        $posted = substr($postedLd, 0, 10);
+                    }
+                    $org = $node['hiringOrganization'] ?? null;
+                    if (is_array($org)) {
+                        $orgName = trim((string) ($org['name'] ?? ''));
+                        if ($orgName !== '') {
+                            $company = $orgName;
+                        }
+                    }
+                    $loc = $node['jobLocation'] ?? null;
+                    if (is_array($loc)) {
+                        $locs = isset($loc[0]) ? $loc : [$loc];
+                        foreach ($locs as $one) {
+                            if (!is_array($one)) {
+                                continue;
+                            }
+                            $addr = $one['address'] ?? null;
+                            if (is_array($addr)) {
+                                $locCity = trim((string) ($addr['addressLocality'] ?? ''));
+                                if ($locCity !== '') {
+                                    $city = $locCity;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($desc === '') {
+            if (preg_match('#<meta[^>]+property=["\']og:description["\'][^>]+content=["\']([^"\']+)["\']#i', $html, $m)
+                || preg_match('#<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:description["\']#i', $html, $m)
+                || preg_match('#<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)["\']#i', $html, $m)) {
+                $desc = trim(html_entity_decode($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+            }
+        }
+
+        if ($desc === '' || mb_strlen($desc) < 80) {
+            $domDesc = self::extractMainTextFromHtml($html);
+            if ($domDesc !== '' && mb_strlen($domDesc) > mb_strlen($desc)) {
+                $desc = $domDesc;
+            }
+        }
+
+        if ($desc === '') {
+            return null;
+        }
+
+        $job = new JobListing(
+            $cached->source,
+            $cached->externalId,
+            $title !== '' ? $title : $cached->title,
+            $company !== '' ? $company : $cached->company,
+            $city,
+            $cached->bundesland,
+            $cached->country !== '' ? $cached->country : 'Germany',
+            $cached->workMode,
+            $cached->employment,
+            $cached->offerType,
+            $cached->seniorityTags,
+            $cached->languages,
+            $cached->salaryText,
+            $posted,
+            $cached->url !== '' ? $cached->url : $cached->applyUrl,
+            $desc,
+        );
+        $job->applyUrl = $cached->applyUrl !== '' ? $cached->applyUrl : $cached->url;
+        $job->fingerprint = $cached->fingerprint;
+        return JobText::enrich($job);
+    }
+
+    private static function extractMainTextFromHtml(string $html): string
+    {
+        $html = preg_replace('#<(script|style|nav|footer|header)[^>]*>.*?</\1>#is', ' ', $html) ?? $html;
+        $candidates = [];
+        foreach ([
+            '#<(?:div|section|article)[^>]*(?:class|id)=["\'][^"\']*(?:job[-_]?description|description|stellenbeschreibung|job[-_]?detail|content|main)[^"\']*["\'][^>]*>(.*?)</(?:div|section|article)>#is',
+            '#<main[^>]*>(.*?)</main>#is',
+            '#<article[^>]*>(.*?)</article>#is',
+        ] as $re) {
+            if (preg_match_all($re, $html, $m)) {
+                foreach ($m[1] as $chunk) {
+                    $text = trim(JobText::stripHtml($chunk));
+                    if (mb_strlen($text) >= 80) {
+                        $candidates[] = $text;
+                    }
+                }
+            }
+        }
+        if ($candidates === []) {
+            return '';
+        }
+        usort($candidates, static fn(string $a, string $b): int => mb_strlen($b) <=> mb_strlen($a));
+        return mb_substr($candidates[0], 0, 20000);
     }
 
     /** @return list<JobListing> */

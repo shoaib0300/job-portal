@@ -50,6 +50,10 @@ final class ArbeitsagenturSource
         if ($query->employment === 'parttime') {
             $zeit[] = 'tz';
         }
+        if ($query->employment === 'mini') {
+            $was = trim((string) ($params['was'] ?? ''));
+            $params['was'] = $was !== '' ? ($was . ' Minijob') : 'Minijob';
+        }
         if ($query->workMode === 'remote') {
             $zeit[] = 'ho';
         }

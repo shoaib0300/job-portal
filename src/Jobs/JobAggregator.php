@@ -186,8 +186,21 @@ final class JobAggregator
             if ($query->workMode !== '' && $job->workMode !== 'unknown' && $job->workMode !== $query->workMode) {
                 return false;
             }
-            if ($query->employment !== '' && $job->employment !== 'unknown' && $job->employment !== $query->employment) {
-                return false;
+            if ($query->employment !== '') {
+                if ($query->employment === 'mini') {
+                    $hay = $job->title . "\n" . $job->description;
+                    if ($job->employment !== 'mini' && JobText::employment($hay) !== 'mini') {
+                        return false;
+                    }
+                } elseif ($job->employment !== 'unknown' && $job->employment !== $query->employment) {
+                    return false;
+                }
+            }
+            if ($query->hasKeywords()) {
+                $blob = $job->title . ' ' . $job->company . ' ' . $job->city . ' ' . $job->description;
+                if (!JobText::matchesAnyKeyword($blob, $query->keywords)) {
+                    return false;
+                }
             }
             if ($query->hasLevelFilter() && !self::matchesLevelFilter($job, $query)) {
                 return false;

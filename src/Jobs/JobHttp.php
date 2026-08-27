@@ -151,4 +151,61 @@ final class JobHttp
         curl_multi_close($mh);
         return $out;
     }
+
+    /**
+     * Fetch HTML via Bright Data Web Unlocker (for bot-blocked career pages like DIS AG).
+     */
+    public static function unlockHtml(string $url, int $timeout = 22): ?string
+    {
+        $token = trim((string) (getenv('BRIGHT_DATA_API_TOKEN') ?: ''));
+        if ($token === '' || !function_exists('curl_init')) {
+            return null;
+        }
+        $zone = trim((string) (getenv('BRIGHT_DATA_ZONE') ?: 'web_unlocker1'));
+        $payload = json_encode(
+            ['zone' => $zone, 'url' => $url, 'format' => 'raw'],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
+        if (!is_string($payload)) {
+            return null;
+        }
+        $ch = curl_init('https://api.brightdata.com/request');
+        if ($ch === false) {
+            return null;
+        }
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+                'Accept: */*',
+                'Authorization: Bearer ' . $token,
+            ],
+            CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_CONNECTTIMEOUT => 8,
+        ]);
+        $body = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if (!is_string($body) || $body === '' || $code < 200 || $code >= 300) {
+            return null;
+        }
+        $trim = ltrim($body);
+        if ($trim !== '' && ($trim[0] === '{' || $trim[0] === '[')) {
+            $data = json_decode($body, true);
+            if (is_array($data)) {
+                if (isset($data['body']) && is_string($data['body']) && $data['body'] !== '') {
+                    return $data['body'];
+                }
+                if (isset($data['html']) && is_string($data['html']) && $data['html'] !== '') {
+                    return $data['html'];
+                }
+            }
+        }
+        if (str_contains(mb_strtolower(mb_substr($body, 0, 500)), 'request rejected')) {
+            return null;
+        }
+        return $body;
+    }
 }

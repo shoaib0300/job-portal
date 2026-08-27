@@ -91,7 +91,7 @@ final class JobQuery
         if (!in_array($this->workMode, ['remote', 'hybrid', 'onsite'], true)) {
             $this->workMode = '';
         }
-        if (!in_array($this->employment, ['fulltime', 'parttime'], true)) {
+        if (!in_array($this->employment, ['fulltime', 'parttime', 'mini'], true)) {
             $this->employment = '';
         }
         if (!in_array($this->germanLevel, ['A1', 'A2', 'B1', 'B2', 'C1'], true)) {
@@ -420,7 +420,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v8:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v9:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Days window passed to boards / post-filter (always 1 or 7). */

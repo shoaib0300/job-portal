@@ -115,6 +115,104 @@ final class JobText
         return false;
     }
 
+    /**
+     * Fold for keyword matching: lower case, umlauts, strip punctuation to spaces.
+     */
+    public static function foldMatch(string $s): string
+    {
+        $s = mb_strtolower($s);
+        $s = strtr($s, [
+            'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'ß' => 'ss',
+            'á' => 'a', 'à' => 'a', 'é' => 'e', 'è' => 'e',
+        ]);
+        $s = preg_replace('/[^a-z0-9]+/u', ' ', $s) ?? $s;
+        return trim(preg_replace('/\s+/u', ' ', $s) ?? $s);
+    }
+
+    /**
+     * True if any role keyword chip matches the text (OR).
+     * Within a multi-word chip, all tokens should match (AND), with typo/fuzzy tolerance.
+     *
+     * @param list<string> $keywords
+     */
+    public static function matchesAnyKeyword(string $text, array $keywords): bool
+    {
+        if ($keywords === []) {
+            return true;
+        }
+        $hay = self::foldMatch($text);
+        if ($hay === '') {
+            return false;
+        }
+        foreach ($keywords as $kw) {
+            if (self::keywordChipMatches($hay, (string) $kw)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static function keywordChipMatches(string $hay, string $kw): bool
+    {
+        $chip = self::foldMatch($kw);
+        if ($chip === '') {
+            return false;
+        }
+        if (str_contains($hay, $chip)) {
+            return true;
+        }
+        $tokens = preg_split('/\s+/u', $chip) ?: [];
+        $tokens = array_values(array_filter(
+            $tokens,
+            static fn(string $t): bool => $t !== '' && mb_strlen($t) >= 2
+        ));
+        if ($tokens === []) {
+            return false;
+        }
+        // Single token (e.g. "2nd", "IT", typo "suport"): fuzzy OR exact.
+        if (count($tokens) === 1) {
+            return self::tokenInHay($hay, $tokens[0]);
+        }
+        // Multi-word phrase: every token must match (fuzzy OK).
+        foreach ($tokens as $tok) {
+            if (!self::tokenInHay($hay, $tok)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static function tokenInHay(string $hay, string $tok): bool
+    {
+        if ($tok === '') {
+            return false;
+        }
+        if (str_contains($hay, $tok)) {
+            return true;
+        }
+        // Short tokens (it, qa, 2nd): exact substring only.
+        if (mb_strlen($tok) < 3) {
+            return false;
+        }
+        $words = preg_split('/\s+/u', $hay) ?: [];
+        $maxDist = mb_strlen($tok) <= 5 ? 1 : 2;
+        foreach ($words as $w) {
+            if ($w === '') {
+                continue;
+            }
+            if (str_starts_with($w, $tok) && mb_strlen($tok) >= 3) {
+                return true;
+            }
+            if (abs(mb_strlen($w) - mb_strlen($tok)) > $maxDist) {
+                continue;
+            }
+            if (function_exists('levenshtein') && levenshtein($tok, $w) <= $maxDist) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** @return list<string> */
     public static function seniorityTags(string $text): array
     {

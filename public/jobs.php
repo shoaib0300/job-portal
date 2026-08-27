@@ -106,6 +106,7 @@ layout_header('Jobs');
             <option value="">Any</option>
             <option value="fulltime"<?= $query->employment === 'fulltime' ? ' selected' : '' ?>>Vollzeit</option>
             <option value="parttime"<?= $query->employment === 'parttime' ? ' selected' : '' ?>>Teilzeit</option>
+            <option value="mini"<?= $query->employment === 'mini' ? ' selected' : '' ?>>Minijob</option>
           </select>
         </div>
 
