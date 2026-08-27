@@ -61,13 +61,10 @@ final class JobAggregator
         $listings = [];
         $notices = [];
 
-        // Fan-out independent primary GETs (AA + LinkedIn) in one curl_multi wave.
+        // Fan-out AA primary GET; LinkedIn needs Unlocker fallback so it runs via LinkedInSource::search.
         $fanout = [];
         if ($query->wantsSource('arbeitsagentur')) {
             $fanout['aa'] = ArbeitsagenturSource::httpSearchRequest($query);
-        }
-        if ($query->wantsSource('linkedin')) {
-            $fanout['linkedin'] = LinkedInSource::httpSearchRequest($query);
         }
         $bodies = $fanout !== [] ? JobHttp::multiGet($fanout, 10) : [];
 
@@ -86,10 +83,7 @@ final class JobAggregator
         }
 
         if ($query->wantsSource('linkedin')) {
-            $li = LinkedInSource::listingsFromHtml(
-                is_string($bodies['linkedin'] ?? null) ? $bodies['linkedin'] : null,
-                $query
-            );
+            $li = LinkedInSource::search($query);
             $listings = array_merge($listings, $li['listings']);
             $notices = array_merge($notices, $li['notices']);
         }

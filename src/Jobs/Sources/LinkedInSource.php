@@ -37,8 +37,42 @@ final class LinkedInSource
     public static function search(JobQuery $query): array
     {
         $req = self::httpSearchRequest($query);
-        $html = JobHttp::get($req['url'], $req['headers'], 10);
+        $html = self::fetchSearchHtml($req['url'], $req['headers']);
         return self::listingsFromHtml($html, $query);
+    }
+
+    /**
+     * @param list<string> $headers
+     */
+    private static function fetchSearchHtml(string $url, array $headers): ?string
+    {
+        $html = JobHttp::get($url, $headers, 10);
+        if (self::looksLikeJobCards($html)) {
+            return $html;
+        }
+        // Direct fetch from DDEV/VPS IPs is usually stubbed by LinkedIn (HTTP 200, empty shell).
+        // Reuse Bright Data Web Unlocker when configured — same token as SERP boards, not Marketplace.
+        $unlocked = JobHttp::unlockHtml($url, 28);
+        if (self::looksLikeJobCards($unlocked)) {
+            return $unlocked;
+        }
+        // Prefer the richer body for notices / regex fallback.
+        if (is_string($unlocked) && strlen($unlocked) > (is_string($html) ? strlen($html) : 0)) {
+            return $unlocked;
+        }
+        return $html;
+    }
+
+    private static function looksLikeJobCards(?string $html): bool
+    {
+        if ($html === null || trim($html) === '' || strlen($html) < 200) {
+            return false;
+        }
+        return str_contains($html, 'base-card')
+            || str_contains($html, 'job-search-card')
+            || str_contains($html, 'base-search-card')
+            || str_contains($html, 'jobPosting')
+            || preg_match('#/jobs/view/#', $html) === 1;
     }
 
     /**
@@ -94,23 +128,26 @@ final class LinkedInSource
      */
     public static function listingsFromHtml(?string $html, JobQuery $query): array
     {
-        if ($html === null || trim($html) === '') {
-            $notice = App::isDev()
-                ? 'LinkedIn guest search returned empty or was blocked — no Bright Data fallback.'
-                : null;
+        if ($html === null || trim($html) === '' || strlen($html) < 200) {
             return [
                 'listings' => [],
-                'notices' => $notice !== null ? [$notice] : [],
+                'notices' => [self::blockedNotice()],
             ];
         }
         $cards = self::parseCards($html);
         if ($cards === []) {
+            if (!self::looksLikeJobCards($html)) {
+                return [
+                    'listings' => [],
+                    'notices' => [self::blockedNotice()],
+                ];
+            }
             $notice = App::isDev()
-                ? 'LinkedIn guest search had no parseable job cards.'
-                : null;
+                ? 'LinkedIn returned HTML but no job cards could be parsed (markup may have changed).'
+                : 'LinkedIn returned no usable job cards for this search.';
             return [
                 'listings' => [],
-                'notices' => $notice !== null ? [$notice] : [],
+                'notices' => [$notice],
             ];
         }
         $maxAge = JobQuery::MAX_POSTED_DAYS * 86400;
@@ -157,13 +194,21 @@ final class LinkedInSource
         return ['listings' => $listings, 'notices' => []];
     }
 
+    private static function blockedNotice(): string
+    {
+        if (SerpBoardSource::configured()) {
+            return 'LinkedIn blocked the direct request and Unlocker returned no job cards. Try again or broaden keywords.';
+        }
+        return 'LinkedIn blocks this server’s IP (empty response). Set BRIGHT_DATA_API_TOKEN in .env to fetch via Web Unlocker — same token as Indeed/StepStone, not the Marketplace dump. Or search Arbeitsagentur / Jobexport / company boards (no token).';
+    }
+
     /** @return list<string> */
     private static function headers(): array
     {
         return [
             'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language: de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-            'User-Agent: Mozilla/5.0 (compatible; MNK-Jobs/1.0; +https://kaammilo.local)',
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
         ];
     }
 

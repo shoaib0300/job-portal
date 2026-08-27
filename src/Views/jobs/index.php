@@ -174,9 +174,9 @@ use App;
                     </div>
                   <?php endforeach; ?>
                 </div>
-                <p class="small text-secondary mt-2 mb-0">LinkedIn is a live guest lookup (Germany, last 7 days) — not a paid warehouse.</p>
+                <p class="small text-secondary mt-2 mb-0">LinkedIn / Indeed / StepStone need <code>BRIGHT_DATA_API_TOKEN</code> (Web Unlocker). Without it, LinkedIn’s guest API is blocked from this server. Free boards: Arbeitsagentur, Jobexport, Greenhouse/Personio.</p>
                 <?php if (!$serpConfigured && App::isDev()): ?>
-                  <p class="small text-secondary mt-1 mb-0">Other SERP boards need <code>BRIGHT_DATA_API_TOKEN</code>.</p>
+                  <p class="small text-secondary mt-1 mb-0">Token missing — SERP boards and LinkedIn Unlocker will stay empty.</p>
                 <?php endif; ?>
               </div>
               <?php if ($companyOptions !== []): ?>
