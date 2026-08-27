@@ -7,7 +7,7 @@ require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/site_layout.php';
 
 if (Auth::id() > 0) {
-    App::redirect('/');
+    App::redirect(Site::portalHomeUrl());
 }
 
 $error = '';
@@ -15,16 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = (string) ($_POST['login'] ?? '');
     $password = (string) ($_POST['password'] ?? '');
     if (Auth::login($login, $password)) {
-        $next = (string) ($_GET['next'] ?? $_POST['next'] ?? '/');
-        if ($next === '' || !str_starts_with($next, '/') || str_starts_with($next, '//')) {
-            $next = '/';
+        $next = Site::sanitizeNext((string) ($_GET['next'] ?? $_POST['next'] ?? ''));
+        // Absolute portal URL when next is the portal home path on marketing host.
+        if ($next === '/dashboard' || $next === '/') {
+            App::redirect(Site::portalHomeUrl());
         }
         App::redirect($next);
     }
     $error = 'Wrong username/email or password.';
 }
 
-$next = (string) ($_GET['next'] ?? '/');
+$next = Site::sanitizeNext((string) ($_GET['next'] ?? ''));
 
 site_layout_header('Sign in');
 ?>
@@ -47,7 +48,7 @@ site_layout_header('Sign in');
         </div>
         <button type="submit" class="btn btn-primary w-100">Sign in</button>
       </form>
-      <p class="small text-secondary mt-3 mb-0">No account? <a href="/register.php">Create one</a></p>
+      <p class="small text-secondary mt-3 mb-0">No account? <a href="/register">Create one</a></p>
     </div>
   </div>
 </div>

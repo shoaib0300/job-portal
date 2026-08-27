@@ -19,7 +19,7 @@ site_layout_header('How to use');
       <div>
         <div class="site-guide-num">01 · Account</div>
         <h3>Register or sign in</h3>
-        <p>Create an account on <a href="/register.php">Register</a>. After login you land on the dashboard (Home) with shortcuts to Jobs, Resume, Cover, and Applications.</p>
+        <p>Create an account on <a href="/register">Register</a>. After login you land on the dashboard (Home) with shortcuts to Jobs, Resume, Cover, and Applications.</p>
       </div>
     </article>
     <article class="site-guide-step site-reveal">
@@ -80,10 +80,10 @@ site_layout_header('How to use');
       </div>
       <div class="d-flex flex-wrap gap-2">
         <?php if (Auth::id() > 0): ?>
-          <a class="btn btn-light" href="/jobs.php">Open Jobs</a>
+          <a class="btn btn-light" href="/jobs">Open Jobs</a>
         <?php else: ?>
-          <a class="btn btn-light" href="/register.php">Create account</a>
-          <a class="btn btn-outline-light" href="/login.php">Sign in</a>
+          <a class="btn btn-light" href="/register">Create account</a>
+          <a class="btn btn-outline-light" href="/login">Sign in</a>
         <?php endif; ?>
       </div>
     </div>

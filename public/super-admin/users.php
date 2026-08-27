@@ -83,7 +83,7 @@ super_layout_header('Users');
         <tr>
           <td><?= $uid ?></td>
           <td>
-            <a href="/super-admin/user.php?id=<?= $uid ?>"><?= App::e((string) $u['name']) ?></a>
+            <a href="/super-admin/user?id=<?= $uid ?>"><?= App::e((string) $u['name']) ?></a>
             <div class="small text-secondary">@<?= App::e((string) $u['username']) ?> · <?= App::e((string) $u['email']) ?></div>
           </td>
           <td>
@@ -112,7 +112,7 @@ super_layout_header('Users');
           </td>
           <td class="small"><?= App::e((string) ($u['last_login_at'] ?? '—')) ?></td>
           <td class="text-end">
-            <a class="btn btn-sm btn-outline-secondary" href="/super-admin/user.php?id=<?= $uid ?>">Open</a>
+            <a class="btn btn-sm btn-outline-secondary" href="/super-admin/user?id=<?= $uid ?>">Open</a>
             <form method="post" class="d-inline" onsubmit="return confirm('Delete this user and their data?');">
               <input type="hidden" name="action" value="delete">
               <input type="hidden" name="id" value="<?= $uid ?>">

@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             } else {
                 App::flash('Photo must be JPG, PNG, or WebP under 3MB.', 'error');
-                App::redirect('/resume-edit.php#profile');
+                App::redirect('/resume-edit#profile');
             }
         }
 
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Auth::id(),
         ]);
         App::flash('Profile saved.');
-        App::redirect('/resume-edit.php#profile');
+        App::redirect('/resume-edit#profile');
     }
 
     if ($action === 'save_sections') {
@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $order += 10;
         }
         App::flash('Sections saved.');
-        App::redirect('/resume-edit.php#sections');
+        App::redirect('/resume-edit#sections');
     }
 
     if ($action === 'save_experiences') {
@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $order += 10;
         }
         App::flash('Experience saved.');
-        App::redirect('/resume-edit.php#experience');
+        App::redirect('/resume-edit#experience');
     }
 
     if ($action === 'add_experience') {
@@ -209,14 +209,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $max + 10,
         ]);
         App::flash('Experience entry added.');
-        App::redirect('/resume-edit.php#experience');
+        App::redirect('/resume-edit#experience');
     }
 
     if ($action === 'delete_experience') {
         $stmt = $pdo->prepare('DELETE FROM experience_entries WHERE id = ? AND user_id = ?');
         $stmt->execute([(int) ($_POST['id'] ?? 0), Auth::id()]);
         App::flash('Experience entry deleted.');
-        App::redirect('/resume-edit.php#experience');
+        App::redirect('/resume-edit#experience');
     }
 
     if ($action === 'add_section') {
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $max + 10,
         ]);
         App::flash('Section added.');
-        App::redirect('/resume-edit.php#sections');
+        App::redirect('/resume-edit#sections');
     }
 
     if ($action === 'delete_section') {
@@ -243,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('DELETE FROM resume_sections WHERE id = ? AND user_id = ?');
         $stmt->execute([$id, Auth::id()]);
         App::flash('Section deleted.');
-        App::redirect('/resume-edit.php#sections');
+        App::redirect('/resume-edit#sections');
     }
 
     if ($action === 'save_open_resume') {
@@ -267,11 +267,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             Versions::updateBaseFromLive('Main resume');
             App::flash('Saved as Main resume.');
         }
-        App::redirect('/resume-edit.php');
+        App::redirect('/resume-edit');
     }
 
     App::flash('Unknown action.', 'error');
-    App::redirect('/resume-edit.php');
+    App::redirect('/resume-edit');
 }
 
 $profile = App::profile();
@@ -305,10 +305,10 @@ layout_header('Edit resume');
       <?php endif; ?>
       <?= App::e($editingResumeName) ?>
     </h1>
-    <p><a href="/editor.php">← My resumes</a></p>
+    <p><a href="/editor">← My resumes</a></p>
     <div class="preview-links">
-      <a class="btn btn-sm btn-outline-secondary" href="/resume.php" target="_blank" rel="noopener">Preview</a>
-      <a class="btn btn-sm btn-outline-secondary" href="/design.php">Style</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/resume" target="_blank" rel="noopener">Preview</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
       <?php
         $resumePdfQs = $editingResumeId > 0 ? ['version' => $editingResumeId] : [];
       ?>
@@ -319,11 +319,11 @@ layout_header('Edit resume');
 
   <div class="editor-grid">
     <aside class="editor-nav nav flex-column">
-      <a class="nav-link px-0" href="/editor.php">My resumes</a>
+      <a class="nav-link px-0" href="/editor">My resumes</a>
       <a class="nav-link px-0" href="#profile">Profile</a>
       <a class="nav-link px-0" href="#experience">Experience</a>
       <a class="nav-link px-0" href="#sections">Sections</a>
-      <a class="nav-link px-0" href="/design.php">Style</a>
+      <a class="nav-link px-0" href="/design">Style</a>
     </aside>
 
     <div class="editor-main">

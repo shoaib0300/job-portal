@@ -11,13 +11,13 @@ $source = trim((string) ($_GET['source'] ?? $_POST['source'] ?? ''));
 $externalId = trim((string) ($_GET['id'] ?? $_POST['id'] ?? ''));
 if ($source === '' || $externalId === '') {
     App::flash('Pick a job from search first.', 'error');
-    App::redirect('/jobs.php');
+    App::redirect('/jobs');
 }
 
 $job = JobAggregator::details($source, $externalId);
 if ($job === null) {
     App::flash('That listing expired. Search again.', 'error');
-    App::redirect('/jobs.php');
+    App::redirect('/jobs');
 }
 
 $applyHref = $job->applyHref();
@@ -30,7 +30,7 @@ if ($locationDefault === '') {
 }
 
 $postAction = (string) ($_POST['action'] ?? '');
-$backToJob = '/job.php?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId);
+$backToJob = '/job?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'confirm_applied') {
     try {
         $appId = App::logJdApplication(
@@ -77,10 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($postAction === 'prepare' || $post
             . ' · ' . App::statusLabel($result['status']) . '.'
             . $ready
         );
-        App::redirect('/resume-edit.php');
+        App::redirect('/resume-edit');
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
-        App::redirect('/job.php?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId));
+        App::redirect('/job?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId));
     }
 }
 

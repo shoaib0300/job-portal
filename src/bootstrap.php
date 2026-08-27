@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-session_start();
-
 $root = dirname(__DIR__);
 
 $envFile = $root . '/.env';
@@ -29,6 +27,26 @@ if (is_readable($envFile)) {
     }
 }
 
+require_once $root . '/src/Site.php';
+
+if (PHP_SAPI !== 'cli') {
+    $cookie = [
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || ((string) ($_SERVER['SERVER_PORT'] ?? '') === '443'),
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ];
+    $domain = Site::sessionCookieDomain();
+    if ($domain !== null) {
+        $cookie['domain'] = $domain;
+    }
+    session_set_cookie_params($cookie);
+}
+
+session_start();
+
 require_once $root . '/src/Db.php';
 require_once $root . '/src/App.php';
 require_once $root . '/src/Versions.php';
@@ -53,12 +71,22 @@ try {
 
 if (PHP_SAPI !== 'cli') {
     $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
-    $scriptPath = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+    $scriptPath = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
     $isSuperAdmin = str_contains($scriptPath, '/super-admin');
+    $isDashboardIndex = str_contains($scriptPath, '/dashboard/');
     if (in_array($script, ['resume.php', 'cover-letter.php'], true)) {
         PdfExport::acceptExportToken();
     }
-    $public = ['index.php', 'about.php', 'features.php', 'guide.php', 'login.php', 'register.php', 'logout.php'];
+    $public = ['about.php', 'features.php', 'guide.php', 'login.php', 'register.php', 'logout.php'];
+    // Marketing home only — not /dashboard/index.php
+    if ($script === 'index.php' && !$isDashboardIndex) {
+        $public[] = 'index.php';
+    }
+    // Portal subdomain root is the app home (auth required unless login/register).
+    if (Site::isPortalHost() && $script === 'index.php' && !$isDashboardIndex) {
+        // Handled in public/index.php (redirect/login). Allow through without Auth::requireLogin here.
+        $public[] = 'index.php';
+    }
     if ($isSuperAdmin) {
         // Super-admin pages handle their own auth.
     } elseif (!in_array($script, $public, true)) {

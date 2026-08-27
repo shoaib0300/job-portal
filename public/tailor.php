@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             . ' · ' . $result['location']
             . ' · ' . App::statusLabel($result['status']) . '.'
         );
-        App::redirect('/editor.php#versions');
+        App::redirect('/editor#versions');
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
-        App::redirect('/tailor.php');
+        App::redirect('/tailor');
     }
 }
 

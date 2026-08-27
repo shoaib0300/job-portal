@@ -56,9 +56,9 @@ function site_layout_header(string $title, array $opts = []): void
     $loggedIn = Auth::id() > 0;
     $nav = [
         ['href' => '/', 'label' => 'Home', 'scripts' => ['index.php']],
-        ['href' => '/guide.php', 'label' => 'How to use', 'scripts' => ['guide.php']],
-        ['href' => '/features.php', 'label' => 'Features', 'scripts' => ['features.php']],
-        ['href' => '/about.php', 'label' => 'About', 'scripts' => ['about.php']],
+        ['href' => '/guide', 'label' => 'How to use', 'scripts' => ['guide.php']],
+        ['href' => '/features', 'label' => 'Features', 'scripts' => ['features.php']],
+        ['href' => '/about', 'label' => 'About', 'scripts' => ['about.php']],
     ];
     ?>
 <!DOCTYPE html>
@@ -79,7 +79,7 @@ function site_layout_header(string $title, array $opts = []): void
   <div class="site-test-banner" role="status">
     <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2 py-2">
       <span><?= kaammilo_icon('lab') ?> <strong>Testing module</strong> — KaamMilo is a work-in-progress demo. Features may change; data is for testing.</span>
-      <a class="small text-decoration-none" href="/about.php#testing">Learn more</a>
+      <a class="small text-decoration-none" href="/about#testing">Learn more</a>
     </div>
   </div>
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
@@ -107,11 +107,11 @@ function site_layout_header(string $title, array $opts = []): void
         </ul>
         <div class="d-flex flex-column flex-lg-row gap-2 align-items-stretch align-items-lg-center pt-2 pt-lg-0 border-top border-lg-0 mt-2 mt-lg-0">
           <?php if ($loggedIn): ?>
-            <a class="btn btn-primary" href="/">Dashboard</a>
-            <a class="btn btn-outline-secondary" href="/logout.php">Log out</a>
+            <a class="btn btn-primary" href="<?= App::e(Site::portalHomeUrl()) ?>">Dashboard</a>
+            <a class="btn btn-outline-secondary" href="/logout">Log out</a>
           <?php else: ?>
-            <a class="btn btn-outline-secondary" href="/login.php">Sign in</a>
-            <a class="btn btn-primary" href="/register.php">Register</a>
+            <a class="btn btn-outline-secondary" href="/login">Sign in</a>
+            <a class="btn btn-primary" href="/register">Register</a>
           <?php endif; ?>
         </div>
       </div>
@@ -149,10 +149,10 @@ function site_layout_footer(): void
         </div>
         <div class="col-lg-7">
           <ul class="nav flex-column flex-sm-row flex-wrap gap-sm-3">
-            <li class="nav-item"><a class="nav-link px-0" href="/guide.php">How to use</a></li>
-            <li class="nav-item"><a class="nav-link px-0" href="/features.php">Features</a></li>
-            <li class="nav-item"><a class="nav-link px-0" href="/about.php">About</a></li>
-            <li class="nav-item"><a class="nav-link px-0" href="/login.php">Sign in</a></li>
+            <li class="nav-item"><a class="nav-link px-0" href="/guide">How to use</a></li>
+            <li class="nav-item"><a class="nav-link px-0" href="/features">Features</a></li>
+            <li class="nav-item"><a class="nav-link px-0" href="/about">About</a></li>
+            <li class="nav-item"><a class="nav-link px-0" href="/login">Sign in</a></li>
           </ul>
         </div>
       </div>

@@ -108,23 +108,22 @@ body:not(.page-doc):not(.pdf-mode) {
 }
 
 .jobs-layout {
-  display: grid;
-  grid-template-columns: minmax(240px, 280px) 1fr;
-  gap: 1.25rem;
-  align-items: start;
+  display: block;
 }
 
-@media (max-width: 991px) {
-  .jobs-layout {
-    grid-template-columns: 1fr;
-  }
+.jobs-filters .form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
 }
 
-.jobs-filters h2.h6 {
-  margin-top: 0.75rem;
+.jobs-company-scroll {
+  max-height: 14rem;
+  overflow: auto;
 }
 
-.jobs-toolbar .jobs-chip-row {
+.jobs-toolbar .jobs-chip-row,
+.jobs-filters .jobs-chip-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
@@ -159,12 +158,13 @@ body:not(.page-doc):not(.pdf-mode) {
   min-width: 9rem;
 }
 
-.jobs-list h2 a {
-  color: inherit;
+.jobs-job-card .card-title a:hover {
+  color: var(--bs-primary) !important;
 }
 
-.jobs-list h2 a:hover {
-  color: var(--bs-primary);
+.jobs-job-card .btn {
+  position: relative;
+  z-index: 2;
 }
 
 .keyword-chip-list {

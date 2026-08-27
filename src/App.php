@@ -801,8 +801,15 @@ final class App
     public static function currentNavKey(): string
     {
         $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+        $scriptPath = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+        if (str_contains($scriptPath, '/dashboard/')) {
+            return 'dashboard';
+        }
+        if ($script === 'index.php' && Site::isPortalHost()) {
+            return 'dashboard';
+        }
         return match ($script) {
-            'index.php', '' => 'dashboard',
+            'index.php', '' => '',
             'tailor.php' => 'apply',
             'jobs.php', 'job.php' => 'jobs',
             'companies.php' => 'companies',
@@ -846,7 +853,37 @@ final class App
 
     public static function redirect(string $path): never
     {
-        header('Location: ' . $path);
+        header('Location: ' . self::url($path));
         exit;
+    }
+
+    /**
+     * Pretty path for links/redirects: /cover.php → /cover (keeps ?query #hash).
+     */
+    public static function url(string $path): string
+    {
+        if ($path === '' || str_starts_with($path, 'mailto:') || str_starts_with($path, 'tel:')) {
+            return $path;
+        }
+        if (preg_match('#^(https?:)?//#i', $path)) {
+            return $path;
+        }
+        $hash = '';
+        $query = '';
+        if (str_contains($path, '#')) {
+            [$path, $frag] = explode('#', $path, 2);
+            $hash = '#' . $frag;
+        }
+        if (str_contains($path, '?')) {
+            [$path, $q] = explode('?', $path, 2);
+            $query = '?' . $q;
+        }
+        if (str_ends_with($path, '.php')) {
+            $path = substr($path, 0, -4);
+        }
+        if ($path === '/index' || $path === 'index') {
+            $path = '/';
+        }
+        return $path . $query . $hash;
     }
 }

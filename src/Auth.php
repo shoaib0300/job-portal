@@ -354,7 +354,11 @@ final class Auth
             return;
         }
         $next = (string) ($_SERVER['REQUEST_URI'] ?? '/');
-        header('Location: /login.php?next=' . rawurlencode($next));
+        // Prefer extensionless next ( /cover not /cover.php ).
+        if (preg_match('#^(/[^\s?]*)\.php(\?.*)?$#', $next, $m)) {
+            $next = $m[1] . ($m[2] ?? '');
+        }
+        header('Location: ' . App::url('/login.php') . '?next=' . rawurlencode($next));
         exit;
     }
 

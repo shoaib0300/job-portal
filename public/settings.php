@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
         }
-        App::redirect('/settings.php');
+        App::redirect('/settings');
     }
     if ($form === 'password') {
         $new = (string) ($_POST['new_password'] ?? '');
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
         }
-        App::redirect('/settings.php');
+        App::redirect('/settings');
     }
     $density = App::resolveDensity((string) ($_POST['ui_density'] ?? ''));
     $sidebar = App::resolveSidebar((string) ($_POST['sidebar_mode'] ?? ''));
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     App::setSetting('ui_mode', $ui);
     App::setSetting('accent_color', $accent);
     App::flash('Look saved.');
-    App::redirect('/settings.php');
+    App::redirect('/settings');
 }
 
 $density = App::resolveDensity();
@@ -151,7 +151,7 @@ layout_header('Account');
     <div class="card-body">
       <h2 class="h5 mb-2">Career pages</h2>
       <p class="small text-secondary mb-3">Manage Mercedes, BMW, and ~100 German company boards on the Companies page. Enabled boards feed the <strong>Company career pages</strong> Jobs source.</p>
-      <a class="btn btn-outline-secondary" href="/companies.php">Open company boards</a>
+      <a class="btn btn-outline-secondary" href="/companies">Open company boards</a>
     </div>
   </section>
 

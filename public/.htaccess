@@ -1,0 +1,19 @@
+# Clean URLs: /cover instead of /cover.php
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1) Redirect GET/HEAD *.php → extensionless (browser address bar)
+  RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.php[\s?] [NC]
+  RewriteRule ^ https://%{HTTP_HOST}/%1 [R=301,L,QSA,NE]
+
+  # 2) Keep real files and directories as-is (assets, /dashboard/, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 3) Internally serve /path as /path.php when that file exists
+  RewriteCond %{REQUEST_FILENAME}.php -f
+  RewriteRule ^(.+?)/?$ $1.php [L]
+</IfModule>

@@ -53,11 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         App::flash('Cover letter saved.');
-        App::redirect('/cover-edit.php');
+        App::redirect('/cover-edit');
     }
 
     App::flash('Unknown action.', 'error');
-    App::redirect('/cover-edit.php');
+    App::redirect('/cover-edit');
 }
 
 $letter = App::activeCoverLetter();
@@ -72,7 +72,7 @@ if ($editCoverId > 0) {
 
 if (empty($letter['id'])) {
     App::flash('Pick a cover letter first.', 'error');
-    App::redirect('/cover.php');
+    App::redirect('/cover');
 }
 
 $isMain = (int) ($letter['is_base'] ?? 0) === 1;
@@ -86,10 +86,10 @@ layout_header('Edit cover letter');
       <span class="doc-id">#<?= (int) $letter['id'] ?></span>
       <?= App::e($editingName) ?>
     </h1>
-    <p><a href="/cover.php">← My letters</a></p>
+    <p><a href="/cover">← My letters</a></p>
     <div class="preview-links">
-      <a class="btn btn-sm btn-outline-secondary" href="/cover-letter.php" target="_blank" rel="noopener">Preview</a>
-      <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Style</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/cover-letter" target="_blank" rel="noopener">Preview</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Style</a>
       <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => (int) $letter['id']])) ?>">PDF EN</a>
       <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => (int) $letter['id']])) ?>">PDF DE</a>
     </div>

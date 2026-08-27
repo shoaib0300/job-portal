@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             App::flash('Application created.');
         }
-        App::redirect('/applications.php');
+        App::redirect('/applications');
     }
 
     if ($postAction === 'delete') {
@@ -77,14 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!in_array($backStatus, $allowedBack, true)) {
             $backStatus = 'all';
         }
-        $back = '/applications.php?status=' . rawurlencode($backStatus);
+        $back = '/applications?status=' . rawurlencode($backStatus);
         if ($backQ !== '') {
             $back .= '&q=' . rawurlencode($backQ);
         }
         App::redirect($back);
     }
 
-    App::redirect('/applications.php');
+    App::redirect('/applications');
 }
 
 $statuses = ['applied', 'rejected', 'interview', 'offer', 'custom'];
@@ -117,7 +117,7 @@ if ($action === 'new' || $action === 'edit') {
     <main class="page-narrow">
       <header class="page-head">
         <h1><?= $row['id'] ? 'Edit application' : 'Add entry' ?></h1>
-        <p><a href="/applications.php">&larr; All applications</a></p>
+        <p><a href="/applications">&larr; All applications</a></p>
       </header>
       <form method="post" class="card shadow-sm">
         <div class="card-body">
@@ -216,15 +216,15 @@ layout_header('Applications');
   <header class="page-head d-flex flex-wrap justify-content-between align-items-start gap-3">
     <div>
       <h1>Applications</h1>
-      <p>Company, location, and linked resume. <a href="/history.php">History</a></p>
+      <p>Company, location, and linked resume. <a href="/history">History</a></p>
     </div>
     <div class="d-flex flex-wrap gap-2">
-      <a class="btn btn-primary" href="/tailor.php">New job</a>
-      <a class="btn btn-outline-secondary" href="/applications.php?action=new">Add manually</a>
+      <a class="btn btn-primary" href="/tailor">New job</a>
+      <a class="btn btn-outline-secondary" href="/applications?action=new">Add manually</a>
     </div>
   </header>
 
-  <form class="row g-2 align-items-end mb-3" method="get" action="/applications.php">
+  <form class="row g-2 align-items-end mb-3" method="get" action="/applications">
     <div class="col-md">
       <label class="form-label" for="q">Search</label>
       <input class="form-control" type="search" id="q" name="q" value="<?= App::e($q) ?>" placeholder="Company, role, location…">
@@ -239,7 +239,7 @@ layout_header('Applications');
     <?php
     $chips = ['all' => 'All', 'applied' => 'Applied', 'interview' => 'Interview', 'offer' => 'Offer', 'rejected' => 'Rejected', 'custom' => 'Custom'];
     foreach ($chips as $key => $label):
-        $href = '/applications.php?status=' . urlencode($key) . ($q !== '' ? '&q=' . urlencode($q) : '');
+        $href = '/applications?status=' . urlencode($key) . ($q !== '' ? '&q=' . urlencode($q) : '');
     ?>
       <a class="chip<?= $status === $key ? ' is-active' : '' ?>" href="<?= App::e($href) ?>">
         <?= App::e($label) ?> (<?= (int) ($counts[$key] ?? 0) ?>)
@@ -248,7 +248,7 @@ layout_header('Applications');
   </div>
 
   <?php if (!$apps): ?>
-    <div class="card shadow-sm"><div class="card-body text-secondary">Nothing in this filter. <a href="/tailor.php">Paste a job</a>.</div></div>
+    <div class="card shadow-sm"><div class="card-body text-secondary">Nothing in this filter. <a href="/tailor">Paste a job</a>.</div></div>
   <?php else: ?>
     <div class="table-responsive card shadow-sm">
       <table class="table table-hover align-middle mb-0">
@@ -287,10 +287,10 @@ layout_header('Applications');
               <td><?= App::e((string) ($app['location'] ?? '')) ?></td>
               <td class="small">
                 <?php if ($rid > 0): ?>
-                  <a href="/resume.php?version=<?= $rid ?>">Resume #<?= $rid ?></a>
+                  <a href="/resume?version=<?= $rid ?>">Resume #<?= $rid ?></a>
                 <?php endif; ?>
                 <?php if ($cid > 0): ?>
-                  <a href="/cover-letter.php?id=<?= $cid ?>">Letter #<?= $cid ?></a>
+                  <a href="/cover-letter?id=<?= $cid ?>">Letter #<?= $cid ?></a>
                 <?php endif; ?>
                 <?php if ($rid === 0 && $cid === 0): ?>
                   <span class="text-secondary">—</span>
@@ -307,7 +307,7 @@ layout_header('Applications');
                           aria-expanded="false"
                           aria-controls="jd-<?= $appId ?>">Show job</button>
                 <?php endif; ?>
-                <a class="btn btn-sm btn-outline-secondary" href="/applications.php?action=edit&amp;id=<?= $appId ?>">Edit</a>
+                <a class="btn btn-sm btn-outline-secondary" href="/applications?action=edit&amp;id=<?= $appId ?>">Edit</a>
                 <form method="post" class="d-inline" onsubmit="return confirm('Delete this application?');">
                   <input type="hidden" name="action" value="delete">
                   <input type="hidden" name="id" value="<?= $appId ?>">

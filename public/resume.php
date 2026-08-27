@@ -57,15 +57,15 @@ if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
   <div class="doc-toolbar-inner d-flex flex-wrap justify-content-between align-items-center gap-2">
-    <a class="btn btn-sm btn-link text-decoration-none" href="/design.php">&larr; Style</a>
+    <a class="btn btn-sm btn-link text-decoration-none" href="/design">&larr; Style</a>
     <div class="doc-actions d-flex flex-wrap gap-2 align-items-center">
       <?php if ($version): ?>
         <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= (int) $version['is_base'] === 1 ? 'Main resume' : App::e((string) $version['title']) ?></span>
       <?php else: ?>
         <span class="badge rounded-pill text-bg-light border">Resume</span>
       <?php endif; ?>
-      <a class="btn btn-sm btn-outline-secondary" href="/editor.php#versions">My resumes</a>
-      <a class="btn btn-sm btn-outline-secondary" href="/design.php">Change style</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/editor#versions">My resumes</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/design">Change style</a>
       <button type="button" class="btn btn-sm btn-primary" data-print data-doc="resume"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
       <?php

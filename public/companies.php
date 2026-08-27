@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
     }
-    App::redirect('/companies.php' . $filterQs());
+    App::redirect('/companies' . $filterQs());
 }
 
 $scope = (string) ($_GET['scope'] ?? 'all');
@@ -158,7 +158,7 @@ layout_header('Companies');
       </div>
       <div class="col-md-2 d-flex gap-2">
         <button type="submit" class="btn btn-outline-primary flex-grow-1">Filter</button>
-        <a class="btn btn-outline-secondary" href="/companies.php">Reset</a>
+        <a class="btn btn-outline-secondary" href="/companies">Reset</a>
       </div>
     </div>
   </form>

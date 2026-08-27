@@ -55,16 +55,16 @@ site_layout_header('Features');
     <article class="site-module site-reveal">
       <?= kaammilo_icon('rocket') ?>
       <h3>Suggested first path</h3>
-      <p>Jobs → pick Rossmann or DIS AG → New job with a pasted JD → PDF EN → Applications. See the <a href="/guide.php">how-to guide</a> for detail.</p>
+      <p>Jobs → pick Rossmann or DIS AG → New job with a pasted JD → PDF EN → Applications. See the <a href="/guide">how-to guide</a> for detail.</p>
     </article>
   </div>
 
   <p class="mt-4 mb-0">
     <?php if (Auth::id() > 0): ?>
-      <a class="btn btn-primary" href="/">Open dashboard</a>
+      <a class="btn btn-primary" href="<?= App::e(Site::portalHomeUrl()) ?>">Open dashboard</a>
     <?php else: ?>
-      <a class="btn btn-primary" href="/register.php">Create a free account</a>
-      <a class="btn btn-outline-secondary" href="/login.php">Sign in</a>
+      <a class="btn btn-primary" href="/register">Create a free account</a>
+      <a class="btn btn-outline-secondary" href="/login">Sign in</a>
     <?php endif; ?>
   </p>
 </section>

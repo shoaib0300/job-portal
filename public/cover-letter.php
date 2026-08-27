@@ -52,13 +52,13 @@ if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
   <div class="doc-toolbar-inner d-flex flex-wrap justify-content-between align-items-center gap-2">
-    <a class="btn btn-sm btn-link text-decoration-none" href="/cover-design.php">&larr; Style</a>
+    <a class="btn btn-sm btn-link text-decoration-none" href="/cover-design">&larr; Style</a>
     <div class="doc-actions d-flex flex-wrap gap-2 align-items-center">
       <?php if ($letter): ?>
         <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= (int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : App::e((string) ($letter['title'] ?? 'Cover letter')) ?></span>
       <?php endif; ?>
-      <a class="btn btn-sm btn-outline-secondary" href="/cover-edit.php">Edit content</a>
-      <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Change style</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/cover-edit">Edit content</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Change style</a>
       <button type="button" class="btn btn-sm btn-primary" data-print data-doc="cover"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
       <?php
@@ -93,7 +93,7 @@ if (!$embed):
     <?php endif; ?>
     <div class="letter-body"><?= App::nl2p($letter['body']) ?></div>
   <?php else: ?>
-    <p class="empty">No active cover letter. <a href="/cover.php">Create one</a>.</p>
+    <p class="empty">No active cover letter. <a href="/cover">Create one</a>.</p>
   <?php endif; ?>
 </article>
 <?php

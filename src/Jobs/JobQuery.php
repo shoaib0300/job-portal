@@ -267,7 +267,7 @@ final class JobQuery
     public static function jobsHref(): string
     {
         $saved = self::savedFiltersQuery();
-        return $saved !== '' ? '/jobs.php?' . $saved : '/jobs.php';
+        return $saved !== '' ? '/jobs?' . $saved : '/jobs';
     }
 
     public function wantsSource(string $id): bool

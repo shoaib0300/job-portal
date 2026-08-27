@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int) ($_POST['id'] ?? 0);
         Versions::activateCover($id);
         App::flash('Now editing this cover letter.');
-        App::redirect('/cover-edit.php');
+        App::redirect('/cover-edit');
     }
 
     if ($action === 'new_job_cover') {
@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $location = trim((string) ($_POST['location'] ?? ''));
         if ($company === '') {
             App::flash('Enter a company name first.', 'error');
-            App::redirect('/cover.php');
+            App::redirect('/cover');
         }
         $base = Versions::baseCoverLetter();
         if ($base === null) {
             App::flash('No Main cover letter to copy from.', 'error');
-            App::redirect('/cover.php');
+            App::redirect('/cover');
         }
         if ($title === '') {
             $title = 'Cover letter — ' . $company;
@@ -38,14 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $newId = Versions::duplicateCover((int) $base['id'], $title);
         $pdo->prepare('UPDATE cover_letters SET company = ? WHERE id = ? AND user_id = ?')->execute([$companyLine, $newId, Auth::id()]);
         App::flash('Created cover letter #' . $newId . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . ').');
-        App::redirect('/cover-edit.php');
+        App::redirect('/cover-edit');
     }
 
     if ($action === 'mark_cover_base') {
         $id = (int) ($_POST['id'] ?? 0);
         Versions::markCoverBase($id);
         App::flash('Marked as Main cover letter.');
-        App::redirect('/cover.php');
+        App::redirect('/cover');
     }
 
     if ($action === 'delete_cover') {
@@ -56,15 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
         }
-        App::redirect('/cover.php');
+        App::redirect('/cover');
     }
 
     App::flash('Unknown action.', 'error');
-    App::redirect('/cover.php');
+    App::redirect('/cover');
 }
 
 if (isset($_GET['cover']) && (int) $_GET['cover'] > 0) {
-    App::redirect('/cover-edit.php?cover=' . (int) $_GET['cover']);
+    App::redirect('/cover-edit?cover=' . (int) $_GET['cover']);
 }
 
 $letter = App::activeCoverLetter();
@@ -92,7 +92,7 @@ layout_header('Cover letter');
           <span class="doc-id">#<?= (int) $letter['id'] ?></span>
           <strong><?= App::e((int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : (string) ($letter['title'] ?? 'Cover letter')) ?></strong>
         </p>
-        <a class="btn btn-primary" href="/cover-edit.php">Edit this letter</a>
+        <a class="btn btn-primary" href="/cover-edit">Edit this letter</a>
       </div>
     <?php endif; ?>
 
@@ -146,7 +146,7 @@ layout_header('Cover letter');
             </div>
             <div class="version-list-actions doc-card-actions">
               <?php if ($isOpen): ?>
-                <a class="btn btn-sm btn-primary" href="/cover-edit.php">Edit</a>
+                <a class="btn btn-sm btn-primary" href="/cover-edit">Edit</a>
               <?php else: ?>
                 <form method="post">
                   <input type="hidden" name="action" value="activate_cover">
@@ -156,7 +156,7 @@ layout_header('Cover letter');
               <?php endif; ?>
               <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => $cid])) ?>">PDF EN</a>
               <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => $cid])) ?>">PDF DE</a>
-              <a class="btn btn-sm btn-outline-secondary" href="/cover-letter.php?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
+              <a class="btn btn-sm btn-outline-secondary" href="/cover-letter?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
               <?php if (!$isMain): ?>
                 <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">
                   <input type="hidden" name="action" value="delete_cover">

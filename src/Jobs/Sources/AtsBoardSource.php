@@ -476,7 +476,8 @@ final class AtsBoardSource
         if ($cached === null) {
             return null;
         }
-        if (trim($cached->description) !== '') {
+        // Meta/LD blurbs are often short — re-fetch until we have a full JD.
+        if (trim($cached->description) !== '' && !self::isThinDescription($cached->description)) {
             return $cached;
         }
         $url = trim($cached->applyUrl !== '' ? $cached->applyUrl : $cached->url);
@@ -488,11 +489,27 @@ final class AtsBoardSource
             return $cached;
         }
         $fresh = self::hydrateFromJobHtml($cached, $html);
-        if ($fresh !== null && trim($fresh->description) !== '') {
+        if ($fresh !== null && trim($fresh->description) !== ''
+            && (!self::isThinDescription($fresh->description)
+                || mb_strlen($fresh->description) > mb_strlen($cached->description))) {
             JobCache::putListing($fresh);
             return $fresh;
         }
         return $cached;
+    }
+
+    /** True when text looks like a meta/og blurb, not the full posting. */
+    private static function isThinDescription(string $desc): bool
+    {
+        $desc = trim(JobText::stripHtml($desc));
+        $len = mb_strlen($desc);
+        if ($len < 400) {
+            return true;
+        }
+        if (preg_match('/\b(Aufgaben|Profil|Einleitung|Perspektiven|Your tasks|Responsibilities|Requirements|What you.?ll do|Das erwarten wir|Das bieten wir|Über uns)\b/u', $desc)) {
+            return false;
+        }
+        return $len < 1200;
     }
 
     private static function fetchJobPageHtml(string $url): ?string
@@ -558,8 +575,9 @@ final class AtsBoardSource
                     if ($t !== '') {
                         $title = $t;
                     }
-                    $d = trim(JobText::stripHtml((string) ($node['description'] ?? '')));
+                    $d = trim((string) ($node['description'] ?? ''));
                     if ($d !== '') {
+                        // Keep HTML if present — strip later only when comparing length.
                         $desc = $d;
                     }
                     $postedLd = trim((string) ($node['datePosted'] ?? ''));
@@ -593,18 +611,19 @@ final class AtsBoardSource
             }
         }
 
-        if ($desc === '') {
+        // Always try the visible page body — LD/og is often only a short teaser (DIS AG, etc.).
+        $domDesc = self::extractMainTextFromHtml($html);
+        $descPlain = trim(JobText::stripHtml($desc));
+        $domPlain = trim(JobText::stripHtml($domDesc));
+        if ($domPlain !== '' && (self::isThinDescription($descPlain) || mb_strlen($domPlain) > mb_strlen($descPlain) + 120)) {
+            $desc = $domDesc;
+        } elseif ($desc === '' && $domDesc !== '') {
+            $desc = $domDesc;
+        } elseif ($desc === '') {
             if (preg_match('#<meta[^>]+property=["\']og:description["\'][^>]+content=["\']([^"\']+)["\']#i', $html, $m)
                 || preg_match('#<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:description["\']#i', $html, $m)
                 || preg_match('#<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)["\']#i', $html, $m)) {
                 $desc = trim(html_entity_decode($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8'));
-            }
-        }
-
-        if ($desc === '' || mb_strlen($desc) < 80) {
-            $domDesc = self::extractMainTextFromHtml($html);
-            if ($domDesc !== '' && mb_strlen($domDesc) > mb_strlen($desc)) {
-                $desc = $domDesc;
             }
         }
 
@@ -637,27 +656,98 @@ final class AtsBoardSource
 
     private static function extractMainTextFromHtml(string $html): string
     {
-        $html = preg_replace('#<(script|style|nav|footer|header)[^>]*>.*?</\1>#is', ' ', $html) ?? $html;
+        $html = preg_replace('#<(script|style|noscript|svg)[^>]*>.*?</\1>#is', ' ', $html) ?? $html;
+
+        // Prefer structured German career sections (DIS AG / similar ATS skins).
+        $sectioned = self::extractLabeledJobSections($html);
+        if ($sectioned !== '') {
+            return $sectioned;
+        }
+
+        $html = preg_replace('#<(nav|footer|header)[^>]*>.*?</\1>#is', ' ', $html) ?? $html;
         $candidates = [];
         foreach ([
-            '#<(?:div|section|article)[^>]*(?:class|id)=["\'][^"\']*(?:job[-_]?description|description|stellenbeschreibung|job[-_]?detail|content|main)[^"\']*["\'][^>]*>(.*?)</(?:div|section|article)>#is',
+            '#<(?:div|section|article)[^>]*(?:class|id)=["\'][^"\']*(?:job[-_]?description|description|stellenbeschreibung|job[-_]?detail|job[-_]?content|vacancy|advertisement|jobad)[^"\']*["\'][^>]*>(.*?)</(?:div|section|article)>#is',
             '#<main[^>]*>(.*?)</main>#is',
             '#<article[^>]*>(.*?)</article>#is',
         ] as $re) {
             if (preg_match_all($re, $html, $m)) {
                 foreach ($m[1] as $chunk) {
                     $text = trim(JobText::stripHtml($chunk));
-                    if (mb_strlen($text) >= 80) {
-                        $candidates[] = $text;
+                    if (mb_strlen($text) >= 120) {
+                        $candidates[] = self::normalizeJobBodyHtml($chunk);
                     }
                 }
             }
         }
         if ($candidates === []) {
+            // Fallback: whole body text if it contains clear JD markers.
+            $plain = trim(JobText::stripHtml($html));
+            if (preg_match('/\b(Aufgaben|Einleitung|Profil)\b/u', $plain) && mb_strlen($plain) > 400) {
+                return mb_substr($plain, 0, 25000);
+            }
             return '';
         }
-        usort($candidates, static fn(string $a, string $b): int => mb_strlen($b) <=> mb_strlen($a));
-        return mb_substr($candidates[0], 0, 20000);
+        usort($candidates, static function (string $a, string $b): int {
+            return mb_strlen(JobText::stripHtml($b)) <=> mb_strlen(JobText::stripHtml($a));
+        });
+        return mb_substr($candidates[0], 0, 25000);
+    }
+
+    /**
+     * Pull Einleitung / Aufgaben / Perspektiven / Profil (and EN equivalents) as one body.
+     */
+    private static function extractLabeledJobSections(string $html): string
+    {
+        $labels = 'Einleitung|Aufgaben|Perspektiven|Profil|Interessiert\?|Kontakt|Your tasks|Responsibilities|Requirements|About (?:us|the role)|What (?:we offer|you.?ll do)|Das bieten wir|Das erwarten wir|Über uns';
+        // Headings or strong labels followed by content until the next label / apply CTA.
+        if (!preg_match_all(
+            '#<(?:h[1-6]|p|div|strong|span)[^>]*>\s*(' . $labels . ')\s*:?\s*</(?:h[1-6]|p|div|strong|span)>(.*?)(?=<(?:h[1-6]|p|div|strong|span)[^>]*>\s*(?:' . $labels . '|Für Job bewerben|Job speichern|Teile diesen Job)\b|$)#is',
+            $html,
+            $m,
+            PREG_SET_ORDER
+        )) {
+            // Plain-text oriented split when headings aren't wrapped cleanly.
+            $plain = JobText::stripHtml($html);
+            if (!preg_match('/\bEinleitung\b/u', $plain) || !preg_match('/\bAufgaben\b/u', $plain)) {
+                return '';
+            }
+            if (!preg_match(
+                '/(Einleitung\b.*?)(?:Ref\b|Für Job bewerben|Job speichern|$)/is',
+                $plain,
+                $pm
+            )) {
+                return '';
+            }
+            $chunk = trim($pm[1]);
+            return mb_strlen($chunk) >= 400 ? mb_substr($chunk, 0, 25000) : '';
+        }
+
+        $parts = [];
+        foreach ($m as $row) {
+            $label = trim($row[1]);
+            $body = trim(JobText::stripHtml($row[2]));
+            // Skip share / apply chrome trapped in a section.
+            if ($body === '' || preg_match('/^(Auf LinkedIn teilen|Link kopieren)/u', $body)) {
+                continue;
+            }
+            if (preg_match('/^(Interessiert\?|Kontakt)$/iu', $label) && mb_strlen($body) < 40) {
+                continue;
+            }
+            $parts[] = $label . "\n" . $body;
+        }
+        $joined = trim(implode("\n\n", $parts));
+        return mb_strlen($joined) >= 300 ? mb_substr($joined, 0, 25000) : '';
+    }
+
+    private static function normalizeJobBodyHtml(string $chunk): string
+    {
+        $chunk = preg_replace('#<(script|style|nav|footer|button)[^>]*>.*?</\1>#is', ' ', $chunk) ?? $chunk;
+        // Drop share widgets.
+        $chunk = preg_replace('#<(?:div|ul)[^>]*(?:share|social|teilen)[^>]*>.*?</(?:div|ul)>#is', ' ', $chunk) ?? $chunk;
+        $text = trim(JobText::stripHtml($chunk));
+        // Prefer plain text with preserved paragraphs for our display pipeline.
+        return $text;
     }
 
     /** @return list<JobListing> */

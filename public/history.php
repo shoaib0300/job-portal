@@ -20,13 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             trim((string) ($_POST['note'] ?? '')),
         ]);
         App::flash('History entry added.');
-        App::redirect('/history.php');
+        App::redirect('/history');
     }
     if ($action === 'delete') {
         $stmt = $pdo->prepare('DELETE FROM search_history WHERE id = ? AND user_id = ?');
         $stmt->execute([(int) ($_POST['id'] ?? 0), Auth::id()]);
         App::flash('History entry deleted.');
-        App::redirect('/history.php');
+        App::redirect('/history');
     }
 }
 
@@ -37,7 +37,7 @@ layout_header('History');
 <main class="page-wide">
   <header class="page-head">
     <h1>History</h1>
-    <p>Optional notes. <a href="/applications.php">Applications</a> is the source of truth.</p>
+    <p>Optional notes. <a href="/applications">Applications</a> is the source of truth.</p>
   </header>
 
   <section class="card shadow-sm mb-3">
@@ -65,7 +65,7 @@ layout_header('History');
   </section>
 
   <?php if (!$history): ?>
-    <div class="card shadow-sm"><div class="card-body text-secondary">No notes yet. <a href="/tailor.php">Paste a job</a> to start.</div></div>
+    <div class="card shadow-sm"><div class="card-body text-secondary">No notes yet. <a href="/tailor">Paste a job</a> to start.</div></div>
   <?php else: ?>
     <div class="list-group shadow-sm">
       <?php foreach ($history as $row): ?>

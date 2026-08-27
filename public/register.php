@@ -7,7 +7,7 @@ require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/site_layout.php';
 
 if (Auth::id() > 0) {
-    App::redirect('/');
+    App::redirect(Site::portalHomeUrl());
 }
 
 $error = '';
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (string) ($_POST['password'] ?? '')
         );
         App::flash('Account created.');
-        App::redirect('/');
+        App::redirect(Site::portalHomeUrl());
     } catch (Throwable $e) {
         $error = $e->getMessage();
     }
@@ -49,7 +49,7 @@ site_layout_header('Create account');
         </div>
         <button type="submit" class="btn btn-primary w-100">Create account</button>
       </form>
-      <p class="small text-secondary mt-3 mb-0">Already have an account? <a href="/login.php">Sign in</a></p>
+      <p class="small text-secondary mt-3 mb-0">Already have an account? <a href="/login">Sign in</a></p>
     </div>
   </div>
 </div>

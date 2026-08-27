@@ -56,14 +56,14 @@ function layout_header(string $title, array $opts = []): void
     }
 
     $nav = [
-        ['key' => 'dashboard', 'href' => '/', 'label' => 'Home', 'icon' => 'home'],
-        ['key' => 'apply', 'href' => '/tailor.php', 'label' => 'New job', 'icon' => 'apply'],
-        ['key' => 'jobs', 'href' => '/jobs.php', 'label' => 'Jobs', 'icon' => 'jobs'],
-        ['key' => 'companies', 'href' => '/companies.php', 'label' => 'Companies', 'icon' => 'jobs'],
-        ['key' => 'applications', 'href' => '/applications.php', 'label' => 'Applications', 'icon' => 'apps'],
-        ['key' => 'resume', 'href' => '/editor.php', 'label' => 'Resume', 'icon' => 'edit'],
-        ['key' => 'cover', 'href' => '/cover.php', 'label' => 'Cover letter', 'icon' => 'letter'],
-        ['key' => 'account', 'href' => '/settings.php', 'label' => 'Account', 'icon' => 'gear'],
+        ['key' => 'dashboard', 'href' => Site::portalHomePath(), 'label' => 'Home', 'icon' => 'home'],
+        ['key' => 'apply', 'href' => '/tailor', 'label' => 'New job', 'icon' => 'apply'],
+        ['key' => 'jobs', 'href' => '/jobs', 'label' => 'Jobs', 'icon' => 'jobs'],
+        ['key' => 'companies', 'href' => '/companies', 'label' => 'Companies', 'icon' => 'jobs'],
+        ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
+        ['key' => 'resume', 'href' => '/editor', 'label' => 'Resume', 'icon' => 'edit'],
+        ['key' => 'cover', 'href' => '/cover', 'label' => 'Cover letter', 'icon' => 'letter'],
+        ['key' => 'account', 'href' => '/settings', 'label' => 'Account', 'icon' => 'gear'],
     ];
     $chrome = $opts['chrome'] ?? $navKey;
     $pdfKind = str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'cover') ? 'cover' : 'resume';
@@ -82,7 +82,7 @@ function layout_header(string $title, array $opts = []): void
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260814h">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260826a">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260827j">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814h">
   <style>
     :root {
@@ -110,9 +110,9 @@ function layout_header(string $title, array $opts = []): void
 <?php elseif ($isDoc): ?>
   <div class="site-shell site-shell-doc">
     <header class="doc-chrome no-print d-flex align-items-center gap-3 px-3 py-2 border-bottom bg-white">
-      <a class="brand text-decoration-none fw-semibold" href="/">KaamMilo</a>
+      <a class="brand text-decoration-none fw-semibold" href="<?= App::e(Site::portalHomePath()) ?>">KaamMilo</a>
       <span class="doc-chrome-title text-secondary small me-auto"><?= App::e($title) ?></span>
-      <a class="btn btn-sm btn-outline-secondary" href="<?= basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-letter.php' ? '/cover-design.php' : '/design.php' ?>">Style</a>
+      <a class="btn btn-sm btn-outline-secondary" href="<?= basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-letter.php' ? '/cover-design' : '/design' ?>">Style</a>
     </header>
     <?php layout_flash($flash); ?>
 <?php else: ?>
@@ -123,7 +123,7 @@ function layout_header(string $title, array $opts = []): void
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashSidebar" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column p-3">
-        <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="/">
+        <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="<?= App::e(Site::portalHomePath()) ?>">
           <span class="dash-mark">K</span>
           <span class="dash-brand-text">KaamMilo</span>
         </a>
@@ -141,7 +141,7 @@ function layout_header(string $title, array $opts = []): void
           <?php $authUser = Auth::user(); ?>
           <p class="dash-user mb-0 fw-semibold"><?= App::e((string) ($authUser['name'] ?? $profile['full_name'] ?? 'You')) ?></p>
           <p class="dash-user-meta small text-secondary mb-2"><?= App::e((string) ($authUser['email'] ?? $authUser['username'] ?? '')) ?></p>
-          <a class="dash-logout small" href="/logout.php">Log out</a>
+          <a class="dash-logout small" href="/logout">Log out</a>
         </div>
       </div>
     </aside>
@@ -155,17 +155,17 @@ function layout_header(string $title, array $opts = []): void
         </div>
         <div class="dash-topbar-meta ms-auto d-flex flex-wrap align-items-center gap-2">
           <?php if ($chrome === 'resume' && $activeResume): ?>
-            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/resume-edit.php" title="Edit resume">
+            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/resume-edit" title="Edit resume">
               Resume #<?= (int) $activeResume['id'] ?>
             </a>
-            <a class="btn btn-sm btn-outline-secondary" href="/design.php">Style</a>
+            <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
             <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en')) ?>">PDF EN</a>
             <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('resume', 'de')) ?>">PDF DE</a>
           <?php elseif ($chrome === 'cover' && $activeCover): ?>
-            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit.php" title="Edit cover letter">
+            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit" title="Edit cover letter">
               Letter #<?= (int) $activeCover['id'] ?>
             </a>
-            <a class="btn btn-sm btn-outline-secondary" href="/cover-design.php">Style</a>
+            <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Style</a>
             <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en')) ?>">PDF EN</a>
             <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('cover', 'de')) ?>">PDF DE</a>
           <?php endif; ?>

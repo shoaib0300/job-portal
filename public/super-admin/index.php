@@ -35,9 +35,9 @@ if (SuperAdmin::id() > 0) {
     <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Billed chars (month)</div><div class="h3 mb-0"><?= App::e(number_format($billedMonth)) ?></div><div class="small text-secondary"><?= App::e(LibreTranslate::formatEuro($billedMonth)) ?></div></div></div></div>
     <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><div class="text-secondary small">Global companies</div><div class="h3 mb-0"><?= count($globalCompanies) ?></div></div></div></div>
   </div>
-  <p class="mb-0"><a class="btn btn-primary btn-sm" href="/super-admin/users.php">Manage users</a>
-    <a class="btn btn-outline-secondary btn-sm" href="/super-admin/companies.php">Companies</a>
-    <a class="btn btn-outline-secondary btn-sm" href="/super-admin/settings.php">Settings</a></p>
+  <p class="mb-0"><a class="btn btn-primary btn-sm" href="/super-admin/users">Manage users</a>
+    <a class="btn btn-outline-secondary btn-sm" href="/super-admin/companies">Companies</a>
+    <a class="btn btn-outline-secondary btn-sm" href="/super-admin/settings">Settings</a></p>
     <?php
     super_layout_footer();
     exit;
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <button type="submit" class="btn btn-primary w-100">Sign in</button>
     </form>
-    <p class="small mt-3 mb-0"><a href="/super-admin/forgot.php">Forgot password</a></p>
+    <p class="small mt-3 mb-0"><a href="/super-admin/forgot">Forgot password</a></p>
   </div>
 </main>
 </body>

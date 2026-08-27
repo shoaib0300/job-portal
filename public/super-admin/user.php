@@ -52,7 +52,7 @@ $engines = $engineStmt->fetchAll() ?: [];
 
 super_layout_header('User #' . $id);
 ?>
-<p><a href="/super-admin/users.php">← Users</a></p>
+<p><a href="/super-admin/users">← Users</a></p>
 
 <div class="card shadow-sm mb-3">
   <div class="card-body">

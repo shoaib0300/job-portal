@@ -9,7 +9,7 @@ JobAggregator::ensureSchema();
 
 if (isset($_GET['reset'])) {
     JobQuery::clearSavedFilters();
-    App::redirect('/jobs.php');
+    App::redirect('/jobs');
 }
 
 $get = JobQuery::mergeRequest($_GET);
@@ -35,6 +35,10 @@ $sourceLabels = JobQuery::SOURCES;
 $resumeTitle = ResumeJobMatch::activeTitle();
 $resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
 $companyOptions = CareerCompanies::filterOptions(Auth::id());
+$postedOptions = [
+    1 => 'Today · 24h',
+    7 => 'This week (max)',
+];
 
 layout_header('Jobs');
 ?>
@@ -47,171 +51,200 @@ layout_header('Jobs');
   <form method="get" class="jobs-layout" data-jobs-form>
     <input type="hidden" name="search" value="1">
     <input type="hidden" name="posted" value="<?= (int) $query->postedDays ?>">
-    <aside class="jobs-filters card shadow-sm">
+
+    <div class="card shadow-sm jobs-filters mb-4">
       <div class="card-body">
-        <h2 class="h6">Search</h2>
-        <div class="mb-3" data-keyword-chips>
-          <label class="form-label" for="q-input">Role keywords</label>
-          <div class="keyword-chip-list" data-keyword-list>
-            <?php foreach ($query->keywords as $kw): ?>
-              <span class="keyword-chip">
-                <input type="hidden" name="q[]" value="<?= App::e($kw) ?>">
-                <span class="keyword-chip-label"><?= App::e($kw) ?></span>
-                <button type="button" class="keyword-chip-remove" data-keyword-remove aria-label="Remove <?= App::e($kw) ?>">&times;</button>
-              </span>
-            <?php endforeach; ?>
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h2 class="h5 mb-0">Filters</h2>
+          <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+            <a class="btn btn-outline-secondary btn-sm" href="/jobs?reset=1">Reset</a>
           </div>
-          <div class="keyword-add-row input-group input-group-sm mt-2">
-            <input class="form-control" type="text" id="q-input" name="q_add" data-keyword-input
-                   placeholder="e.g. QA, Tester, Werkstudent" autocomplete="off">
-            <button class="btn btn-outline-secondary" type="button" data-keyword-add>Add</button>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-lg-4" data-keyword-chips>
+            <label class="form-label" for="q-input">Role keywords</label>
+            <div class="keyword-chip-list" data-keyword-list>
+              <?php foreach ($query->keywords as $kw): ?>
+                <span class="keyword-chip">
+                  <input type="hidden" name="q[]" value="<?= App::e($kw) ?>">
+                  <span class="keyword-chip-label"><?= App::e($kw) ?></span>
+                  <button type="button" class="keyword-chip-remove" data-keyword-remove aria-label="Remove <?= App::e($kw) ?>">&times;</button>
+                </span>
+              <?php endforeach; ?>
+            </div>
+            <div class="input-group input-group-sm mt-2">
+              <input class="form-control" type="text" id="q-input" name="q_add" data-keyword-input
+                     placeholder="e.g. QA, Tester, Werkstudent" autocomplete="off">
+              <button class="btn btn-outline-secondary" type="button" data-keyword-add>Add</button>
+            </div>
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" name="match_resume" value="1" id="f-resume"<?= $query->matchResume ? ' checked' : '' ?>>
+              <label class="form-check-label" for="f-resume">Match my resume</label>
+            </div>
+            <?php if ($resumeTitle !== ''): ?>
+              <p class="small text-secondary mb-0 mt-1">Active: <?= App::e($resumeTitle) ?></p>
+            <?php endif; ?>
           </div>
-          <p class="form-text mb-0">Add several roles. Each stays in the filter (like sources) and is searched as an OR.</p>
-        </div>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" name="match_resume" value="1" id="f-resume"<?= $query->matchResume ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-resume">Match my resume</label>
-          <p class="form-text mb-0">Uses your active resume title, skills, and recent roles. If role keywords are empty, it searches from the resume; if you add roles, it still ranks by resume fit.</p>
-          <?php if ($resumeTitle !== ''): ?>
-            <p class="small text-secondary mb-0 mt-1">Active: <?= App::e($resumeTitle) ?></p>
-          <?php endif; ?>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="city">City</label>
-          <input class="form-control" type="text" id="city" name="city" value="<?= App::e($query->city) ?>" placeholder="München">
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="bundesland">Bundesland</label>
-          <select class="form-select" id="bundesland" name="bundesland">
-            <option value="">Any</option>
-            <?php foreach (JobQuery::BUNDESLAENDER as $bl): ?>
-              <option value="<?= App::e($bl) ?>"<?= $query->bundesland === $bl ? ' selected' : '' ?>><?= App::e($bl) ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
 
-        <h2 class="h6">Work mode</h2>
-        <div class="mb-3">
-          <select class="form-select" name="work_mode">
-            <option value="">Any</option>
-            <option value="remote"<?= $query->workMode === 'remote' ? ' selected' : '' ?>>Remote</option>
-            <option value="hybrid"<?= $query->workMode === 'hybrid' ? ' selected' : '' ?>>Hybrid</option>
-            <option value="onsite"<?= $query->workMode === 'onsite' ? ' selected' : '' ?>>On-site</option>
-          </select>
-        </div>
-
-        <h2 class="h6">Hours</h2>
-        <div class="mb-3">
-          <select class="form-select" name="employment">
-            <option value="">Any</option>
-            <option value="fulltime"<?= $query->employment === 'fulltime' ? ' selected' : '' ?>>Vollzeit</option>
-            <option value="parttime"<?= $query->employment === 'parttime' ? ' selected' : '' ?>>Teilzeit</option>
-            <option value="mini"<?= $query->employment === 'mini' ? ' selected' : '' ?>>Minijob</option>
-          </select>
-        </div>
-
-        <h2 class="h6">Level</h2>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="student" value="1" id="f-student"<?= $query->student ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-student">Student / Werkstudent</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="junior" value="1" id="f-junior"<?= $query->junior ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-junior">Junior</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="graduate" value="1" id="f-graduate"<?= $query->graduate ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-graduate">Absolvent</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="internship" value="1" id="f-intern"<?= $query->internship ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-intern">Internship / Praktikum</label>
-        </div>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" name="no_experience" value="1" id="f-noexp"<?= $query->noExperience ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-noexp">No experience required</label>
-        </div>
-
-        <h2 class="h6">Language</h2>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="english" value="1" id="f-en"<?= $query->english ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-en">English-speaking</label>
-        </div>
-        <div class="mb-3 mt-2">
-          <label class="form-label" for="german_level">German level</label>
-          <select class="form-select" id="german_level" name="german_level">
-            <option value="">Any</option>
-            <?php foreach (['A1', 'A2', 'B1', 'B2', 'C1'] as $lvl): ?>
-              <option value="<?= $lvl ?>"<?= $query->germanLevel === $lvl ? ' selected' : '' ?>><?= $lvl ?></option>
-            <?php endforeach; ?>
-          </select>
-        </div>
-        <div class="form-check mb-3">
-          <input class="form-check-input" type="checkbox" name="has_salary" value="1" id="f-sal"<?= $query->hasSalary ? ' checked' : '' ?>>
-          <label class="form-check-label" for="f-sal">Mentions salary</label>
-        </div>
-
-        <h2 class="h6">Sources</h2>
-        <?php foreach ($sourceLabels as $sid => $slabel): ?>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="sources[]" value="<?= App::e($sid) ?>" id="src-<?= App::e($sid) ?>"<?= $query->wantsSource($sid) ? ' checked' : '' ?>>
-            <label class="form-check-label" for="src-<?= App::e($sid) ?>"><?= App::e($slabel) ?></label>
+          <div class="col-6 col-md-4 col-lg-2">
+            <label class="form-label" for="city">City</label>
+            <input class="form-control form-control-sm" type="text" id="city" name="city" value="<?= App::e($query->city) ?>" placeholder="München">
           </div>
-        <?php endforeach; ?>
-        <?php if (!SerpBoardSource::configured()): ?>
-          <p class="small text-secondary mt-2 mb-0">LinkedIn, Indeed, StepStone, XING, Jobware, and Glassdoor use Google site search when <code>BRIGHT_DATA_API_TOKEN</code> is set. Jobexport is a distributor board (same ads often already on Arbeitsagentur).</p>
-        <?php endif; ?>
-
-        <?php if ($companyOptions !== []): ?>
-          <h2 class="h6 mt-3">Companies</h2>
-          <p class="small text-secondary mb-2">Limit career-page search to selected boards. Leave empty for all enabled.</p>
-          <div class="mb-2" style="max-height:12rem;overflow:auto;border:1px solid var(--bs-border-color);border-radius:6px;padding:0.5rem">
-            <?php foreach ($companyOptions as $i => $opt): ?>
-              <?php $cid = 'co-' . $i; ?>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= in_array($opt['key'], $query->companies, true) ? ' checked' : '' ?>>
-                <label class="form-check-label small" for="<?= App::e($cid) ?>"><?= App::e($opt['label']) ?></label>
-              </div>
-            <?php endforeach; ?>
+          <div class="col-6 col-md-4 col-lg-2">
+            <label class="form-label" for="bundesland">Bundesland</label>
+            <select class="form-select form-select-sm" id="bundesland" name="bundesland">
+              <option value="">Any</option>
+              <?php foreach (JobQuery::BUNDESLAENDER as $bl): ?>
+                <option value="<?= App::e($bl) ?>"<?= $query->bundesland === $bl ? ' selected' : '' ?>><?= App::e($bl) ?></option>
+              <?php endforeach; ?>
+            </select>
           </div>
-        <?php endif; ?>
-
-        <div class="d-grid gap-2 mt-3">
-          <button type="submit" class="btn btn-primary">Search</button>
-          <a class="btn btn-outline-secondary" href="/jobs.php?reset=1">Reset</a>
-        </div>
-        <p class="small text-secondary mt-2 mb-0">Defaults: Bundesagentur + Jobexport + Company career pages. Manage companies under <a href="/companies.php">Companies</a>.</p>
-      </div>
-    </aside>
-
-    <div class="jobs-results">
-      <?php
-      $postedOptions = [
-          1 => 'Today · 24h',
-          7 => 'This week (max)',
-      ];
-      ?>
-      <div class="jobs-toolbar card shadow-sm mb-3">
-        <div class="card-body py-2 d-flex flex-wrap align-items-center gap-2">
-          <span class="small text-secondary me-1">Posted</span>
-          <div class="jobs-chip-row" role="group" aria-label="Posted when">
-            <?php foreach ($postedOptions as $days => $label): ?>
-              <?php
-              $active = (int) $query->postedDays === (int) $days;
-              $href = '/jobs.php?' . $query->toQuery(['posted' => $days, 'page' => 1]);
-              ?>
-              <a class="jobs-chip<?= $active ? ' is-active' : '' ?>" href="<?= App::e($href) ?>"><?= App::e($label) ?></a>
-            <?php endforeach; ?>
+          <div class="col-6 col-md-4 col-lg-2">
+            <label class="form-label" for="work_mode">Work mode</label>
+            <select class="form-select form-select-sm" id="work_mode" name="work_mode">
+              <option value="">Any</option>
+              <option value="remote"<?= $query->workMode === 'remote' ? ' selected' : '' ?>>Remote</option>
+              <option value="hybrid"<?= $query->workMode === 'hybrid' ? ' selected' : '' ?>>Hybrid</option>
+              <option value="onsite"<?= $query->workMode === 'onsite' ? ' selected' : '' ?>>On-site</option>
+            </select>
           </div>
-          <span class="small text-secondary">Older than 7 days are never shown.</span>
-          <div class="ms-auto d-flex align-items-center gap-2">
-            <label class="small text-secondary mb-0" for="sort">Sort</label>
-            <select class="form-select form-select-sm jobs-sort" id="sort" name="sort" onchange="this.form.submit()">
-              <option value="relevance"<?= $query->sort === 'relevance' ? ' selected' : '' ?>>Best match</option>
-              <option value="recent"<?= $query->sort === 'recent' ? ' selected' : '' ?>>Most recent</option>
+          <div class="col-6 col-md-4 col-lg-2">
+            <label class="form-label" for="employment">Hours</label>
+            <select class="form-select form-select-sm" id="employment" name="employment">
+              <option value="">Any</option>
+              <option value="fulltime"<?= $query->employment === 'fulltime' ? ' selected' : '' ?>>Vollzeit</option>
+              <option value="parttime"<?= $query->employment === 'parttime' ? ' selected' : '' ?>>Teilzeit</option>
+              <option value="mini"<?= $query->employment === 'mini' ? ' selected' : '' ?>>Minijob</option>
             </select>
           </div>
         </div>
+
+        <div class="row g-3 mt-1">
+          <div class="col-lg-4">
+            <div class="form-label mb-1">Level</div>
+            <div class="d-flex flex-wrap gap-3">
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="student" value="1" id="f-student"<?= $query->student ? ' checked' : '' ?>>
+                <label class="form-check-label" for="f-student">Student</label>
+              </div>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="junior" value="1" id="f-junior"<?= $query->junior ? ' checked' : '' ?>>
+                <label class="form-check-label" for="f-junior">Junior</label>
+              </div>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="graduate" value="1" id="f-graduate"<?= $query->graduate ? ' checked' : '' ?>>
+                <label class="form-check-label" for="f-graduate">Absolvent</label>
+              </div>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="internship" value="1" id="f-intern"<?= $query->internship ? ' checked' : '' ?>>
+                <label class="form-check-label" for="f-intern">Praktikum</label>
+              </div>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="no_experience" value="1" id="f-noexp"<?= $query->noExperience ? ' checked' : '' ?>>
+                <label class="form-check-label" for="f-noexp">No experience</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-label mb-1">Language</div>
+            <div class="d-flex flex-wrap align-items-center gap-3">
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="english" value="1" id="f-en"<?= $query->english ? ' checked' : '' ?>>
+                <label class="form-check-label" for="f-en">English</label>
+              </div>
+              <div class="form-check mb-0">
+                <input class="form-check-input" type="checkbox" name="has_salary" value="1" id="f-sal"<?= $query->hasSalary ? ' checked' : '' ?>>
+                <label class="form-check-label" for="f-sal">Mentions salary</label>
+              </div>
+              <div>
+                <label class="visually-hidden" for="german_level">German level</label>
+                <select class="form-select form-select-sm" id="german_level" name="german_level" style="min-width:7rem">
+                  <option value="">German: any</option>
+                  <?php foreach (['A1', 'A2', 'B1', 'B2', 'C1'] as $lvl): ?>
+                    <option value="<?= $lvl ?>"<?= $query->germanLevel === $lvl ? ' selected' : '' ?>><?= $lvl ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-label mb-1">Posted</div>
+            <div class="jobs-chip-row" role="group" aria-label="Posted when">
+              <?php foreach ($postedOptions as $days => $label): ?>
+                <?php
+                $active = (int) $query->postedDays === (int) $days;
+                $href = '/jobs?' . $query->toQuery(['posted' => $days, 'page' => 1]);
+                ?>
+                <a class="jobs-chip<?= $active ? ' is-active' : '' ?>" href="<?= App::e($href) ?>"><?= App::e($label) ?></a>
+              <?php endforeach; ?>
+            </div>
+            <p class="small text-secondary mb-0 mt-1">Older than 7 days are never shown.</p>
+          </div>
+        </div>
+
+        <div class="mt-3 pt-3 border-top">
+          <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#jobsMoreFilters" aria-expanded="false" aria-controls="jobsMoreFilters">
+            Sources &amp; companies
+          </button>
+          <div class="collapse mt-3" id="jobsMoreFilters">
+            <div class="row g-3">
+              <div class="col-lg-6">
+                <div class="form-label mb-2">Sources</div>
+                <div class="row row-cols-1 row-cols-sm-2 g-1">
+                  <?php foreach ($sourceLabels as $sid => $slabel): ?>
+                    <div class="col">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="sources[]" value="<?= App::e($sid) ?>" id="src-<?= App::e($sid) ?>"<?= $query->wantsSource($sid) ? ' checked' : '' ?>>
+                        <label class="form-check-label small" for="src-<?= App::e($sid) ?>"><?= App::e($slabel) ?></label>
+                      </div>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+                <?php if (!SerpBoardSource::configured() && App::isDev()): ?>
+                  <p class="small text-secondary mt-2 mb-0">SERP boards need <code>BRIGHT_DATA_API_TOKEN</code>.</p>
+                <?php endif; ?>
+              </div>
+              <?php if ($companyOptions !== []): ?>
+                <div class="col-lg-6">
+                  <div class="form-label mb-2">Companies</div>
+                  <p class="small text-secondary mb-2">Leave empty for all enabled boards.</p>
+                  <div class="jobs-company-scroll border rounded p-2">
+                    <div class="row row-cols-1 row-cols-sm-2 g-1">
+                      <?php foreach ($companyOptions as $i => $opt): ?>
+                        <?php $cid = 'co-' . $i; ?>
+                        <div class="col">
+                          <div class="form-check mb-0">
+                            <input class="form-check-input" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= in_array($opt['key'], $query->companies, true) ? ' checked' : '' ?>>
+                            <label class="form-check-label small" for="<?= App::e($cid) ?>"><?= App::e($opt['label']) ?></label>
+                          </div>
+                        </div>
+                      <?php endforeach; ?>
+                    </div>
+                  </div>
+                </div>
+              <?php endif; ?>
+            </div>
+            <p class="small text-secondary mt-2 mb-0">Manage boards under <a href="/companies">Companies</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="jobs-results">
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <?php if ($ran): ?>
+          <p class="text-secondary small mb-0 me-auto"><?= (int) $result['total'] ?> jobs · page <?= (int) $result['page'] ?> of <?= (int) $result['pages'] ?></p>
+        <?php else: ?>
+          <p class="text-secondary small mb-0 me-auto">Set filters above, then search.</p>
+        <?php endif; ?>
+        <label class="small text-secondary mb-0" for="sort">Sort</label>
+        <select class="form-select form-select-sm jobs-sort" id="sort" name="sort" onchange="this.form.submit()">
+          <option value="relevance"<?= $query->sort === 'relevance' ? ' selected' : '' ?>>Best match</option>
+          <option value="recent"<?= $query->sort === 'recent' ? ' selected' : '' ?>>Most recent</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm">Search</button>
       </div>
 
       <?php if (!$ran): ?>
@@ -219,7 +252,7 @@ layout_header('Jobs');
           <div class="card-body">
             <p class="mb-2">Pick filters and search. Default sources are Bundesagentur für Arbeit and Jobexport — your last search is restored until you Reset.</p>
             <p class="text-secondary small mb-0">Student preset: Werkstudent + Praktikum in Berlin.</p>
-            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs.php?search=1&amp;posted=7&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
+            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs?search=1&amp;posted=7&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
           </div>
         </div>
       <?php else: ?>
@@ -229,7 +262,7 @@ layout_header('Jobs');
           <p class="small mb-2">Sorted by most recent post.</p>
         <?php endif; ?>
         <?php if ($query->keywords !== []): ?>
-          <p class="small mb-2">Roles:
+          <p class="small mb-3">Roles:
             <?php foreach ($query->keywords as $kw): ?>
               <span class="badge text-bg-light border"><?= App::e($kw) ?></span>
             <?php endforeach; ?>
@@ -238,7 +271,7 @@ layout_header('Jobs');
         <?php foreach ($result['notices'] as $notice): ?>
           <div class="alert alert-warning"><?= App::e((string) $notice) ?></div>
         <?php endforeach; ?>
-        <p class="text-secondary small"><?= (int) $result['total'] ?> jobs · page <?= (int) $result['page'] ?> of <?= (int) $result['pages'] ?></p>
+
         <?php if ($result['listings'] === []): ?>
           <div class="card shadow-sm">
             <div class="card-body">
@@ -246,18 +279,18 @@ layout_header('Jobs');
             </div>
           </div>
         <?php else: ?>
-          <ul class="list-unstyled jobs-list">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 jobs-card-grid">
             <?php foreach ($result['listings'] as $job): ?>
               <?php
               /** @var JobListing $job */
-              $detail = '/job.php?source=' . rawurlencode($job->source) . '&id=' . rawurlencode($job->externalId);
+              $detail = '/job?source=' . rawurlencode($job->source) . '&id=' . rawurlencode($job->externalId);
               $fitScore = $query->matchResume ? ResumeJobMatch::fitScore($job, $resumeTerms) : 0;
               $fitLabel = $query->matchResume ? ResumeJobMatch::fitLabel($fitScore) : '';
               ?>
-              <li class="card shadow-sm mb-3">
-                <div class="card-body">
-                  <div class="d-flex flex-wrap justify-content-between gap-2">
-                    <div>
+              <div class="col">
+                <article class="card shadow-sm h-100 jobs-job-card">
+                  <div class="card-body d-flex flex-column">
+                    <div class="d-flex flex-wrap gap-1 mb-2">
                       <span class="badge text-bg-light border"><?= App::e($sourceLabels[$job->source] ?? $job->source) ?></span>
                       <?php if ($job->workMode !== 'unknown'): ?>
                         <span class="badge text-bg-light border"><?= App::e($job->workMode) ?></span>
@@ -265,16 +298,20 @@ layout_header('Jobs');
                       <?php if ($fitLabel !== ''): ?>
                         <span class="badge <?= $fitScore >= 12 ? 'text-bg-success' : 'text-bg-light border' ?>"><?= App::e($fitLabel) ?></span>
                       <?php endif; ?>
-                      <h2 class="h5 mt-2 mb-1"><a class="text-decoration-none" href="<?= App::e($detail) ?>"><?= App::e($job->title) ?></a></h2>
-                      <p class="mb-1"><strong><?= App::e($job->company) ?></strong>
-                        · <?= App::e($job->locationLine()) ?></p>
-                      <?php if ($job->postedAt): ?>
-                        <p class="small text-secondary mb-0">Posted <?= App::e($job->postedAt) ?></p>
-                      <?php endif; ?>
                     </div>
-                    <div class="d-flex flex-column gap-2 align-items-stretch">
+                    <h2 class="h6 card-title mb-2">
+                      <a class="stretched-link text-decoration-none text-reset" href="<?= App::e($detail) ?>"><?= App::e($job->title) ?></a>
+                    </h2>
+                    <p class="small mb-1"><strong><?= App::e($job->company) ?></strong></p>
+                    <p class="small text-secondary mb-2"><?= App::e($job->locationLine()) ?></p>
+                    <?php if ($job->postedAt): ?>
+                      <p class="small text-secondary mb-3">Posted <?= App::e($job->postedAt) ?></p>
+                    <?php else: ?>
+                      <p class="small text-secondary mb-3">&nbsp;</p>
+                    <?php endif; ?>
+                    <div class="mt-auto d-flex flex-wrap gap-2 position-relative" style="z-index:1">
                       <?php if ($job->applyHref() !== ''): ?>
-                        <a class="btn btn-sm btn-primary" href="<?= App::e($job->applyHref()) ?>" target="_blank" rel="noopener">Apply now</a>
+                        <a class="btn btn-sm btn-primary" href="<?= App::e($job->applyHref()) ?>" target="_blank" rel="noopener">Apply</a>
                       <?php endif; ?>
                       <a class="btn btn-sm <?= $job->applyHref() !== '' ? 'btn-outline-primary' : 'btn-primary' ?>" href="<?= App::e($detail) ?>">Open</a>
                       <?php if ($job->listingUrlDiffers()): ?>
@@ -282,17 +319,18 @@ layout_header('Jobs');
                       <?php endif; ?>
                     </div>
                   </div>
-                </div>
-              </li>
+                </article>
+              </div>
             <?php endforeach; ?>
-          </ul>
+          </div>
+
           <?php if ($result['pages'] > 1): ?>
-            <nav class="d-flex gap-2">
+            <nav class="d-flex gap-2 mt-4">
               <?php if ($result['page'] > 1): ?>
-                <a class="btn btn-outline-secondary" href="/jobs.php?<?= App::e($query->toQuery(['page' => $result['page'] - 1])) ?>">Previous</a>
+                <a class="btn btn-outline-secondary" href="/jobs?<?= App::e($query->toQuery(['page' => $result['page'] - 1])) ?>">Previous</a>
               <?php endif; ?>
               <?php if ($result['page'] < $result['pages']): ?>
-                <a class="btn btn-outline-secondary" href="/jobs.php?<?= App::e($query->toQuery(['page' => $result['page'] + 1])) ?>">Next</a>
+                <a class="btn btn-outline-secondary" href="/jobs?<?= App::e($query->toQuery(['page' => $result['page'] + 1])) ?>">Next</a>
               <?php endif; ?>
             </nav>
           <?php endif; ?>

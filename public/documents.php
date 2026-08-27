@@ -16,7 +16,7 @@ layout_header('Resume copies');
       <h1>Resume copies</h1>
       <p>Every resume copy. Main stays stable.</p>
     </div>
-    <a class="btn btn-primary" href="/editor.php">Open resume</a>
+    <a class="btn btn-primary" href="/editor">Open resume</a>
   </header>
 
   <section class="card shadow-sm">
@@ -44,15 +44,15 @@ layout_header('Resume copies');
               </div>
               <div class="d-flex flex-wrap gap-1">
                 <?php if ($isOpen): ?>
-                  <a class="btn btn-sm btn-primary" href="/resume-edit.php">Edit</a>
+                  <a class="btn btn-sm btn-primary" href="/resume-edit">Edit</a>
                 <?php else: ?>
-                  <form method="post" action="/editor.php">
+                  <form method="post" action="/editor">
                     <input type="hidden" name="action" value="load_resume_version">
                     <input type="hidden" name="id" value="<?= $rid ?>">
                     <button type="submit" class="btn btn-sm btn-primary">Edit / Select</button>
                   </form>
                 <?php endif; ?>
-                <a class="btn btn-sm btn-outline-secondary" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
+                <a class="btn btn-sm btn-outline-secondary" href="/resume?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
                 <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => $rid])) ?>">PDF EN</a>
                 <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => $rid])) ?>">PDF DE</a>
               </div>

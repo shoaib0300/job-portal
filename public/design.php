@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $doc = basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-design.php' ? 'cover' : 'resume';
         App::flash('Style saved — ' . App::themeLabel($theme) . ' · ' . App::fontLabel($font) . '.');
-        App::redirect($doc === 'cover' ? '/cover-design.php' : '/design.php');
+        App::redirect($doc === 'cover' ? '/cover-design' : '/design');
     }
 }
 
@@ -48,7 +48,7 @@ $doc = $script === 'cover-design.php' ? 'cover' : 'resume';
 if ($script === 'design.php' && ($_GET['doc'] ?? '') === 'cover') {
     $qs = (string) ($_SERVER['QUERY_STRING'] ?? '');
     $qs = trim((string) preg_replace('/(?:^|&)doc=cover/', '', $qs), '&');
-    App::redirect('/cover-design.php' . ($qs !== '' ? '?' . $qs : ''));
+    App::redirect('/cover-design' . ($qs !== '' ? '?' . $qs : ''));
 }
 $theme = App::resolveTheme($_GET['theme'] ?? null);
 $accent = App::resolveAccent($_GET['accent'] ?? null);

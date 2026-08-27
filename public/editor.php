@@ -9,7 +9,7 @@ Versions::ensureSchema();
 
 if (isset($_GET['cover']) || (isset($_GET['new']) && (string) $_GET['new'] === '1')) {
     $coverQ = isset($_GET['cover']) ? ('?cover=' . (int) $_GET['cover']) : '';
-    App::redirect('/cover.php' . $coverQ);
+    App::redirect('/cover' . $coverQ);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             App::setSetting('active_company', $company);
         }
         App::flash($asBase ? 'Main resume saved.' : 'Resume saved.');
-        App::redirect('/editor.php');
+        App::redirect('/editor');
     }
 
     if ($action === 'new_job_resume') {
@@ -55,12 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $location = trim((string) ($_POST['location'] ?? ''));
         if ($company === '') {
             App::flash('Enter a company name first.', 'error');
-            App::redirect('/editor.php');
+            App::redirect('/editor');
         }
         $base = Versions::baseResumeVersion();
         if ($base === null) {
             App::flash('No Main resume to copy from. Save Main first.', 'error');
-            App::redirect('/editor.php');
+            App::redirect('/editor');
         }
         // Always clone Main (never the currently open tailored copy).
         $snapshot = Versions::decodeSnapshot((string) $base['snapshot']);
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
         Versions::loadResumeVersion($id);
         App::flash('Created resume #' . $id . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . '). Change it, then Save.');
-        App::redirect('/resume-edit.php');
+        App::redirect('/resume-edit');
     }
 
     if ($action === 'load_resume_version') {
@@ -91,16 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             App::flash('Now editing: ' . $name);
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
-            App::redirect('/editor.php');
+            App::redirect('/editor');
         }
-        App::redirect('/resume-edit.php');
+        App::redirect('/resume-edit');
     }
 
     if ($action === 'reset_to_main_resume') {
         $base = Versions::baseResumeVersion();
         if (!$base) {
             App::flash('No Main resume yet.', 'error');
-            App::redirect('/editor.php');
+            App::redirect('/editor');
         }
         try {
             Versions::loadResumeVersion((int) $base['id']);
@@ -108,9 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             App::flash('Now editing: Main resume');
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
-            App::redirect('/editor.php');
+            App::redirect('/editor');
         }
-        App::redirect('/resume-edit.php');
+        App::redirect('/resume-edit');
     }
 
     if ($action === 'delete_resume_version') {
@@ -121,11 +121,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
         }
-        App::redirect('/editor.php');
+        App::redirect('/editor');
     }
 
     App::flash('Unknown action.', 'error');
-    App::redirect('/editor.php');
+    App::redirect('/editor');
 }
 
 $resumeVersions = Versions::resumeVersions();
@@ -165,7 +165,7 @@ layout_header('Resume');
         <?php endif; ?>
         <strong><?= App::e($editingResumeName) ?></strong>
       </p>
-      <a class="btn btn-primary" href="/resume-edit.php">Edit this resume</a>
+      <a class="btn btn-primary" href="/resume-edit">Edit this resume</a>
     </div>
 
     <form method="post" class="form new-job-form" id="add-resume">
@@ -218,7 +218,7 @@ layout_header('Resume');
             </div>
             <div class="version-list-actions doc-card-actions">
               <?php if ($isOpen): ?>
-                <a class="btn btn-sm btn-primary" href="/resume-edit.php">Edit</a>
+                <a class="btn btn-sm btn-primary" href="/resume-edit">Edit</a>
               <?php else: ?>
                 <form method="post">
                   <input type="hidden" name="action" value="load_resume_version">
@@ -228,7 +228,7 @@ layout_header('Resume');
               <?php endif; ?>
               <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => $rid])) ?>">PDF EN</a>
               <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => $rid])) ?>">PDF DE</a>
-              <a class="btn btn-sm btn-outline-secondary" href="/resume.php?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
+              <a class="btn btn-sm btn-outline-secondary" href="/resume?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
               <?php if (!$isMain): ?>
                 <form method="post" onsubmit="return confirm('Delete resume #<?= $rid ?>?');">
                   <input type="hidden" name="action" value="delete_resume_version">
