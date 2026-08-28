@@ -207,11 +207,19 @@ final class Versions
 
     public static function baseResumeVersion(): ?array
     {
+        return self::masterResumeForUser(self::uid());
+    }
+
+    public static function masterResumeForUser(int $userId): ?array
+    {
         self::ensureSchema();
+        if ($userId <= 0) {
+            return null;
+        }
         $stmt = Db::pdo()->prepare(
             'SELECT * FROM resume_versions WHERE user_id = ? AND is_base = 1 ORDER BY id ASC LIMIT 1'
         );
-        $stmt->execute([self::uid()]);
+        $stmt->execute([$userId]);
         $row = $stmt->fetch();
         return $row === false ? null : $row;
     }
@@ -416,6 +424,50 @@ final class Versions
         ];
     }
 
+    /** @return array{profile: array, sections: list<array>, experiences: list<array>, version: ?array, company: string} */
+    public static function resumePayloadForUser(int $userId): array
+    {
+        $profile = App::profileForUser($userId);
+        $row = self::masterResumeForUser($userId);
+        if ($row === null) {
+            return [
+                'profile' => $profile,
+                'sections' => App::sectionsForUser($userId, true),
+                'experiences' => App::experiencesForUser($userId, true),
+                'version' => null,
+                'company' => App::userSetting($userId, 'active_company', '') ?: '',
+            ];
+        }
+
+        $snapshot = self::decodeSnapshot((string) $row['snapshot']);
+        if (($snapshot['profile_title'] ?? '') !== '') {
+            $profile['title'] = $snapshot['profile_title'];
+        }
+        if (($snapshot['location'] ?? '') !== '') {
+            $profile['location'] = $snapshot['location'];
+        }
+
+        $sections = array_values(array_filter(
+            $snapshot['sections'],
+            static fn($s): bool => is_array($s) && (int) ($s['visible'] ?? 1) === 1
+        ));
+        usort($sections, static fn($a, $b): int => ((int) ($a['sort_order'] ?? 0)) <=> ((int) ($b['sort_order'] ?? 0)));
+
+        $experiences = array_values(array_filter(
+            $snapshot['experiences'],
+            static fn($e): bool => is_array($e) && (int) ($e['visible'] ?? 1) === 1
+        ));
+        usort($experiences, static fn($a, $b): int => ((int) ($a['sort_order'] ?? 0)) <=> ((int) ($b['sort_order'] ?? 0)));
+
+        return [
+            'profile' => $profile,
+            'sections' => $sections,
+            'experiences' => $experiences,
+            'version' => $row,
+            'company' => (string) ($row['company'] ?? '') ?: (App::userSetting($userId, 'active_company', '') ?: ''),
+        ];
+    }
+
     public static function resumeExportOptions(): array
     {
         $options = [];
@@ -463,11 +515,19 @@ final class Versions
 
     public static function baseCoverLetter(): ?array
     {
+        return self::masterCoverForUser(self::uid());
+    }
+
+    public static function masterCoverForUser(int $userId): ?array
+    {
         self::ensureSchema();
+        if ($userId <= 0) {
+            return null;
+        }
         $stmt = Db::pdo()->prepare(
             'SELECT * FROM cover_letters WHERE user_id = ? AND is_base = 1 ORDER BY id ASC LIMIT 1'
         );
-        $stmt->execute([self::uid()]);
+        $stmt->execute([$userId]);
         $row = $stmt->fetch();
         return $row === false ? null : $row;
     }

@@ -88,6 +88,17 @@ super_layout_header('User #' . $id);
 
 <div class="card shadow-sm mb-3">
   <div class="card-body">
+    <h2 class="h5 mb-3">Master documents (read-only)</h2>
+    <p class="small text-secondary mb-3">View the user’s Master CV and Master cover letter. No editing from here.</p>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="btn btn-sm btn-outline-primary" href="/super-admin/user-doc.php?user=<?= $id ?>&doc=resume" target="_blank" rel="noopener">View Master CV</a>
+      <a class="btn btn-sm btn-outline-primary" href="/super-admin/user-doc.php?user=<?= $id ?>&doc=cover" target="_blank" rel="noopener">View Master cover letter</a>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
     <h2 class="h5 mb-3">German PDF translations</h2>
     <div class="row g-3">
       <div class="col-md-4"><div class="border rounded p-3"><div class="small text-secondary">This month</div><div class="h5 mb-0"><?= App::e(LibreTranslate::formatEuro($month['billed_chars'])) ?></div><div class="small"><?= App::e(number_format($month['billed_chars'])) ?> billed · <?= App::e(number_format($month['cached_chars'])) ?> cache · <?= (int) $month['requests'] ?> req</div></div></div>

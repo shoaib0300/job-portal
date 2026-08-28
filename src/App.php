@@ -116,6 +116,93 @@ final class App
         return (int) ($profile['show_photo'] ?? 0) === 1 && self::photoUrl($profile) !== '';
     }
 
+    public static function profileForUser(int $userId): array
+    {
+        $empty = [
+            'id' => 0,
+            'user_id' => $userId,
+            'full_name' => 'Your Name',
+            'title' => '',
+            'email' => '',
+            'phone' => '',
+            'location' => '',
+            'gender' => '',
+            'date_of_birth' => null,
+            'country' => '',
+            'nationality' => '',
+            'photo_path' => '',
+            'show_photo' => 1,
+            'links' => [],
+        ];
+        if ($userId <= 0) {
+            return $empty;
+        }
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM resume_profile WHERE user_id = ? ORDER BY id ASC LIMIT 1'
+        );
+        $stmt->execute([$userId]);
+        $row = $stmt->fetch();
+        if ($row === false) {
+            return $empty;
+        }
+        $links = $row['links'];
+        if (is_string($links)) {
+            $decoded = json_decode($links, true);
+            $row['links'] = is_array($decoded) ? $decoded : [];
+        } elseif (!is_array($links)) {
+            $row['links'] = [];
+        }
+        $row['show_photo'] = (int) ($row['show_photo'] ?? 1);
+        $row['photo_path'] = (string) ($row['photo_path'] ?? '');
+        return $row;
+    }
+
+    public static function userSetting(int $userId, string $key, ?string $default = null): ?string
+    {
+        if ($userId <= 0) {
+            return $default;
+        }
+        $stmt = Db::pdo()->prepare(
+            'SELECT `value` FROM user_settings WHERE user_id = ? AND `key` = ? LIMIT 1'
+        );
+        $stmt->execute([$userId, $key]);
+        $row = $stmt->fetchColumn();
+        if ($row === false || $row === null || $row === '') {
+            return $default;
+        }
+        return (string) $row;
+    }
+
+    public static function sectionsForUser(int $userId, bool $visibleOnly = false): array
+    {
+        if ($userId <= 0) {
+            return [];
+        }
+        $sql = 'SELECT * FROM resume_sections WHERE user_id = ?';
+        if ($visibleOnly) {
+            $sql .= ' AND visible = 1';
+        }
+        $sql .= ' ORDER BY sort_order ASC, id ASC';
+        $stmt = Db::pdo()->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
+
+    public static function experiencesForUser(int $userId, bool $visibleOnly = false): array
+    {
+        if ($userId <= 0) {
+            return [];
+        }
+        $sql = 'SELECT * FROM experience_entries WHERE user_id = ?';
+        if ($visibleOnly) {
+            $sql .= ' AND visible = 1';
+        }
+        $sql .= ' ORDER BY sort_order ASC, id ASC';
+        $stmt = Db::pdo()->prepare($sql);
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll();
+    }
+
     public static function sections(bool $visibleOnly = false): array
     {
         $uid = self::userId();

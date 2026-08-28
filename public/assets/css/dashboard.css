@@ -87,6 +87,10 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
     visibility: visible !important;
     transform: none !important;
   }
+
+  .dash-sidebar .offcanvas-body {
+    min-height: 100%;
+  }
 }
 
 .dash-mark {
@@ -533,12 +537,13 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
   flex-direction: column;
   gap: 0;
   width: 100%;
+  margin-top: auto;
 }
 
 .dash-sidebar-meta {
   display: grid;
   gap: 0.55rem;
-  padding: 0.65rem 0 0.55rem;
+  padding: 0.55rem 0 0.15rem;
   border-top: 1px solid var(--kf-line, #e2ddd4);
   font-size: 0.68rem;
   line-height: 1.4;

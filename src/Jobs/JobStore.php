@@ -330,6 +330,15 @@ final class JobStore
         return (int) \Db::pdo()->query('SELECT COUNT(*) FROM job_listings')->fetchColumn();
     }
 
+    /** Jobs ingested or re-crawled today (fetched_at). */
+    public static function countFetchedToday(): int
+    {
+        self::ensureSchema();
+        return (int) \Db::pdo()->query(
+            'SELECT COUNT(*) FROM job_listings WHERE fetched_at >= CURDATE()'
+        )->fetchColumn();
+    }
+
     /** @return list<array{source:string,cnt:int}> */
     public static function countsBySource(): array
     {
