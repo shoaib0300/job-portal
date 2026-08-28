@@ -110,7 +110,7 @@ site_layout_header('Home');
       <article class="site-feature">
         <?= kaammilo_icon('doc') ?>
         <h3>Resume &amp; cover</h3>
-        <p>Editors, design themes, and PDF EN/DE. Translation is gated per account when enabled by an admin.</p>
+        <p>Editors, design themes, and PDF export. Free download in your document language; optional DeepL translation is billed per account.</p>
       </article>
       <article class="site-feature">
         <?= kaammilo_icon('track') ?>

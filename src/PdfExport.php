@@ -22,7 +22,7 @@ final class PdfExport
         $qs = http_build_query($params);
 
         if ($forHost) {
-            $base = getenv('MNK_PUBLIC_URL') ?: 'https://mnk.ddev.site';
+            $base = Site::marketingBaseUrl();
         } else {
             $base = getenv('MNK_PDF_BASE_URL') ?: 'http://127.0.0.1';
         }
@@ -126,12 +126,35 @@ final class PdfExport
         return (string) preg_replace('/\.pdf$/i', '', self::safeFilename($doc, $name, $lang));
     }
 
-    /** Build /pdf.php href for EN or DE download. */
+    /** Build /pdf.php href (lang suffix for filename; use downloadHrefOriginal for free export). */
     public static function downloadHref(string $doc, string $lang = 'en', array $extra = []): string
     {
         $params = array_merge($extra, [
             'doc' => $doc === 'cover' ? 'cover' : 'resume',
             'lang' => LibreTranslate::normalizeLang($lang),
+        ]);
+        $params = array_filter(
+            $params,
+            static fn($v): bool => $v !== '' && $v !== null && $v !== 0 && $v !== '0'
+        );
+        return '/pdf.php?' . http_build_query($params);
+    }
+
+    /** Free PDF in the user's document language (no translation). */
+    public static function downloadHrefOriginal(string $doc, array $extra = []): string
+    {
+        return self::downloadHref($doc, App::resolveDocumentLang(), $extra);
+    }
+
+    /** Paid PDF translated to target language via DeepL. */
+    public static function downloadHrefTranslated(string $doc, string $target, array $extra = []): string
+    {
+        $target = LibreTranslate::normalizeLang($target);
+        $params = array_merge($extra, [
+            'doc' => $doc === 'cover' ? 'cover' : 'resume',
+            'lang' => $target,
+            'translate' => '1',
+            'target' => $target,
         ]);
         $params = array_filter(
             $params,
@@ -208,6 +231,12 @@ final class PdfExport
 
         if ($body === false || $status !== 200 || strlen((string) $body) < 100) {
             throw new RuntimeException($err !== '' ? $err : ('HTTP ' . $status . ' ' . substr((string) $body, 0, 200)));
+        }
+
+        if (!str_starts_with((string) $body, '%PDF')) {
+            throw new RuntimeException(
+                'PDF service returned invalid data (not a PDF). Check MNK_PUBLIC_URL (' . Site::marketingBaseUrl() . ') and run: ddev pdf-server'
+            );
         }
 
         if (file_put_contents($outfile, $body) === false) {

@@ -80,7 +80,7 @@ final class LibreTranslate
 
         $uid = Auth::id();
         if ($uid > 0 && class_exists('SuperAdmin') && !SuperAdmin::userCanTranslate($uid)) {
-            throw new RuntimeException('German PDF translation is disabled for this account. Ask the site admin to enable it.');
+            throw new RuntimeException('PDF translation is disabled for this account. Ask the site admin to enable it.');
         }
 
         if (self::looksLikeTarget($text, $target)) {

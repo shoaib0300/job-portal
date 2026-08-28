@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (string) ($_POST['username'] ?? ''),
                 (string) ($_POST['email'] ?? '')
             );
+            App::setSetting('document_lang', App::resolveDocumentLang((string) ($_POST['document_lang'] ?? '')));
             App::flash('Account saved.');
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
@@ -62,6 +63,7 @@ $masterCover = Versions::baseCoverLetter();
 $resumeEditHref = $masterResume ? '/resume-edit' : '/editor';
 $coverEditHref = $masterCover ? '/cover-edit' : '/cover';
 $account = Auth::user() ?? ['username' => '', 'email' => '', 'name' => ''];
+$documentLang = App::resolveDocumentLang();
 $usagePeriod = strtolower(trim((string) ($_GET['usage'] ?? 'month')));
 if (!in_array($usagePeriod, ['month', 'last', 'year'], true)) {
     $usagePeriod = 'month';
@@ -101,6 +103,14 @@ layout_header('Account');
               <div class="col-12">
                 <label class="form-label" for="email">Email</label>
                 <input class="form-control" type="email" id="email" name="email" required value="<?= App::e((string) $account['email']) ?>">
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="document_lang">Document language</label>
+                <select class="form-select" id="document_lang" name="document_lang">
+                  <option value="en"<?= $documentLang === 'en' ? ' selected' : '' ?>>English</option>
+                  <option value="de"<?= $documentLang === 'de' ? ' selected' : '' ?>>German</option>
+                </select>
+                <p class="form-text small mb-0">Free PDF prints your document as written. Optional translation uses DeepL and is billed per character.</p>
               </div>
               <div class="col-12">
                 <button type="submit" class="btn btn-primary">Save profile</button>
@@ -177,7 +187,7 @@ layout_header('Account');
       <section class="card shadow-sm settings-panel">
         <div class="card-body">
           <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-2">
-            <h2 class="settings-panel-title mb-0">German PDF usage</h2>
+            <h2 class="settings-panel-title mb-0">Translation usage</h2>
             <form method="get">
               <label class="form-label small mb-1" for="usage">Period</label>
               <select class="form-select form-select-sm" id="usage" name="usage" onchange="this.form.submit()">

@@ -121,8 +121,7 @@ function cover_letter_card(array $cl, ?array $activeLetter): void
             <button type="submit" class="btn btn-sm btn-primary">Edit</button>
           </form>
         <?php endif; ?>
-        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => $cid])) ?>">PDF EN</a>
-        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => $cid])) ?>">PDF DE</a>
+        <?php layout_pdf_buttons('cover', ['id' => $cid]); ?>
         <a class="btn btn-sm btn-outline-secondary" href="/cover-letter?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
         <?php if (!$isMaster): ?>
           <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">

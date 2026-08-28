@@ -241,6 +241,7 @@ final class App
             'name_size' => 'md',
             'font_size' => 'md',
             'section_spacing' => 'md',
+            'document_lang' => 'en',
         ];
         foreach ($defaults as $key => $value) {
             if (self::setting($key) === null) {
@@ -801,6 +802,19 @@ final class App
     {
         $mode = $mode ?: (self::setting('sidebar_mode', 'expanded') ?: 'expanded');
         return in_array($mode, ['expanded', 'compact'], true) ? $mode : 'expanded';
+    }
+
+    /** User's resume/cover language for free PDF export (en or de). */
+    public static function resolveDocumentLang(?string $lang = null): string
+    {
+        if ($lang !== null && $lang !== '') {
+            return LibreTranslate::normalizeLang($lang);
+        }
+        $stored = self::setting('document_lang');
+        if (is_string($stored) && $stored !== '') {
+            return LibreTranslate::normalizeLang($stored);
+        }
+        return 'en';
     }
 
     public static function resolveNameSize(?string $size = null): string

@@ -55,7 +55,7 @@ site_layout_header('Features');
     <article class="site-module site-reveal">
       <?= kaammilo_icon('rocket') ?>
       <h3>Suggested first path</h3>
-      <p>Jobs → pick Rossmann or DIS AG → New job with a pasted JD → PDF EN → Applications. See the <a href="/guide">how-to guide</a> for detail.</p>
+      <p>Jobs → pick Rossmann or DIS AG → New job with a pasted JD → Download PDF → Applications. See the <a href="/guide">how-to guide</a> for detail.</p>
     </article>
   </div>
 

@@ -12,7 +12,8 @@ Versions::ensureSchema();
 $opts = doc_view_options();
 $profile = App::profile();
 $coverId = (int) ($opts['coverId'] ?? 0);
-$lang = (string) ($opts['lang'] ?? 'en');
+$documentLang = App::resolveDocumentLang();
+$lang = (string) ($opts['lang'] ?? $documentLang);
 $letter = $coverId > 0 ? Versions::coverLetterById($coverId) : App::activeCoverLetter();
 $theme = $opts['theme'];
 $accent = $opts['accent'];
@@ -21,9 +22,9 @@ $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
 $exportOptions = Versions::coverExportOptions();
 $translateError = null;
-if ($lang === 'de') {
+if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && $opts['target'] !== $documentLang) {
     try {
-        $translated = DocTranslate::cover(is_array($letter) ? $letter : null, $profile, 'de');
+        $translated = DocTranslate::cover(is_array($letter) ? $letter : null, $profile, (string) $opts['target'], $documentLang);
         $letter = $translated['letter'];
         $profile = $translated['profile'];
     } catch (Throwable $e) {
@@ -31,7 +32,7 @@ if ($lang === 'de') {
         if ($pdfMode || $embed) {
             http_response_code(500);
             header('Content-Type: text/plain; charset=utf-8');
-            echo "German translation failed.\n\n" . $translateError . "\n";
+            echo "PDF translation failed.\n\n" . $translateError . "\n";
             exit;
         }
     }
@@ -63,9 +64,8 @@ if (!$embed):
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
       <?php
         $pdfQs = $coverId > 0 ? ['id' => $coverId] : [];
+        layout_pdf_buttons('cover', $pdfQs, ['export_options' => $exportOptions]);
       ?>
-      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', $pdfQs)) ?>">PDF EN</a>
-      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', $pdfQs)) ?>">PDF DE</a>
     </div>
   </div>
 </main>

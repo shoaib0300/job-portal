@@ -13,7 +13,10 @@ $font = App::resolveFont($_GET['font'] ?? null);
 $accent = App::resolveAccent($_GET['accent'] ?? null);
 $version = isset($_GET['version']) ? (int) $_GET['version'] : 0;
 $coverId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$lang = LibreTranslate::normalizeLang($_GET['lang'] ?? 'en');
+$documentLang = App::resolveDocumentLang();
+$translate = isset($_GET['translate']) && (string) $_GET['translate'] === '1';
+$target = $translate ? LibreTranslate::normalizeLang((string) ($_GET['target'] ?? '')) : '';
+$lang = $translate && $target !== '' ? $target : $documentLang;
 
 $profile = App::profile();
 $filename = PdfExport::safeFilename($doc, (string) ($profile['full_name'] ?? 'Document'), $lang);
@@ -29,6 +32,10 @@ $query = [
     'name_size' => App::resolveNameSize($_GET['name_size'] ?? null),
     'spacing' => App::resolveSectionSpacing($_GET['spacing'] ?? null),
 ];
+if ($translate && $target !== '') {
+    $query['translate'] = '1';
+    $query['target'] = $target;
+}
 if ($doc === 'resume' && $version > 0) {
     $query['version'] = $version;
 }
@@ -43,10 +50,10 @@ try {
     header('Content-Type: text/plain; charset=utf-8');
     echo "PDF export failed.\n\n";
     echo $e->getMessage() . "\n";
-    if ($lang === 'de') {
-        echo "\nGerman PDF needs DeepL (DEEPL_API_KEY in .env) or a running local LibreTranslate container.\n";
+    if ($translate) {
+        echo "\nTranslated PDF needs DeepL (DEEPL_API_KEY in .env) and translation enabled on your account.\n";
     }
-    echo "\nTip: ensure Chrome/Chromium is available (CHROME_PATH) and Node can run scripts/export-pdf.mjs.\n";
+    echo "\nTip: run `ddev pdf-server` and check MNK_PUBLIC_URL (" . Site::marketingBaseUrl() . ").\n";
     exit;
 }
 

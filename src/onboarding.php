@@ -37,7 +37,7 @@ function onboarding_flow_steps(): array
         [
             'id' => 'pdf',
             'label' => 'Export PDF',
-            'caption' => 'Download PDF EN or DE from Resume or Cover letter pages.',
+            'caption' => 'Download PDF in your document language, or translate via DeepL (billed).',
             'href' => '/design',
             'icon' => 'pdf',
         ],

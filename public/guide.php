@@ -62,7 +62,7 @@ site_layout_header('How to use', [
         <div class="site-guide-num">05 · Edit &amp; style</div>
         <?php onboarding_render_mini('edit', true); ?>
         <h3>Resume and cover letter</h3>
-        <p>Use <strong>Resume</strong> / <strong>Cover letter</strong> editors to adjust summary, skills, and letter text. Use Style pages for fonts and accents. Download <strong>PDF EN</strong> or <strong>PDF DE</strong> when translation is allowed on your account.</p>
+        <p>Use <strong>Resume</strong> / <strong>Cover letter</strong> editors to adjust summary, skills, and letter text. Use Style pages for fonts and accents. <strong>Download PDF</strong> prints your document as written (free). Use <strong>Translate PDF</strong> for a DeepL translation (billed per character).</p>
       </div>
     </article>
     <article class="site-guide-step site-reveal">

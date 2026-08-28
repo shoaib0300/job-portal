@@ -27,6 +27,27 @@ function layout_flash(?array $flash): void
     <?php
 }
 
+/**
+ * Download PDF (free) + Translate PDF (paid) controls.
+ *
+ * @param array<string, mixed> $extra Query params for pdf.php (version, id, theme, …)
+ * @param array{export_options?: list<array<string, mixed>>} $opts
+ */
+function layout_pdf_buttons(string $doc, array $extra = [], array $opts = []): void
+{
+    $doc = $doc === 'cover' ? 'cover' : 'resume';
+    $docAttr = App::e($doc);
+    $exportJson = '';
+    if (!empty($opts['export_options'])) {
+        $exportJson = App::e(json_encode($opts['export_options'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]');
+    }
+    $exportAttr = $exportJson !== '' ? ' data-export-options="' . $exportJson . '"' : '';
+    ?>
+    <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHrefOriginal($doc, $extra)) ?>" data-download-pdf data-doc="<?= $docAttr ?>"<?= $exportAttr ?>>Download PDF</a>
+    <button type="button" class="btn btn-sm btn-outline-secondary" data-translate-pdf data-doc="<?= $docAttr ?>"<?= $exportAttr ?>>Translate PDF…</button>
+    <?php
+}
+
 function layout_header(string $title, array $opts = []): void
 {
     require_once __DIR__ . '/onboarding.php';
@@ -72,6 +93,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'account', 'href' => '/settings', 'label' => 'Account', 'icon' => 'gear'],
     ];
     $chrome = $opts['chrome'] ?? $navKey;
+    $documentLang = App::resolveDocumentLang();
     $pdfKind = str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'cover') ? 'cover' : 'resume';
     $pdfLang = LibreTranslate::normalizeLang($opts['lang'] ?? ($_GET['lang'] ?? 'en'));
     $pdfTitle = PdfExport::printDocumentTitle($pdfKind, (string) ($profile['full_name'] ?? 'Document'), $pdfLang);
@@ -82,7 +104,7 @@ function layout_header(string $title, array $opts = []): void
     }
     ?>
 <!DOCTYPE html>
-<html lang="<?= App::e($pdfLang) ?>" data-bs-theme="<?= App::e($bsTheme) ?>">
+<html lang="<?= App::e($pdfLang) ?>" data-bs-theme="<?= App::e($bsTheme) ?>" data-document-lang="<?= App::e($documentLang) ?>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -179,15 +201,13 @@ function layout_header(string $title, array $opts = []): void
               <?= App::e(Versions::resumeDisplayLabel($activeResume)) ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
-            <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en')) ?>">PDF EN</a>
-            <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('resume', 'de')) ?>">PDF DE</a>
+            <?php layout_pdf_buttons('resume'); ?>
           <?php elseif ($chrome === 'cover' && $activeCover): ?>
             <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit" title="Edit cover letter">
               <?= App::e(Versions::coverDisplayLabel($activeCover)) ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Style</a>
-            <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en')) ?>">PDF EN</a>
-            <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('cover', 'de')) ?>">PDF DE</a>
+            <?php layout_pdf_buttons('cover'); ?>
           <?php endif; ?>
         </div>
       </header>
@@ -221,7 +241,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260828i"></script>
+  <script src="/assets/js/app.js?v=20260828j"></script>
         <?php
     endif;
     ?>

@@ -12,18 +12,19 @@ Versions::ensureSchema();
 
 $opts = doc_view_options();
 $versionId = (int) ($opts['versionId'] ?? 0);
-$lang = (string) ($opts['lang'] ?? 'en');
+$documentLang = App::resolveDocumentLang();
+$lang = (string) ($opts['lang'] ?? $documentLang);
 $payload = Versions::resumePayloadForView($versionId > 0 ? $versionId : null);
 $translateError = null;
-if ($lang === 'de') {
+if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && $opts['target'] !== $documentLang) {
     try {
-        $payload = DocTranslate::resume($payload, 'de');
+        $payload = DocTranslate::resume($payload, (string) $opts['target'], $documentLang);
     } catch (Throwable $e) {
         $translateError = $e->getMessage();
         if (!empty($opts['pdfMode']) || !empty($opts['embed'])) {
             http_response_code(500);
             header('Content-Type: text/plain; charset=utf-8');
-            echo "German translation failed.\n\n" . $translateError . "\n";
+            echo "PDF translation failed.\n\n" . $translateError . "\n";
             exit;
         }
     }
@@ -70,9 +71,8 @@ if (!$embed):
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
       <?php
         $pdfQs = $versionId > 0 ? ['version' => $versionId] : [];
+        layout_pdf_buttons('resume', $pdfQs, ['export_options' => $exportOptions]);
       ?>
-      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', $pdfQs)) ?>">PDF EN</a>
-      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', $pdfQs)) ?>">PDF DE</a>
     </div>
   </div>
 </main>

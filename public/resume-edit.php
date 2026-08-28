@@ -329,9 +329,8 @@ layout_header('Edit resume');
       <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
       <?php
         $resumePdfQs = $editingResumeId > 0 ? ['version' => $editingResumeId] : [];
+        layout_pdf_buttons('resume', $resumePdfQs);
       ?>
-      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', $resumePdfQs)) ?>">PDF EN</a>
-      <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', $resumePdfQs)) ?>">PDF DE</a>
     </div>
   </header>
 

@@ -90,8 +90,7 @@ layout_header('Edit cover letter');
     <div class="preview-links">
       <a class="btn btn-sm btn-outline-secondary" href="/cover-letter" target="_blank" rel="noopener">Preview</a>
       <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Style</a>
-      <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => (int) $letter['id']])) ?>">PDF EN</a>
-      <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => (int) $letter['id']])) ?>">PDF DE</a>
+      <?php layout_pdf_buttons('cover', ['id' => (int) $letter['id']]); ?>
     </div>
   </header>
 

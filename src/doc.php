@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Shared query overrides for live preview / design studio.
  *
- * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, company: string, versionId: int, coverId: int, lang: string}
+ * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, company: string, versionId: int, coverId: int, lang: string, translate: bool, target: string}
  */
 function doc_view_options(): array
 {
@@ -15,6 +15,10 @@ function doc_view_options(): array
     $embed = isset($_GET['embed']) && (string) $_GET['embed'] === '1';
     $pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1'
         || (isset($_GET['pdf']) && (string) $_GET['pdf'] === '1');
+    $translate = isset($_GET['translate']) && (string) $_GET['translate'] === '1';
+    $target = $translate ? LibreTranslate::normalizeLang((string) ($_GET['target'] ?? '')) : '';
+    $documentLang = App::resolveDocumentLang();
+    $lang = $translate && $target !== '' ? $target : $documentLang;
 
     return [
         'theme' => $theme,
@@ -25,6 +29,8 @@ function doc_view_options(): array
         'company' => App::setting('active_company', '') ?: '',
         'versionId' => isset($_GET['version']) ? (int) $_GET['version'] : 0,
         'coverId' => isset($_GET['id']) ? (int) $_GET['id'] : 0,
-        'lang' => LibreTranslate::normalizeLang($_GET['lang'] ?? 'en'),
+        'lang' => $lang,
+        'translate' => $translate,
+        'target' => $target,
     ];
 }

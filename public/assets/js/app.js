@@ -94,12 +94,18 @@
     window.setTimeout(restore, 1000);
   }
 
-  function buildPdfDownloadUrl(doc, params = {}, inline = false) {
+  function documentLang() {
+    return document.documentElement.dataset.documentLang || "en";
+  }
+
+  function buildPdfDownloadUrl(doc, params = {}, inline = false, options = {}) {
     const url = new URL("/pdf.php", window.location.origin);
     url.searchParams.set("doc", doc);
     if (inline) url.searchParams.set("inline", "1");
     const search = new URLSearchParams(window.location.search);
-    ["theme", "font", "accent", "version", "id", "lang", "font_size", "name_size", "spacing"].forEach((key) => {
+    const translated = options.translate === true;
+    const targetLang = options.target ? String(options.target) : "";
+    ["theme", "font", "accent", "version", "id", "font_size", "name_size", "spacing"].forEach((key) => {
       let value;
       if (Object.prototype.hasOwnProperty.call(params, key)) {
         value = params[key];
@@ -107,7 +113,6 @@
         key === "theme" ||
         key === "font" ||
         key === "accent" ||
-        key === "lang" ||
         key === "font_size" ||
         key === "name_size" ||
         key === "spacing"
@@ -120,8 +125,12 @@
         url.searchParams.set(key, String(value));
       }
     });
-    if (!url.searchParams.has("lang")) {
-      url.searchParams.set("lang", "en");
+    if (translated && targetLang) {
+      url.searchParams.set("translate", "1");
+      url.searchParams.set("target", targetLang);
+      url.searchParams.set("lang", targetLang);
+    } else if (!url.searchParams.has("lang")) {
+      url.searchParams.set("lang", documentLang());
     }
     return url.pathname + url.search;
   }
@@ -145,6 +154,69 @@
   function closeExportPicker() {
     const existing = document.querySelector("[data-export-picker]");
     if (existing) existing.remove();
+  }
+
+  function closeTranslatePicker() {
+    const existing = document.querySelector("[data-translate-picker]");
+    if (existing) existing.remove();
+  }
+
+  function chooseTranslateTarget(doc) {
+    const source = documentLang();
+    const targets = [
+      { code: "en", label: "English" },
+      { code: "de", label: "German" },
+    ].filter((t) => t.code !== source);
+    if (!targets.length) {
+      return Promise.resolve(null);
+    }
+    return new Promise((resolve) => {
+      closeTranslatePicker();
+      const overlay = document.createElement("div");
+      overlay.className = "export-picker-overlay";
+      overlay.setAttribute("data-translate-picker", "1");
+      overlay.innerHTML =
+        '<div class="export-picker" role="dialog" aria-modal="true" aria-labelledby="translate-picker-title">' +
+        '<div class="export-picker-head">' +
+        '<h2 id="translate-picker-title">Translate ' +
+        (doc === "cover" ? "cover letter" : "resume") +
+        " PDF</h2>" +
+        '<button type="button" class="btn-close" data-translate-cancel aria-label="Cancel"></button>' +
+        "</div>" +
+        '<p class="export-picker-lead">Uses DeepL. Translation is billed per character. <a href="/settings">View usage</a></p>' +
+        '<ul class="export-picker-list"></ul>' +
+        '<div class="export-picker-foot"><button type="button" class="btn btn-outline-secondary" data-translate-cancel>Cancel</button></div>' +
+        "</div>";
+      const list = overlay.querySelector(".export-picker-list");
+      targets.forEach((opt) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "export-picker-option";
+        btn.innerHTML = "<strong>Translate to " + opt.label + "</strong>";
+        btn.addEventListener("click", () => {
+          closeTranslatePicker();
+          resolve(opt.code);
+        });
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+          closeTranslatePicker();
+          resolve(null);
+        }
+      });
+      overlay.querySelectorAll("[data-translate-cancel]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          closeTranslatePicker();
+          resolve(null);
+        });
+      });
+      document.body.appendChild(overlay);
+      const first = overlay.querySelector(".export-picker-option");
+      if (first) first.focus();
+    });
   }
 
   function chooseExportOption(doc, options) {
@@ -237,6 +309,19 @@
     window.location.href = buildPdfDownloadUrl(kind, resolved, false);
   }
 
+  async function translateCleanPdf(doc = null, params = {}, triggerEl = null) {
+    let kind = doc;
+    if (!kind) {
+      if (window.location.pathname.includes("cover")) kind = "cover";
+      else kind = "resume";
+    }
+    const target = await chooseTranslateTarget(kind);
+    if (!target) return;
+    const resolved = await resolveExportParams(kind, params, triggerEl);
+    if (resolved === null) return;
+    window.location.href = buildPdfDownloadUrl(kind, resolved, false, { translate: true, target });
+  }
+
   async function printCleanPdf(doc = null, params = {}, triggerEl = null) {
     let kind = doc;
     if (!kind) {
@@ -265,9 +350,18 @@
   });
 
   document.querySelectorAll("[data-download-pdf]").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (event) => {
+      if (btn.getAttribute("href")) return;
+      event.preventDefault();
       const doc = btn.getAttribute("data-doc") || null;
       downloadCleanPdf(doc, {}, btn);
+    });
+  });
+
+  document.querySelectorAll("[data-translate-pdf]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const doc = btn.getAttribute("data-doc") || null;
+      translateCleanPdf(doc, {}, btn);
     });
   });
 

@@ -53,8 +53,7 @@ layout_header('Resume copies');
                   </form>
                 <?php endif; ?>
                 <a class="btn btn-sm btn-outline-secondary" href="/resume?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
-                <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => $rid])) ?>">PDF EN</a>
-                <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => $rid])) ?>">PDF DE</a>
+                <?php layout_pdf_buttons('resume', ['version' => $rid]); ?>
               </div>
             </div>
           <?php endforeach; ?>

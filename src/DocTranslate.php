@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-/** Translate resume / cover content for EN or DE PDF downloads (DeepL, else local LibreTranslate). */
+/** Translate resume / cover content for paid PDF export (DeepL). */
 final class DocTranslate
 {
     /**
      * @param array{profile: array<string, mixed>, sections: list<array<string, mixed>>, experiences: list<array<string, mixed>>} $payload
      * @return array{profile: array<string, mixed>, sections: list<array<string, mixed>>, experiences: list<array<string, mixed>>}
      */
-    public static function resume(array $payload, string $lang): array
+    public static function resume(array $payload, string $targetLang, string $sourceLang = 'en'): array
     {
-        $lang = LibreTranslate::normalizeLang($lang);
-        if ($lang === 'en') {
+        $targetLang = LibreTranslate::normalizeLang($targetLang);
+        $sourceLang = LibreTranslate::normalizeLang($sourceLang);
+        if ($targetLang === $sourceLang) {
             return $payload;
         }
 
-        $source = 'en';
-        $engine = 'lt';
+        $engine = 'deepl';
         $profile = $payload['profile'];
         if (!empty($profile['title'])) {
-            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $lang, $source, $engine);
+            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $targetLang, $sourceLang, $engine);
         }
         if (!empty($profile['location'])) {
-            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $lang, $source, $engine);
+            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $targetLang, $sourceLang, $engine);
         }
 
         $sections = [];
@@ -32,10 +32,10 @@ final class DocTranslate
                 continue;
             }
             if (!empty($section['title'])) {
-                $section['title'] = LibreTranslate::translate((string) $section['title'], $lang, $source, $engine);
+                $section['title'] = LibreTranslate::translate((string) $section['title'], $targetLang, $sourceLang, $engine);
             }
             if (!empty($section['body'])) {
-                $section['body'] = LibreTranslate::translate((string) $section['body'], $lang, $source, $engine);
+                $section['body'] = LibreTranslate::translate((string) $section['body'], $targetLang, $sourceLang, $engine);
             }
             $sections[] = $section;
         }
@@ -46,13 +46,13 @@ final class DocTranslate
                 continue;
             }
             if (!empty($job['position'])) {
-                $job['position'] = LibreTranslate::translate((string) $job['position'], $lang, $source, $engine);
+                $job['position'] = LibreTranslate::translate((string) $job['position'], $targetLang, $sourceLang, $engine);
             }
             if (!empty($job['location'])) {
-                $job['location'] = LibreTranslate::translate((string) $job['location'], $lang, $source, $engine);
+                $job['location'] = LibreTranslate::translate((string) $job['location'], $targetLang, $sourceLang, $engine);
             }
             if (!empty($job['bullets'])) {
-                $job['bullets'] = LibreTranslate::translate((string) $job['bullets'], $lang, $source, $engine);
+                $job['bullets'] = LibreTranslate::translate((string) $job['bullets'], $targetLang, $sourceLang, $engine);
             }
             $experiences[] = $job;
         }
@@ -68,23 +68,23 @@ final class DocTranslate
      * @param array<string, mixed> $profile
      * @return array{letter: ?array<string, mixed>, profile: array<string, mixed>}
      */
-    public static function cover(?array $letter, array $profile, string $lang): array
+    public static function cover(?array $letter, array $profile, string $targetLang, string $sourceLang = 'en'): array
     {
-        $lang = LibreTranslate::normalizeLang($lang);
-        if ($lang === 'en') {
+        $targetLang = LibreTranslate::normalizeLang($targetLang);
+        $sourceLang = LibreTranslate::normalizeLang($sourceLang);
+        if ($targetLang === $sourceLang) {
             return ['letter' => $letter, 'profile' => $profile];
         }
 
-        $source = 'en';
         if (!empty($profile['title'])) {
-            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $lang, $source, 'lt');
+            $profile['title'] = LibreTranslate::translate((string) $profile['title'], $targetLang, $sourceLang, 'deepl');
         }
         if (!empty($profile['location'])) {
-            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $lang, $source, 'lt');
+            $profile['location'] = LibreTranslate::translate((string) $profile['location'], $targetLang, $sourceLang, 'deepl');
         }
         if ($letter !== null) {
             if (!empty($letter['body'])) {
-                $letter['body'] = LibreTranslate::translate((string) $letter['body'], $lang, $source, 'deepl');
+                $letter['body'] = LibreTranslate::translate((string) $letter['body'], $targetLang, $sourceLang, 'deepl');
             }
         }
         return ['letter' => $letter, 'profile' => $profile];

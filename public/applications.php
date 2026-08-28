@@ -161,17 +161,27 @@ if ($action === 'new' || $action === 'edit') {
               <input class="form-control" type="number" id="cover_letter_id" name="cover_letter_id" min="0" value="<?= App::e((string) ($row['cover_letter_id'] ?? '')) ?>" placeholder="From cover letters">
             </div>
             <?php if ((int) ($row['resume_version_id'] ?? 0) > 0): ?>
+              <?php
+                $resumePdfExtra = ['version' => (int) $row['resume_version_id']];
+                $otherLang = App::resolveDocumentLang() === 'en' ? 'de' : 'en';
+                $otherLabel = $otherLang === 'en' ? 'English' : 'German';
+              ?>
               <div class="col-12">
                 <p class="text-secondary small mb-0">Linked resume <a href="/resume.php?version=<?= (int) $row['resume_version_id'] ?>">#<?= (int) $row['resume_version_id'] ?></a>
-                  · <a href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => (int) $row['resume_version_id']])) ?>">PDF EN</a>
-                  · <a href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => (int) $row['resume_version_id']])) ?>">PDF DE</a></p>
+                  · <a href="<?= App::e(PdfExport::downloadHrefOriginal('resume', $resumePdfExtra)) ?>">PDF</a>
+                  · <a href="<?= App::e(PdfExport::downloadHrefTranslated('resume', $otherLang, $resumePdfExtra)) ?>">Translate to <?= App::e($otherLabel) ?></a></p>
               </div>
             <?php endif; ?>
             <?php if ((int) ($row['cover_letter_id'] ?? 0) > 0): ?>
+              <?php
+                $coverPdfExtra = ['id' => (int) $row['cover_letter_id']];
+                $otherLang = App::resolveDocumentLang() === 'en' ? 'de' : 'en';
+                $otherLabel = $otherLang === 'en' ? 'English' : 'German';
+              ?>
               <div class="col-12">
                 <p class="text-secondary small mb-0">Linked cover <a href="/cover-letter.php?id=<?= (int) $row['cover_letter_id'] ?>">#<?= (int) $row['cover_letter_id'] ?></a>
-                  · <a href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => (int) $row['cover_letter_id']])) ?>">PDF EN</a>
-                  · <a href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => (int) $row['cover_letter_id']])) ?>">PDF DE</a></p>
+                  · <a href="<?= App::e(PdfExport::downloadHrefOriginal('cover', $coverPdfExtra)) ?>">PDF</a>
+                  · <a href="<?= App::e(PdfExport::downloadHrefTranslated('cover', $otherLang, $coverPdfExtra)) ?>">Translate to <?= App::e($otherLabel) ?></a></p>
               </div>
             <?php endif; ?>
             <div class="col-12">
