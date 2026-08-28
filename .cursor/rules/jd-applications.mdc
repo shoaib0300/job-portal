@@ -13,7 +13,7 @@ Whenever the user pastes a job description or asks to edit/tailor a resume or co
 2. **Always set the job location** on both:
    - Resume snapshot `location` (e.g. `München, Germany`, `Berlin, Germany`)
    - Cover letter: mention the location in the letter body and/or company line (e.g. `Company · München`)
-3. Light-tailor title/summary/skills from the JD; keep experience mostly intact unless asked.
+3. Light-tailor title/summary/skills from the JD in **English** (the user's `document_lang`); keep experience mostly intact unless asked. Use **Translate PDF…** (DeepL) for German or other languages — do not put German in the resume snapshot unless `document_lang` is `de` or the user asks for German.
 4. **Always** log the job in Applications (`status` default `applied` unless the user names another).
 5. Tell the user: resume ID, cover ID, location, and Applications status.
 
