@@ -32,6 +32,7 @@ final class JobsIngest
             'linkedin',
             'jobexport',
             'jobware',
+            'adzuna',
             'career',
             'university',
             'public_sector',
@@ -119,7 +120,7 @@ final class JobsIngest
         $seeds[] = [
             'q' => 'Minijob',
             'city' => '',
-            'sources' => ['jobexport', 'jobware', 'linkedin'],
+            'sources' => ['jobexport', 'jobware', 'linkedin', 'adzuna'],
         ];
         $seeds[] = [
             'q' => '',
@@ -135,6 +136,11 @@ final class JobsIngest
             'q' => 'IT',
             'city' => '',
             'sources' => ['jobware'],
+        ];
+        $seeds[] = [
+            'q' => '',
+            'city' => '',
+            'sources' => ['adzuna'],
         ];
         $seeds[] = [
             'q' => '',

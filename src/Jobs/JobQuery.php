@@ -18,6 +18,7 @@ final class JobQuery
         'xing' => 'XING',
         'jobware' => 'Jobware (recommend for odd jobs)',
         'glassdoor' => 'Glassdoor',
+        'adzuna' => 'Adzuna',
         'jobexport' => 'Jobexport (recommend for odd jobs)',
         'career' => 'Company career pages',
         'university' => 'University / student portals',
@@ -47,7 +48,7 @@ final class JobQuery
     public const SERP_BOARDS = ['indeed', 'stepstone', 'xing', 'glassdoor'];
 
     /** Built-in defaults until the user saves a different Sources selection. */
-    public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport', 'career'];
+    public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport', 'adzuna', 'career'];
 
     /** Hard cap: never search/show jobs older than this many days. */
     public const MAX_POSTED_DAYS = 14;
@@ -77,7 +78,7 @@ final class JobQuery
         public bool $matchResume = false,
         public int $postedDays = self::MAX_POSTED_DAYS,
         public string $sort = 'relevance',
-        public array $sources = ['arbeitsagentur', 'jobexport'],
+        public array $sources = ['arbeitsagentur', 'jobexport', 'adzuna'],
         public int $page = 1,
         public int $size = 20,
         public array $keywords = [],
@@ -442,7 +443,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v18:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v19:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Days window passed to boards / post-filter (always 1 or 14). */

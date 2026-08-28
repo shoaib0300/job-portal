@@ -72,11 +72,12 @@ super_layout_header('Jobs');
   <div class="alert alert-warning">
     <p class="mb-1"><strong>Glassdoor / Indeed / StepStone / XING</strong> need <code>BRIGHT_DATA_API_TOKEN</code> — without it they are empty.</p>
     <p class="mb-1"><strong>Jobware</strong> listings come from the public sitemap (no token). Opening a job loads the full description via Jobware’s JSON API.</p>
-    <p class="mb-0"><strong>Jobexport</strong> works without an API. We crawl the newest pages of stellenboerse (and keep last 14 days).</p>
+    <p class="mb-1"><strong>Jobexport</strong> works without an API. We crawl the newest pages of stellenboerse (and keep last 14 days).</p>
+    <p class="mb-0"><strong>Adzuna</strong> uses the official Germany API — set <code>ADZUNA_APP_ID</code> and <code>ADZUNA_APP_KEY</code> (free at developer.adzuna.com). Direct adzuna.de HTML is CloudFront-blocked.</p>
   </div>
 <?php else: ?>
   <div class="alert alert-light border small">
-    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) can run on fetch. Jobware listings use the sitemap; detail text uses Jobware’s API.
+    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) can run on fetch. Jobware listings use the sitemap; detail text uses Jobware’s API. Adzuna uses <code>ADZUNA_APP_ID</code> / <code>ADZUNA_APP_KEY</code> (or Bright Data as HTML fallback).
   </div>
 <?php endif; ?>
 <div class="card shadow-sm border-success mb-4">
@@ -84,7 +85,7 @@ super_layout_header('Jobs');
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
       <div>
         <h2 class="h4 mb-1">Fetch jobs now</h2>
-        <p class="text-secondary mb-0">Downloads jobs across all fields and levels (student, junior, full-time, experienced) from LinkedIn, Arbeitsagentur, Jobware, Jobexport, career sites, etc. Dashboard users then search this list (fast, no internet).</p>
+        <p class="text-secondary mb-0">Downloads jobs across all fields and levels (student, junior, full-time, experienced) from LinkedIn, Arbeitsagentur, Jobware, Jobexport, Adzuna, career sites, etc. Dashboard users then search this list (fast, no internet).</p>
       </div>
       <form method="post" class="m-0" data-ingest-form>
         <input type="hidden" name="action" value="ingest_now">

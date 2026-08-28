@@ -166,13 +166,18 @@ final class JobStore
                 // Re-crawl list cards have empty description/apply — keep hydrated detail fields.
                 $existing = self::get($job->source, $job->externalId);
                 if ($existing !== null) {
-                    if ($job->description === '' && $existing->description !== '') {
+                    // List recrawls often have a short snippet — keep the hydrated JD.
+                    if (mb_strlen(trim(strip_tags($existing->description))) > mb_strlen(trim(strip_tags($job->description)))) {
                         $job->description = $existing->description;
                     }
                     if ($job->applyUrl === '' && $existing->applyUrl !== '') {
                         $job->applyUrl = $existing->applyUrl;
                     }
+                    if (str_contains($existing->url, '/details/') && str_contains($job->url, '/land/ad/')) {
+                        $job->url = $existing->url;
+                    }
                     $payload = json_encode($job->toArray(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+                    $row[12] = mb_substr($job->url, 0, 1024);
                     $row[13] = mb_substr($job->applyUrl, 0, 1024);
                     $row[14] = $job->description !== '' ? $job->description : null;
                     $row[15] = $payload;
@@ -215,7 +220,7 @@ final class JobStore
         self::ensureSchema();
         $sources = $query->sources !== []
             ? $query->sources
-            : array_merge(['arbeitsagentur', 'linkedin', 'jobexport', 'interamt'], array_keys(SerpBoardSource::BOARDS));
+            : array_merge(['arbeitsagentur', 'linkedin', 'jobexport', 'adzuna', 'interamt'], array_keys(SerpBoardSource::BOARDS));
         $sources = array_values(array_unique(array_map('strval', $sources)));
         if ($sources === []) {
             return [];

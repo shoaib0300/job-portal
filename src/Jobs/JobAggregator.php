@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KaamMilo\Jobs;
 
 use App;
+use KaamMilo\Jobs\Sources\AdzunaSource;
 use KaamMilo\Jobs\Sources\ArbeitsagenturSource;
 use KaamMilo\Jobs\Sources\AtsBoardSource;
 use KaamMilo\Jobs\Sources\InteramtSource;
@@ -28,6 +29,7 @@ final class JobAggregator
         'glassdoor' => 8,
         'linkedin' => 9,
         'jobexport' => 10,
+        'adzuna' => 11,
     ];
 
     public static function ensureSchema(): void
@@ -179,6 +181,12 @@ final class JobAggregator
             $notices = array_merge($notices, $jw['notices']);
         }
 
+        if ($query->wantsSource('adzuna')) {
+            $az = AdzunaSource::search($query);
+            $listings = array_merge($listings, $az['listings']);
+            $notices = array_merge($notices, $az['notices']);
+        }
+
         // Keep every board’s results for the store. Cross-platform duplicates are
         // skipped in JobStore by company+title+posted date (content_key).
         // Do not fingerprint-dedupe here — that preferred AA and wiped Jobexport.
@@ -237,6 +245,9 @@ final class JobAggregator
         }
         if ($source === 'jobexport') {
             return JobexportSource::details($externalId) ?? $cached;
+        }
+        if ($source === 'adzuna') {
+            return AdzunaSource::details($externalId) ?? $cached;
         }
         return $cached;
     }
@@ -344,6 +355,18 @@ final class JobAggregator
         }));
     }
 
+    /** Unix ts for recency sort. Unknown posted date ranks as fresh (not 1970). */
+    private static function postedSortTs(JobListing $job): int
+    {
+        if ($job->postedAt !== null && $job->postedAt !== '') {
+            $ts = strtotime($job->postedAt);
+            if ($ts !== false) {
+                return $ts;
+            }
+        }
+        return time();
+    }
+
     /** True when postedAt is missing/unparseable, or within the last $days days. */
     private static function isWithinPostedWindow(JobListing $job, int $days): bool
     {
@@ -416,8 +439,8 @@ final class JobAggregator
         $resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
         usort($listings, static function (JobListing $a, JobListing $b) use ($keywords, $resumeTerms, $query): int {
             if ($query->sort === 'recent') {
-                $pa = $a->postedAt ? (int) strtotime($a->postedAt) : 0;
-                $pb = $b->postedAt ? (int) strtotime($b->postedAt) : 0;
+                $pa = self::postedSortTs($a);
+                $pb = self::postedSortTs($b);
                 if ($pa !== $pb) {
                     return $pb <=> $pa;
                 }
@@ -435,8 +458,8 @@ final class JobAggregator
                 return $sb <=> $sa;
             }
             if ($query->sort !== 'recent') {
-                $pa = $a->postedAt ? (int) strtotime($a->postedAt) : 0;
-                $pb = $b->postedAt ? (int) strtotime($b->postedAt) : 0;
+                $pa = self::postedSortTs($a);
+                $pb = self::postedSortTs($b);
                 if ($pa !== $pb) {
                     return $pb <=> $pa;
                 }
@@ -535,6 +558,7 @@ final class JobAggregator
             || str_contains($hay, 'sitemap boards return a sample')
             || str_contains($hay, 'company career sites skipped')
             || str_contains($hay, 'site boards')
-            || str_contains($hay, 'no job sitemap found');
+            || str_contains($hay, 'no job sitemap found')
+            || str_contains($hay, 'adzuna_app');
     }
 }
