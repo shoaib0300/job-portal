@@ -10,6 +10,7 @@ ddev composer dump-autoload   # PSR-4: KaamFit\ + Freeworld\PhpJobspy\ (vendored
 # LinkedIn JobSpy (once per image, or after ddev restart with web-build Dockerfile):
 ddev exec bash bin/install_jobspy.sh
 cp .env.example .env    # DATABASE_URL; optional BRIGHT_DATA_* for Indeed/StepStone SERP
+ddev exec php bin/seed_glossary.php   # EN↔DE translation glossary (reduces DeepL usage); re-run after updating src/glossary/en_de.php
 ```
 
 Site: `https://kaamfit.ddev.site` · portal: `/dashboard` or `https://portal.kaamfit.ddev.site`

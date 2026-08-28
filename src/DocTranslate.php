@@ -35,7 +35,7 @@ final class DocTranslate
                 $section['title'] = LibreTranslate::translate((string) $section['title'], $targetLang, $sourceLang, $engine);
             }
             if (!empty($section['body'])) {
-                $section['body'] = LibreTranslate::translate((string) $section['body'], $targetLang, $sourceLang, $engine);
+                $section['body'] = LibreTranslate::translateMultiline((string) $section['body'], $targetLang, $sourceLang, $engine);
             }
             $sections[] = $section;
         }
@@ -52,7 +52,7 @@ final class DocTranslate
                 $job['location'] = LibreTranslate::translate((string) $job['location'], $targetLang, $sourceLang, $engine);
             }
             if (!empty($job['bullets'])) {
-                $job['bullets'] = LibreTranslate::translate((string) $job['bullets'], $targetLang, $sourceLang, $engine);
+                $job['bullets'] = LibreTranslate::translateMultiline((string) $job['bullets'], $targetLang, $sourceLang, $engine);
             }
             $experiences[] = $job;
         }
@@ -84,7 +84,7 @@ final class DocTranslate
         }
         if ($letter !== null) {
             if (!empty($letter['body'])) {
-                $letter['body'] = LibreTranslate::translate((string) $letter['body'], $targetLang, $sourceLang, 'deepl');
+                $letter['body'] = LibreTranslate::translateMultiline((string) $letter['body'], $targetLang, $sourceLang, 'deepl');
             }
         }
         return ['letter' => $letter, 'profile' => $profile];

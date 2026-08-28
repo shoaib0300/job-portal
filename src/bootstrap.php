@@ -56,6 +56,7 @@ require_once $root . '/src/SuperAdmin.php';
 require_once $root . '/src/PdfExport.php';
 require_once $root . '/src/DeepL.php';
 require_once $root . '/src/TranslateLanguages.php';
+require_once $root . '/src/TranslationGlossary.php';
 require_once $root . '/src/LibreTranslate.php';
 require_once $root . '/src/DocTranslate.php';
 
@@ -78,6 +79,7 @@ try {
     SuperAdmin::ensureSchema();
     KaamFit\Jobs\JobAggregator::ensureSchema();
     LibreTranslate::ensureSchema();
+    TranslationGlossary::ensureSchema();
 } catch (Throwable $e) {
     // Pages that need the DB will surface the error; CLI without DATABASE_URL still loads classes.
 }

@@ -65,11 +65,11 @@ function guide_steps_data(): array
             'icon' => 'pdf',
             'title' => 'Download PDF vs Translate PDF',
             'body' => '<strong>Download PDF</strong> — free. Exports exactly what you wrote, in your document language (set under <a href="/settings">Account</a>). No DeepL. '
-                . '<strong>Translate PDF…</strong> — paid via DeepL. Pick any target language (German, Urdu, …). '
-                . 'Each paragraph is translated once and saved in a <strong>cache</strong> (matched by the exact words + source + target language). '
-                . 'Click Translate PDF again with the <em>same</em> resume or letter? KaamFit reuses the cache — <strong>no second DeepL call</strong> for those blocks. '
-                . 'You only pay again if you <strong>change the text</strong> (even one word), switch to a <strong>different language</strong>, or add new sections. '
-                . 'Check <a href="/settings">Account → Translation usage</a>: first run shows <em>billed</em> characters; repeat runs with unchanged text should not add much.',
+                . '<strong>Translate PDF…</strong> — paid via DeepL for text not already covered. Order: <strong>glossary</strong> (1000+ pre-seeded EN↔DE resume terms) → <strong>cache</strong> (automatic — every DeepL result is saved here) → <strong>DeepL</strong> (billed once per new text block). '
+                . 'You do <strong>not</strong> need to add words to the seed file after DeepL translates them — the cache remembers exact text for next time. The seed file is only for common phrases we preload (headings, cities, job titles). '
+                . 'Multiline fields (skills, bullets, cover letter) are translated <em>line by line</em>, so known lines skip DeepL even when other lines are new. '
+                . 'Click Translate PDF again with the same text? Cache reuse — no second DeepL call. You pay again only if you <strong>edit</strong> text, switch <strong>language</strong>, or add new lines. '
+                . 'Check <a href="/settings">Account → Translation usage</a> for billed vs cached characters.',
             'mini' => null,
             'links' => [
                 ['href' => '/design', 'label' => 'Resume style', 'primary' => true],

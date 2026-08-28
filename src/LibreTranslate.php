@@ -87,8 +87,11 @@ final class LibreTranslate
         if (!$useFullLang && self::looksLikeTarget($text, $target)) {
             return $text;
         }
-        $glossed = self::glossary($text, $target);
+        $glossSource = $sourceNorm === 'en' || $sourceNorm === 'de' ? $sourceNorm : 'auto';
+        $glossed = TranslationGlossary::lookup($text, $glossSource, $target);
         if ($glossed !== null) {
+            self::ensureSchema();
+            self::logUsage('glossary', 0, mb_strlen($text));
             return $glossed;
         }
 
@@ -141,39 +144,23 @@ final class LibreTranslate
         return $result;
     }
 
-    /** Fixed EN→DE phrases so headings and cities never hit DeepL. */
-    private static function glossary(string $text, string $target): ?string
+    /**
+     * Translate multiline text line-by-line so glossary/cache apply per line.
+     */
+    public static function translateMultiline(string $text, string $target, string $source = 'auto', string $prefer = 'auto'): string
     {
-        if ($target !== 'de') {
-            return null;
+        if ($text === '') {
+            return '';
         }
-        $norm = strtolower(preg_replace('/\s+/', ' ', trim($text)) ?? $text);
-        $map = [
-            'experience' => 'Berufserfahrung',
-            'work experience' => 'Berufserfahrung',
-            'professional experience' => 'Berufserfahrung',
-            'education' => 'Ausbildung',
-            'skills' => 'Kenntnisse',
-            'summary' => 'Profil',
-            'professional summary' => 'Profil',
-            'profile' => 'Profil',
-            'certificates' => 'Zertifikate',
-            'certifications' => 'Zertifikate',
-            'languages' => 'Sprachen',
-            'projects' => 'Projekte',
-            'working student' => 'Werkstudent',
-            'intern' => 'Praktikant',
-            'quality assurance' => 'Qualitätssicherung',
-            'software tester' => 'Softwaretester',
-            'test automation' => 'Testautomatisierung',
-            'munich, germany' => 'München, Deutschland',
-            'münchen, germany' => 'München, Deutschland',
-            'berlin, germany' => 'Berlin, Deutschland',
-            'hamburg, germany' => 'Hamburg, Deutschland',
-            'rostock, germany' => 'Rostock, Deutschland',
-            'germany' => 'Deutschland',
-        ];
-        return $map[$norm] ?? null;
+        if (!str_contains($text, "\n")) {
+            return self::translate($text, $target, $source, $prefer);
+        }
+        $lines = preg_split('/\r\n|\r|\n/', $text) ?: [];
+        $out = [];
+        foreach ($lines as $line) {
+            $out[] = trim($line) === '' ? '' : self::translate($line, $target, $source, $prefer);
+        }
+        return implode("\n", $out);
     }
 
     private static function looksLikeTarget(string $text, string $target): bool
