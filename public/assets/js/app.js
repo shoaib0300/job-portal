@@ -98,6 +98,35 @@
     return document.documentElement.dataset.documentLang || "en";
   }
 
+  function translateTargetLang() {
+    return document.documentElement.dataset.translateTargetLang || "de";
+  }
+
+  function translateLanguageOptions() {
+    if (Array.isArray(window.kmTranslateLangs) && window.kmTranslateLangs.length) {
+      return window.kmTranslateLangs;
+    }
+    return [
+      { code: "de", label: "German" },
+      { code: "en-gb", label: "English (UK)" },
+      { code: "fr", label: "French" },
+    ];
+  }
+
+  async function saveTranslatePreference(code) {
+    try {
+      await fetch("/translate-preference.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ translate_target_lang: code }),
+        credentials: "same-origin",
+      });
+      document.documentElement.dataset.translateTargetLang = code;
+    } catch (_err) {
+      // preference save is best-effort
+    }
+  }
+
   function buildPdfDownloadUrl(doc, params = {}, inline = false, options = {}) {
     const url = new URL("/pdf.php", window.location.origin);
     url.searchParams.set("doc", doc);
@@ -162,45 +191,59 @@
   }
 
   function chooseTranslateTarget(doc) {
-    const source = documentLang();
-    const targets = [
-      { code: "en", label: "English" },
-      { code: "de", label: "German" },
-    ].filter((t) => t.code !== source);
-    if (!targets.length) {
-      return Promise.resolve(null);
-    }
+    const options = translateLanguageOptions();
+    const defaultCode = translateTargetLang();
     return new Promise((resolve) => {
       closeTranslatePicker();
       const overlay = document.createElement("div");
       overlay.className = "export-picker-overlay";
       overlay.setAttribute("data-translate-picker", "1");
       overlay.innerHTML =
-        '<div class="export-picker" role="dialog" aria-modal="true" aria-labelledby="translate-picker-title">' +
+        '<div class="export-picker export-picker-translate" role="dialog" aria-modal="true" aria-labelledby="translate-picker-title">' +
         '<div class="export-picker-head">' +
         '<h2 id="translate-picker-title">Translate ' +
         (doc === "cover" ? "cover letter" : "resume") +
         " PDF</h2>" +
         '<button type="button" class="btn-close" data-translate-cancel aria-label="Cancel"></button>' +
         "</div>" +
-        '<p class="export-picker-lead">Uses DeepL. Translation is billed per character. <a href="/settings">View usage</a></p>' +
-        '<ul class="export-picker-list"></ul>' +
-        '<div class="export-picker-foot"><button type="button" class="btn btn-outline-secondary" data-translate-cancel>Cancel</button></div>' +
+        '<p class="export-picker-lead">Choose a language (' +
+        (String(options.length)) +
+        ' available via DeepL). Billed per character. <a href="/settings#deepl-languages">View all</a> · <a href="/settings">Usage</a></p>' +
+        '<label class="form-label small mb-1" for="translate-target-search">Search languages</label>' +
+        '<input type="search" class="form-control mb-2" id="translate-target-search" placeholder="e.g. Urdu, German, French…" autocomplete="off">' +
+        '<label class="form-label small mb-1" for="translate-target-select">Translate to</label>' +
+        '<select class="form-select mb-3" id="translate-target-select" data-translate-select size="8"></select>' +
+        '<div class="export-picker-foot d-flex gap-2 justify-content-end">' +
+        '<button type="button" class="btn btn-outline-secondary" data-translate-cancel>Cancel</button>' +
+        '<button type="button" class="btn btn-primary" data-translate-confirm>Translate PDF</button>' +
+        "</div>" +
         "</div>";
-      const list = overlay.querySelector(".export-picker-list");
-      targets.forEach((opt) => {
-        const li = document.createElement("li");
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "export-picker-option";
-        btn.innerHTML = "<strong>Translate to " + opt.label + "</strong>";
-        btn.addEventListener("click", () => {
-          closeTranslatePicker();
-          resolve(opt.code);
+      const select = overlay.querySelector("[data-translate-select]");
+      const search = overlay.querySelector("#translate-target-search");
+
+      function renderOptions(filter) {
+        const q = (filter || "").trim().toLowerCase();
+        select.innerHTML = "";
+        const filtered = options.filter((opt) => {
+          if (!q) return true;
+          return opt.label.toLowerCase().includes(q) || opt.code.toLowerCase().includes(q);
         });
-        li.appendChild(btn);
-        list.appendChild(li);
-      });
+        filtered.forEach((opt) => {
+          const option = document.createElement("option");
+          option.value = opt.code;
+          option.textContent = opt.label;
+          if (opt.code === defaultCode) {
+            option.selected = true;
+          }
+          select.appendChild(option);
+        });
+        if (!select.value && filtered[0]) {
+          select.value = filtered[0].code;
+        }
+      }
+
+      renderOptions("");
+      search.addEventListener("input", () => renderOptions(search.value));
       overlay.addEventListener("click", (event) => {
         if (event.target === overlay) {
           closeTranslatePicker();
@@ -213,9 +256,17 @@
           resolve(null);
         });
       });
+      overlay.querySelector("[data-translate-confirm]").addEventListener("click", async () => {
+        const code = select.value;
+        if (!code) {
+          return;
+        }
+        closeTranslatePicker();
+        await saveTranslatePreference(code);
+        resolve(code);
+      });
       document.body.appendChild(overlay);
-      const first = overlay.querySelector(".export-picker-option");
-      if (first) first.focus();
+      search.focus();
     });
   }
 
@@ -1103,5 +1154,20 @@
     }
 
     setStep(0);
+  });
+})();
+
+(function initDeeplLanguageFilter() {
+  const input = document.getElementById("deepl-lang-filter");
+  const list = document.getElementById("deepl-lang-list");
+  if (!input || !list) return;
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    list.querySelectorAll("li").forEach((li) => {
+      const label = li.getAttribute("data-lang-label") || "";
+      const code = li.getAttribute("data-lang-code") || "";
+      const show = !q || label.includes(q) || code.includes(q);
+      li.style.display = show ? "" : "none";
+    });
   });
 })();

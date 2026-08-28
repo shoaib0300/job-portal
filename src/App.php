@@ -242,6 +242,7 @@ final class App
             'font_size' => 'md',
             'section_spacing' => 'md',
             'document_lang' => 'en',
+            'translate_target_lang' => 'de',
         ];
         foreach ($defaults as $key => $value) {
             if (self::setting($key) === null) {
@@ -815,6 +816,19 @@ final class App
             return LibreTranslate::normalizeLang($stored);
         }
         return 'en';
+    }
+
+    /** Last language chosen for paid PDF translation (DeepL target). */
+    public static function resolveTranslateTargetLang(?string $lang = null): string
+    {
+        if ($lang !== null && $lang !== '') {
+            return TranslateLanguages::normalize($lang);
+        }
+        $stored = self::setting('translate_target_lang');
+        if (is_string($stored) && $stored !== '') {
+            return TranslateLanguages::normalize($stored);
+        }
+        return self::resolveDocumentLang() === 'de' ? 'en-gb' : 'de';
     }
 
     public static function resolveNameSize(?string $size = null): string

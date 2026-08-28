@@ -54,6 +54,7 @@ require_once $root . '/src/Auth.php';
 require_once $root . '/src/SuperAdmin.php';
 require_once $root . '/src/PdfExport.php';
 require_once $root . '/src/DeepL.php';
+require_once $root . '/src/TranslateLanguages.php';
 require_once $root . '/src/LibreTranslate.php';
 require_once $root . '/src/DocTranslate.php';
 

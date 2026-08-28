@@ -36,7 +36,7 @@ final class DeepL
         return 'https://api.deepl.com/v2/translate';
     }
 
-    public static function translate(string $text, string $target, string $source = 'en'): string
+    public static function translate(string $text, string $target, string $source = ''): string
     {
         $text = trim($text);
         if ($text === '') {
@@ -47,14 +47,16 @@ final class DeepL
             throw new RuntimeException('DEEPL_API_KEY is not set.');
         }
 
-        $targetLang = strtoupper($target === 'de' ? 'DE' : 'EN');
+        $targetLang = TranslateLanguages::toDeepLTarget($target);
         $payload = [
             'text' => [$text],
             'target_lang' => $targetLang,
             'preserve_formatting' => true,
+            'enable_beta_languages' => true,
         ];
-        if ($source === 'de' || $source === 'en') {
-            $payload['source_lang'] = strtoupper($source);
+        $sourceLang = TranslateLanguages::toDeepLSource($source);
+        if ($sourceLang !== '') {
+            $payload['source_lang'] = $sourceLang;
         }
         if ($targetLang === 'DE') {
             $payload['formality'] = 'prefer_more';
@@ -154,5 +156,50 @@ final class DeepL
             'character_count' => (int) $data['character_count'],
             'character_limit' => (int) $data['character_limit'],
         ];
+    }
+
+    /**
+     * @return array<string, string>|null code => name
+     */
+    public static function fetchTargetLanguages(): ?array
+    {
+        $key = self::apiKey();
+        if ($key === '' || !function_exists('curl_init')) {
+            return null;
+        }
+        $ch = curl_init(self::apiHost() . '/v2/languages?type=target');
+        if ($ch === false) {
+            return null;
+        }
+        curl_setopt_array($ch, [
+            CURLOPT_HTTPGET => true,
+            CURLOPT_HTTPHEADER => ['Authorization: DeepL-Auth-Key ' . $key],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 8,
+            CURLOPT_TIMEOUT => 20,
+        ]);
+        $body = curl_exec($ch);
+        $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if (!is_string($body) || $code < 200 || $code >= 300) {
+            return null;
+        }
+        $data = json_decode($body, true);
+        if (!is_array($data)) {
+            return null;
+        }
+        $out = [];
+        foreach ($data as $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+            $apiCode = (string) ($row['language'] ?? '');
+            $name = (string) ($row['name'] ?? '');
+            if ($apiCode === '' || $name === '') {
+                continue;
+            }
+            $out[strtolower($apiCode)] = $name;
+        }
+        return $out !== [] ? $out : null;
     }
 }

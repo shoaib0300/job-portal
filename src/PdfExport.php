@@ -116,8 +116,7 @@ final class PdfExport
     public static function safeFilename(string $doc, string $name, string $lang = 'en'): string
     {
         $suffix = $doc === 'cover' ? 'cover_letter' : 'resume';
-        $lang = LibreTranslate::normalizeLang($lang);
-        return self::personSlug($name) . '_' . $suffix . '_' . $lang . '.pdf';
+        return self::personSlug($name) . '_' . $suffix . '_' . TranslateLanguages::filenameSuffix($lang) . '.pdf';
     }
 
     /** Browser print / Save as PDF document title (no .pdf). */
@@ -149,7 +148,7 @@ final class PdfExport
     /** Paid PDF translated to target language via DeepL. */
     public static function downloadHrefTranslated(string $doc, string $target, array $extra = []): string
     {
-        $target = LibreTranslate::normalizeLang($target);
+        $target = TranslateLanguages::normalize($target);
         $params = array_merge($extra, [
             'doc' => $doc === 'cover' ? 'cover' : 'resume',
             'lang' => $target,

@@ -16,7 +16,7 @@ function doc_view_options(): array
     $pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1'
         || (isset($_GET['pdf']) && (string) $_GET['pdf'] === '1');
     $translate = isset($_GET['translate']) && (string) $_GET['translate'] === '1';
-    $target = $translate ? LibreTranslate::normalizeLang((string) ($_GET['target'] ?? '')) : '';
+    $target = $translate ? TranslateLanguages::normalize((string) ($_GET['target'] ?? '')) : '';
     $documentLang = App::resolveDocumentLang();
     $lang = $translate && $target !== '' ? $target : $documentLang;
 

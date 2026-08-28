@@ -11,7 +11,7 @@ final class DocTranslate
      */
     public static function resume(array $payload, string $targetLang, string $sourceLang = 'en'): array
     {
-        $targetLang = LibreTranslate::normalizeLang($targetLang);
+        $targetLang = TranslateLanguages::normalize($targetLang);
         $sourceLang = LibreTranslate::normalizeLang($sourceLang);
         if ($targetLang === $sourceLang) {
             return $payload;
@@ -70,7 +70,7 @@ final class DocTranslate
      */
     public static function cover(?array $letter, array $profile, string $targetLang, string $sourceLang = 'en'): array
     {
-        $targetLang = LibreTranslate::normalizeLang($targetLang);
+        $targetLang = TranslateLanguages::normalize($targetLang);
         $sourceLang = LibreTranslate::normalizeLang($sourceLang);
         if ($targetLang === $sourceLang) {
             return ['letter' => $letter, 'profile' => $profile];

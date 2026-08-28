@@ -15,7 +15,7 @@ $version = isset($_GET['version']) ? (int) $_GET['version'] : 0;
 $coverId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $documentLang = App::resolveDocumentLang();
 $translate = isset($_GET['translate']) && (string) $_GET['translate'] === '1';
-$target = $translate ? LibreTranslate::normalizeLang((string) ($_GET['target'] ?? '')) : '';
+$target = $translate ? TranslateLanguages::normalize((string) ($_GET['target'] ?? '')) : '';
 $lang = $translate && $target !== '' ? $target : $documentLang;
 
 $profile = App::profile();
@@ -45,6 +45,9 @@ if ($doc === 'cover' && $coverId > 0) {
 
 try {
     $path = PdfExport::generate($doc, $query);
+    if ($translate && $target !== '') {
+        App::setSetting('translate_target_lang', $target);
+    }
 } catch (Throwable $e) {
     http_response_code(500);
     header('Content-Type: text/plain; charset=utf-8');

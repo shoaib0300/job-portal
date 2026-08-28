@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (string) ($_POST['email'] ?? '')
             );
             App::setSetting('document_lang', App::resolveDocumentLang((string) ($_POST['document_lang'] ?? '')));
+            App::setSetting('translate_target_lang', App::resolveTranslateTargetLang((string) ($_POST['translate_target_lang'] ?? '')));
             App::flash('Account saved.');
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
@@ -64,6 +65,9 @@ $resumeEditHref = $masterResume ? '/resume-edit' : '/editor';
 $coverEditHref = $masterCover ? '/cover-edit' : '/cover';
 $account = Auth::user() ?? ['username' => '', 'email' => '', 'name' => ''];
 $documentLang = App::resolveDocumentLang();
+$translateTargetLang = App::resolveTranslateTargetLang();
+$translateLanguageOptions = TranslateLanguages::optionsForJs();
+$deeplLanguageCount = TranslateLanguages::count();
 $usagePeriod = strtolower(trim((string) ($_GET['usage'] ?? 'month')));
 if (!in_array($usagePeriod, ['month', 'last', 'year'], true)) {
     $usagePeriod = 'month';
@@ -111,6 +115,27 @@ layout_header('Account');
                   <option value="de"<?= $documentLang === 'de' ? ' selected' : '' ?>>German</option>
                 </select>
                 <p class="form-text small mb-0">Free PDF prints your document as written. Optional translation uses DeepL and is billed per character.</p>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="translate_target_lang">Default translate-to language</label>
+                <select class="form-select" id="translate_target_lang" name="translate_target_lang">
+                  <?php foreach ($translateLanguageOptions as $opt): ?>
+                    <option value="<?= App::e($opt['code']) ?>"<?= $translateTargetLang === $opt['code'] ? ' selected' : '' ?>><?= App::e($opt['label']) ?></option>
+                  <?php endforeach; ?>
+                </select>
+                <p class="form-text small mb-0">Pre-selected when you click Translate PDF. Change anytime in the picker.</p>
+              </div>
+              <div class="col-12" id="deepl-languages">
+                <details class="settings-deepl-langs">
+                  <summary class="h6 mb-0" style="cursor:pointer">All DeepL languages (<?= (int) $deeplLanguageCount ?>)</summary>
+                  <p class="small text-secondary mt-2 mb-2">PDF translation supports every target language listed on <a href="https://developers.deepl.com/docs/getting-started/supported-languages" target="_blank" rel="noopener">DeepL</a>, including Urdu, Hindi, Arabic, and more.</p>
+                  <input type="search" class="form-control form-control-sm mb-2" id="deepl-lang-filter" placeholder="Filter languages…" autocomplete="off">
+                  <ul class="settings-deepl-lang-list list-unstyled small mb-0" id="deepl-lang-list">
+                    <?php foreach ($translateLanguageOptions as $opt): ?>
+                      <li data-lang-label="<?= App::e(strtolower($opt['label'])) ?>" data-lang-code="<?= App::e($opt['code']) ?>"><?= App::e($opt['label']) ?></li>
+                    <?php endforeach; ?>
+                  </ul>
+                </details>
               </div>
               <div class="col-12">
                 <button type="submit" class="btn btn-primary">Save profile</button>

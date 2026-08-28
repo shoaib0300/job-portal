@@ -71,10 +71,11 @@ final class LibreTranslate
         if ($text === '') {
             return '';
         }
-        $target = self::normalizeLang($target);
-        $source = $source === 'de' || $source === 'en' ? $source : 'auto';
+        $useFullLang = $prefer === 'deepl';
+        $target = $useFullLang ? TranslateLanguages::normalize($target) : self::normalizeLang($target);
+        $sourceNorm = $source === 'de' || $source === 'en' ? $source : 'auto';
 
-        if ($source === $target) {
+        if (!$useFullLang && $sourceNorm === $target) {
             return $text;
         }
 
@@ -83,7 +84,7 @@ final class LibreTranslate
             throw new RuntimeException('PDF translation is disabled for this account. Ask the site admin to enable it.');
         }
 
-        if (self::looksLikeTarget($text, $target)) {
+        if (!$useFullLang && self::looksLikeTarget($text, $target)) {
             return $text;
         }
         $glossed = self::glossary($text, $target);
@@ -94,7 +95,7 @@ final class LibreTranslate
         $prefer = $prefer === 'deepl' || $prefer === 'lt' ? $prefer : 'auto';
         $useDeepL = DeepL::configured() && $prefer !== 'lt';
         $cacheEngine = $useDeepL ? 'deepl' : 'lt';
-        $key = hash('sha256', $cacheEngine . '|' . $source . '|' . $target . '|' . $text);
+        $key = hash('sha256', $cacheEngine . '|' . $sourceNorm . '|' . $target . '|' . $text);
         self::ensureSchema();
         $chars = mb_strlen($text);
         $cached = self::cacheGet($key);
@@ -108,19 +109,22 @@ final class LibreTranslate
         $billed = 0;
         if ($useDeepL) {
             try {
-                $translated = self::viaDeepL($text, $target, $source);
+                $translated = self::viaDeepL($text, $target, $sourceNorm);
                 $engine = 'deepl';
                 $billed = 1;
             } catch (RuntimeException $deeplError) {
+                if ($useFullLang) {
+                    throw $deeplError;
+                }
                 try {
-                    $translated = self::viaLibre($text, $target, $source);
+                    $translated = self::viaLibre($text, $target, $sourceNorm);
                     $engine = 'lt';
                 } catch (RuntimeException) {
                     throw $deeplError;
                 }
             }
         } else {
-            $translated = self::viaLibre($text, $target, $source);
+            $translated = self::viaLibre($text, $target, $sourceNorm);
         }
         self::cachePut($key, $translated);
         self::logUsage($engine, $billed, $chars);
