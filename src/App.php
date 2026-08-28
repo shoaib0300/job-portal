@@ -238,6 +238,7 @@ final class App
             'sidebar_mode' => 'expanded',
             'ui_mode' => 'warm',
             'name_size' => 'md',
+            'font_size' => 'md',
             'section_spacing' => 'md',
         ];
         foreach ($defaults as $key => $value) {
@@ -750,6 +751,12 @@ final class App
         return preg_match('/^#[0-9A-Fa-f]{6}$/', $accent) ? $accent : '#5B4CDB';
     }
 
+    /** Dashboard / portal chrome — not the resume PDF accent. */
+    public static function uiAccent(): string
+    {
+        return '#5B4CDB';
+    }
+
     public static function resolveUiMode(?string $mode = null): string
     {
         $mode = $mode ?: (self::setting('ui_mode', 'warm') ?: 'warm');
@@ -780,11 +787,26 @@ final class App
         return in_array($spacing, ['tight', 'md', 'loose'], true) ? $spacing : 'md';
     }
 
+    public static function resolveFontSize(?string $size = null): string
+    {
+        $size = $size ?: (self::setting('font_size', 'md') ?: 'md');
+        return in_array($size, ['sm', 'md', 'lg'], true) ? $size : 'md';
+    }
+
     public static function nameSizeScale(string $size): string
     {
         return match ($size) {
             'sm' => '0.86',
             'lg' => '1.18',
+            default => '1',
+        };
+    }
+
+    public static function fontSizeScale(string $size): string
+    {
+        return match ($size) {
+            'sm' => '0.9',
+            'lg' => '1.12',
             default => '1',
         };
     }

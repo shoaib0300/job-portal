@@ -28,7 +28,8 @@ function layout_flash(?array $flash): void
 function layout_header(string $title, array $opts = []): void
 {
     $theme = App::resolveTheme($opts['theme'] ?? null);
-    $accent = App::resolveAccent($opts['accent'] ?? null);
+    $docAccent = App::resolveAccent($opts['accent'] ?? null);
+    $uiAccent = App::uiAccent();
     $font = App::resolveFont($opts['font'] ?? null);
     $fontStack = App::fontStack($font);
     $pdfMode = array_key_exists('pdf_mode', $opts)
@@ -42,6 +43,7 @@ function layout_header(string $title, array $opts = []): void
     $density = App::resolveDensity();
     $sidebar = App::resolveSidebar();
     $nameSize = App::resolveNameSize($_GET['name_size'] ?? null);
+    $fontSize = App::resolveFontSize($_GET['font_size'] ?? null);
     $spacing = App::resolveSectionSpacing($_GET['spacing'] ?? null);
     $navKey = App::currentNavKey();
     $profile = App::profile();
@@ -82,16 +84,18 @@ function layout_header(string $title, array $opts = []): void
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260814h">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260827k">
-  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260814h">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828a">
+  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
     :root {
-      --accent: <?= App::e($accent) ?>;
-      --bs-primary: <?= App::e($accent) ?>;
-      --bs-primary-rgb: <?= layout_accent_rgb($accent) ?>;
+      --accent: <?= App::e($uiAccent) ?>;
+      --bs-primary: <?= App::e($uiAccent) ?>;
+      --bs-primary-rgb: <?= layout_accent_rgb($uiAccent) ?>;
+      --doc-accent: <?= App::e($docAccent) ?>;
       --doc-font: <?= App::e($fontStack) ?>;
       --resume-name-scale: <?= App::e(App::nameSizeScale($nameSize)) ?>;
       --resume-section-gap: <?= App::e(App::sectionSpacingValue($spacing)) ?>;
+      --doc-font-scale: <?= App::e(App::fontSizeScale($fontSize)) ?>;
     }
   </style>
 </head>
@@ -102,6 +106,7 @@ function layout_header(string $title, array $opts = []): void
       data-density="<?= App::e($density) ?>"
       data-sidebar="<?= App::e($sidebar) ?>"
       data-name-size="<?= App::e($nameSize) ?>"
+      data-font-size="<?= App::e($fontSize) ?>"
       data-spacing="<?= App::e($spacing) ?>"
       data-pdf-title="<?= App::e($pdfTitle) ?>">
 <?php if ($hideNav): ?>
@@ -201,7 +206,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260827k"></script>
+  <script src="/assets/js/app.js?v=20260828c"></script>
         <?php
     endif;
     ?>

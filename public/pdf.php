@@ -25,6 +25,9 @@ $query = [
     'font' => $font,
     'accent' => $accent,
     'lang' => $lang,
+    'font_size' => App::resolveFontSize($_GET['font_size'] ?? null),
+    'name_size' => App::resolveNameSize($_GET['name_size'] ?? null),
+    'spacing' => App::resolveSectionSpacing($_GET['spacing'] ?? null),
 ];
 if ($doc === 'resume' && $version > 0) {
     $query['version'] = $version;

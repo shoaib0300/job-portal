@@ -44,11 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $density = App::resolveDensity((string) ($_POST['ui_density'] ?? ''));
     $sidebar = App::resolveSidebar((string) ($_POST['sidebar_mode'] ?? ''));
     $ui = App::resolveUiMode((string) ($_POST['ui_mode'] ?? ''));
-    $accent = App::resolveAccent((string) ($_POST['accent_color'] ?? ''));
     App::setSetting('ui_density', $density);
     App::setSetting('sidebar_mode', $sidebar);
     App::setSetting('ui_mode', $ui);
-    App::setSetting('accent_color', $accent);
     App::flash('Look saved.');
     App::redirect('/settings');
 }
@@ -56,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $density = App::resolveDensity();
 $sidebar = App::resolveSidebar();
 $ui = App::resolveUiMode();
-$accent = App::resolveAccent(null);
 $account = Auth::user() ?? ['username' => '', 'email' => '', 'name' => ''];
 $usagePeriod = strtolower(trim((string) ($_GET['usage'] ?? 'month')));
 if (!in_array($usagePeriod, ['month', 'last', 'year'], true)) {
@@ -180,19 +177,8 @@ layout_header('Account');
           <label><input class="form-check-input" type="radio" name="ui_mode" value="warm-dark"<?= $ui === 'warm-dark' ? ' checked' : '' ?>> Dark</label>
         </div>
       </fieldset>
-      <div class="mb-3">
-        <label class="form-label" for="accent_color">Accent</label>
-        <input class="form-control form-control-color" type="color" id="accent_color" name="accent_color" value="<?= App::e($accent) ?>">
-      </div>
-      <div class="color-presets mb-3">
-        <?php foreach (App::colorPresets() as $hex => $name): ?>
-          <button type="button" class="color-swatch<?= strcasecmp($accent, $hex) === 0 ? ' is-selected' : '' ?>"
-                  style="--swatch: <?= App::e($hex) ?>"
-                  title="<?= App::e($name) ?>"
-                  onclick="this.form.accent_color.value='<?= App::e($hex) ?>'"></button>
-        <?php endforeach; ?>
-      </div>
-      <button type="submit" class="btn btn-primary">Save look</button>
+      <p class="text-secondary small mb-0">Resume and cover accent colors are set on the <a href="/design">Resume style</a> and <a href="/cover-design">Cover style</a> pages.</p>
+      <button type="submit" class="btn btn-primary mt-3">Save look</button>
     </div>
   </form>
 </main>

@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::setSetting('pdf_mode', isset($_POST['pdf_mode']) ? '1' : '0');
         App::setSetting('active_company', trim((string) ($_POST['active_company'] ?? '')));
         App::setSetting('name_size', App::resolveNameSize((string) ($_POST['name_size'] ?? '')));
+        App::setSetting('font_size', App::resolveFontSize((string) ($_POST['font_size'] ?? '')));
         App::setSetting('section_spacing', App::resolveSectionSpacing((string) ($_POST['section_spacing'] ?? '')));
 
         $wantsJson = isset($_SERVER['HTTP_ACCEPT'])
@@ -56,11 +57,12 @@ $font = App::resolveFont($_GET['font'] ?? null);
 $pdfMode = (App::setting('pdf_mode', '0') ?: '0') === '1';
 $activeCompany = App::setting('active_company', '') ?: '';
 $nameSize = App::resolveNameSize($_GET['name_size'] ?? null);
+$fontSize = App::resolveFontSize($_GET['font_size'] ?? null);
 $spacing = App::resolveSectionSpacing($_GET['spacing'] ?? null);
 $previewPath = $doc === 'cover' ? '/cover-letter.php' : '/resume.php';
 $profile = App::profile();
 $q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' . urlencode($font)
-    . '&name_size=' . urlencode($nameSize) . '&spacing=' . urlencode($spacing);
+    . '&name_size=' . urlencode($nameSize) . '&font_size=' . urlencode($fontSize) . '&spacing=' . urlencode($spacing);
 $exportOptions = $doc === 'cover' ? Versions::coverExportOptions() : Versions::resumeExportOptions();
 $exportJson = App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]');
 
@@ -77,6 +79,7 @@ layout_header($doc === 'cover' ? 'Cover style' : 'Resume style', [
       data-accent="<?= App::e($accent) ?>"
       data-font="<?= App::e($font) ?>"
       data-name-size="<?= App::e($nameSize) ?>"
+      data-font-size="<?= App::e($fontSize) ?>"
       data-spacing="<?= App::e($spacing) ?>"
       data-export-options="<?= $exportJson ?>">
   <header class="page-head">
@@ -127,12 +130,12 @@ layout_header($doc === 'cover' ? 'Cover style' : 'Resume style', [
       </div>
 
       <div class="studio-block">
-        <h2>Name size</h2>
-        <div class="doc-toggle" role="listbox" aria-label="Name size">
+        <h2>Font size</h2>
+        <div class="doc-toggle" role="listbox" aria-label="Font size">
           <?php foreach (['sm' => 'Small', 'md' => 'Medium', 'lg' => 'Large'] as $key => $label): ?>
             <button type="button"
-                    class="chip<?= $nameSize === $key ? ' is-selected is-active' : '' ?>"
-                    data-name-size-pick="<?= App::e($key) ?>"><?= App::e($label) ?></button>
+                    class="chip<?= $fontSize === $key ? ' is-selected is-active' : '' ?>"
+                    data-font-size-pick="<?= App::e($key) ?>"><?= App::e($label) ?></button>
           <?php endforeach; ?>
         </div>
       </div>
@@ -150,6 +153,7 @@ layout_header($doc === 'cover' ? 'Cover style' : 'Resume style', [
 
       <div class="studio-block">
         <h2>Accent color</h2>
+        <p class="studio-hint" style="margin-top:0">For your resume or letter PDF only — dashboard buttons stay the same.</p>
         <div class="color-presets">
           <?php foreach (App::colorPresets() as $hex => $name): ?>
             <button type="button"
@@ -171,7 +175,8 @@ layout_header($doc === 'cover' ? 'Cover style' : 'Resume style', [
         <input type="hidden" name="theme" data-theme-input value="<?= App::e($theme) ?>">
         <input type="hidden" name="accent_color" data-accent-input value="<?= App::e($accent) ?>">
         <input type="hidden" name="font_family" data-font-input value="<?= App::e($font) ?>">
-        <input type="hidden" name="name_size" data-name-size-input value="<?= App::e($nameSize) ?>">
+        <input type="hidden" name="name_size" data-name-size-input value="md">
+        <input type="hidden" name="font_size" data-font-size-input value="<?= App::e($fontSize) ?>">
         <input type="hidden" name="section_spacing" data-spacing-input value="<?= App::e($spacing) ?>">
         <label class="form-label">
           Active company tag

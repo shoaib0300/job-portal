@@ -344,6 +344,7 @@ final class Auth
             'sidebar_mode' => 'expanded',
             'ui_mode' => 'warm',
             'name_size' => 'md',
+            'font_size' => 'md',
             'section_spacing' => 'md',
         ];
         $insSet = $pdo->prepare(

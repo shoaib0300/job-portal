@@ -47,7 +47,7 @@
   height: 112px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border: 2px solid color-mix(in srgb, var(--doc-accent) 35%, transparent);
   background: transparent;
   flex-shrink: 0;
 }
@@ -70,7 +70,7 @@
 
 .resume-title {
   margin: 0.35rem 0 0.75rem;
-  color: var(--accent);
+  color: var(--doc-accent);
   font-weight: 600;
   font-size: 1.05rem;
 }
@@ -119,7 +119,7 @@
 .resume-company-tag {
   margin: 0.85rem 0 0;
   font-size: 0.85rem;
-  color: var(--accent);
+  color: var(--doc-accent);
   font-weight: 600;
 }
 
@@ -140,7 +140,7 @@
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--doc-accent);
   font-weight: 700;
 }
 
@@ -194,7 +194,7 @@
 }
 
 .theme-timeline .skills-heading {
-  color: var(--accent);
+  color: var(--doc-accent);
   font-family: var(--timeline-sans, Arial, Helvetica, sans-serif);
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -285,7 +285,7 @@
   margin: 0.15rem 0 0;
   font-weight: 700;
   font-size: 0.98rem;
-  color: var(--accent);
+  color: var(--doc-accent);
 }
 
 .experience-right {
@@ -349,7 +349,7 @@
 /* Classic */
 .theme-classic .resume-header,
 .theme-classic .letter-from {
-  border-bottom: 2px solid var(--accent);
+  border-bottom: 2px solid var(--doc-accent);
   padding-bottom: 1rem;
   margin-bottom: 0.25rem;
 }
@@ -358,7 +358,7 @@
 .theme-modern.resume,
 .theme-modern.cover-letter {
   border: none;
-  border-left: 6px solid var(--accent);
+  border-left: 6px solid var(--doc-accent);
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
@@ -399,7 +399,7 @@
 .theme-sidebar .resume-header {
   grid-column: 1;
   grid-row: 1 / span 50;
-  background: var(--accent);
+  background: var(--doc-accent);
   color: #fff;
   padding: 1.75rem 1.25rem;
   min-height: 100%;
@@ -418,7 +418,7 @@
   height: 120px;
   border-radius: 50%;
   background: transparent;
-  border-color: color-mix(in srgb, #fff 55%, var(--accent));
+  border-color: color-mix(in srgb, #fff 55%, var(--doc-accent));
   margin-inline: auto;
 }
 
@@ -436,7 +436,7 @@
 .theme-sidebar .resume-contact a,
 .theme-sidebar .resume-meta,
 .theme-sidebar .resume-meta span {
-  color: color-mix(in srgb, #fff 88%, var(--accent));
+  color: color-mix(in srgb, #fff 88%, var(--doc-accent));
 }
 
 .theme-sidebar .resume-section {
@@ -455,7 +455,7 @@
 }
 
 .theme-sidebar.cover-letter .letter-from {
-  background: var(--accent);
+  background: var(--doc-accent);
   color: #fff;
   margin: -1.5rem -1.5rem 1.5rem;
   padding: 1.5rem;
@@ -464,7 +464,7 @@
 
 .theme-sidebar.cover-letter .letter-from span,
 .theme-sidebar.cover-letter .resume-contact {
-  color: color-mix(in srgb, #fff 88%, var(--accent));
+  color: color-mix(in srgb, #fff 88%, var(--doc-accent));
 }
 
 @media (max-width: 700px) {
@@ -496,7 +496,7 @@
 .theme-executive .letter-from {
   text-align: left;
   border: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line));
+  border-bottom: 1px solid color-mix(in srgb, var(--doc-accent) 45%, var(--line));
   padding: 0 0 1.15rem;
   margin: 0 0 0.35rem;
   gap: 1rem 1.35rem;
@@ -513,7 +513,7 @@
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--doc-accent) 30%, transparent);
   background: transparent;
 }
 
@@ -571,7 +571,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: color-mix(in srgb, var(--accent) 35%, var(--line));
+  background: color-mix(in srgb, var(--doc-accent) 35%, var(--line));
 }
 
 .theme-executive .resume-body,
@@ -588,11 +588,11 @@
 .theme-company.resume,
 .theme-company.cover-letter {
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--accent) 10%, white), var(--paper) 38%);
+    linear-gradient(180deg, color-mix(in srgb, var(--doc-accent) 10%, white), var(--paper) 38%);
 }
 
 .theme-company .resume-header h1 {
-  color: color-mix(in srgb, var(--accent) 55%, var(--ink));
+  color: color-mix(in srgb, var(--doc-accent) 55%, var(--ink));
 }
 
 /* Banner */
@@ -604,7 +604,7 @@
 
 .theme-banner .resume-header,
 .theme-banner .letter-from {
-  background: var(--accent);
+  background: var(--doc-accent);
   color: #fff;
   margin: 0 calc(-1 * clamp(1.5rem, 4vw, 2.75rem));
   padding: 1.75rem clamp(1.5rem, 4vw, 2.75rem);
@@ -612,7 +612,7 @@
 }
 
 .theme-banner .resume-photo {
-  border-color: color-mix(in srgb, #fff 60%, var(--accent));
+  border-color: color-mix(in srgb, #fff 60%, var(--doc-accent));
 }
 
 .theme-banner .resume-title,
@@ -621,7 +621,7 @@
 .theme-banner .resume-meta,
 .theme-banner .resume-meta span,
 .theme-banner .letter-from span {
-  color: color-mix(in srgb, #fff 90%, var(--accent));
+  color: color-mix(in srgb, #fff 90%, var(--doc-accent));
 }
 
 /* Split */
@@ -709,7 +709,7 @@
 }
 
 .theme-slate .resume-title {
-  color: color-mix(in srgb, var(--accent) 70%, white);
+  color: color-mix(in srgb, var(--doc-accent) 70%, white);
 }
 
 .theme-slate .resume-contact,
@@ -735,7 +735,7 @@
   letter-spacing: 0;
   text-transform: none;
   font-weight: 400;
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--doc-accent) 35%, transparent);
   padding-bottom: 0.25rem;
 }
 
@@ -1027,7 +1027,7 @@
   margin-inline: auto;
   border-radius: 50%;
   background: transparent;
-  border-color: color-mix(in srgb, var(--accent) 45%, #222);
+  border-color: color-mix(in srgb, var(--doc-accent) 45%, #222);
 }
 
 .theme-timeline .resume-intro {
@@ -1072,7 +1072,7 @@
   height: 0.35rem;
   margin-left: 0.45rem;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--doc-accent);
   vertical-align: middle;
 }
 
@@ -1092,7 +1092,7 @@
   width: 3.25rem;
   height: 0.22rem;
   margin-top: 0.85rem;
-  background: var(--accent);
+  background: var(--doc-accent);
   border-radius: 1px;
 }
 
@@ -1154,7 +1154,7 @@
   grid-row: 1;
   margin: 0;
   padding: 0;
-  color: var(--accent);
+  color: var(--doc-accent);
   font-family: var(--timeline-sans);
   font-size: 1.05rem;
   font-weight: 700;
@@ -1307,7 +1307,7 @@
 }
 
 .theme-timeline .experience-bullets li::marker {
-  color: var(--accent);
+  color: var(--doc-accent);
 }
 
 .theme-timeline .experience-dates,
@@ -1342,7 +1342,7 @@
 }
 
 .theme-timeline .letter-company {
-  color: var(--accent);
+  color: var(--doc-accent);
   font-family: var(--timeline-sans);
   font-weight: 700;
 }
@@ -1487,7 +1487,7 @@ body.is-embed {
   }
 
   body.theme-company::before {
-    background: color-mix(in srgb, var(--accent) 12%, #fff) !important;
+    background: color-mix(in srgb, var(--doc-accent) 12%, #fff) !important;
   }
 
   body:not(.theme-sage):not(.theme-midnight):not(.theme-company)::before {
@@ -1514,7 +1514,7 @@ body.is-embed {
   body.theme-company,
   body.theme-company .site-shell,
   body.theme-company .site-shell-embed {
-    background: color-mix(in srgb, var(--accent) 12%, #fff) !important;
+    background: color-mix(in srgb, var(--doc-accent) 12%, #fff) !important;
   }
 
   body:not(.theme-sage):not(.theme-midnight):not(.theme-company),

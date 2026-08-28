@@ -99,11 +99,19 @@
     url.searchParams.set("doc", doc);
     if (inline) url.searchParams.set("inline", "1");
     const search = new URLSearchParams(window.location.search);
-    ["theme", "font", "accent", "version", "id", "lang"].forEach((key) => {
+    ["theme", "font", "accent", "version", "id", "lang", "font_size", "name_size", "spacing"].forEach((key) => {
       let value;
       if (Object.prototype.hasOwnProperty.call(params, key)) {
         value = params[key];
-      } else if (key === "theme" || key === "font" || key === "accent" || key === "lang") {
+      } else if (
+        key === "theme" ||
+        key === "font" ||
+        key === "accent" ||
+        key === "lang" ||
+        key === "font_size" ||
+        key === "name_size" ||
+        key === "spacing"
+      ) {
         value = search.get(key);
       } else {
         value = null;
@@ -407,11 +415,12 @@
   let theme = studio.dataset.theme || "classic";
   let accent = studio.dataset.accent || "#1a5f4a";
   let font = studio.dataset.font || "georgia";
-  let nameSize = studio.dataset.nameSize || "md";
+  let fontSize = studio.dataset.fontSize || "md";
   let spacing = studio.dataset.spacing || "md";
   const doc = studio.dataset.doc || "resume";
   const basePath = doc === "cover" ? "/cover-letter.php" : "/resume.php";
   const nameInput = studio.querySelector("[data-name-size-input]");
+  const fontSizeInput = studio.querySelector("[data-font-size-input]");
   const spacingInput = studio.querySelector("[data-spacing-input]");
 
   function previewUrl() {
@@ -421,28 +430,43 @@
       accent,
       font,
       pdf: "1",
-      name_size: nameSize,
+      name_size: "md",
+      font_size: fontSize,
       spacing,
     });
     return `${basePath}?${q.toString()}`;
   }
 
   function fullUrl() {
-    const q = new URLSearchParams({ theme, accent, font, pdf: "1", name_size: nameSize, spacing });
+    const q = new URLSearchParams({
+      theme,
+      accent,
+      font,
+      pdf: "1",
+      name_size: "md",
+      font_size: fontSize,
+      spacing,
+    });
     return `${basePath}?${q.toString()}`;
   }
 
-  function syncUi() {
+  const fontSizeLabels = { sm: "Small", md: "Medium", lg: "Large" };
+  const spacingLabels = { tight: "Tight", md: "Medium", loose: "Loose" };
+
+  function syncUi({ reloadPreview = true } = {}) {
     if (themeInput) themeInput.value = theme;
     if (accentInput) accentInput.value = accent;
     if (fontInput) fontInput.value = font;
-    if (nameInput) nameInput.value = nameSize;
+    if (nameInput) nameInput.value = "md";
+    if (fontSizeInput) fontSizeInput.value = fontSize;
     if (spacingInput) spacingInput.value = spacing;
     if (customColor) customColor.value = accent;
-    if (frame) frame.src = previewUrl();
+    if (reloadPreview && frame) frame.src = previewUrl();
     if (openFull) openFull.href = fullUrl();
     if (labelEl) {
-      labelEl.textContent = `Preview · ${themeLabels[theme] || theme} · ${fontLabels[font] || font}`;
+      labelEl.textContent =
+        `Preview · ${themeLabels[theme] || theme} · ${fontLabels[font] || font}` +
+        ` · ${fontSizeLabels[fontSize] || fontSize} · ${spacingLabels[spacing] || spacing}`;
     }
 
     studio.querySelectorAll("[data-theme-pick]").forEach((btn) => {
@@ -462,23 +486,27 @@
       btn.classList.toggle("is-selected", on);
     });
 
-    studio.querySelectorAll("[data-name-size-pick]").forEach((btn) => {
-      const on = btn.getAttribute("data-name-size-pick") === nameSize;
+    studio.querySelectorAll("[data-font-size-pick]").forEach((btn) => {
+      const on = btn.getAttribute("data-font-size-pick") === fontSize;
       btn.classList.toggle("is-selected", on);
+      btn.classList.toggle("is-active", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
     });
 
     studio.querySelectorAll("[data-spacing-pick]").forEach((btn) => {
       const on = btn.getAttribute("data-spacing-pick") === spacing;
       btn.classList.toggle("is-selected", on);
+      btn.classList.toggle("is-active", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
     });
 
-    document.documentElement.style.setProperty("--accent", accent);
     const url = new URL(window.location.href);
     url.searchParams.set("doc", doc);
     url.searchParams.set("theme", theme);
     url.searchParams.set("accent", accent);
     url.searchParams.set("font", font);
-    url.searchParams.set("name_size", nameSize);
+    url.searchParams.set("name_size", "md");
+    url.searchParams.set("font_size", fontSize);
     url.searchParams.set("spacing", spacing);
     window.history.replaceState({}, "", url);
   }
@@ -501,15 +529,17 @@
     });
   });
 
-  studio.querySelectorAll("[data-name-size-pick]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      nameSize = btn.getAttribute("data-name-size-pick") || nameSize;
+  studio.querySelectorAll("[data-font-size-pick]").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      fontSize = btn.getAttribute("data-font-size-pick") || fontSize;
       syncUi();
     });
   });
 
   studio.querySelectorAll("[data-spacing-pick]").forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
       spacing = btn.getAttribute("data-spacing-pick") || spacing;
       syncUi();
     });
@@ -529,15 +559,24 @@
     });
   }
 
+  const studioStyleParams = () => ({
+    theme,
+    font,
+    accent,
+    font_size: fontSize,
+    name_size: "md",
+    spacing,
+  });
+
   studio.querySelectorAll("[data-studio-print]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      printCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent }, btn);
+      printCleanPdf(doc === "cover" ? "cover" : "resume", studioStyleParams(), btn);
     });
   });
 
   studio.querySelectorAll("[data-studio-pdf]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      downloadCleanPdf(doc === "cover" ? "cover" : "resume", { theme, font, accent }, btn);
+      downloadCleanPdf(doc === "cover" ? "cover" : "resume", studioStyleParams(), btn);
     });
   });
 
@@ -549,7 +588,8 @@
         data.set("theme", theme);
         data.set("accent_color", accent);
         data.set("font_family", font);
-        data.set("name_size", nameSize);
+        data.set("name_size", "md");
+        data.set("font_size", fontSize);
         data.set("section_spacing", spacing);
       try {
         const res = await fetch(form.action || window.location.pathname, {
@@ -570,6 +610,8 @@
       }
     });
   }
+
+  syncUi({ reloadPreview: false });
 })();
 
 (() => {

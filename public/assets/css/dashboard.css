@@ -645,6 +645,10 @@ body.page-doc {
   background: #f4f6fb;
 }
 
+html:has(body.page-doc) {
+  font-size: calc(16px * var(--doc-font-scale, 1));
+}
+
 body.page-doc.pdf-mode,
 body.page-doc.is-embed,
 body.page-doc.is-printing {
