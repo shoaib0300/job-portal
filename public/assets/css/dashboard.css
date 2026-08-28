@@ -257,21 +257,54 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
 .jobs-company-panel {
   max-height: 15.5rem;
   overflow: auto;
-  padding: 0.65rem;
-  border: 1px solid color-mix(in srgb, var(--bs-border-color) 85%, transparent);
-  border-radius: 0.75rem;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--bs-body-bg) 92%, #e8eef5) 0%, var(--bs-body-bg) 100%);
+  padding: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--kf-line, var(--bs-border-color)) 90%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--bs-body-bg) 94%, var(--kf-line, #e2ddd4));
 }
 
 .jobs-company-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.75rem, 1fr));
+  gap: 0.45rem;
 }
 
 .jobs-company-filter {
   width: min(14rem, 100%);
+}
+
+.jobs-company-help {
+  margin-bottom: 0.45rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--kf-line, var(--bs-border-color)) 70%, transparent);
+  background: color-mix(in srgb, var(--bs-body-bg) 94%, var(--kf-line, #e2ddd4));
+  color: var(--kf-muted, var(--bs-secondary-color));
+  font-size: 0.625rem;
+  line-height: 1.35;
+}
+
+.jobs-company-help-title {
+  margin: 0 0 0.2rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--kf-muted, var(--bs-secondary-color));
+}
+
+.jobs-company-help-list {
+  margin: 0;
+  padding-left: 0.85rem;
+}
+
+.jobs-company-help-list li {
+  margin: 0.08rem 0;
+}
+
+.jobs-company-help-list strong {
+  font-weight: 600;
+  font-size: 0.625rem;
+  color: var(--kf-ink, var(--bs-body-color));
 }
 
 .jobs-sources-bar {
@@ -299,50 +332,45 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
 }
 
 .jobs-company-chip {
-  --co-accent: #5b6b7c;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  min-height: 2.35rem;
   max-width: 100%;
   margin: 0;
-  padding: 0.32rem 0.7rem 0.32rem 0.45rem;
-  border: 1px solid color-mix(in srgb, var(--co-accent) 28%, var(--bs-border-color));
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--co-accent) 8%, var(--bs-body-bg));
-  color: color-mix(in srgb, var(--co-accent) 55%, #1a1f24);
+  padding: 0.45rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--kf-line, var(--bs-border-color)) 88%, transparent);
+  border-radius: 8px;
+  background: var(--bs-body-bg);
+  color: var(--kf-muted, var(--bs-secondary-color));
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.25;
+  text-align: center;
   cursor: pointer;
   user-select: none;
-  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .jobs-company-chip:hover {
-  border-color: color-mix(in srgb, var(--co-accent) 55%, var(--bs-border-color));
-  background: color-mix(in srgb, var(--co-accent) 14%, var(--bs-body-bg));
-  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--kf-accent, var(--bs-primary)) 28%, var(--kf-line, var(--bs-border-color)));
+  background: color-mix(in srgb, var(--kf-accent-soft, #e6f4f4) 35%, var(--bs-body-bg));
+  color: var(--kf-ink, var(--bs-body-color));
 }
 
 .jobs-company-chip.is-checked {
-  border-color: var(--co-accent);
-  background: color-mix(in srgb, var(--co-accent) 18%, var(--bs-body-bg));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--co-accent) 35%, transparent);
-}
-
-.jobs-company-dot {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: var(--co-accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--co-accent) 22%, transparent);
-  flex: 0 0 auto;
+  border-color: color-mix(in srgb, var(--kf-accent, var(--bs-primary)) 55%, var(--kf-line, var(--bs-border-color)));
+  background: color-mix(in srgb, var(--kf-accent-soft, #e6f4f4) 70%, var(--bs-body-bg));
+  color: var(--kf-ink, var(--bs-body-color));
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kf-accent, var(--bs-primary)) 12%, transparent);
 }
 
 .jobs-company-name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
 }
 
 .jobs-company-chip.is-hidden {
@@ -1502,9 +1530,35 @@ body[data-ui="warm-dark"] .jobs-company-panel {
   border-color: rgba(245, 245, 245, 0.12);
 }
 
+body[data-palette="dark"] .jobs-company-help,
+body[data-ui="warm-dark"] .jobs-company-help {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(245, 245, 245, 0.1);
+}
+
+body[data-palette="dark"] .jobs-company-help-list strong,
+body[data-ui="warm-dark"] .jobs-company-help-list strong {
+  color: #f0f4f8;
+}
+
 body[data-palette="dark"] .jobs-company-chip,
 body[data-ui="warm-dark"] .jobs-company-chip {
-  color: #e8edf2;
+  background: #141a22;
+  border-color: rgba(245, 245, 245, 0.12);
+  color: #b8c4d0;
+}
+
+body[data-palette="dark"] .jobs-company-chip:hover,
+body[data-ui="warm-dark"] .jobs-company-chip:hover,
+body[data-palette="dark"] .jobs-company-chip.is-checked,
+body[data-ui="warm-dark"] .jobs-company-chip.is-checked {
+  color: #f0f4f8;
+}
+
+body[data-palette="dark"] .jobs-company-chip.is-checked,
+body[data-ui="warm-dark"] .jobs-company-chip.is-checked {
+  background: rgba(46, 196, 199, 0.1);
+  border-color: rgba(46, 196, 199, 0.35);
 }
 
 body[data-palette="dark"] .table,

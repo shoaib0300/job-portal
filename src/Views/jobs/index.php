@@ -216,6 +216,14 @@ use App;
             </div>
             <?php if ($companyOptions !== []): ?>
               <div class="collapse mt-2<?= $companyFilterOpen ? ' show' : '' ?>" id="jobsCompanyFilter">
+                <div class="jobs-company-help" role="note">
+                  <p class="jobs-company-help-title">How this filter works (filters companies, not sources)</p>
+                  <ul class="jobs-company-help-list">
+                    <li><strong>None checked</strong> — search all companies (from your selected sources above).</li>
+                    <li><strong>One checked</strong> — only jobs from that company (e.g. Nordex).</li>
+                    <li><strong>Several checked</strong> — jobs from any of those companies (Nordex or Siemens or …).</li>
+                  </ul>
+                </div>
                 <input type="search" class="form-control form-control-sm jobs-company-filter mb-2" placeholder="Search boards" data-company-filter aria-label="Search company boards">
                 <div class="jobs-company-panel">
                   <div class="jobs-company-grid">
@@ -223,11 +231,9 @@ use App;
                       <?php
                         $cid = 'co-' . $i;
                         $checked = in_array($opt['key'], $query->companies, true);
-                        $accent = $opt['accent'] ?? '#5B6B7C';
                       ?>
-                      <label class="jobs-company-chip<?= $checked ? ' is-checked' : '' ?>" style="--co-accent: <?= App::e($accent) ?>" for="<?= App::e($cid) ?>" data-company-label="<?= App::e(mb_strtolower($opt['label'])) ?>">
+                      <label class="jobs-company-chip<?= $checked ? ' is-checked' : '' ?>" for="<?= App::e($cid) ?>" data-company-label="<?= App::e(mb_strtolower($opt['label'])) ?>">
                         <input class="visually-hidden" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= $checked ? ' checked' : '' ?> data-company-input>
-                        <span class="jobs-company-dot" aria-hidden="true"></span>
                         <span class="jobs-company-name"><?= App::e($opt['label']) ?></span>
                       </label>
                     <?php endforeach; ?>

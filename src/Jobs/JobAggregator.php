@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KaamFit\Jobs;
 
 use App;
+use Auth;
 use KaamFit\Jobs\Sources\AdzunaSource;
 use KaamFit\Jobs\Sources\ArbeitsagenturSource;
 use KaamFit\Jobs\Sources\AtsBoardSource;
@@ -351,8 +352,46 @@ final class JobAggregator
             if (JobText::isForeignPrimaryLocation($job->city, $job->country, $job->title)) {
                 return false;
             }
+            if ($query->companies !== [] && !self::matchesCompanyFilter($job, $query)) {
+                return false;
+            }
             return true;
         }));
+    }
+
+    private static function matchesCompanyFilter(JobListing $job, JobQuery $query): bool
+    {
+        static $needlesByKey = [];
+        $cacheKey = implode("\0", $query->companies);
+        if (!isset($needlesByKey[$cacheKey])) {
+            $needles = [];
+            foreach (CareerCompanies::enabledBoards(Auth::id(), $query->companies) as $board) {
+                $label = trim((string) ($board['label'] ?? ''));
+                $slug = trim((string) ($board['slug'] ?? ''));
+                if ($label !== '') {
+                    $needles[] = mb_strtolower($label);
+                }
+                if ($slug !== '') {
+                    $needles[] = mb_strtolower($slug);
+                    $needles[] = mb_strtolower((string) preg_replace('/^www\./', '', $slug));
+                }
+            }
+            $needlesByKey[$cacheKey] = array_values(array_unique(array_filter($needles)));
+        }
+
+        $needles = $needlesByKey[$cacheKey];
+        if ($needles === []) {
+            return true;
+        }
+
+        $hay = mb_strtolower($job->company . "\n" . $job->title . "\n" . $job->description);
+        foreach ($needles as $needle) {
+            if ($needle !== '' && str_contains($hay, $needle)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /** Unix ts for recency sort. Unknown posted date ranks as fresh (not 1970). */
