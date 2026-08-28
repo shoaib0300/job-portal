@@ -190,7 +190,7 @@ layout_header('Resume');
     </div>
 
     <div class="editor-master-card">
-      <h2>Master CV</h2>
+      <h2 class="d-flex align-items-center gap-2"><?= kaammilo_icon('doc', 'sm') ?> Master CV</h2>
       <p class="muted">Your safe template. New jobs always copy from here.</p>
       <?php if ($master === null): ?>
         <p class="empty">No Master CV yet. <a href="/resume-edit">Create your Master CV</a> first.</p>
@@ -203,7 +203,7 @@ layout_header('Resume');
 
     <div class="editor-job-list">
       <div class="editor-job-list-head">
-        <h2>Job CVs</h2>
+        <h2 class="d-flex align-items-center gap-2"><?= kaammilo_icon('track', 'sm') ?> Job CVs</h2>
         <a class="btn btn-primary btn-sm" href="/tailor">New job</a>
       </div>
       <p class="muted">One copy per company or application. Master CV stays unchanged.</p>

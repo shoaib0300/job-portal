@@ -2,51 +2,7 @@
 
 declare(strict_types=1);
 
-function kaammilo_logo_mark(string $size = 'md'): string
-{
-    $cls = $size === 'sm' ? 'km-mark km-mark-sm' : 'km-mark';
-    $uid = 'km' . substr(md5($size . microtime()), 0, 6);
-    return '<span class="' . $cls . '" aria-hidden="true">'
-        . '<svg viewBox="0 0 40 40" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">'
-        . '<defs><linearGradient id="' . $uid . '" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">'
-        . '<stop stop-color="#14a3a8"/><stop offset="1" stop-color="#0a5f62"/>'
-        . '</linearGradient></defs>'
-        . '<rect x="1" y="1" width="38" height="38" rx="12" fill="url(#' . $uid . ')"/>'
-        . '<text x="20" y="26" text-anchor="middle" font-family="Nunito,Segoe UI,sans-serif" font-size="15" font-weight="800" fill="#fff">km</text>'
-        . '<circle cx="31.5" cy="9.5" r="3.4" fill="#e07a3d"/>'
-        . '</svg></span>';
-}
-
-/** @deprecated Use kaammilo_logo_mark */
-function applypath_logo_mark(string $size = 'md'): string
-{
-    return kaammilo_logo_mark($size);
-}
-
-/** Simple cartoon-style SVG icons for marketing pages. */
-function kaammilo_icon(string $name): string
-{
-    $icons = [
-        'search' => '<circle cx="14" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M20 20l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.25"/>',
-        'doc' => '<rect x="8" y="4" width="16" height="24" rx="3" fill="currentColor" opacity="0.15"/><rect x="8" y="4" width="16" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12h8M12 17h8M12 22h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-        'letter' => '<rect x="4" y="8" width="24" height="16" rx="3" fill="currentColor" opacity="0.15"/><rect x="4" y="8" width="24" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 10l11 8 11-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
-        'track' => '<rect x="5" y="6" width="22" height="20" rx="3" fill="currentColor" opacity="0.12"/><path d="M10 14l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
-        'pdf' => '<path d="M10 4h9l7 7v15a2 2 0 01-2 2H10a2 2 0 01-2-2V6a2 2 0 012-2z" fill="currentColor" opacity="0.15"/><path d="M10 4h9l7 7v15a2 2 0 01-2 2H10a2 2 0 01-2-2V6a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M19 4v7h7" fill="none" stroke="currentColor" stroke-width="2"/><text x="11" y="22" font-size="7" font-weight="700" fill="currentColor">PDF</text>',
-        'company' => '<rect x="6" y="10" width="20" height="16" rx="2" fill="currentColor" opacity="0.15"/><path d="M6 26V10h20v16M10 14h2M14 14h2M18 14h2M10 18h2M14 18h2M18 18h2M10 22h2M14 22h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-        'rocket' => '<path d="M16 4c4 4 6 10 6 14-4 0-10-2-14-6 4-4 10-6 14-6z" fill="currentColor" opacity="0.18"/><path d="M16 4c4 4 6 10 6 14-4 0-10-2-14-6 4-4 10-6 14-6z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="10" r="1.8" fill="currentColor"/><path d="M8 18l-3 7 7-3M10 22l-4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-        'lab' => '<path d="M12 4h8v8l5 12H7l5-12V4z" fill="currentColor" opacity="0.15"/><path d="M12 4h8v8l5 12H7l5-12V4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 18h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-        'user' => '<circle cx="16" cy="11" r="5" fill="currentColor" opacity="0.18"/><circle cx="16" cy="11" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 27c2-5 6-7 10-7s8 2 10 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
-        'spark' => '<path d="M16 3l2.2 8.2L26 16l-7.8 2.2L16 29l-2.2-10.8L6 16l7.8-4.8L16 3z" fill="currentColor" opacity="0.2"/><path d="M16 3l2.2 8.2L26 16l-7.8 2.2L16 29l-2.2-10.8L6 16l7.8-4.8L16 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
-    ];
-    $paths = $icons[$name] ?? $icons['spark'];
-    return '<span class="km-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">' . $paths . '</svg></span>';
-}
-
-/** @deprecated Use kaammilo_icon */
-function applypath_icon(string $name): string
-{
-    return kaammilo_icon($name);
-}
+require_once __DIR__ . '/brand.php';
 
 function site_layout_header(string $title, array $opts = []): void
 {
@@ -72,7 +28,7 @@ function site_layout_header(string $title, array $opts = []): void
   <meta name="description" content="KaamMilo — test portal for German job search, tailored resumes, cover letters, and application tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="<?= App::e(kaammilo_portal_fonts_href()) ?>" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260826s">
   <link rel="stylesheet" href="/assets/css/site.css?v=20260826km1">

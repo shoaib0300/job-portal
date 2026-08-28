@@ -754,7 +754,7 @@ final class App
     /** Dashboard / portal chrome — not the resume PDF accent. */
     public static function uiAccent(): string
     {
-        return '#5B4CDB';
+        return '#0d7377';
     }
 
     public static function resolveUiMode(?string $mode = null): string

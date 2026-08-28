@@ -155,7 +155,8 @@ layout_header('Account');
   <form method="post" class="card shadow-sm">
     <div class="card-body">
       <input type="hidden" name="form" value="appearance">
-      <h2 class="h5 mb-3">Look</h2>
+      <h2 class="h5 mb-2">Look</h2>
+      <p class="text-secondary small">Dashboard theme (light/dark, density). Resume and cover colors are set on <a href="/design">Resume style</a> and <a href="/cover-design">Cover style</a>.</p>
       <fieldset class="mb-3">
         <legend class="form-label">Density</legend>
         <div class="choice-row">
@@ -177,7 +178,6 @@ layout_header('Account');
           <label><input class="form-check-input" type="radio" name="ui_mode" value="warm-dark"<?= $ui === 'warm-dark' ? ' checked' : '' ?>> Dark</label>
         </div>
       </fieldset>
-      <p class="text-secondary small mb-0">Resume and cover accent colors are set on the <a href="/design">Resume style</a> and <a href="/cover-design">Cover style</a> pages.</p>
       <button type="submit" class="btn btn-primary mt-3">Save look</button>
     </div>
   </form>

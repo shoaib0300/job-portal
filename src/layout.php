@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/brand.php';
+
 function layout_accent_rgb(string $hex): string
 {
     $hex = ltrim($hex, '#');
     if (strlen($hex) !== 6) {
-        return '91, 76, 219';
+        return '13, 115, 119';
     }
     return hexdec(substr($hex, 0, 2)) . ', ' . hexdec(substr($hex, 2, 2)) . ', ' . hexdec(substr($hex, 4, 2));
 }
@@ -61,7 +63,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'dashboard', 'href' => Site::portalHomePath(), 'label' => 'Home', 'icon' => 'home'],
         ['key' => 'apply', 'href' => '/tailor', 'label' => 'New job', 'icon' => 'apply'],
         ['key' => 'jobs', 'href' => '/jobs', 'label' => 'Jobs', 'icon' => 'jobs'],
-        ['key' => 'companies', 'href' => '/companies', 'label' => 'Companies', 'icon' => 'jobs'],
+        ['key' => 'companies', 'href' => '/companies', 'label' => 'Companies', 'icon' => 'company'],
         ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
         ['key' => 'resume', 'href' => '/editor', 'label' => 'Resume', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover', 'label' => 'Cover letter', 'icon' => 'letter'],
@@ -81,15 +83,20 @@ function layout_header(string $title, array $opts = []): void
   <title><?= App::e($htmlTitle) ?></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="<?= App::e(kaammilo_portal_fonts_href()) ?>" rel="stylesheet">
+  <?php if ($isDoc): ?>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
+  <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/app.css?v=20260814h">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828a">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260828d">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828d">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
     :root {
-      --accent: <?= App::e($uiAccent) ?>;
-      --bs-primary: <?= App::e($uiAccent) ?>;
+      <?= kaammilo_brand_css_vars() ?>
+
+      --accent: var(--km-accent);
+      --bs-primary: var(--km-accent);
       --bs-primary-rgb: <?= layout_accent_rgb($uiAccent) ?>;
       --doc-accent: <?= App::e($docAccent) ?>;
       --doc-font: <?= App::e($fontStack) ?>;
@@ -129,7 +136,7 @@ function layout_header(string $title, array $opts = []): void
       </div>
       <div class="offcanvas-body d-flex flex-column p-3">
         <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="<?= App::e(Site::portalHomePath()) ?>">
-          <span class="dash-mark">K</span>
+          <?= kaammilo_logo_mark('sm') ?>
           <span class="dash-brand-text">KaamMilo</span>
         </a>
         <nav class="nav flex-column dash-nav gap-1 flex-grow-1">
@@ -206,7 +213,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260828c"></script>
+  <script src="/assets/js/app.js?v=20260828d"></script>
         <?php
     endif;
     ?>

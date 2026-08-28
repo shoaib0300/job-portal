@@ -1,19 +1,23 @@
-/* MNK dashboard overlay — NovoResume-style Bootstrap shell */
+/* KaamMilo dashboard — matches marketing site (teal / sand) */
 
 body:not(.page-doc):not(.pdf-mode) {
-  font-family: Inter, system-ui, sans-serif;
-  background: #f4f6fb;
-  color: #1c1a2e;
+  font-family: var(--km-body, "Source Sans 3", system-ui, sans-serif);
+  background:
+    radial-gradient(900px 420px at 8% -5%, #c8ebe9 0%, transparent 55%),
+    radial-gradient(700px 380px at 92% 8%, #f7d9c4 0%, transparent 50%),
+    linear-gradient(180deg, #faf8f5 0%, var(--km-sand, #f6f3ee) 100%);
+  color: var(--km-ink, #14213d);
 }
 
 .dash {
-  background: #f4f6fb;
+  background: transparent;
 }
 
 .dash-sidebar {
   width: 260px;
-  background: #fff;
-  border-right: 1px solid #e8eaf2;
+  background: rgba(255, 255, 255, 0.96);
+  border-right: 1px solid var(--km-line, #e2ddd4);
+  backdrop-filter: blur(8px);
 }
 
 @media (min-width: 992px) {
@@ -39,27 +43,32 @@ body:not(.page-doc):not(.pdf-mode) {
 }
 
 .dash-brand-text {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #1c1a2e;
-  letter-spacing: 0.02em;
+  font-family: var(--km-display, "Nunito", sans-serif);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--km-ink, #14213d);
+  letter-spacing: -0.02em;
 }
 
 .dash-nav-link {
-  color: #5c5870;
+  color: var(--km-muted, #5c6578);
   border-radius: 10px;
   font-weight: 500;
 }
 
 .dash-nav-link:hover {
-  color: #1c1a2e;
-  background: color-mix(in srgb, var(--bs-primary) 8%, transparent);
+  color: var(--km-ink, #14213d);
+  background: color-mix(in srgb, var(--km-accent, #0d7377) 10%, transparent);
 }
 
 .dash-nav-link.active {
-  color: var(--bs-primary);
-  background: color-mix(in srgb, var(--bs-primary) 12%, #fff);
+  color: var(--km-accent, #0d7377);
+  background: var(--km-accent-soft, #e6f4f4);
   font-weight: 600;
+}
+
+.dash-nav-link.active .dash-ico {
+  opacity: 1;
 }
 
 .dash-ico {
@@ -105,6 +114,16 @@ body:not(.page-doc):not(.pdf-mode) {
 .dash-ico[data-ico="jobs"] {
   mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M10 2h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v3H2V8a2 2 0 0 1 2-2h4V4a2 2 0 0 1 2-2zm0 4h4V4h-4zm12 7v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7h8v1h4v-1z'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M10 2h4a2 2 0 0 1 2 2v2h4a2 2 0 0 1 2 2v3H2V8a2 2 0 0 1 2-2h4V4a2 2 0 0 1 2-2zm0 4h4V4h-4zm12 7v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7h8v1h4v-1z'/></svg>");
+}
+
+.dash-ico[data-ico="company"] {
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M4 22V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18H4zm2-2h3v-4H6v4zm0-6h3v-4H6v4zm5 10h3v-7h-3v7zm0-9h3V7h-3v4zm5 9h3v-11h-3v11z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M4 22V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v18H4zm2-2h3v-4H6v4zm0-6h3v-4H6v4zm5 10h3v-7h-3v7zm0-9h3V7h-3v4zm5 9h3v-11h-3v11z'/></svg>");
+}
+
+.dash-ico[data-ico="gear"] {
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm9 4.1-1.6 1.3.2 2.1-2 .9-1.8-1.1-1.6 1.3-1.8-1.1-2 .9.2 2.1-1.6 1.3v2.2l2.1.2.9 2 2.1-.2 1.3-1.6 1.1 1.8 2-.9.9 2 2.1-.2v-2.2l-1.6-1.3-.2-2.1-2-.9-1.8 1.1-1.6-1.3-1.8 1.1-2-.9-.2-2.1L3 12.1V9.9l2.1-.2.9-2 2.1.2 1.3 1.6 1.1-1.8 2 .9.9-2 2.1.2v2.2z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm9 4.1-1.6 1.3.2 2.1-2 .9-1.8-1.1-1.6 1.3-1.8-1.1-2 .9.2 2.1-1.6 1.3v2.2l2.1.2.9 2 2.1-.2 1.3-1.6 1.1 1.8 2-.9.9 2 2.1-.2v-2.2l-1.6-1.3-.2-2.1-2-.9-1.8 1.1-1.6-1.3-1.8 1.1-2-.9-.2-2.1L3 12.1V9.9l2.1-.2.9-2 2.1.2 1.3 1.6 1.1-1.8 2 .9.9-2 2.1.2v2.2z'/></svg>");
 }
 
 .jobs-layout {
@@ -360,9 +379,94 @@ body:not(.page-doc):not(.pdf-mode) {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: color-mix(in srgb, #fff 88%, transparent);
-  border-bottom: 1px solid #e8eaf2;
+  background: color-mix(in srgb, #fff 90%, transparent);
+  border-bottom: 1px solid var(--km-line, #e2ddd4);
   backdrop-filter: blur(10px);
+}
+
+.dash-topbar-title h1 {
+  font-family: var(--km-display, "Nunito", sans-serif);
+  font-weight: 700;
+  color: var(--km-ink, #14213d);
+}
+
+.dash-content .card,
+.dash-content .card.shadow-sm {
+  border: 1px solid var(--km-line, #e2ddd4);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 24px rgba(20, 33, 61, 0.06);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.dash-content .card:hover {
+  border-color: color-mix(in srgb, var(--km-accent, #0d7377) 22%, var(--km-line, #e2ddd4));
+  box-shadow: 0 12px 28px rgba(20, 33, 61, 0.09);
+}
+
+.dash-content .card h2,
+.dash-content .page-head h1,
+.home h2.h5 {
+  font-family: var(--km-display, "Nunito", sans-serif);
+  font-weight: 700;
+}
+
+.dash-card-ico {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--km-accent-soft, #e6f4f4);
+  color: var(--km-accent, #0d7377);
+}
+
+.dash-card-ico .km-ico,
+.dash-card-ico .km-ico svg {
+  width: 32px;
+  height: 32px;
+}
+
+.dash-stat-card {
+  border-left: 4px solid var(--km-accent, #0d7377);
+}
+
+.dash-stat-card[data-stat="applied"] { border-left-color: var(--km-accent, #0d7377); }
+.dash-stat-card[data-stat="interview"] { border-left-color: #0ea5e9; }
+.dash-stat-card[data-stat="offer"] { border-left-color: #16a34a; }
+.dash-stat-card[data-stat="rejected"] { border-left-color: #dc2626; }
+.dash-stat-card[data-stat="all"] { border-left-color: var(--km-accent-2, #e07a3d); }
+
+.dash-stat-card .dash-card-ico {
+  background: color-mix(in srgb, var(--km-accent, #0d7377) 12%, #fff);
+}
+
+.dash-stat-card[data-stat="interview"] .dash-card-ico { background: #e0f2fe; color: #0284c7; }
+.dash-stat-card[data-stat="offer"] .dash-card-ico { background: #dcfce7; color: #15803d; }
+.dash-stat-card[data-stat="rejected"] .dash-card-ico { background: #fee2e2; color: #b91c1c; }
+.dash-stat-card[data-stat="all"] .dash-card-ico { background: #fde8d8; color: var(--km-accent-2, #e07a3d); }
+
+.dash-empty-ico {
+  color: var(--km-accent, #0d7377);
+  margin-bottom: 0.5rem;
+}
+
+.km-mark-sm svg {
+  width: 28px;
+  height: 28px;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--km-accent, #0d7377);
+  --bs-btn-border-color: var(--km-accent, #0d7377);
+  --bs-btn-hover-bg: var(--km-accent, #0d7377);
+  --bs-btn-hover-border-color: var(--km-accent, #0d7377);
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--km-ink, #14213d);
+  --bs-btn-border-color: var(--km-line, #e2ddd4);
 }
 
 .dash-content {
@@ -406,7 +510,10 @@ body:not(.page-doc):not(.pdf-mode) {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: #f4f6fb;
+  background:
+    radial-gradient(900px 420px at 8% -5%, #c8ebe9 0%, transparent 55%),
+    radial-gradient(700px 380px at 92% 8%, #f7d9c4 0%, transparent 50%),
+    linear-gradient(180deg, #faf8f5 0%, var(--km-sand, #f6f3ee) 100%);
 }
 
 .auth-page .site-shell {
@@ -570,36 +677,48 @@ body:not(.page-doc):not(.pdf-mode) {
 }
 
 [data-ui="warm-dark"] {
-  --bg: #16151c;
-  --paper: #1e1d26;
-  --ink: #f4efe6;
-  --muted: #b7ae9f;
-  --line: rgba(244, 239, 230, 0.12);
+  --bg: #121820;
+  --paper: #1a2330;
+  --ink: #f0f4f8;
+  --muted: #9aa8b8;
+  --line: rgba(240, 244, 248, 0.12);
+  --km-ink: #f0f4f8;
+  --km-muted: #9aa8b8;
+  --km-accent: #2ec4c7;
+  --km-accent-soft: rgba(46, 196, 199, 0.15);
+  --km-sand: #121820;
+  --km-line: rgba(240, 244, 248, 0.12);
+  --accent: var(--km-accent);
+  --bs-primary: var(--km-accent);
 }
 
 [data-ui="warm-dark"] body,
 body[data-ui="warm-dark"] {
-  background: #16151c;
-  color: #f4efe6;
+  background: #121820;
+  color: #f0f4f8;
 }
 
 body[data-ui="warm-dark"] .dash,
 body[data-ui="warm-dark"].auth-page {
-  background: #16151c;
+  background: #121820;
 }
 
 body[data-ui="warm-dark"] .dash-sidebar,
 body[data-ui="warm-dark"] .dash-topbar,
 body[data-ui="warm-dark"] .card,
 body[data-ui="warm-dark"] .chip {
-  background: #1e1d26;
-  border-color: rgba(244, 239, 230, 0.12);
-  color: #f4efe6;
+  background: #1a2330;
+  border-color: rgba(240, 244, 248, 0.12);
+  color: #f0f4f8;
 }
 
-body[data-ui="warm-dark"] .dash-brand-text,
+body[data-ui="warm-dark"] .dash-brand-text {
+  color: #f0f4f8;
+}
+
 body[data-ui="warm-dark"] .dash-nav-link.active {
-  color: #f4efe6;
+  color: var(--km-accent, #2ec4c7);
+  background: rgba(46, 196, 199, 0.12);
 }
 
 @media print {
