@@ -14,6 +14,7 @@ INSERT INTO settings (`key`, `value`) VALUES
   ('ui_density', 'comfortable'),
   ('sidebar_mode', 'expanded'),
   ('ui_mode', 'warm'),
+  ('dashboard_palette', 'light'),
   ('name_size', 'md'),
   ('section_spacing', 'md')
 ON DUPLICATE KEY UPDATE `key` = `key`;

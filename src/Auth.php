@@ -343,6 +343,7 @@ final class Auth
             'ui_density' => 'comfortable',
             'sidebar_mode' => 'expanded',
             'ui_mode' => 'warm',
+            'dashboard_palette' => 'light',
             'name_size' => 'md',
             'font_size' => 'md',
             'section_spacing' => 'md',

@@ -69,32 +69,126 @@ if (isset($_GET['cover']) && (int) $_GET['cover'] > 0) {
 
 $letter = App::activeCoverLetter();
 $coverLetters = App::coverLetters();
+$master = Versions::baseCoverLetter();
+$jobLetters = [];
+foreach ($coverLetters as $cl) {
+    if (!Versions::isMasterCover($cl)) {
+        $jobLetters[] = $cl;
+    }
+}
+$editingCoverName = Versions::MASTER_COVER_LABEL;
+if ($letter) {
+    $editingCoverName = Versions::coverDisplayLabel($letter);
+} elseif ($master) {
+    $editingCoverName = Versions::MASTER_COVER_LABEL;
+}
+
+/**
+ * @param array<string, mixed> $cl
+ */
+function cover_letter_card(array $cl, ?array $activeLetter): void
+{
+    $cid = (int) $cl['id'];
+    $isMaster = Versions::isMasterCover($cl);
+    $isOpen = $activeLetter !== null && (int) $activeLetter['id'] === $cid;
+    $label = Versions::coverDisplayLabel($cl);
+    ?>
+    <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
+      <div class="doc-card-main">
+        <span class="doc-id" title="Cover letter ID #<?= $cid ?>">#<?= $cid ?></span>
+        <div class="doc-card-text">
+          <strong>
+            <?php if ($isMaster): ?>
+              <span class="badge-main"><?= App::e(Versions::MASTER_COVER_LABEL) ?></span>
+            <?php else: ?>
+              <span class="badge-job">Job letter</span>
+            <?php endif; ?>
+            <?php if ($isOpen): ?><span class="badge-active">Selected</span> <?php endif; ?>
+            <?= App::e($label) ?>
+          </strong>
+          <?php if (!$isMaster && $cl['company'] !== ''): ?>
+            <span class="muted"><?= App::e((string) $cl['company']) ?></span>
+          <?php endif; ?>
+        </div>
+      </div>
+      <div class="version-list-actions doc-card-actions">
+        <?php if ($isOpen): ?>
+          <a class="btn btn-sm btn-primary" href="/cover-edit">Edit</a>
+        <?php else: ?>
+          <form method="post">
+            <input type="hidden" name="action" value="activate_cover">
+            <input type="hidden" name="id" value="<?= $cid ?>">
+            <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+          </form>
+        <?php endif; ?>
+        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => $cid])) ?>">PDF EN</a>
+        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => $cid])) ?>">PDF DE</a>
+        <a class="btn btn-sm btn-outline-secondary" href="/cover-letter?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
+        <?php if (!$isMaster): ?>
+          <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">
+            <input type="hidden" name="action" value="delete_cover">
+            <input type="hidden" name="id" value="<?= $cid ?>">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
+        <?php endif; ?>
+      </div>
+    </li>
+    <?php
+}
 
 layout_header('Cover letter');
 ?>
 <main class="editor">
   <header class="page-head">
     <h1>Cover letter</h1>
-    <p>Pick a letter to edit. Style stays on its own page.</p>
+    <p>Your Master cover letter is the safe template. Each application gets its own copy.</p>
   </header>
 
   <section class="editor-block" id="letters">
-    <h2>My letters</h2>
     <ol class="simple-steps">
-      <li><strong>Master cover letter</strong> = your normal letter.</li>
-      <li>For a job: use <a href="/tailor">New job</a> or <strong>Add cover letter</strong> below.</li>
+      <li><strong>Master cover letter</strong> = your normal letter — never overwritten by New job.</li>
+      <li>For an application: <a href="/tailor">New job</a> copies Master into a <strong>job letter</strong>.</li>
+      <li>Edit the job letter body, then export PDF. Style stays on <a href="/cover-design">Cover style</a>.</li>
     </ol>
 
-    <?php if (!empty($letter['id'])): ?>
-      <div class="now-editing">
-        <p>
-          Selected:
-          <span class="doc-id">#<?= (int) $letter['id'] ?></span>
-          <strong><?= App::e(Versions::coverDisplayLabel($letter)) ?></strong>
-        </p>
-        <a class="btn btn-primary" href="/cover-edit">Edit this letter</a>
+    <div class="now-editing">
+      <p>
+        Selected: <strong><?= App::e($editingCoverName) ?></strong>
+        <?php if ($letter): ?>
+          <span class="doc-id muted" title="Cover letter ID">#<?= (int) $letter['id'] ?></span>
+        <?php endif; ?>
+      </p>
+      <a class="btn btn-primary" href="/cover-edit">Edit selected</a>
+    </div>
+
+    <div class="editor-master-card">
+      <h2 class="d-flex align-items-center gap-2"><?= kaammilo_icon('letter', 'sm') ?> Master cover letter</h2>
+      <p class="muted">Your safe template. New jobs always copy from here.</p>
+      <?php if ($master === null): ?>
+        <p class="empty">No Master cover letter yet. <a href="/cover-edit">Create your Master cover letter</a> first.</p>
+      <?php else: ?>
+        <ul class="version-list doc-card-list">
+          <?php cover_letter_card($master, $letter); ?>
+        </ul>
+      <?php endif; ?>
+    </div>
+
+    <div class="editor-job-list">
+      <div class="editor-job-list-head">
+        <h2 class="d-flex align-items-center gap-2"><?= kaammilo_icon('track', 'sm') ?> Job cover letters</h2>
+        <a class="btn btn-primary btn-sm" href="/tailor">New job</a>
       </div>
-    <?php endif; ?>
+      <p class="muted">One copy per company or application. Master cover letter stays unchanged.</p>
+      <?php if ($jobLetters === []): ?>
+        <p class="empty">No job letters yet. <a href="/tailor">New job</a> or use <a href="#add-cover">Add cover letter</a> below.</p>
+      <?php else: ?>
+        <ul class="version-list doc-card-list">
+          <?php foreach ($jobLetters as $cl): ?>
+            <?php cover_letter_card($cl, $letter); ?>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+    </div>
 
     <form method="post" class="form new-job-form" id="add-cover">
       <h3>Add cover letter</h3>
@@ -118,57 +212,6 @@ layout_header('Cover letter');
         </div>
       </div>
     </form>
-
-    <?php if (!$coverLetters): ?>
-      <p class="empty">No cover letters yet. <a href="#add-cover">Add cover letter</a>.</p>
-    <?php else: ?>
-      <ul class="version-list doc-card-list">
-        <?php foreach ($coverLetters as $cl): ?>
-          <?php
-          $cid = (int) $cl['id'];
-          $isMain = Versions::isMasterCover($cl);
-          $isOpen = (int) ($letter['id'] ?? 0) === $cid;
-          $label = Versions::coverDisplayLabel($cl);
-          ?>
-          <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
-            <div class="doc-card-main">
-              <span class="doc-id" title="Unique cover letter ID">#<?= $cid ?></span>
-              <div class="doc-card-text">
-                <strong>
-                  <?php if ($isMain): ?><span class="badge-main"><?= App::e(Versions::MASTER_COVER_LABEL) ?></span> <?php endif; ?>
-                  <?php if ($isOpen): ?><span class="badge-active">Selected</span> <?php endif; ?>
-                  <?= App::e($label) ?>
-                </strong>
-                <?php if (!$isMain && $cl['company'] !== ''): ?>
-                  <span class="muted"><?= App::e((string) $cl['company']) ?></span>
-                <?php endif; ?>
-              </div>
-            </div>
-            <div class="version-list-actions doc-card-actions">
-              <?php if ($isOpen): ?>
-                <a class="btn btn-sm btn-primary" href="/cover-edit">Edit</a>
-              <?php else: ?>
-                <form method="post">
-                  <input type="hidden" name="action" value="activate_cover">
-                  <input type="hidden" name="id" value="<?= $cid ?>">
-                  <button type="submit" class="btn btn-sm btn-primary">Edit / Select</button>
-                </form>
-              <?php endif; ?>
-              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en', ['id' => $cid])) ?>">PDF EN</a>
-              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'de', ['id' => $cid])) ?>">PDF DE</a>
-              <a class="btn btn-sm btn-outline-secondary" href="/cover-letter?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
-              <?php if (!$isMain): ?>
-                <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">
-                  <input type="hidden" name="action" value="delete_cover">
-                  <input type="hidden" name="id" value="<?= $cid ?>">
-                  <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                </form>
-              <?php endif; ?>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    <?php endif; ?>
   </section>
 </main>
 <?php

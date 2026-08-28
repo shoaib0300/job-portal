@@ -237,6 +237,7 @@ final class App
             'ui_density' => 'comfortable',
             'sidebar_mode' => 'expanded',
             'ui_mode' => 'warm',
+            'dashboard_palette' => 'light',
             'name_size' => 'md',
             'font_size' => 'md',
             'section_spacing' => 'md',
@@ -759,8 +760,35 @@ final class App
 
     public static function resolveUiMode(?string $mode = null): string
     {
-        $mode = $mode ?: (self::setting('ui_mode', 'warm') ?: 'warm');
-        return in_array($mode, ['warm', 'warm-dark'], true) ? $mode : 'warm';
+        $palette = self::resolveDashboardPalette();
+        return $palette === 'dark' ? 'warm-dark' : 'warm';
+    }
+
+    /** @return array<string, array{label: string, is_dark: bool, tokens: array<string, string>}> */
+    public static function dashboardPalettes(): array
+    {
+        return kaammilo_dashboard_palettes();
+    }
+
+    public static function resolveDashboardPalette(?string $palette = null): string
+    {
+        if ($palette !== null && $palette !== '') {
+            $palette = strtolower(trim($palette));
+            if (isset(self::dashboardPalettes()[$palette])) {
+                return $palette;
+            }
+        }
+        $stored = self::setting('dashboard_palette');
+        if (is_string($stored) && $stored !== '' && isset(self::dashboardPalettes()[$stored])) {
+            return $stored;
+        }
+        $legacy = self::setting('ui_mode', 'warm') ?: 'warm';
+        return $legacy === 'warm-dark' ? 'dark' : 'light';
+    }
+
+    public static function dashboardPaletteIsDark(?string $palette = null): bool
+    {
+        return kaammilo_palette_is_dark(self::resolveDashboardPalette($palette));
     }
 
     public static function resolveDensity(?string $density = null): string

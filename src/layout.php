@@ -42,6 +42,7 @@ function layout_header(string $title, array $opts = []): void
     $hideNav = !empty($opts['hide_nav']);
     $isDoc = str_contains(' ' . $bodyClass . ' ', ' page-doc ');
     $uiMode = App::resolveUiMode();
+    $dashboardPalette = App::resolveDashboardPalette();
     $density = App::resolveDensity();
     $sidebar = App::resolveSidebar();
     $nameSize = App::resolveNameSize($_GET['name_size'] ?? null);
@@ -49,7 +50,7 @@ function layout_header(string $title, array $opts = []): void
     $spacing = App::resolveSectionSpacing($_GET['spacing'] ?? null);
     $navKey = App::currentNavKey();
     $profile = App::profile();
-    $bsTheme = $uiMode === 'warm-dark' ? 'dark' : 'light';
+    $bsTheme = App::dashboardPaletteIsDark($dashboardPalette) ? 'dark' : 'light';
     $activeResume = null;
     $activeCover = null;
     try {
@@ -74,6 +75,10 @@ function layout_header(string $title, array $opts = []): void
     $pdfLang = LibreTranslate::normalizeLang($opts['lang'] ?? ($_GET['lang'] ?? 'en'));
     $pdfTitle = PdfExport::printDocumentTitle($pdfKind, (string) ($profile['full_name'] ?? 'Document'), $pdfLang);
     $htmlTitle = ($pdfMode && $isDoc) ? $pdfTitle : ($title . ' · KaamMilo');
+    $paletteAccent = App::dashboardPalettes()[$dashboardPalette]['tokens']['--km-accent'] ?? App::uiAccent();
+    if (!str_starts_with($paletteAccent, '#')) {
+        $paletteAccent = App::uiAccent();
+    }
     ?>
 <!DOCTYPE html>
 <html lang="<?= App::e($pdfLang) ?>" data-bs-theme="<?= App::e($bsTheme) ?>">
@@ -89,15 +94,15 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828d">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828d">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828f">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
     :root {
-      <?= kaammilo_brand_css_vars() ?>
+      <?= kaammilo_palette_css_vars($dashboardPalette) ?>
 
       --accent: var(--km-accent);
       --bs-primary: var(--km-accent);
-      --bs-primary-rgb: <?= layout_accent_rgb($uiAccent) ?>;
+      --bs-primary-rgb: <?= layout_accent_rgb($paletteAccent) ?>;
       --doc-accent: <?= App::e($docAccent) ?>;
       --doc-font: <?= App::e($fontStack) ?>;
       --resume-name-scale: <?= App::e(App::nameSizeScale($nameSize)) ?>;
@@ -110,6 +115,7 @@ function layout_header(string $title, array $opts = []): void
       data-theme="<?= App::e($theme) ?>"
       data-font="<?= App::e($font) ?>"
       data-ui="<?= App::e($uiMode) ?>"
+      data-palette="<?= App::e($dashboardPalette) ?>"
       data-density="<?= App::e($density) ?>"
       data-sidebar="<?= App::e($sidebar) ?>"
       data-name-size="<?= App::e($nameSize) ?>"
@@ -213,7 +219,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260828d"></script>
+  <script src="/assets/js/app.js?v=20260828f"></script>
         <?php
     endif;
     ?>

@@ -736,7 +736,7 @@
   const root = document.querySelector("[data-company-picker]");
   if (!root) return;
   const filter = root.querySelector("[data-company-filter]");
-  const countEl = root.querySelector("[data-company-selected-count]");
+  const toggleLabel = root.querySelector("[data-company-toggle-label]");
   const chips = Array.from(root.querySelectorAll(".jobs-company-chip"));
 
   function refresh() {
@@ -747,7 +747,10 @@
       chip.classList.toggle("is-checked", on);
       if (on) selected += 1;
     });
-    if (countEl) countEl.textContent = String(selected);
+    if (toggleLabel) {
+      toggleLabel.textContent =
+        selected > 0 ? `Filter by company (${selected})` : "Filter by company";
+    }
   }
 
   root.addEventListener("change", (event) => {
@@ -895,4 +898,22 @@
     }
     loadJobs(params, { push: false });
   });
+})();
+
+(() => {
+  const form = document.querySelector("[data-settings-look-form]");
+  const preview = document.querySelector("[data-settings-preview]");
+  if (!form || !preview) return;
+
+  function syncPreview() {
+    const palette = form.querySelector('[name="dashboard_palette"]:checked')?.value;
+    const density = form.querySelector('[name="ui_density"]:checked')?.value;
+    const sidebar = form.querySelector('[name="sidebar_mode"]:checked')?.value;
+    if (palette) preview.dataset.palette = palette;
+    if (density) preview.dataset.density = density;
+    if (sidebar) preview.dataset.sidebar = sidebar;
+  }
+
+  form.addEventListener("change", syncPreview);
+  syncPreview();
 })();

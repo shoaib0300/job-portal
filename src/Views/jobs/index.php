@@ -194,31 +194,37 @@ use App;
                 <?php endif; ?>
               </div>
               <?php if ($companyOptions !== []): ?>
-                <div class="col-lg-6" data-company-picker>
-                  <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-2">
-                    <div>
-                      <div class="form-label mb-0">Companies</div>
-                      <p class="small text-secondary mb-0">Leave empty for all enabled boards.</p>
-                    </div>
-                    <input type="search" class="form-control form-control-sm jobs-company-filter" placeholder="Filter companies…" data-company-filter aria-label="Filter companies">
+                <?php
+                  $companySelectedCount = count($query->companies);
+                  $companyFilterOpen = $companySelectedCount > 0;
+                  $companyToggleLabel = 'Filter by company' . ($companySelectedCount > 0 ? ' (' . $companySelectedCount . ')' : '');
+                ?>
+                <div class="col-12" data-company-picker>
+                  <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#jobsCompanyFilter" aria-expanded="<?= $companyFilterOpen ? 'true' : 'false' ?>" aria-controls="jobsCompanyFilter" data-company-toggle>
+                      <span data-company-toggle-label><?= App::e($companyToggleLabel) ?></span>
+                    </button>
+                    <a class="small text-secondary" href="/companies">Manage boards</a>
                   </div>
-                  <div class="jobs-company-panel">
-                    <div class="jobs-company-grid">
-                      <?php foreach ($companyOptions as $i => $opt): ?>
-                        <?php
-                          $cid = 'co-' . $i;
-                          $checked = in_array($opt['key'], $query->companies, true);
-                          $accent = $opt['accent'] ?? '#5B6B7C';
-                        ?>
-                        <label class="jobs-company-chip<?= $checked ? ' is-checked' : '' ?>" style="--co-accent: <?= App::e($accent) ?>" for="<?= App::e($cid) ?>" data-company-label="<?= App::e(mb_strtolower($opt['label'])) ?>">
-                          <input class="visually-hidden" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= $checked ? ' checked' : '' ?> data-company-input>
-                          <span class="jobs-company-dot" aria-hidden="true"></span>
-                          <span class="jobs-company-name"><?= App::e($opt['label']) ?></span>
-                        </label>
-                      <?php endforeach; ?>
+                  <div class="collapse<?= $companyFilterOpen ? ' show' : '' ?>" id="jobsCompanyFilter">
+                    <input type="search" class="form-control form-control-sm jobs-company-filter mb-2" placeholder="Search boards" data-company-filter aria-label="Search company boards">
+                    <div class="jobs-company-panel">
+                      <div class="jobs-company-grid">
+                        <?php foreach ($companyOptions as $i => $opt): ?>
+                          <?php
+                            $cid = 'co-' . $i;
+                            $checked = in_array($opt['key'], $query->companies, true);
+                            $accent = $opt['accent'] ?? '#5B6B7C';
+                          ?>
+                          <label class="jobs-company-chip<?= $checked ? ' is-checked' : '' ?>" style="--co-accent: <?= App::e($accent) ?>" for="<?= App::e($cid) ?>" data-company-label="<?= App::e(mb_strtolower($opt['label'])) ?>">
+                            <input class="visually-hidden" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= $checked ? ' checked' : '' ?> data-company-input>
+                            <span class="jobs-company-dot" aria-hidden="true"></span>
+                            <span class="jobs-company-name"><?= App::e($opt['label']) ?></span>
+                          </label>
+                        <?php endforeach; ?>
+                      </div>
                     </div>
                   </div>
-                  <p class="small text-secondary mt-2 mb-0"><span data-company-selected-count>0</span> selected · Manage boards under <a href="/companies">Companies</a>.</p>
                 </div>
               <?php endif; ?>
             </div>

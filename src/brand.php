@@ -27,6 +27,82 @@ function kaammilo_brand_css_vars(): string
     return implode("\n      ", $lines);
 }
 
+/**
+ * @return array<string, array{label: string, is_dark: bool, tokens: array<string, string>}>
+ */
+function kaammilo_dashboard_palettes(): array
+{
+    return [
+        'light' => [
+            'label' => 'Light',
+            'is_dark' => false,
+            'tokens' => kaammilo_brand_tokens(),
+        ],
+        'dark' => [
+            'label' => 'Dark',
+            'is_dark' => true,
+            'tokens' => [
+                '--km-ink' => '#f0f4f8',
+                '--km-muted' => '#9aa8b8',
+                '--km-accent' => '#2ec4c7',
+                '--km-accent-2' => '#e07a3d',
+                '--km-accent-soft' => 'rgba(46, 196, 199, 0.15)',
+                '--km-sand' => '#121820',
+                '--km-line' => 'rgba(240, 244, 248, 0.12)',
+                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+            ],
+        ],
+        'rose' => [
+            'label' => 'Rose',
+            'is_dark' => false,
+            'tokens' => [
+                '--km-ink' => '#3d2030',
+                '--km-muted' => '#7a5a68',
+                '--km-accent' => '#c45c7a',
+                '--km-accent-2' => '#e07a3d',
+                '--km-accent-soft' => '#fce8ee',
+                '--km-sand' => '#fdf5f7',
+                '--km-line' => '#edd8df',
+                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+            ],
+        ],
+        'ocean' => [
+            'label' => 'Ocean',
+            'is_dark' => false,
+            'tokens' => [
+                '--km-ink' => '#0f2438',
+                '--km-muted' => '#4a6278',
+                '--km-accent' => '#1a6b8a',
+                '--km-accent-2' => '#e07a3d',
+                '--km-accent-soft' => '#e3f0f7',
+                '--km-sand' => '#eef4f8',
+                '--km-line' => '#d4e2ec',
+                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+            ],
+        ],
+    ];
+}
+
+function kaammilo_palette_css_vars(string $paletteId): string
+{
+    $palettes = kaammilo_dashboard_palettes();
+    $tokens = $palettes[$paletteId]['tokens'] ?? kaammilo_brand_tokens();
+    $lines = [];
+    foreach ($tokens as $key => $value) {
+        $lines[] = $key . ': ' . $value . ';';
+    }
+    return implode("\n      ", $lines);
+}
+
+function kaammilo_palette_is_dark(string $paletteId): bool
+{
+    $palettes = kaammilo_dashboard_palettes();
+    return (bool) ($palettes[$paletteId]['is_dark'] ?? false);
+}
+
 function kaammilo_portal_fonts_href(): string
 {
     return 'https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap';
