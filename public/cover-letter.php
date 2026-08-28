@@ -55,7 +55,7 @@ if (!$embed):
     <a class="btn btn-sm btn-link text-decoration-none" href="/cover-design">&larr; Style</a>
     <div class="doc-actions d-flex flex-wrap gap-2 align-items-center">
       <?php if ($letter): ?>
-        <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= (int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : App::e((string) ($letter['title'] ?? 'Cover letter')) ?></span>
+        <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= App::e(Versions::coverDisplayLabel($letter)) ?></span>
       <?php endif; ?>
       <a class="btn btn-sm btn-outline-secondary" href="/cover-edit">Edit content</a>
       <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Change style</a>

@@ -216,6 +216,41 @@ final class Versions
         return $row === false ? null : $row;
     }
 
+    public const MASTER_CV_LABEL = 'Master CV';
+    public const MASTER_COVER_LABEL = 'Master cover letter';
+
+    /** @param array<string, mixed> $row */
+    public static function isMasterResume(array $row): bool
+    {
+        return (int) ($row['is_base'] ?? 0) === 1;
+    }
+
+    /** @param array<string, mixed> $row */
+    public static function resumeDisplayLabel(array $row): string
+    {
+        if (self::isMasterResume($row)) {
+            return self::MASTER_CV_LABEL;
+        }
+        $title = trim((string) ($row['title'] ?? ''));
+        return $title !== '' ? $title : 'Job CV';
+    }
+
+    /** @param array<string, mixed> $row */
+    public static function isMasterCover(array $row): bool
+    {
+        return (int) ($row['is_base'] ?? 0) === 1;
+    }
+
+    /** @param array<string, mixed> $row */
+    public static function coverDisplayLabel(array $row): string
+    {
+        if (self::isMasterCover($row)) {
+            return self::MASTER_COVER_LABEL;
+        }
+        $title = trim((string) ($row['title'] ?? ''));
+        return $title !== '' ? $title : 'Job cover letter';
+    }
+
     public static function activeResumeVersion(): ?array
     {
         self::ensureSchema();
@@ -287,7 +322,7 @@ final class Versions
         return (int) $pdo->lastInsertId();
     }
 
-    public static function updateBaseFromLive(string $title = 'Main resume'): int
+    public static function updateBaseFromLive(string $title = self::MASTER_CV_LABEL): int
     {
         $snapshot = self::captureSnapshot();
         $base = self::baseResumeVersion();
@@ -323,7 +358,7 @@ final class Versions
             return;
         }
         if ((int) ($row['is_base'] ?? 0) === 1) {
-            throw new RuntimeException('Cannot delete the Main resume. Save a new Main first if you need to replace it.');
+            throw new RuntimeException('Cannot delete the Master CV. Save a new Master first if you need to replace it.');
         }
         Db::pdo()->prepare('DELETE FROM resume_versions WHERE id = ? AND user_id = ?')->execute([$id, self::uid()]);
     }
@@ -385,8 +420,8 @@ final class Versions
     {
         $options = [];
         foreach (self::resumeVersions() as $row) {
-            $label = (int) $row['is_base'] === 1
-                ? 'Main resume'
+            $label = self::isMasterResume($row)
+                ? self::MASTER_CV_LABEL
                 : (string) $row['title'];
             $options[] = [
                 'id' => (int) $row['id'],
@@ -404,8 +439,8 @@ final class Versions
         self::ensureSchema();
         $options = [];
         foreach (App::coverLetters() as $row) {
-            $label = (int) ($row['is_base'] ?? 0) === 1
-                ? 'Main cover letter'
+            $label = self::isMasterCover($row)
+                ? self::MASTER_COVER_LABEL
                 : (string) $row['title'];
             $options[] = [
                 'id' => (int) $row['id'],

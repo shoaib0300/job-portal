@@ -56,7 +56,7 @@ use App;
               <label class="form-check-label" for="f-resume">Match my resume</label>
             </div>
             <?php if ($resumeTitle !== ''): ?>
-              <p class="small text-secondary mb-0 mt-1">Active: <?= App::e($resumeTitle) ?></p>
+              <p class="small text-secondary mb-0 mt-1">Master CV: <?= App::e($resumeTitle) ?></p>
             <?php endif; ?>
             <p class="small text-secondary mb-0 mt-1" data-match-resume-hint<?= $query->matchResume ? '' : ' hidden' ?>>
               Compares job descriptions to your resume. Level, English, salary, and German filters are ignored.

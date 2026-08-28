@@ -75,8 +75,8 @@ if (empty($letter['id'])) {
     App::redirect('/cover');
 }
 
-$isMain = (int) ($letter['is_base'] ?? 0) === 1;
-$editingName = $isMain ? 'Main cover letter' : (string) ($letter['title'] ?? 'Cover letter');
+$isMain = Versions::isMasterCover($letter);
+$editingName = Versions::coverDisplayLabel($letter);
 
 layout_header('Edit cover letter');
 ?>

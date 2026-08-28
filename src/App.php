@@ -281,7 +281,7 @@ final class App
 
         $base = Versions::baseResumeVersion();
         if ($base === null) {
-            throw new RuntimeException('No Main resume. Save a Main resume in the Editor first.');
+            throw new RuntimeException('No Master CV. Save a Master CV in the Editor first.');
         }
 
         $snapshot = Versions::decodeSnapshot((string) $base['snapshot']);
@@ -318,7 +318,7 @@ final class App
 
         $baseCover = Versions::baseCoverLetter();
         if ($baseCover === null) {
-            throw new RuntimeException('No Main cover letter. Save a Main cover letter in the Editor first.');
+            throw new RuntimeException('No Master cover letter. Save a Master cover letter first.');
         }
 
         $coverId = Versions::duplicateCover((int) $baseCover['id'], $resumeTitle);

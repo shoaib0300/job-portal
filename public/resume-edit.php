@@ -8,6 +8,15 @@ require_once dirname(__DIR__) . '/src/layout.php';
 $pdo = Db::pdo();
 Versions::ensureSchema();
 
+if (isset($_GET['version']) && (int) $_GET['version'] > 0) {
+    try {
+        Versions::loadResumeVersion((int) $_GET['version']);
+    } catch (Throwable $e) {
+        App::flash($e->getMessage(), 'error');
+        App::redirect('/editor');
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
@@ -261,11 +270,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (int) $target['id'],
                 true
             );
-            $name = (int) ($target['is_base'] ?? 0) === 1 ? 'Main resume' : (string) $target['title'];
-            App::flash('Saved: ' . $name);
+            $name = Versions::resumeDisplayLabel($target);
+            App::flash(((int) ($target['is_base'] ?? 0) === 1 ? 'Master CV saved.' : 'Job CV saved.'));
         } else {
-            Versions::updateBaseFromLive('Main resume');
-            App::flash('Saved as Main resume.');
+            Versions::updateBaseFromLive(Versions::MASTER_CV_LABEL);
+            App::flash('Saved as ' . Versions::MASTER_CV_LABEL . '.');
         }
         App::redirect('/resume-edit');
     }
@@ -279,17 +288,19 @@ $sections = App::sections(false);
 $experiences = App::experiences(false);
 $baseResume = Versions::baseResumeVersion();
 $activeResume = Versions::activeResumeVersion();
-$editingResumeName = 'Main resume';
 $editingResumeId = 0;
+$isEditingMaster = false;
+$editingResumeName = Versions::MASTER_CV_LABEL;
 if ($activeResume) {
     $editingResumeId = (int) $activeResume['id'];
-    $editingResumeName = (int) ($activeResume['is_base'] ?? 0) === 1
-        ? 'Main resume'
-        : (string) $activeResume['title'];
+    $isEditingMaster = Versions::isMasterResume($activeResume);
+    $editingResumeName = Versions::resumeDisplayLabel($activeResume);
 } elseif ($baseResume) {
     $editingResumeId = (int) $baseResume['id'];
-    $editingResumeName = 'Main resume';
+    $isEditingMaster = true;
+    $editingResumeName = Versions::MASTER_CV_LABEL;
 }
+$saveResumeLabel = $isEditingMaster ? 'Save Master CV' : 'Save Job CV';
 $links = $profile['links'];
 if (count($links) < 2) {
     $links[] = ['label' => '', 'url' => ''];
@@ -306,6 +317,13 @@ layout_header('Edit resume');
       <?= App::e($editingResumeName) ?>
     </h1>
     <p><a href="/editor">← My resumes</a></p>
+    <div class="resume-context-banner<?= $isEditingMaster ? ' is-master' : ' is-job' ?>">
+      <?php if ($isEditingMaster): ?>
+        <strong>Editing Master CV</strong> — your template. New jobs always copy from here.
+      <?php else: ?>
+        <strong>Editing Job CV:</strong> <?= App::e($editingResumeName) ?>. Master CV is unchanged.
+      <?php endif; ?>
+    </div>
     <div class="preview-links">
       <a class="btn btn-sm btn-outline-secondary" href="/resume" target="_blank" rel="noopener">Preview</a>
       <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
@@ -328,10 +346,10 @@ layout_header('Edit resume');
 
     <div class="editor-main">
       <div class="now-editing">
-        <p>Editing this copy. Save writes the open snapshot.</p>
+        <p><?= $isEditingMaster ? 'Changes save to your Master CV.' : 'Changes save to this Job CV only.' ?></p>
         <form method="post" class="form form-inline-actions">
           <input type="hidden" name="action" value="save_open_resume">
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" class="btn btn-primary"><?= App::e($saveResumeLabel) ?></button>
         </form>
       </div>
 

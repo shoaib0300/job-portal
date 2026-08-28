@@ -44,7 +44,7 @@ declare(strict_types=1);
                   <span class="step-n">1</span>
                   <div>
                     <h2 class="h5">Find or paste a job</h2>
-                    <p class="text-secondary small mb-3">Search Bundesagentur listings, or paste a JD. Main resume and letter are copied per application.</p>
+                    <p class="text-secondary small mb-3">Search Bundesagentur listings, or paste a JD. Master CV and letter are copied into a Job CV per application.</p>
                     <button type="button" class="btn btn-primary btn-sm demo-goto" data-demo-goto="jobs">Find jobs</button>
                     <button type="button" class="btn btn-outline-secondary btn-sm demo-goto" data-demo-goto="tailor">Paste a JD</button>
                   </div>
@@ -57,7 +57,7 @@ declare(strict_types=1);
                   <span class="step-n">2</span>
                   <div>
                     <h2 class="h5">Edit your resume</h2>
-                    <p class="text-secondary small mb-3">Tweak summary and skills for that company. Main stays untouched.</p>
+                    <p class="text-secondary small mb-3">Tweak summary and skills for that company. Master CV stays untouched.</p>
                     <button type="button" class="btn btn-outline-secondary btn-sm demo-locked">Open resume</button>
                   </div>
                 </div>
@@ -169,7 +169,7 @@ declare(strict_types=1);
         <div class="demo-panel" data-demo-panel="tailor" hidden>
           <header class="mb-3">
             <h2 class="h4 mb-1">New job</h2>
-            <p class="text-secondary small mb-0">Paste a job description — we copy Main resume and cover into new versions.</p>
+            <p class="text-secondary small mb-0">Paste a job description — we copy Master CV and cover into a new Job CV.</p>
           </header>
 
           <form class="card shadow-sm" data-demo-tailor-form onsubmit="return false;">
@@ -199,7 +199,7 @@ declare(strict_types=1);
           </form>
 
           <div class="alert alert-success mt-3 d-none" data-demo-tailor-result role="status">
-            <strong>Done (demo).</strong> Copied Main into resume <strong>#14</strong> and cover <strong>#14</strong>. Application <strong>#15</strong> logged · <?= App::e($tailor['location']) ?> · Applied.
+            <strong>Done (demo).</strong> Created Job CV from Master CV and cover <strong>#14</strong>. Application <strong>#15</strong> logged · <?= App::e($tailor['location']) ?> · Applied.
           </div>
 
           <div class="row g-3 mt-1 d-none" data-demo-tailor-preview>

@@ -58,7 +58,7 @@ final class JobsController
                 1 => 'Today · 24h',
                 14 => 'Last 14 days (max)',
             ],
-            'resumeTitle' => ResumeJobMatch::activeTitle(),
+            'resumeTitle' => ResumeJobMatch::masterTitle(),
             'serpConfigured' => SerpBoardSource::configured(),
             'resultsHtml' => JobsResultsView::render($query, $result, $ran),
         ]);

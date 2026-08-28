@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $base = Versions::baseCoverLetter();
         if ($base === null) {
-            App::flash('No Main cover letter to copy from.', 'error');
+            App::flash('No Master cover letter to copy from.', 'error');
             App::redirect('/cover');
         }
         if ($title === '') {
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'mark_cover_base') {
         $id = (int) ($_POST['id'] ?? 0);
         Versions::markCoverBase($id);
-        App::flash('Marked as Main cover letter.');
+        App::flash('Marked as Master cover letter.');
         App::redirect('/cover');
     }
 
@@ -81,8 +81,8 @@ layout_header('Cover letter');
   <section class="editor-block" id="letters">
     <h2>My letters</h2>
     <ol class="simple-steps">
-      <li><strong>Main</strong> = your normal letter.</li>
-      <li>For a job: <strong>Add cover letter</strong>, then edit that copy.</li>
+      <li><strong>Master cover letter</strong> = your normal letter.</li>
+      <li>For a job: use <a href="/tailor">New job</a> or <strong>Add cover letter</strong> below.</li>
     </ol>
 
     <?php if (!empty($letter['id'])): ?>
@@ -90,7 +90,7 @@ layout_header('Cover letter');
         <p>
           Selected:
           <span class="doc-id">#<?= (int) $letter['id'] ?></span>
-          <strong><?= App::e((int) ($letter['is_base'] ?? 0) === 1 ? 'Main cover letter' : (string) ($letter['title'] ?? 'Cover letter')) ?></strong>
+          <strong><?= App::e(Versions::coverDisplayLabel($letter)) ?></strong>
         </p>
         <a class="btn btn-primary" href="/cover-edit">Edit this letter</a>
       </div>
@@ -98,7 +98,7 @@ layout_header('Cover letter');
 
     <form method="post" class="form new-job-form" id="add-cover">
       <h3>Add cover letter</h3>
-      <p class="empty" style="margin:0 0 0.75rem">Always a copy of Main cover letter.</p>
+      <p class="empty" style="margin:0 0 0.75rem">Always a copy of your Master cover letter.</p>
       <input type="hidden" name="action" value="new_job_cover">
       <div class="row g-3">
         <div class="col-md-6">
@@ -126,16 +126,16 @@ layout_header('Cover letter');
         <?php foreach ($coverLetters as $cl): ?>
           <?php
           $cid = (int) $cl['id'];
-          $isMain = (int) ($cl['is_base'] ?? 0) === 1;
+          $isMain = Versions::isMasterCover($cl);
           $isOpen = (int) ($letter['id'] ?? 0) === $cid;
-          $label = $isMain ? 'Main cover letter' : (string) $cl['title'];
+          $label = Versions::coverDisplayLabel($cl);
           ?>
           <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
             <div class="doc-card-main">
               <span class="doc-id" title="Unique cover letter ID">#<?= $cid ?></span>
               <div class="doc-card-text">
                 <strong>
-                  <?php if ($isMain): ?><span class="badge-main">Main</span> <?php endif; ?>
+                  <?php if ($isMain): ?><span class="badge-main"><?= App::e(Versions::MASTER_COVER_LABEL) ?></span> <?php endif; ?>
                   <?php if ($isOpen): ?><span class="badge-active">Selected</span> <?php endif; ?>
                   <?= App::e($label) ?>
                 </strong>

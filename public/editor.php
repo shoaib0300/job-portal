@@ -27,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $id = (int) $base['id'];
             }
             if ($title === '') {
-                $title = 'Main resume';
+                $title = Versions::MASTER_CV_LABEL;
             }
         } elseif ($title === '') {
-            $title = $company !== '' ? $company . ' resume' : 'Tailored resume';
+            $title = $company !== '' ? $company . ' resume' : 'Job CV';
         }
         $snapshot = Versions::captureSnapshot();
         $versionId = Versions::saveResumeVersion(
@@ -45,41 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($company !== '') {
             App::setSetting('active_company', $company);
         }
-        App::flash($asBase ? 'Main resume saved.' : 'Resume saved.');
+        App::flash($asBase ? 'Master CV saved.' : 'Job CV saved.');
         App::redirect('/editor');
-    }
-
-    if ($action === 'new_job_resume') {
-        $company = trim((string) ($_POST['company'] ?? ''));
-        $role = trim((string) ($_POST['role'] ?? ''));
-        $location = trim((string) ($_POST['location'] ?? ''));
-        if ($company === '') {
-            App::flash('Enter a company name first.', 'error');
-            App::redirect('/editor');
-        }
-        $base = Versions::baseResumeVersion();
-        if ($base === null) {
-            App::flash('No Main resume to copy from. Save Main first.', 'error');
-            App::redirect('/editor');
-        }
-        // Always clone Main (never the currently open tailored copy).
-        $snapshot = Versions::decodeSnapshot((string) $base['snapshot']);
-        if ($location !== '') {
-            $snapshot['location'] = $location;
-        }
-        $title = $role !== '' ? $role . ' — ' . $company : $company;
-        $id = Versions::saveResumeVersion(
-            $title,
-            $snapshot,
-            $company,
-            'Copy of Main resume' . ($location !== '' ? ' · ' . $location : ''),
-            false,
-            null,
-            true
-        );
-        Versions::loadResumeVersion($id);
-        App::flash('Created resume #' . $id . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . '). Change it, then Save.');
-        App::redirect('/resume-edit');
     }
 
     if ($action === 'load_resume_version') {
@@ -87,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             Versions::loadResumeVersion($id);
             $row = Versions::resumeVersion($id);
-            $name = $row && (int) ($row['is_base'] ?? 0) === 1 ? 'Main resume' : ($row['title'] ?? 'resume');
+            $name = $row ? Versions::resumeDisplayLabel($row) : 'resume';
             App::flash('Now editing: ' . $name);
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
@@ -99,13 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'reset_to_main_resume') {
         $base = Versions::baseResumeVersion();
         if (!$base) {
-            App::flash('No Main resume yet.', 'error');
+            App::flash('No Master CV yet.', 'error');
             App::redirect('/editor');
         }
         try {
             Versions::loadResumeVersion((int) $base['id']);
             App::setSetting('active_company', '');
-            App::flash('Now editing: Main resume');
+            App::flash('Now editing: ' . Versions::MASTER_CV_LABEL);
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
             App::redirect('/editor');
@@ -117,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = (int) ($_POST['id'] ?? 0);
         try {
             Versions::deleteResumeVersion($id);
-            App::flash('Resume deleted.');
+            App::flash('Job CV deleted.');
         } catch (Throwable $e) {
             App::flash($e->getMessage(), 'error');
         }
@@ -129,15 +96,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $resumeVersions = Versions::resumeVersions();
-$baseResume = Versions::baseResumeVersion();
+$master = Versions::baseResumeVersion();
+$jobCopies = [];
+foreach ($resumeVersions as $ver) {
+    if (!Versions::isMasterResume($ver)) {
+        $jobCopies[] = $ver;
+    }
+}
 $activeResume = Versions::activeResumeVersion();
-$editingResumeName = 'Main resume';
+$editingResumeName = Versions::MASTER_CV_LABEL;
 if ($activeResume) {
-    $editingResumeName = (int) ($activeResume['is_base'] ?? 0) === 1
-        ? 'Main resume'
-        : (string) $activeResume['title'];
-} elseif ($baseResume) {
-    $editingResumeName = 'Main resume';
+    $editingResumeName = Versions::resumeDisplayLabel($activeResume);
+} elseif ($master) {
+    $editingResumeName = Versions::MASTER_CV_LABEL;
+}
+
+/**
+ * @param array<string, mixed> $ver
+ */
+function editor_resume_card(array $ver, ?array $activeResume): void
+{
+    $rid = (int) $ver['id'];
+    $isMaster = Versions::isMasterResume($ver);
+    $isOpen = $activeResume !== null && (int) $activeResume['id'] === $rid;
+    $label = Versions::resumeDisplayLabel($ver);
+    ?>
+    <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
+      <div class="doc-card-main">
+        <span class="doc-id" title="Resume ID #<?= $rid ?>">#<?= $rid ?></span>
+        <div class="doc-card-text">
+          <strong>
+            <?php if ($isMaster): ?>
+              <span class="badge-main"><?= App::e(Versions::MASTER_CV_LABEL) ?></span>
+            <?php else: ?>
+              <span class="badge-job">Job CV</span>
+            <?php endif; ?>
+            <?php if ($isOpen): ?><span class="badge-active">Selected</span> <?php endif; ?>
+            <?= App::e($label) ?>
+          </strong>
+          <?php if (!$isMaster && $ver['company'] !== ''): ?>
+            <span class="muted"><?= App::e((string) $ver['company']) ?></span>
+          <?php endif; ?>
+        </div>
+      </div>
+      <div class="version-list-actions doc-card-actions">
+        <?php if ($isOpen): ?>
+          <a class="btn btn-sm btn-primary" href="/resume-edit">Edit</a>
+        <?php else: ?>
+          <form method="post">
+            <input type="hidden" name="action" value="load_resume_version">
+            <input type="hidden" name="id" value="<?= $rid ?>">
+            <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+          </form>
+        <?php endif; ?>
+        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => $rid])) ?>">PDF EN</a>
+        <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => $rid])) ?>">PDF DE</a>
+        <a class="btn btn-sm btn-outline-secondary" href="/resume?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
+        <?php if (!$isMaster): ?>
+          <form method="post" onsubmit="return confirm('Delete this Job CV?');">
+            <input type="hidden" name="action" value="delete_resume_version">
+            <input type="hidden" name="id" value="<?= $rid ?>">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
+        <?php endif; ?>
+      </div>
+    </li>
+    <?php
 }
 
 layout_header('Resume');
@@ -145,102 +169,54 @@ layout_header('Resume');
 <main class="editor">
   <header class="page-head">
     <h1>Resume</h1>
-    <p>Pick a copy to edit. Style stays on its own page.</p>
+    <p>Your Master CV is the safe template. Each application gets its own Job CV copy.</p>
   </header>
 
   <section class="editor-block" id="versions">
-    <h2>My resumes</h2>
-
     <ol class="simple-steps">
-      <li><strong>Main</strong> = your normal CV.</li>
-      <li>For a job: <strong>Add resume</strong>, then edit that copy.</li>
-      <li>Each resume has a unique ID (shown below).</li>
+      <li><strong>Master CV</strong> = your real CV at home — never overwritten by New job.</li>
+      <li>For an application: <a href="/tailor">New job</a> copies Master into a <strong>Job CV</strong>.</li>
+      <li>Edit the Job CV summary and skills, then export PDF.</li>
     </ol>
 
     <div class="now-editing">
       <p>
-        Selected:
+        Selected: <strong><?= App::e($editingResumeName) ?></strong>
         <?php if ($activeResume): ?>
-          <span class="doc-id">#<?= (int) $activeResume['id'] ?></span>
+          <span class="doc-id muted" title="Resume ID">#<?= (int) $activeResume['id'] ?></span>
         <?php endif; ?>
-        <strong><?= App::e($editingResumeName) ?></strong>
       </p>
-      <a class="btn btn-primary" href="/resume-edit">Edit this resume</a>
+      <a class="btn btn-primary" href="/resume-edit">Edit selected</a>
     </div>
 
-    <form method="post" class="form new-job-form" id="add-resume">
-      <h3>Add resume</h3>
-      <p class="empty" style="margin:0 0 0.75rem">Always a copy of Main. Give it a company name.</p>
-      <input type="hidden" name="action" value="new_job_resume">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label" for="add-company">Company</label>
-          <input class="form-control" type="text" id="add-company" name="company" required placeholder="e.g. SAP">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label" for="add-role">Job title</label>
-          <input class="form-control" type="text" id="add-role" name="role" placeholder="e.g. QA Engineer">
-        </div>
-        <div class="col-12">
-          <label class="form-label" for="add-location">Job location</label>
-          <input class="form-control" type="text" id="add-location" name="location" placeholder="e.g. München, Germany" required>
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">Add resume</button>
-        </div>
-      </div>
-    </form>
+    <div class="editor-master-card">
+      <h2>Master CV</h2>
+      <p class="muted">Your safe template. New jobs always copy from here.</p>
+      <?php if ($master === null): ?>
+        <p class="empty">No Master CV yet. <a href="/resume-edit">Create your Master CV</a> first.</p>
+      <?php else: ?>
+        <ul class="version-list doc-card-list">
+          <?php editor_resume_card($master, $activeResume); ?>
+        </ul>
+      <?php endif; ?>
+    </div>
 
-    <?php if (!$resumeVersions): ?>
-      <p class="empty">No resumes yet. <a href="#add-resume">Add resume</a>.</p>
-    <?php else: ?>
-      <ul class="version-list doc-card-list">
-        <?php foreach ($resumeVersions as $ver): ?>
-          <?php
-          $rid = (int) $ver['id'];
-          $isMain = (int) $ver['is_base'] === 1;
-          $isOpen = (int) $ver['is_active'] === 1;
-          $label = $isMain ? 'Main resume' : (string) $ver['title'];
-          ?>
-          <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
-            <div class="doc-card-main">
-              <span class="doc-id" title="Unique resume ID">#<?= $rid ?></span>
-              <div class="doc-card-text">
-                <strong>
-                  <?php if ($isMain): ?><span class="badge-main">Main</span> <?php endif; ?>
-                  <?php if ($isOpen): ?><span class="badge-active">Selected</span> <?php endif; ?>
-                  <?= App::e($label) ?>
-                </strong>
-                <?php if (!$isMain && $ver['company'] !== ''): ?>
-                  <span class="muted"><?= App::e((string) $ver['company']) ?></span>
-                <?php endif; ?>
-              </div>
-            </div>
-            <div class="version-list-actions doc-card-actions">
-              <?php if ($isOpen): ?>
-                <a class="btn btn-sm btn-primary" href="/resume-edit">Edit</a>
-              <?php else: ?>
-                <form method="post">
-                  <input type="hidden" name="action" value="load_resume_version">
-                  <input type="hidden" name="id" value="<?= $rid ?>">
-                  <button type="submit" class="btn btn-sm btn-primary">Edit / Select</button>
-                </form>
-              <?php endif; ?>
-              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en', ['version' => $rid])) ?>">PDF EN</a>
-              <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'de', ['version' => $rid])) ?>">PDF DE</a>
-              <a class="btn btn-sm btn-outline-secondary" href="/resume?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
-              <?php if (!$isMain): ?>
-                <form method="post" onsubmit="return confirm('Delete resume #<?= $rid ?>?');">
-                  <input type="hidden" name="action" value="delete_resume_version">
-                  <input type="hidden" name="id" value="<?= $rid ?>">
-                  <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                </form>
-              <?php endif; ?>
-            </div>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    <?php endif; ?>
+    <div class="editor-job-list">
+      <div class="editor-job-list-head">
+        <h2>Job CVs</h2>
+        <a class="btn btn-primary btn-sm" href="/tailor">New job</a>
+      </div>
+      <p class="muted">One copy per company or application. Master CV stays unchanged.</p>
+      <?php if ($jobCopies === []): ?>
+        <p class="empty">No Job CVs yet. <a href="/tailor">New job</a> to create one from your Master CV.</p>
+      <?php else: ?>
+        <ul class="version-list doc-card-list">
+          <?php foreach ($jobCopies as $ver): ?>
+            <?php editor_resume_card($ver, $activeResume); ?>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+    </div>
   </section>
 </main>
 <?php

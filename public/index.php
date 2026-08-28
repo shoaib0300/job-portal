@@ -70,7 +70,7 @@ site_layout_header('Home');
   <section class="site-section site-reveal">
     <div class="site-kicker">How it works</div>
     <h2>From open role to sent application</h2>
-    <p>Three playful steps — your Main resume and Main letter stay untouched.</p>
+    <p>Three playful steps — your Master CV and Master cover letter stay untouched.</p>
     <div class="site-steps">
       <div class="site-step">
         <?= kaammilo_icon('search') ?>
@@ -82,7 +82,7 @@ site_layout_header('Home');
         <?= kaammilo_icon('letter') ?>
         <div class="site-step-n">Step 2</div>
         <h3>Tailor</h3>
-        <p>Paste a JD or start from a listing. KaamMilo copies Main docs so you can tweak summary, skills, and the cover for that company.</p>
+        <p>Paste a JD or start from a listing. KaamMilo copies your Master CV into a Job CV so you can tweak summary, skills, and the cover for that company.</p>
       </div>
       <div class="site-step">
         <?= kaammilo_icon('rocket') ?>

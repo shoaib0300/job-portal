@@ -60,7 +60,7 @@ if (!$embed):
     <a class="btn btn-sm btn-link text-decoration-none" href="/design">&larr; Style</a>
     <div class="doc-actions d-flex flex-wrap gap-2 align-items-center">
       <?php if ($version): ?>
-        <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= (int) $version['is_base'] === 1 ? 'Main resume' : App::e((string) $version['title']) ?></span>
+        <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= App::e(Versions::resumeDisplayLabel($version)) ?></span>
       <?php else: ?>
         <span class="badge rounded-pill text-bg-light border">Resume</span>
       <?php endif; ?>

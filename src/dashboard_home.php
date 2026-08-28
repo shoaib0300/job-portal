@@ -19,7 +19,7 @@ function dashboard_home_render(): void
           <span class="step-n">1</span>
           <div>
             <h2 class="h5">Find or paste a job</h2>
-            <p class="text-secondary small mb-3">Search boards, or paste a JD. We copy Main resume and Main letter into separate documents.</p>
+            <p class="text-secondary small mb-3">Search boards, or paste a JD. We copy your Master CV and Master cover letter into a Job CV per application.</p>
             <a class="btn btn-primary" href="/jobs">Find jobs</a>
             <a class="btn btn-outline-secondary" href="/tailor">Paste a JD</a>
           </div>
@@ -32,7 +32,7 @@ function dashboard_home_render(): void
           <span class="step-n">2</span>
           <div>
             <h2 class="h5">Edit your resume</h2>
-            <p class="text-secondary small mb-3">Change summary and skills for that company. Main stays untouched.</p>
+            <p class="text-secondary small mb-3">Tweak summary and skills for that company. Master CV stays untouched.</p>
             <a class="btn btn-outline-secondary" href="/editor">Open resume</a>
           </div>
         </div>

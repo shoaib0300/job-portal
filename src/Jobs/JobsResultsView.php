@@ -22,7 +22,7 @@ final class JobsResultsView
             'result' => $result,
             'ran' => $ran,
             'sourceLabels' => JobQuery::SOURCES,
-            'resumeTitle' => ResumeJobMatch::activeTitle(),
+            'resumeTitle' => ResumeJobMatch::masterTitle(),
             'resumeTerms' => $query->matchResume ? ResumeJobMatch::scoreTerms() : [],
         ]);
     }

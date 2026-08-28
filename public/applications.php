@@ -287,10 +287,16 @@ layout_header('Applications');
               <td><?= App::e((string) ($app['location'] ?? '')) ?></td>
               <td class="small">
                 <?php if ($rid > 0): ?>
-                  <a href="/resume?version=<?= $rid ?>">Resume #<?= $rid ?></a>
+                  <div class="d-flex flex-wrap gap-1 align-items-center">
+                    <a href="/resume?version=<?= $rid ?>">Job CV</a>
+                    <a class="btn btn-sm btn-outline-secondary py-0" href="/resume-edit?version=<?= $rid ?>">Edit job CV</a>
+                  </div>
                 <?php endif; ?>
                 <?php if ($cid > 0): ?>
-                  <a href="/cover-letter?id=<?= $cid ?>">Letter #<?= $cid ?></a>
+                  <div class="d-flex flex-wrap gap-1 align-items-center<?= $rid > 0 ? ' mt-1' : '' ?>">
+                    <a href="/cover-letter?id=<?= $cid ?>">Job letter</a>
+                    <a class="btn btn-sm btn-outline-secondary py-0" href="/cover-edit?cover=<?= $cid ?>">Edit job letter</a>
+                  </div>
                 <?php endif; ?>
                 <?php if ($rid === 0 && $cid === 0): ?>
                   <span class="text-secondary">—</span>

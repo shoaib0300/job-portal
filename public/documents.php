@@ -14,7 +14,7 @@ layout_header('Resume copies');
   <header class="page-head d-flex flex-wrap justify-content-between align-items-start gap-3">
     <div>
       <h1>Resume copies</h1>
-      <p>Every resume copy. Main stays stable.</p>
+      <p>Every resume copy. Master CV stays stable.</p>
     </div>
     <a class="btn btn-primary" href="/editor">Open resume</a>
   </header>
@@ -28,14 +28,14 @@ layout_header('Resume copies');
           <?php foreach ($resumes as $ver): ?>
             <?php
             $rid = (int) $ver['id'];
-            $isMain = (int) $ver['is_base'] === 1;
+            $isMain = Versions::isMasterResume($ver);
             $isOpen = (int) $ver['is_active'] === 1;
-            $label = $isMain ? 'Main resume' : (string) $ver['title'];
+            $label = Versions::resumeDisplayLabel($ver);
             ?>
             <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2 px-0">
               <div>
                 <span class="doc-id">#<?= $rid ?></span>
-                <?php if ($isMain): ?><span class="badge text-bg-secondary">Main</span> <?php endif; ?>
+                <?php if ($isMain): ?><span class="badge text-bg-secondary"><?= App::e(Versions::MASTER_CV_LABEL) ?></span> <?php endif; ?>
                 <?php if ($isOpen): ?><span class="badge text-bg-primary">Editing</span> <?php endif; ?>
                 <strong><?= App::e($label) ?></strong>
                 <?php if (!$isMain && $ver['company'] !== ''): ?>

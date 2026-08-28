@@ -38,7 +38,7 @@ use KaamMilo\Jobs\ResumeJobMatch;
         </div>
       <?php else: ?>
         <?php if ($query->matchResume && $query->sort !== 'recent'): ?>
-          <p class="small mb-2">Sorted by resume fit<?= $resumeTitle !== '' ? ' · ' . App::e($resumeTitle) : '' ?>.</p>
+          <p class="small mb-2">Sorted by Master CV fit<?= $resumeTitle !== '' ? ' · ' . App::e($resumeTitle) : '' ?>.</p>
         <?php elseif ($query->sort === 'recent'): ?>
           <p class="small mb-2">Sorted by most recent post.</p>
         <?php endif; ?>

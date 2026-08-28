@@ -9,8 +9,9 @@ App::ensureDashboardSchema();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        $company = trim((string) ($_POST['company'] ?? ''));
         $result = App::tailorFromJd(
-            (string) ($_POST['company'] ?? ''),
+            $company,
             (string) ($_POST['role'] ?? ''),
             (string) ($_POST['location'] ?? ''),
             (string) ($_POST['jd_snippet'] ?? ''),
@@ -23,13 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ''
         );
         App::flash(
-            'Copied Main into resume #' . $result['resume_id']
-            . ' and cover #' . $result['cover_id']
-            . '. Application #' . $result['application_id']
-            . ' · ' . $result['location']
-            . ' · ' . App::statusLabel($result['status']) . '.'
+            'Created Job CV for ' . $result['company'] . '. Master CV unchanged.'
         );
-        App::redirect('/editor#versions');
+        App::redirect('/resume-edit');
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
         App::redirect('/tailor');
@@ -41,7 +38,7 @@ layout_header('New job');
 <main class="page-narrow">
   <header class="page-head">
     <h1>New job</h1>
-    <p>Paste the job. We copy your Main resume and letter.</p>
+    <p>Copies your <strong>Master CV</strong> and <strong>Master cover letter</strong> into a new <strong>Job CV</strong> for this application.</p>
   </header>
 
   <form method="post" class="card shadow-sm">
@@ -78,7 +75,7 @@ layout_header('New job');
           <textarea class="form-control" id="jd_snippet" name="jd_snippet" rows="16" required placeholder="Paste the job description"></textarea>
         </div>
         <div class="col-12">
-          <button type="submit" class="btn btn-primary">Save and open resume</button>
+          <button type="submit" class="btn btn-primary">Create Job CV</button>
         </div>
       </div>
     </div>

@@ -156,14 +156,14 @@ function layout_header(string $title, array $opts = []): void
         <div class="dash-topbar-meta ms-auto d-flex flex-wrap align-items-center gap-2">
           <?php if ($chrome === 'resume' && $activeResume): ?>
             <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/resume-edit" title="Edit resume">
-              Resume #<?= (int) $activeResume['id'] ?>
+              <?= App::e(Versions::resumeDisplayLabel($activeResume)) ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
             <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('resume', 'en')) ?>">PDF EN</a>
             <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHref('resume', 'de')) ?>">PDF DE</a>
           <?php elseif ($chrome === 'cover' && $activeCover): ?>
             <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit" title="Edit cover letter">
-              Letter #<?= (int) $activeCover['id'] ?>
+              <?= App::e(Versions::coverDisplayLabel($activeCover)) ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Style</a>
             <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(PdfExport::downloadHref('cover', 'en')) ?>">PDF EN</a>

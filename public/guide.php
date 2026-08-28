@@ -43,7 +43,7 @@ site_layout_header('How to use');
       <div>
         <div class="site-guide-num">04 · Tailor</div>
         <h3>New job from a JD</h3>
-        <p>Go to <strong>New job</strong> (tailor). Paste company, role, location, and the job description. KaamMilo copies your Main resume and Main cover into new versions for that application — Main stays clean.</p>
+        <p>Go to <strong>New job</strong> (tailor). Paste company, role, location, and the job description. KaamMilo copies your Master CV and Master cover letter into a Job CV for that application — Master CV stays clean.</p>
       </div>
     </article>
     <article class="site-guide-step site-reveal">

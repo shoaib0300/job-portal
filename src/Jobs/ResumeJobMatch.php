@@ -9,7 +9,7 @@ use Auth;
 use Versions;
 
 
-/** Build search / fit terms from the logged-in user's active resume. */
+/** Build search / fit terms from the logged-in user's Master CV. */
 final class ResumeJobMatch
 {
     private const STOP = [
@@ -111,10 +111,21 @@ final class ResumeJobMatch
         return $out;
     }
 
+    public static function masterTitle(): string
+    {
+        $base = Versions::baseResumeVersion();
+        if ($base !== null) {
+            return Versions::resumeDisplayLabel($base);
+        }
+        $payload = self::payload();
+        $title = trim((string) ($payload['profile']['title'] ?? ''));
+        return $title !== '' ? $title : 'your profile';
+    }
+
+    /** @deprecated Use masterTitle() */
     public static function activeTitle(): string
     {
-        $payload = self::payload();
-        return trim((string) ($payload['profile']['title'] ?? ''));
+        return self::masterTitle();
     }
 
     /**
@@ -178,8 +189,8 @@ final class ResumeJobMatch
     private static function payload(): array
     {
         try {
-            $active = Versions::activeResumeVersion();
-            $id = $active ? (int) $active['id'] : 0;
+            $base = Versions::baseResumeVersion();
+            $id = $base ? (int) $base['id'] : 0;
             $payload = Versions::resumePayloadForView($id > 0 ? $id : null);
             return [
                 'profile' => is_array($payload['profile'] ?? null) ? $payload['profile'] : [],

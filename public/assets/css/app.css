@@ -1134,6 +1134,7 @@ body.page-doc .site-nav {
 }
 
 .badge-main,
+.badge-job,
 .badge-active,
 .version-pill {
   display: inline-block;
@@ -1148,6 +1149,60 @@ body.page-doc .site-nav {
 .badge-main {
   background: var(--accent);
   color: #fff;
+}
+
+.badge-job {
+  background: color-mix(in srgb, var(--accent) 10%, #e8e6e1);
+  color: #333;
+}
+
+.editor-master-card {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, #ccc);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 6%, #faf9f7);
+}
+
+.editor-master-card h2 {
+  margin-bottom: 0.35rem;
+}
+
+.editor-job-list {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #ddd;
+}
+
+.editor-job-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.editor-job-list-head h2 {
+  margin: 0;
+}
+
+.resume-context-banner {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.resume-context-banner.is-master {
+  background: color-mix(in srgb, var(--accent) 10%, #f4f2ee);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, #ccc);
+}
+
+.resume-context-banner.is-job {
+  background: #f8f7f5;
+  border: 1px solid #ddd;
 }
 
 .badge-active {
