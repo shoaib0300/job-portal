@@ -20,6 +20,8 @@ use App;
     <p>Search German boards in one place. Prepare your resume here, then apply on the employer site.</p>
   </header>
 
+  <?php onboarding_render_banner('jobs'); ?>
+
   <form method="get" action="/jobs" class="jobs-layout" data-jobs-form data-jobs-ajax>
     <input type="hidden" name="search" value="1">
     <input type="hidden" name="posted" value="<?= (int) $query->postedDays ?>" data-jobs-posted>

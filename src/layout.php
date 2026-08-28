@@ -29,6 +29,7 @@ function layout_flash(?array $flash): void
 
 function layout_header(string $title, array $opts = []): void
 {
+    require_once __DIR__ . '/onboarding.php';
     $theme = App::resolveTheme($opts['theme'] ?? null);
     $docAccent = App::resolveAccent($opts['accent'] ?? null);
     $uiAccent = App::uiAccent();
@@ -94,7 +95,8 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828d">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828g">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828h">
+  <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828i">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
     :root {
@@ -219,7 +221,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260828f"></script>
+  <script src="/assets/js/app.js?v=20260828i"></script>
         <?php
     endif;
     ?>

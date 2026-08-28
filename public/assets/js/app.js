@@ -917,3 +917,97 @@
   form.addEventListener("change", syncPreview);
   syncPreview();
 })();
+
+(() => {
+  const heroes = document.querySelectorAll("[data-km-flow-hero]");
+  if (!heroes.length) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const dotPositions = [60, 180, 300, 420, 540, 660];
+
+  heroes.forEach((wrap) => {
+    const hero = wrap.querySelector(".km-flow-hero");
+    const dotWrap = wrap.querySelector("[data-flow-dot-wrap]");
+    const tabs = wrap.querySelectorAll("[data-flow-tab]");
+    const panels = wrap.querySelectorAll("[data-flow-panel]");
+    const nodes = wrap.querySelectorAll("[data-flow-step]");
+    const live = wrap.querySelector("[data-flow-live]");
+    if (!hero || !tabs.length) return;
+
+    const stepIds = Array.from(tabs).map((t) => t.getAttribute("data-flow-tab") || "");
+    let index = 0;
+    let timer = null;
+
+    function setStep(i) {
+      index = ((i % stepIds.length) + stepIds.length) % stepIds.length;
+      const id = stepIds[index];
+      hero.setAttribute("data-active-step", String(index));
+      tabs.forEach((tab, ti) => {
+        const on = ti === index;
+        tab.classList.toggle("is-active", on);
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      panels.forEach((panel) => {
+        const on = panel.getAttribute("data-flow-panel") === id;
+        panel.classList.toggle("is-active", on);
+        panel.hidden = !on;
+      });
+      nodes.forEach((node) => {
+        node.classList.toggle("is-active", node.getAttribute("data-flow-step") === id);
+      });
+      if (dotWrap && dotPositions[index] !== undefined) {
+        dotWrap.setAttribute("transform", `translate(${dotPositions[index]}, 0)`);
+      }
+      const activeTab = tabs[index];
+      if (live && activeTab) {
+        live.textContent = activeTab.textContent?.trim() || "";
+      }
+    }
+
+    function startAutoplay() {
+      if (reducedMotion) return;
+      stopAutoplay();
+      hero.setAttribute("data-km-autoplay", "1");
+      timer = window.setInterval(() => {
+        setStep(index + 1);
+      }, 3500);
+    }
+
+    function stopAutoplay() {
+      hero.removeAttribute("data-km-autoplay");
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    tabs.forEach((tab, ti) => {
+      tab.addEventListener("click", () => {
+        setStep(ti);
+        stopAutoplay();
+      });
+    });
+
+    wrap.addEventListener("mouseenter", stopAutoplay);
+    wrap.addEventListener("mouseleave", startAutoplay);
+    wrap.addEventListener("focusin", stopAutoplay);
+    wrap.addEventListener("focusout", (e) => {
+      if (!wrap.contains(e.relatedTarget)) startAutoplay();
+    });
+
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) startAutoplay();
+          else stopAutoplay();
+        });
+      }, { threshold: 0.2 });
+      io.observe(wrap);
+    } else {
+      startAutoplay();
+    }
+
+    setStep(0);
+  });
+})();

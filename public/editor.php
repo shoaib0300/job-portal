@@ -173,6 +173,7 @@ layout_header('Resume');
   </header>
 
   <section class="editor-block" id="versions">
+    <?php onboarding_render_banner('resume'); ?>
     <ol class="simple-steps">
       <li><strong>Master CV</strong> = your real CV at home — never overwritten by New job.</li>
       <li>For an application: <a href="/tailor">New job</a> copies Master into a <strong>Job CV</strong>.</li>

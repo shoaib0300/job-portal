@@ -10,8 +10,10 @@ function dashboard_home_render(): void
     $recent = array_slice($apps, 0, 6);
 
     layout_header('Home');
+    $heroOpen = !onboarding_is_seen('hero');
     ?>
 <main class="home">
+  <?php onboarding_render_hero(true, $heroOpen); ?>
   <div class="row g-3 mb-4">
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">

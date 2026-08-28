@@ -1,0 +1,319 @@
+/* KaamMilo onboarding — CSS/SVG animations */
+
+.km-flow-hero-wrap {
+  margin-bottom: 1.25rem;
+}
+
+.km-flow-hero-toggle {
+  font-family: var(--km-display, "Nunito", sans-serif);
+  font-weight: 700;
+  color: var(--km-accent, var(--bs-primary)) !important;
+}
+
+.km-flow-hero {
+  border: 1px solid color-mix(in srgb, var(--km-accent, #0d7377) 35%, var(--km-line, #e2ddd4));
+  border-radius: 1rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--km-accent-soft, #e6f4f4) 35%, var(--bs-body-bg));
+}
+
+.km-flow-hero-stage {
+  position: relative;
+  padding: 0.75rem 0 0.35rem;
+  color: var(--km-ink, #14213d);
+}
+
+.km-flow-hero-svg {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  height: auto;
+  min-height: 120px;
+}
+
+.km-flow-path {
+  stroke: var(--km-accent, #0d7377);
+}
+
+.km-flow-path-anim {
+  stroke: var(--km-accent, #0d7377);
+  stroke-dasharray: 8 6;
+  animation: km-flow-path-march 1.2s linear infinite;
+}
+
+@keyframes km-flow-path-march {
+  to { stroke-dashoffset: -28; }
+}
+
+.km-flow-dot-wrap {
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.km-flow-dot {
+  fill: var(--km-accent, #0d7377);
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--km-accent, #0d7377) 65%, transparent));
+  animation: km-flow-dot-pulse 1s ease-in-out infinite;
+}
+
+@keyframes km-flow-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+.km-flow-node-box {
+  fill: color-mix(in srgb, var(--km-accent, #0d7377) 10%, transparent);
+  stroke: color-mix(in srgb, var(--km-accent, #0d7377) 40%, var(--km-line, #e2ddd4));
+  stroke-width: 2;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.km-flow-node-num {
+  font-family: var(--km-display, "Nunito", sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  fill: var(--km-ink, #14213d);
+}
+
+.km-flow-node.is-active .km-flow-node-box {
+  fill: color-mix(in srgb, var(--km-accent, #0d7377) 28%, transparent);
+  stroke: var(--km-accent, #0d7377);
+  stroke-width: 2.5;
+  animation: km-flow-node-pulse 0.9s ease-in-out infinite;
+}
+
+@keyframes km-flow-node-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; filter: drop-shadow(0 0 6px var(--km-accent, #0d7377)); }
+}
+
+.km-flow-hero-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+}
+
+.km-flow-tab {
+  border: 2px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+  color: var(--km-ink, inherit);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+}
+
+.km-flow-tab:hover {
+  border-color: var(--km-accent, var(--bs-primary));
+  transform: translateY(-1px);
+}
+
+.km-flow-tab.is-active,
+.km-flow-tab[aria-selected="true"] {
+  border-color: var(--km-accent, var(--bs-primary));
+  background: var(--km-accent-soft, #e6f4f4);
+  color: var(--km-accent, var(--bs-primary));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--km-accent, #0d7377) 20%, transparent);
+}
+
+.km-flow-panel {
+  display: none;
+  margin-top: 0.85rem;
+  animation: km-flow-panel-in 0.35s ease;
+}
+
+.km-flow-panel.is-active {
+  display: block;
+}
+
+@keyframes km-flow-panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.km-flow-caption {
+  font-size: 0.95rem;
+  color: var(--km-muted, var(--bs-secondary-color));
+}
+
+/* —— Mini animations (transform on wrapper groups) —— */
+
+.km-flow-mini {
+  flex-shrink: 0;
+  width: 160px;
+  height: 96px;
+  color: var(--km-ink, #14213d);
+  background: color-mix(in srgb, var(--km-accent-soft, #e6f4f4) 50%, transparent);
+  border-radius: 0.75rem;
+  padding: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--km-accent, #0d7377) 20%, transparent);
+}
+
+.km-flow-mini-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.km-flow-mini--animated .km-mini-copy-wrap {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: km-mini-copy-slide 2.2s ease-in-out infinite;
+}
+
+.km-flow-mini--animated .km-mini-arrow {
+  animation: km-mini-arrow-pulse 2.2s ease-in-out infinite;
+}
+
+.km-flow-mini--animated .km-mini-search-wrap {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: km-mini-search-pulse 1.8s ease-in-out infinite;
+}
+
+.km-flow-mini--animated .km-mini-jobcard-wrap {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: km-mini-jobcard-in 2.2s ease-in-out infinite;
+}
+
+.km-flow-mini--animated .km-mini-edit-line {
+  stroke-dasharray: 60;
+  animation: km-mini-edit-draw 2s ease-in-out infinite;
+}
+
+.km-flow-mini--animated .km-mini-track-dot {
+  animation: km-mini-track-step 2.4s ease-in-out infinite;
+}
+
+.km-flow-mini--animated .km-mini-track-dot:nth-child(2) { animation-delay: 0.35s; }
+.km-flow-mini--animated .km-mini-track-dot:nth-child(3) { animation-delay: 0.7s; }
+
+@keyframes km-mini-copy-slide {
+  0%, 18% { transform: translateX(-10px) scale(0.92); opacity: 0.35; }
+  40%, 72% { transform: translateX(0) scale(1); opacity: 1; }
+  100% { transform: translateX(-10px) scale(0.92); opacity: 0.35; }
+}
+
+@keyframes km-mini-arrow-pulse {
+  0%, 22% { opacity: 0.2; stroke-width: 1.5; }
+  45%, 68% { opacity: 1; stroke-width: 3; }
+  100% { opacity: 0.2; stroke-width: 1.5; }
+}
+
+@keyframes km-mini-search-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.12) rotate(-8deg); }
+}
+
+@keyframes km-mini-jobcard-in {
+  0%, 22% { transform: translateX(14px); opacity: 0.15; }
+  48%, 78% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(14px); opacity: 0.15; }
+}
+
+@keyframes km-mini-edit-draw {
+  0%, 25% { stroke-dashoffset: 60; }
+  55%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes km-mini-track-step {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* —— Banners —— */
+
+.km-onboard-banner {
+  border-radius: 0.85rem;
+  border: 2px solid color-mix(in srgb, var(--km-accent, #0d7377) 40%, var(--bs-border-color));
+  background: color-mix(in srgb, var(--km-accent-soft, #e6f4f4) 55%, var(--bs-body-bg));
+  animation: km-onboard-banner-in 0.45s ease;
+}
+
+@keyframes km-onboard-banner-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.km-onboard-reopen {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+}
+
+.km-onboard-reopen a {
+  font-weight: 600;
+}
+
+.site-public .km-flow-hero {
+  margin-bottom: 2rem;
+}
+
+.site-guide-step .km-flow-mini {
+  width: 120px;
+  height: 72px;
+  margin-bottom: 0.65rem;
+}
+
+body[data-palette="dark"] .km-flow-hero-stage,
+body[data-ui="warm-dark"] .km-flow-hero-stage {
+  color: #f0f4f8;
+}
+
+body[data-palette="dark"] .km-flow-node-num,
+body[data-ui="warm-dark"] .km-flow-node-num {
+  fill: #f0f4f8;
+}
+
+body[data-palette="dark"] .km-flow-tab,
+body[data-ui="warm-dark"] .km-flow-tab {
+  background: #1a222c;
+  color: #e8edf2;
+  border-color: rgba(245, 245, 245, 0.15);
+}
+
+body[data-palette="dark"] .km-onboard-banner,
+body[data-ui="warm-dark"] .km-onboard-banner {
+  background: color-mix(in srgb, var(--km-accent, #2ec4c7) 15%, #141a22);
+  color: #f0f4f8;
+}
+
+body[data-palette="dark"] .km-flow-mini,
+body[data-ui="warm-dark"] .km-flow-mini {
+  color: #f0f4f8;
+  background: color-mix(in srgb, var(--km-accent, #2ec4c7) 12%, #1a222c);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .km-flow-path-anim,
+  .km-flow-dot,
+  .km-flow-mini--animated .km-mini-copy-wrap,
+  .km-flow-mini--animated .km-mini-arrow,
+  .km-flow-mini--animated .km-mini-search-wrap,
+  .km-flow-mini--animated .km-mini-jobcard-wrap,
+  .km-flow-mini--animated .km-mini-edit-line,
+  .km-flow-mini--animated .km-mini-track-dot,
+  .km-flow-node.is-active .km-flow-node-box {
+    animation: none !important;
+  }
+
+  .km-flow-dot-wrap {
+    transition: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .km-flow-mini {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .km-onboard-banner .card-body {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+}

@@ -145,6 +145,7 @@ layout_header('Cover letter');
   </header>
 
   <section class="editor-block" id="letters">
+    <?php onboarding_render_banner('cover'); ?>
     <ol class="simple-steps">
       <li><strong>Master cover letter</strong> = your normal letter — never overwritten by New job.</li>
       <li>For an application: <a href="/tailor">New job</a> copies Master into a <strong>job letter</strong>.</li>
