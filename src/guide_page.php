@@ -66,7 +66,10 @@ function guide_steps_data(): array
             'title' => 'Download PDF vs Translate PDF',
             'body' => '<strong>Download PDF</strong> — free. Exports exactly what you wrote, in your document language (set under <a href="/settings">Account</a>). No DeepL. '
                 . '<strong>Translate PDF…</strong> — paid via DeepL. Pick any target language (German, Urdu, …). '
-                . 'Repeat downloads of the <em>same text</em> use the cache — you are not billed again until you edit the document.',
+                . 'Each paragraph is translated once and saved in a <strong>cache</strong> (matched by the exact words + source + target language). '
+                . 'Click Translate PDF again with the <em>same</em> resume or letter? KaamFit reuses the cache — <strong>no second DeepL call</strong> for those blocks. '
+                . 'You only pay again if you <strong>change the text</strong> (even one word), switch to a <strong>different language</strong>, or add new sections. '
+                . 'Check <a href="/settings">Account → Translation usage</a>: first run shows <em>billed</em> characters; repeat runs with unchanged text should not add much.',
             'mini' => null,
             'links' => [
                 ['href' => '/design', 'label' => 'Resume style', 'primary' => true],
