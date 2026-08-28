@@ -13,6 +13,20 @@ function layout_accent_rgb(string $hex): string
     return hexdec(substr($hex, 0, 2)) . ', ' . hexdec(substr($hex, 2, 2)) . ', ' . hexdec(substr($hex, 4, 2));
 }
 
+function layout_user_initials(string $name): string
+{
+    $name = trim($name);
+    if ($name === '') {
+        return '?';
+    }
+    $parts = preg_split('/\s+/u', $name) ?: [];
+    if (count($parts) >= 2) {
+        return mb_strtoupper(mb_substr($parts[0], 0, 1) . mb_substr($parts[count($parts) - 1], 0, 1));
+    }
+
+    return mb_strtoupper(mb_substr($name, 0, 2));
+}
+
 function layout_flash(?array $flash): void
 {
     if (!$flash) {
@@ -91,7 +105,6 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'resume', 'href' => '/editor', 'label' => 'Resume', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover', 'label' => 'Cover letter', 'icon' => 'letter'],
         ['key' => 'guide', 'href' => '/help', 'label' => 'How to use', 'icon' => 'spark'],
-        ['key' => 'account', 'href' => '/settings', 'label' => 'Account', 'icon' => 'gear'],
     ];
     $chrome = $opts['chrome'] ?? $navKey;
     $documentLang = App::resolveDocumentLang();
@@ -119,7 +132,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828t">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828v">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
@@ -182,10 +195,30 @@ function layout_header(string $title, array $opts = []): void
           <?php endforeach; ?>
         </nav>
         <div class="dash-sidebar-foot pt-3 mt-auto">
-          <?php $authUser = Auth::user(); ?>
-          <p class="dash-user mb-0 fw-semibold"><?= App::e((string) ($authUser['name'] ?? $profile['full_name'] ?? 'You')) ?></p>
-          <p class="dash-user-meta small text-secondary mb-2"><?= App::e((string) ($authUser['email'] ?? $authUser['username'] ?? '')) ?></p>
-          <a class="dash-logout small" href="/logout">Log out</a>
+          <?php
+          $authUser = Auth::user();
+          $userName = (string) ($authUser['name'] ?? $profile['full_name'] ?? 'You');
+          $userEmail = (string) ($authUser['email'] ?? $authUser['username'] ?? '');
+          $userInitials = layout_user_initials($userName);
+          $accountActive = $navKey === 'account';
+          ?>
+          <div class="dash-user-card<?= $accountActive ? ' is-active' : '' ?>">
+            <a class="dash-user-link" href="/settings" title="Account settings"<?= $accountActive ? ' aria-current="page"' : '' ?>>
+              <span class="dash-user-avatar" aria-hidden="true"><?= App::e($userInitials) ?></span>
+              <span class="dash-user-text">
+                <span class="dash-user-name"><?= App::e($userName) ?></span>
+                <?php if ($userEmail !== ''): ?>
+                  <span class="dash-user-email"><?= App::e($userEmail) ?></span>
+                <?php endif; ?>
+              </span>
+            </a>
+            <a class="dash-user-logout" href="/logout" title="Log out">
+              <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M6 14H3.5A1.5 1.5 0 0 1 2 12.5v-9A1.5 1.5 0 0 1 3.5 2H6v1H3.5a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5H6zm4.854-4.146a.5.5 0 0 0 0-.708L9.207 7.5H14.5a.5.5 0 0 0 0-1H9.207l1.647-1.646a.5.5 0 1 0-.708-.708l-2.5 2.5a.5.5 0 0 0 0 .708l2.5 2.5a.5.5 0 0 0 .708 0"/>
+              </svg>
+              <span class="dash-user-logout-label">Log out</span>
+            </a>
+          </div>
         </div>
       </div>
     </aside>

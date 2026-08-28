@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
+require_once dirname(__DIR__) . '/src/editor_ui.php';
 
 $pdo = Db::pdo();
 Versions::ensureSchema();
@@ -454,11 +455,7 @@ layout_header('Edit resume');
               <?php $jid = (int) $job['id']; ?>
               <div class="section-sort-item experience-edit-item" data-sort-item draggable="true" id="experience-<?= $jid ?>">
                 <input type="hidden" name="experience_id[]" value="<?= $jid ?>">
-                <div class="section-sort-controls">
-                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
-                  <span class="drag-hint" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
-                </div>
+                <?php editor_render_sort_controls(); ?>
                 <div class="section-sort-body">
                   <div class="experience-fields">
                     <label>Company
@@ -540,7 +537,7 @@ layout_header('Edit resume');
 
       <section class="editor-block" id="sections">
         <h2>Resume sections</h2>
-        <p class="empty" style="margin-top:0">Use the arrows (or drag) to reorder, then click <strong>Save</strong>. Experience content is edited in the <a href="#experience">Experience</a> tab.</p>
+        <p class="empty" style="margin-top:0">Drag the grip handle (or use the chevrons) to reorder, then click <strong>Save</strong>. Experience content is edited in the <a href="#experience">Experience</a> tab.</p>
 
         <form method="post" class="section-order-form" data-section-sorter>
           <input type="hidden" name="action" value="save_sections">
@@ -552,11 +549,7 @@ layout_header('Edit resume');
               ?>
               <div class="section-sort-item" data-sort-item draggable="true" id="section-<?= $sid ?>">
                 <input type="hidden" name="section_id[]" value="<?= $sid ?>">
-                <div class="section-sort-controls">
-                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-up title="Move up" aria-label="Move up">↑</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary sort-btn" data-move-down title="Move down" aria-label="Move down">↓</button>
-                  <span class="drag-hint" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
-                </div>
+                <?php editor_render_sort_controls(); ?>
                 <div class="section-sort-body">
                   <div class="section-form-head">
                     <label class="grow">Title

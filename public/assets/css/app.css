@@ -412,25 +412,72 @@ a:hover {
 .section-sort-controls {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.5rem;
   align-items: center;
-  padding-top: 0.2rem;
+  padding-top: 0.15rem;
+}
+
+.sort-btn-group {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--line) 18%, transparent);
 }
 
 .sort-btn {
-  min-width: 2.2rem;
-  padding-left: 0.45rem;
-  padding-right: 0.45rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.65rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sort-btn + .sort-btn {
+  border-top: 1px solid var(--line);
+}
+
+.sort-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+}
+
+.sort-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.sort-btn-icon {
+  display: block;
 }
 
 .drag-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--muted);
-  font-size: 0.85rem;
-  letter-spacing: -0.12em;
   cursor: grab;
   user-select: none;
-  line-height: 1;
-  margin-top: 0.15rem;
+  line-height: 0;
+  padding: 0.15rem 0;
+  opacity: 0.75;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.drag-hint:hover {
+  opacity: 1;
+  color: var(--text);
+}
+
+.drag-hint-icon {
+  display: block;
 }
 
 .section-sort-body {
