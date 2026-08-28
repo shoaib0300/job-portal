@@ -90,6 +90,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
         ['key' => 'resume', 'href' => '/editor', 'label' => 'Resume', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover', 'label' => 'Cover letter', 'icon' => 'letter'],
+        ['key' => 'guide', 'href' => '/help', 'label' => 'How to use', 'icon' => 'spark'],
         ['key' => 'account', 'href' => '/settings', 'label' => 'Account', 'icon' => 'gear'],
     ];
     $chrome = $opts['chrome'] ?? $navKey;
@@ -118,7 +119,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828s">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828t">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>

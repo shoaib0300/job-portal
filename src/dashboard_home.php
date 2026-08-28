@@ -14,6 +14,7 @@ function dashboard_home_render(): void
     ?>
 <main class="home">
   <?php onboarding_render_hero(true, $heroOpen); ?>
+  <p class="mb-4"><a class="btn btn-sm btn-outline-secondary" href="/help">Full guide — resume, jobs, PDF, applications</a></p>
   <div class="row g-3 mb-4">
     <div class="col-md-4">
       <div class="card h-100 shadow-sm">

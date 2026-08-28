@@ -894,6 +894,7 @@ final class App
             'applications.php', 'history.php' => 'applications',
             'documents.php', 'editor.php', 'resume-edit.php', 'design.php' => 'resume',
             'cover.php', 'cover-edit.php', 'cover-design.php' => 'cover',
+            'help.php' => 'guide',
             'settings.php' => 'account',
             default => '',
         };
