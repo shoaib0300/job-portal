@@ -88,7 +88,7 @@ if (PHP_SAPI !== 'cli') {
     if (in_array($script, ['resume.php', 'cover-letter.php'], true)) {
         PdfExport::acceptExportToken();
     }
-    $public = ['about.php', 'features.php', 'guide.php', 'login.php', 'register.php', 'logout.php'];
+    $public = ['about.php', 'demo.php', 'features.php', 'guide.php', 'login.php', 'register.php', 'logout.php'];
     // Marketing home only — not /dashboard/index.php
     if ($script === 'index.php' && !$isDashboardIndex) {
         $public[] = 'index.php';

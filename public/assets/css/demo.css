@@ -1,0 +1,129 @@
+.demo-page-section {
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+}
+
+.demo-portal {
+  background: var(--bs-body-bg, #fff);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(10, 40, 45, 0.08);
+}
+
+.demo-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(90deg, #0a5f62, #14a3a8);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.demo-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  min-height: 520px;
+}
+
+@media (max-width: 767.98px) {
+  .demo-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.demo-nav {
+  padding: 1rem;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  background: #f6f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+@media (max-width: 767.98px) {
+  .demo-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-right: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+
+.demo-nav-btn {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: #334;
+}
+
+.demo-nav-btn:hover {
+  background: rgba(20, 163, 168, 0.1);
+}
+
+.demo-nav-btn.is-active {
+  background: #14a3a8;
+  color: #fff;
+}
+
+.demo-panels {
+  padding: 1.25rem;
+  background: #fff;
+}
+
+.demo-panel[hidden] {
+  display: none !important;
+}
+
+.demo-panel.is-active {
+  display: block;
+}
+
+.demo-pre {
+  white-space: pre-wrap;
+  font-family: inherit;
+  background: #f8fafb;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.demo-cta {
+  padding: 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fafcfc;
+}
+
+.demo-toast {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
+  background: #1a2b2c;
+  color: #fff;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  z-index: 1080;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.demo-toast[hidden] {
+  display: none !important;
+}
+
+.demo-job-filter.is-active,
+.demo-app-filter.is-active {
+  background: #14a3a8;
+  border-color: #14a3a8;
+  color: #fff;
+}
+
+.site-demo-page .demo-portal .step-n {
+  flex-shrink: 0;
+}

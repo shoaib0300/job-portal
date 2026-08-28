@@ -52,10 +52,12 @@ function site_layout_header(string $title, array $opts = []): void
 {
     $flash = empty($opts['hide_flash']) ? App::flash() : null;
     $bodyClass = trim('site-public ' . ($opts['body_class'] ?? ''));
+    $extraStylesheets = $opts['extra_stylesheets'] ?? [];
     $script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
     $loggedIn = Auth::id() > 0;
     $nav = [
         ['href' => '/', 'label' => 'Home', 'scripts' => ['index.php']],
+        ['href' => '/demo', 'label' => 'Try demo', 'scripts' => ['demo.php']],
         ['href' => '/guide', 'label' => 'How to use', 'scripts' => ['guide.php']],
         ['href' => '/features', 'label' => 'Features', 'scripts' => ['features.php']],
         ['href' => '/about', 'label' => 'About', 'scripts' => ['about.php']],
@@ -74,6 +76,9 @@ function site_layout_header(string $title, array $opts = []): void
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260826s">
   <link rel="stylesheet" href="/assets/css/site.css?v=20260826km1">
+  <?php foreach ($extraStylesheets as $href): ?>
+    <link rel="stylesheet" href="<?= App::e((string) $href) ?>">
+  <?php endforeach; ?>
 </head>
 <body class="<?= App::e($bodyClass) ?>">
   <div class="site-test-banner" role="status">
@@ -132,8 +137,9 @@ function site_layout_header(string $title, array $opts = []): void
     <?php
 }
 
-function site_layout_footer(): void
+function site_layout_footer(array $opts = []): void
 {
+    $extraScripts = $opts['extra_scripts'] ?? [];
     ?>
   </div>
   <footer class="site-footer mt-auto">
@@ -177,6 +183,9 @@ function site_layout_footer(): void
       nodes.forEach(function (n) { io.observe(n); });
     })();
   </script>
+  <?php foreach ($extraScripts as $src): ?>
+    <script src="<?= App::e((string) $src) ?>"></script>
+  <?php endforeach; ?>
 </body>
 </html>
     <?php

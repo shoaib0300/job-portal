@@ -60,6 +60,7 @@ site_layout_header('Features');
   </div>
 
   <p class="mt-4 mb-0">
+    <a href="/demo" class="btn btn-outline-primary btn-sm me-2">Try the interactive demo</a>
     <?php if (Auth::id() > 0): ?>
       <a class="btn btn-primary" href="<?= App::e(Site::portalHomeUrl()) ?>">Open dashboard</a>
     <?php else: ?>

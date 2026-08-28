@@ -33,7 +33,8 @@ site_layout_header('Home');
             <a class="btn btn-primary btn-lg" href="<?= App::e(Site::portalHomeUrl()) ?>">Open dashboard</a>
             <a class="btn btn-outline-secondary btn-lg" href="/guide">How to use</a>
           <?php else: ?>
-            <a class="btn btn-primary btn-lg" href="/register">Try the demo</a>
+            <a class="btn btn-primary btn-lg" href="/demo">Try the demo</a>
+            <a class="btn btn-outline-secondary btn-lg" href="/register">Create account</a>
             <a class="btn btn-outline-secondary btn-lg" href="/guide">How to use</a>
           <?php endif; ?>
         </div>
@@ -130,7 +131,8 @@ site_layout_header('Home');
         <?php if (Auth::id() > 0): ?>
           <a class="btn btn-light" href="<?= App::e(Site::portalHomeUrl()) ?>">Open dashboard</a>
         <?php else: ?>
-          <a class="btn btn-light" href="/register">Create account</a>
+          <a class="btn btn-light" href="/demo">Try the demo</a>
+          <a class="btn btn-outline-light" href="/register">Create account</a>
           <a class="btn btn-outline-light" href="/login">Sign in</a>
         <?php endif; ?>
       </div>
