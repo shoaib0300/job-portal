@@ -668,24 +668,35 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
   border-top: 1px solid var(--bs-border-color);
 }
 
-.password-form summary {
+.settings-disclosure summary {
   color: var(--kf-ink, inherit);
   font-weight: 600;
+  list-style: none;
+  cursor: pointer;
 }
 
-.password-form summary::-webkit-details-marker {
+.settings-disclosure summary::-webkit-details-marker {
   display: none;
 }
 
-.password-form summary::before {
+.settings-disclosure summary::marker {
+  content: "";
+}
+
+.settings-disclosure summary::before {
   content: "▸";
   display: inline-block;
   margin-right: 0.35rem;
   transition: transform 0.15s ease;
 }
 
-.password-form[open] summary::before {
+.settings-disclosure[open] summary::before {
   transform: rotate(90deg);
+}
+
+.password-form summary {
+  color: var(--kf-ink, inherit);
+  font-weight: 600;
 }
 
 /* Nested editor forms still look like Bootstrap without rewriting every label */

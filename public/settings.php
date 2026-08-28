@@ -126,8 +126,8 @@ layout_header('Account');
                 <p class="form-text small mb-0">Pre-selected when you click Translate PDF. Change anytime in the picker.</p>
               </div>
               <div class="col-12" id="deepl-languages">
-                <details class="settings-deepl-langs">
-                  <summary class="h6 mb-0" style="cursor:pointer">All DeepL languages (<?= (int) $deeplLanguageCount ?>)</summary>
+                <details class="settings-deepl-langs settings-disclosure">
+                  <summary class="h6 mb-0">All DeepL languages (<?= (int) $deeplLanguageCount ?>)</summary>
                   <p class="small text-secondary mt-2 mb-2">PDF translation supports every target language listed on <a href="https://developers.deepl.com/docs/getting-started/supported-languages" target="_blank" rel="noopener">DeepL</a>, including Urdu, Hindi, Arabic, and more.</p>
                   <input type="search" class="form-control form-control-sm mb-2" id="deepl-lang-filter" placeholder="Filter languages…" autocomplete="off">
                   <ul class="settings-deepl-lang-list list-unstyled small mb-0" id="deepl-lang-list">
@@ -143,8 +143,8 @@ layout_header('Account');
             </div>
           </form>
 
-          <details class="password-form">
-            <summary class="h6 mb-0" style="cursor:pointer">Change password</summary>
+          <details class="password-form settings-disclosure">
+            <summary class="h6 mb-0">Change password</summary>
             <form method="post" class="mt-3">
               <input type="hidden" name="form" value="password">
               <div class="row g-3">
