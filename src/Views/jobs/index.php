@@ -170,9 +170,14 @@ use App;
             Sources &amp; companies
           </button>
           <div class="collapse mt-3" id="jobsMoreFilters">
-            <div class="row g-3">
-              <div class="col-lg-6" data-sources-picker>
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+            <?php
+              $companySelectedCount = count($query->companies);
+              $companyFilterOpen = $companySelectedCount > 0;
+              $companyToggleLabel = 'Filter by company' . ($companySelectedCount > 0 ? ' (' . $companySelectedCount . ')' : '');
+            ?>
+            <div data-sources-picker>
+              <div class="jobs-sources-bar d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                <div class="d-flex flex-wrap align-items-center gap-2">
                   <div class="form-label mb-0">Sources</div>
                   <div class="d-flex gap-2">
                     <button type="button" class="btn btn-link btn-sm p-0" data-sources-select-all>Select all</button>
@@ -180,58 +185,55 @@ use App;
                     <button type="button" class="btn btn-link btn-sm p-0" data-sources-clear>Clear</button>
                   </div>
                 </div>
-                <div class="row row-cols-1 row-cols-sm-2 g-1">
-                  <?php foreach ($sourceLabels as $sid => $slabel): ?>
-                    <div class="col">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="sources[]" value="<?= App::e($sid) ?>" id="src-<?= App::e($sid) ?>"<?= $query->wantsSource($sid) ? ' checked' : '' ?> data-source-input>
-                        <label class="form-check-label small" for="src-<?= App::e($sid) ?>"><?= App::e($slabel) ?></label>
-                      </div>
-                    </div>
-                  <?php endforeach; ?>
-                </div>
-                <p class="small text-secondary mt-2 mb-0">Some sources or filter combinations may show few or no jobs while we expand coverage — try other filters or another job portal.</p>
-                <?php if (!$serpConfigured && App::isDev()): ?>
-                  <p class="small text-secondary mt-1 mb-0">SERP boards need <code>BRIGHT_DATA_API_TOKEN</code>. LinkedIn does not.</p>
+                <?php if ($companyOptions !== []): ?>
+                  <div class="jobs-company-bar d-flex flex-wrap align-items-center gap-2" data-company-picker>
+                    <button class="btn btn-sm btn-outline-secondary jobs-company-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#jobsCompanyFilter" aria-expanded="<?= $companyFilterOpen ? 'true' : 'false' ?>" aria-controls="jobsCompanyFilter" data-company-toggle>
+                      <span data-company-toggle-label><?= App::e($companyToggleLabel) ?></span>
+                      <svg class="jobs-company-chevron" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M4.5 6a.5.5 0 0 1 .708-.04L8 8.793l2.792-2.833a.5.5 0 1 1 .708.708l-3.25 3.25a.5.5 0 0 1-.708 0L4.46 6.668A.5.5 0 0 1 4.5 6z"/>
+                      </svg>
+                    </button>
+                    <a class="small text-secondary text-nowrap" href="/companies">Manage boards</a>
+                  </div>
+                <?php else: ?>
+                  <a class="small text-secondary text-nowrap" href="/companies">Manage boards</a>
                 <?php endif; ?>
               </div>
-              <?php if ($companyOptions !== []): ?>
-                <?php
-                  $companySelectedCount = count($query->companies);
-                  $companyFilterOpen = $companySelectedCount > 0;
-                  $companyToggleLabel = 'Filter by company' . ($companySelectedCount > 0 ? ' (' . $companySelectedCount . ')' : '');
-                ?>
-                <div class="col-12" data-company-picker>
-                  <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#jobsCompanyFilter" aria-expanded="<?= $companyFilterOpen ? 'true' : 'false' ?>" aria-controls="jobsCompanyFilter" data-company-toggle>
-                      <span data-company-toggle-label><?= App::e($companyToggleLabel) ?></span>
-                    </button>
-                    <a class="small text-secondary" href="/companies">Manage boards</a>
-                  </div>
-                  <div class="collapse<?= $companyFilterOpen ? ' show' : '' ?>" id="jobsCompanyFilter">
-                    <input type="search" class="form-control form-control-sm jobs-company-filter mb-2" placeholder="Search boards" data-company-filter aria-label="Search company boards">
-                    <div class="jobs-company-panel">
-                      <div class="jobs-company-grid">
-                        <?php foreach ($companyOptions as $i => $opt): ?>
-                          <?php
-                            $cid = 'co-' . $i;
-                            $checked = in_array($opt['key'], $query->companies, true);
-                            $accent = $opt['accent'] ?? '#5B6B7C';
-                          ?>
-                          <label class="jobs-company-chip<?= $checked ? ' is-checked' : '' ?>" style="--co-accent: <?= App::e($accent) ?>" for="<?= App::e($cid) ?>" data-company-label="<?= App::e(mb_strtolower($opt['label'])) ?>">
-                            <input class="visually-hidden" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= $checked ? ' checked' : '' ?> data-company-input>
-                            <span class="jobs-company-dot" aria-hidden="true"></span>
-                            <span class="jobs-company-name"><?= App::e($opt['label']) ?></span>
-                          </label>
-                        <?php endforeach; ?>
-                      </div>
+              <div class="row row-cols-1 row-cols-sm-2 g-1">
+                <?php foreach ($sourceLabels as $sid => $slabel): ?>
+                  <div class="col">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="sources[]" value="<?= App::e($sid) ?>" id="src-<?= App::e($sid) ?>"<?= $query->wantsSource($sid) ? ' checked' : '' ?> data-source-input>
+                      <label class="form-check-label small" for="src-<?= App::e($sid) ?>"><?= App::e($slabel) ?></label>
                     </div>
                   </div>
-                </div>
+                <?php endforeach; ?>
+              </div>
+              <p class="small text-secondary mt-2 mb-0">Some sources or filter combinations may show few or no jobs while we expand coverage — try other filters or another job portal.</p>
+              <?php if (!$serpConfigured && App::isDev()): ?>
+                <p class="small text-secondary mt-1 mb-0">SERP boards need <code>BRIGHT_DATA_API_TOKEN</code>. LinkedIn does not.</p>
               <?php endif; ?>
             </div>
-            <?php if ($companyOptions === []): ?>
-              <p class="small text-secondary mt-2 mb-0">Manage boards under <a href="/companies">Companies</a>.</p>
+            <?php if ($companyOptions !== []): ?>
+              <div class="collapse mt-2<?= $companyFilterOpen ? ' show' : '' ?>" id="jobsCompanyFilter">
+                <input type="search" class="form-control form-control-sm jobs-company-filter mb-2" placeholder="Search boards" data-company-filter aria-label="Search company boards">
+                <div class="jobs-company-panel">
+                  <div class="jobs-company-grid">
+                    <?php foreach ($companyOptions as $i => $opt): ?>
+                      <?php
+                        $cid = 'co-' . $i;
+                        $checked = in_array($opt['key'], $query->companies, true);
+                        $accent = $opt['accent'] ?? '#5B6B7C';
+                      ?>
+                      <label class="jobs-company-chip<?= $checked ? ' is-checked' : '' ?>" style="--co-accent: <?= App::e($accent) ?>" for="<?= App::e($cid) ?>" data-company-label="<?= App::e(mb_strtolower($opt['label'])) ?>">
+                        <input class="visually-hidden" type="checkbox" name="companies[]" value="<?= App::e($opt['key']) ?>" id="<?= App::e($cid) ?>"<?= $checked ? ' checked' : '' ?> data-company-input>
+                        <span class="jobs-company-dot" aria-hidden="true"></span>
+                        <span class="jobs-company-name"><?= App::e($opt['label']) ?></span>
+                      </label>
+                    <?php endforeach; ?>
+                  </div>
+                </div>
+              </div>
             <?php endif; ?>
           </div>
         </div>

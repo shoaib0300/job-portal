@@ -878,11 +878,12 @@
 })();
 
 (() => {
-  const root = document.querySelector("[data-company-picker]");
-  if (!root) return;
-  const filter = root.querySelector("[data-company-filter]");
-  const toggleLabel = root.querySelector("[data-company-toggle-label]");
-  const chips = Array.from(root.querySelectorAll(".jobs-company-chip"));
+  const toggle = document.querySelector("[data-company-toggle]");
+  const panel = document.getElementById("jobsCompanyFilter");
+  if (!toggle || !panel) return;
+  const filter = panel.querySelector("[data-company-filter]");
+  const toggleLabel = toggle.querySelector("[data-company-toggle-label]");
+  const chips = Array.from(panel.querySelectorAll(".jobs-company-chip"));
 
   function refresh() {
     let selected = 0;
@@ -898,7 +899,7 @@
     }
   }
 
-  root.addEventListener("change", (event) => {
+  panel.addEventListener("change", (event) => {
     if (event.target && event.target.matches("[data-company-input]")) {
       refresh();
     }

@@ -212,6 +212,30 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
   width: min(14rem, 100%);
 }
 
+.jobs-sources-bar {
+  gap: 0.75rem;
+}
+
+.jobs-company-bar {
+  margin-left: auto;
+}
+
+.jobs-company-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.jobs-company-chevron {
+  flex: 0 0 auto;
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+
+.jobs-company-toggle[aria-expanded="true"] .jobs-company-chevron {
+  transform: rotate(180deg);
+}
+
 .jobs-company-chip {
   --co-accent: #5b6b7c;
   display: inline-flex;

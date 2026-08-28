@@ -118,7 +118,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828q">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828r">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
