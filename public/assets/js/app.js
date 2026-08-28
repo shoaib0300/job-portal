@@ -515,11 +515,11 @@
       if (open) {
         row.removeAttribute("hidden");
         btn.setAttribute("aria-expanded", "true");
-        btn.textContent = "Hide job";
+        btn.textContent = "Hide";
       } else {
         row.setAttribute("hidden", "");
         btn.setAttribute("aria-expanded", "false");
-        btn.textContent = "Show job";
+        btn.textContent = "Job";
       }
     });
   });

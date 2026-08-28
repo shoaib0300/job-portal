@@ -761,6 +761,228 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
   color: #fff;
 }
 
+.applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.app-status-cards {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.app-status-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  align-items: end;
+  gap: 0.1rem 0.65rem;
+  min-height: 6.25rem;
+  padding: 0.95rem 1rem 1rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.app-status-card::after {
+  content: "";
+  position: absolute;
+  right: -1.25rem;
+  top: -1.25rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+.app-status-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+  color: #fff;
+}
+
+.app-status-card.is-active {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 12px 28px rgba(15, 23, 42, 0.22);
+}
+
+.app-status-card-icon {
+  grid-row: 1 / span 2;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.app-status-card-icon .km-ico svg {
+  display: block;
+}
+
+.app-status-card-count {
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.app-status-card-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.92;
+}
+
+.app-status-card--all {
+  background: linear-gradient(145deg, #334155 0%, #64748b 55%, #94a3b8 100%);
+}
+
+.app-status-card--applied {
+  background: linear-gradient(145deg, #0f5c5f 0%, #0d7377 45%, #2dd4bf 100%);
+}
+
+.app-status-card--interview {
+  background: linear-gradient(145deg, #0369a1 0%, #0ea5e9 50%, #7dd3fc 100%);
+}
+
+.app-status-card--offer {
+  background: linear-gradient(145deg, #15803d 0%, #22c55e 50%, #86efac 100%);
+}
+
+.app-status-card--rejected {
+  background: linear-gradient(145deg, #991b1b 0%, #ef4444 55%, #fca5a5 100%);
+}
+
+.app-status-card--custom {
+  background: linear-gradient(145deg, #6b21a8 0%, #a855f7 50%, #d8b4fe 100%);
+}
+
+@media (max-width: 1199.98px) {
+  .app-status-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575.98px) {
+  .app-status-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app-status-card {
+    min-height: 5.5rem;
+    padding: 0.85rem 0.9rem 0.95rem;
+  }
+
+  .app-status-card-count {
+    font-size: 1.55rem;
+  }
+}
+
+.application-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border: 0;
+}
+
+.application-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.2rem;
+}
+
+.application-company {
+  font-weight: 600;
+}
+
+.application-role {
+  color: var(--bs-body-color);
+  line-height: 1.35;
+}
+
+.application-meta-sep {
+  margin: 0 0.35rem;
+}
+
+.application-docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-self: center;
+}
+
+.application-doc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.application-doc:hover {
+  border-color: var(--km-accent, var(--bs-primary));
+  color: var(--km-accent, var(--bs-primary));
+}
+
+.application-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: flex-end;
+  align-self: center;
+}
+
+.application-jd {
+  margin-top: -0.35rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.application-jd-body {
+  max-height: 14rem;
+  overflow: auto;
+}
+
+@media (max-width: 767.98px) {
+  .application-card {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .application-docs,
+  .application-actions {
+    justify-content: flex-start;
+  }
+}
+
 body[data-palette="dark"] .dash,
 body[data-palette="dark"].auth-page,
 body[data-ui="warm-dark"] .dash,
@@ -771,7 +993,6 @@ body[data-ui="warm-dark"].auth-page {
 body[data-palette="dark"] .dash-sidebar,
 body[data-palette="dark"] .dash-topbar,
 body[data-palette="dark"] .card,
-body[data-palette="dark"] .chip,
 body[data-ui="warm-dark"] .dash-sidebar,
 body[data-ui="warm-dark"] .dash-topbar,
 body[data-ui="warm-dark"] .card,
@@ -781,9 +1002,10 @@ body[data-ui="warm-dark"] .chip {
   color: #f5f5f5;
 }
 
-body[data-palette="dark"] .dash-sidebar,
-body[data-ui="warm-dark"] .dash-sidebar {
-  background: rgba(20, 26, 34, 0.98);
+body[data-palette="dark"] .app-status-card.is-active,
+body[data-ui="warm-dark"] .app-status-card.is-active {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 12px 28px rgba(0, 0, 0, 0.45);
 }
 
 body[data-palette="dark"] .dash-brand-text,

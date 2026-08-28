@@ -243,14 +243,24 @@ layout_header('Applications');
     </div>
   </form>
 
-  <div class="d-flex flex-wrap gap-2 mb-3">
+  <div class="app-status-cards mb-4">
     <?php
-    $chips = ['all' => 'All', 'applied' => 'Applied', 'interview' => 'Interview', 'offer' => 'Offer', 'rejected' => 'Rejected', 'custom' => 'Custom'];
-    foreach ($chips as $key => $label):
+    $statusFilters = [
+        'all' => ['label' => 'All', 'icon' => 'track'],
+        'applied' => ['label' => 'Applied', 'icon' => 'applied'],
+        'interview' => ['label' => 'Interview', 'icon' => 'interview'],
+        'offer' => ['label' => 'Offer', 'icon' => 'offer'],
+        'rejected' => ['label' => 'Rejected', 'icon' => 'rejected'],
+        'custom' => ['label' => 'Custom', 'icon' => 'spark'],
+    ];
+    foreach ($statusFilters as $key => $meta):
         $href = '/applications?status=' . urlencode($key) . ($q !== '' ? '&q=' . urlencode($q) : '');
+        $count = (int) ($counts[$key] ?? 0);
     ?>
-      <a class="chip<?= $status === $key ? ' is-active' : '' ?>" href="<?= App::e($href) ?>">
-        <?= App::e($label) ?> (<?= (int) ($counts[$key] ?? 0) ?>)
+      <a class="app-status-card app-status-card--<?= App::e($key) ?><?= $status === $key ? ' is-active' : '' ?>" href="<?= App::e($href) ?>">
+        <span class="app-status-card-icon"><?= kaammilo_icon($meta['icon'], 'sm') ?></span>
+        <span class="app-status-card-count"><?= $count ?></span>
+        <span class="app-status-card-label"><?= App::e($meta['label']) ?></span>
       </a>
     <?php endforeach; ?>
   </div>
@@ -258,20 +268,7 @@ layout_header('Applications');
   <?php if (!$apps): ?>
     <div class="card shadow-sm"><div class="card-body text-secondary">Nothing in this filter. <a href="/tailor">Paste a job</a>.</div></div>
   <?php else: ?>
-    <div class="table-responsive card shadow-sm">
-      <table class="table table-hover align-middle mb-0">
-        <thead>
-          <tr>
-            <th>Company</th>
-            <th>Role</th>
-            <th>Location</th>
-            <th>Docs</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+    <ul class="applications-list list-unstyled mb-0">
           <?php foreach ($apps as $app): ?>
             <?php
             $appId = (int) $app['id'];
@@ -289,75 +286,78 @@ layout_header('Applications');
                 default => 'text-bg-primary',
             };
             ?>
-            <tr>
-              <td><?= App::e($app['company']) ?></td>
-              <td><?= App::e($app['role']) ?></td>
-              <td><?= App::e((string) ($app['location'] ?? '')) ?></td>
-              <td class="small">
-                <?php if ($rid > 0): ?>
-                  <div class="d-flex flex-wrap gap-1 align-items-center">
-                    <a href="/resume?version=<?= $rid ?>">Job CV</a>
-                    <a class="btn btn-sm btn-outline-secondary py-0" href="/resume-edit?version=<?= $rid ?>">Edit job CV</a>
-                  </div>
-                <?php endif; ?>
-                <?php if ($cid > 0): ?>
-                  <div class="d-flex flex-wrap gap-1 align-items-center<?= $rid > 0 ? ' mt-1' : '' ?>">
-                    <a href="/cover-letter?id=<?= $cid ?>">Job letter</a>
-                    <a class="btn btn-sm btn-outline-secondary py-0" href="/cover-edit?cover=<?= $cid ?>">Edit job letter</a>
-                  </div>
-                <?php endif; ?>
-                <?php if ($rid === 0 && $cid === 0): ?>
-                  <span class="text-secondary">—</span>
-                <?php endif; ?>
-              </td>
-              <td><span class="badge <?= $badge ?>"><?= App::e(App::statusLabel($app['status'])) ?></span></td>
-              <td><?= App::e((string) $app['applied_date']) ?></td>
-              <td class="text-nowrap">
-                <?php if ($hasJd): ?>
-                  <button type="button"
-                          class="btn btn-sm btn-outline-secondary"
-                          data-toggle-jd
-                          data-jd-target="jd-<?= $appId ?>"
-                          aria-expanded="false"
-                          aria-controls="jd-<?= $appId ?>">Show job</button>
-                <?php endif; ?>
-                <a class="btn btn-sm btn-outline-secondary" href="/applications?action=edit&amp;id=<?= $appId ?>">Edit</a>
-                <form method="post" class="d-inline" onsubmit="return confirm('Delete this application?');">
-                  <input type="hidden" name="action" value="delete">
-                  <input type="hidden" name="id" value="<?= $appId ?>">
-                  <input type="hidden" name="return_status" value="<?= App::e($status) ?>">
-                  <input type="hidden" name="return_q" value="<?= App::e($q) ?>">
-                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete" aria-label="Delete <?= App::e($app['company']) ?>">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                    </svg>
-                  </button>
-                </form>
-              </td>
-            </tr>
-            <tr id="jd-<?= $appId ?>" class="app-jd-row" hidden>
-              <td colspan="7">
-                <div class="p-2">
-                  <div class="d-flex justify-content-between gap-2 mb-2">
-                    <strong>Job text</strong>
-                    <?php if ($link !== ''): ?>
-                      <a href="<?= App::e($link) ?>" target="_blank" rel="noopener">Open link</a>
-                    <?php endif; ?>
-                  </div>
-                  <?php if ($hasJd): ?>
-                    <div class="small"><?= App::nl2p($jd) ?></div>
-                  <?php endif; ?>
-                  <?php if ($notes !== ''): ?>
-                    <p class="mb-0"><strong>Notes:</strong> <?= App::e($notes) ?></p>
-                  <?php endif; ?>
-                </div>
-              </td>
-            </tr>
+      <li class="application-item">
+        <article class="application-card card shadow-sm">
+          <div class="application-card-main">
+            <div class="application-head">
+              <h2 class="application-company h6 mb-0"><?= App::e($app['company']) ?></h2>
+              <span class="badge <?= $badge ?>"><?= App::e(App::statusLabel($app['status'])) ?></span>
+            </div>
+            <p class="application-role mb-1"><?= App::e($app['role']) ?></p>
+            <p class="application-meta small text-secondary mb-0">
+              <?php if ((string) ($app['location'] ?? '') !== ''): ?>
+                <span><?= App::e((string) $app['location']) ?></span>
+                <span class="application-meta-sep" aria-hidden="true">·</span>
+              <?php endif; ?>
+              <time datetime="<?= App::e((string) $app['applied_date']) ?>"><?= App::e((string) $app['applied_date']) ?></time>
+            </p>
+          </div>
+
+          <?php if ($rid > 0 || $cid > 0): ?>
+            <div class="application-docs" aria-label="Job documents">
+              <?php if ($rid > 0): ?>
+                <a class="application-doc" href="/resume?version=<?= $rid ?>" title="View job CV">CV</a>
+              <?php endif; ?>
+              <?php if ($cid > 0): ?>
+                <a class="application-doc" href="/cover-letter?id=<?= $cid ?>" title="View job cover letter">Cover</a>
+              <?php endif; ?>
+            </div>
+          <?php endif; ?>
+
+          <div class="application-actions">
+            <?php if ($hasJd): ?>
+              <button type="button"
+                      class="btn btn-sm btn-outline-secondary"
+                      data-toggle-jd
+                      data-jd-target="jd-<?= $appId ?>"
+                      aria-expanded="false"
+                      aria-controls="jd-<?= $appId ?>">Job</button>
+            <?php endif; ?>
+            <a class="btn btn-sm btn-outline-secondary" href="/applications?action=edit&amp;id=<?= $appId ?>">Edit</a>
+            <form method="post" class="d-inline" onsubmit="return confirm('Delete this application?');">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="<?= $appId ?>">
+              <input type="hidden" name="return_status" value="<?= App::e($status) ?>">
+              <input type="hidden" name="return_q" value="<?= App::e($q) ?>">
+              <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete" aria-label="Delete <?= App::e($app['company']) ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </article>
+
+        <div id="jd-<?= $appId ?>" class="application-jd card shadow-sm" hidden>
+          <div class="card-body py-3">
+            <div class="d-flex justify-content-between gap-2 mb-2">
+              <strong class="small text-uppercase text-secondary">Job text</strong>
+              <?php if ($link !== ''): ?>
+                <a class="small" href="<?= App::e($link) ?>" target="_blank" rel="noopener">Open posting</a>
+              <?php endif; ?>
+            </div>
+            <?php if ($hasJd): ?>
+              <div class="small application-jd-body"><?= App::nl2p($jd) ?></div>
+            <?php endif; ?>
+            <?php if ($notes !== ''): ?>
+              <p class="small mb-0 mt-2"><strong>Notes:</strong> <?= App::e($notes) ?></p>
+            <?php endif; ?>
+          </div>
+        </div>
+      </li>
           <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
+    </ul>
   <?php endif; ?>
 </main>
 <?php

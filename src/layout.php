@@ -118,7 +118,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828h">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828p">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828i">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
@@ -242,7 +242,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260828l"></script>
+  <script src="/assets/js/app.js?v=20260828m"></script>
   <script>window.kmTranslateLangs=<?= json_encode(TranslateLanguages::optionsForJs(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]' ?>;</script>
         <?php
     endif;
