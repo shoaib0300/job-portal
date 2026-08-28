@@ -269,12 +269,13 @@ final class Auth
 
     private static function notifyPendingRegistration(int $userId, string $name, string $username, string $email): void
     {
+        $brand = kaamfit_brand_name();
         $userBody = "Hi {$name},\n\n"
-            . "Your KaamMilo account (@{$username}) was created, but login is disabled until an admin enables it.\n\n"
+            . "Your {$brand} account (@{$username}) was created, but login is disabled until an admin enables it.\n\n"
             . self::pendingAccessMessage() . "\n\n"
-            . "— KaamMilo\n";
+            . "— {$brand}\n";
         try {
-            SuperAdmin::tryMail($email, 'KaamMilo — account pending enablement', $userBody);
+            SuperAdmin::tryMail($email, $brand . ' — account pending enablement', $userBody);
         } catch (Throwable) {
         }
 
@@ -286,7 +287,7 @@ final class Auth
             . "Enable login in Super Admin → Users.\n";
         foreach (self::adminNotifyEmails() as $to) {
             try {
-                SuperAdmin::tryMail($to, 'KaamMilo — new user pending enablement', $adminBody);
+                SuperAdmin::tryMail($to, kaamfit_brand_name() . ' — new user pending enablement', $adminBody);
             } catch (Throwable) {
             }
         }

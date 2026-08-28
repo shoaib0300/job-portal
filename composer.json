@@ -1,13 +1,13 @@
 {
-  "name": "kaammilo/app",
-  "description": "KaamMilo job-application portal",
+  "name": "kaamfit/app",
+  "description": "KaamFit job-application portal",
   "type": "project",
   "require": {
     "php": ">=8.2"
   },
   "autoload": {
     "psr-4": {
-      "KaamMilo\\": "src/",
+      "KaamFit\\": "src/",
       "Freeworld\\PhpJobspy\\": "packages/php-jobspy/src/"
     }
   }

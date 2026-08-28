@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Jobs\Sources;
+namespace KaamFit\Jobs\Sources;
 
 use App;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
-use KaamMilo\Jobs\JobCache;
-use KaamMilo\Jobs\JobHttp;
-use KaamMilo\Jobs\JobListing;
-use KaamMilo\Jobs\JobQuery;
-use KaamMilo\Jobs\JobStore;
-use KaamMilo\Jobs\JobText;
+use KaamFit\Jobs\JobCache;
+use KaamFit\Jobs\JobHttp;
+use KaamFit\Jobs\JobListing;
+use KaamFit\Jobs\JobQuery;
+use KaamFit\Jobs\JobStore;
+use KaamFit\Jobs\JobText;
 
 /**
  * Adzuna Germany (https://www.adzuna.de/search).

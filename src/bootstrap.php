@@ -28,6 +28,7 @@ if (is_readable($envFile)) {
 }
 
 require_once $root . '/src/Site.php';
+require_once $root . '/src/brand.php';
 
 if (PHP_SAPI !== 'cli') {
     $cookie = [
@@ -75,7 +76,7 @@ try {
     App::ensureDashboardSchema();
     Auth::ensureSchema();
     SuperAdmin::ensureSchema();
-    KaamMilo\Jobs\JobAggregator::ensureSchema();
+    KaamFit\Jobs\JobAggregator::ensureSchema();
     LibreTranslate::ensureSchema();
 } catch (Throwable $e) {
     // Pages that need the DB will surface the error; CLI without DATABASE_URL still loads classes.

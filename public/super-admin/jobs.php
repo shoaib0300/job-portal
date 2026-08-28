@@ -5,9 +5,9 @@ declare(strict_types=1);
 require_once dirname(__DIR__, 2) . '/src/bootstrap.php';
 require_once dirname(__DIR__, 2) . '/src/super_layout.php';
 
-use KaamMilo\Jobs\JobIngestLog;
-use KaamMilo\Jobs\JobStore;
-use KaamMilo\Jobs\JobsIngest;
+use KaamFit\Jobs\JobIngestLog;
+use KaamFit\Jobs\JobStore;
+use KaamFit\Jobs\JobsIngest;
 
 SuperAdmin::requireLogin();
 JobStore::ensureSchema();
@@ -60,7 +60,7 @@ if ($ingestKey === '') {
     $ingestKey = trim((string) (getenv('JOBS_INGEST_KEY') ?: ''));
 }
 $ingestUrl = $ingestKey !== ''
-    ? 'https://' . ($_SERVER['HTTP_HOST'] ?? 'kaammilo.ddev.site') . '/cron/jobs-ingest?key=' . rawurlencode($ingestKey)
+    ? 'https://' . ($_SERVER['HTTP_HOST'] ?? 'kaamfit.ddev.site') . '/cron/jobs-ingest?key=' . rawurlencode($ingestKey)
     : '';
 $hasBrightData = trim((string) (getenv('BRIGHT_DATA_API_TOKEN') ?: '')) !== '';
 $progress = JobsIngest::progress();

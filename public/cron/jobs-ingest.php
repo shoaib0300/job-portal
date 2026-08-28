@@ -5,10 +5,10 @@ declare(strict_types=1);
 /**
  * Manual / cron trigger for job index ingest.
  *
- *   https://kaammilo.ddev.site/cron/jobs-ingest?key=YOUR_KEY
- *   https://kaammilo.ddev.site/cron/jobs-ingest?key=YOUR_KEY&max_seeds=2
- *   https://kaammilo.ddev.site/cron/jobs-ingest?key=YOUR_KEY&sync=1
- *   https://kaammilo.ddev.site/cron/jobs-ingest?key=YOUR_KEY&purge_only=1
+ *   https://kaamfit.ddev.site/cron/jobs-ingest?key=YOUR_KEY
+ *   https://kaamfit.ddev.site/cron/jobs-ingest?key=YOUR_KEY&max_seeds=2
+ *   https://kaamfit.ddev.site/cron/jobs-ingest?key=YOUR_KEY&sync=1
+ *   https://kaamfit.ddev.site/cron/jobs-ingest?key=YOUR_KEY&purge_only=1
  *
  * Key: env JOBS_INGEST_KEY, or settings.jobs_ingest_key (set in Super Admin → Jobs).
  * Super-admin session also authorized (no key needed when logged in).
@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__, 2) . '/src/bootstrap.php';
 
-use KaamMilo\Jobs\JobStore;
-use KaamMilo\Jobs\JobsIngest;
+use KaamFit\Jobs\JobStore;
+use KaamFit\Jobs\JobsIngest;
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');

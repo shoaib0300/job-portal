@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-/** @var \KaamMilo\Jobs\JobQuery $query */
+/** @var \KaamFit\Jobs\JobQuery $query */
 /** @var array $result */
 /** @var bool $ran */
 /** @var array<string, string> $sourceLabels */
@@ -73,7 +73,7 @@ use App;
             <label class="form-label" for="bundesland">Bundesland</label>
             <select class="form-select form-select-sm" id="bundesland" name="bundesland">
               <option value="">Any</option>
-              <?php foreach (\KaamMilo\Jobs\JobQuery::BUNDESLAENDER as $bl): ?>
+              <?php foreach (\KaamFit\Jobs\JobQuery::BUNDESLAENDER as $bl): ?>
                 <option value="<?= App::e($bl) ?>"<?= $query->bundesland === $bl ? ' selected' : '' ?>><?= App::e($bl) ?></option>
               <?php endforeach; ?>
             </select>

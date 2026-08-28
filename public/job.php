@@ -5,9 +5,9 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 
-use KaamMilo\Jobs\JobAggregator;
-use KaamMilo\Jobs\JobQuery;
-use KaamMilo\Jobs\JobText;
+use KaamFit\Jobs\JobAggregator;
+use KaamFit\Jobs\JobQuery;
+use KaamFit\Jobs\JobText;
 
 JobAggregator::ensureSchema();
 

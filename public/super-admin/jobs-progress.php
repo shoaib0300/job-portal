@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__, 2) . '/src/bootstrap.php';
 
-use KaamMilo\Jobs\JobsIngest;
+use KaamFit\Jobs\JobsIngest;
 
 SuperAdmin::requireLogin();
 
@@ -14,7 +14,7 @@ header('Cache-Control: no-store');
 $progress = JobsIngest::progress();
 $total = null;
 try {
-    $total = \KaamMilo\Jobs\JobStore::count();
+    $total = \KaamFit\Jobs\JobStore::count();
 } catch (Throwable) {
     $total = null;
 }

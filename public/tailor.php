@@ -37,7 +37,7 @@ layout_header('New job');
 ?>
 <main class="page-narrow">
   <header class="page-head">
-    <h1 class="d-flex align-items-center gap-2"><?= kaammilo_icon('rocket', 'sm') ?> New job</h1>
+    <h1 class="d-flex align-items-center gap-2"><?= kaamfit_icon('rocket', 'sm') ?> New job</h1>
     <p>Copies your <strong>Master CV</strong> and <strong>Master cover letter</strong> into a new <strong>Job CV</strong> for this application.</p>
   </header>
 

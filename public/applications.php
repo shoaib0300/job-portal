@@ -258,7 +258,7 @@ layout_header('Applications');
         $count = (int) ($counts[$key] ?? 0);
     ?>
       <a class="app-status-card app-status-card--<?= App::e($key) ?><?= $status === $key ? ' is-active' : '' ?>" href="<?= App::e($href) ?>">
-        <span class="app-status-card-icon"><?= kaammilo_icon($meta['icon'], 'sm') ?></span>
+        <span class="app-status-card-icon"><?= kaamfit_icon($meta['icon'], 'sm') ?></span>
         <span class="app-status-card-count"><?= $count ?></span>
         <span class="app-status-card-label"><?= App::e($meta['label']) ?></span>
       </a>

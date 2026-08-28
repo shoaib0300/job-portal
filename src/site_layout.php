@@ -24,11 +24,11 @@ function site_layout_header(string $title, array $opts = []): void
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= App::e($title) ?> · KaamMilo</title>
-  <meta name="description" content="KaamMilo — test portal for German job search, tailored resumes, cover letters, and application tracking.">
+  <title><?= App::e($title) ?> · <?= App::e(kaamfit_brand_name()) ?></title>
+  <meta name="description" content="<?= App::e(kaamfit_brand_name()) ?> — test portal for German job search, tailored resumes, cover letters, and application tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="<?= App::e(kaammilo_portal_fonts_href()) ?>" rel="stylesheet">
+  <link href="<?= App::e(kaamfit_portal_fonts_href()) ?>" rel="stylesheet">
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260826s">
   <link rel="stylesheet" href="/assets/css/site.css?v=20260826km1">
@@ -39,15 +39,15 @@ function site_layout_header(string $title, array $opts = []): void
 <body class="<?= App::e($bodyClass) ?>">
   <div class="site-test-banner" role="status">
     <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2 py-2">
-      <span><?= kaammilo_icon('lab') ?> <strong>Testing module</strong> — KaamMilo is a work-in-progress demo. Features may change; data is for testing.</span>
+      <span><?= kaamfit_icon('lab') ?> <strong>Testing module</strong> — <?= App::e(kaamfit_brand_name()) ?> is a work-in-progress demo. Features may change; data is for testing.</span>
       <a class="small text-decoration-none" href="/about#testing">Learn more</a>
     </div>
   </div>
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-        <?= kaammilo_logo_mark() ?>
-        <span>KaamMilo</span>
+        <?= kaamfit_logo_mark() ?>
+        <span><?= App::e(kaamfit_brand_name()) ?></span>
         <span class="badge site-badge-test">BETA</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav"
@@ -103,8 +103,8 @@ function site_layout_footer(array $opts = []): void
       <div class="row g-3 align-items-start">
         <div class="col-lg-5">
           <div class="d-flex align-items-center gap-2 fw-semibold mb-2">
-            <?= kaammilo_logo_mark('sm') ?>
-            <span>KaamMilo</span>
+            <?= kaamfit_logo_mark('sm') ?>
+            <span><?= App::e(kaamfit_brand_name()) ?></span>
             <span class="badge site-badge-test">BETA</span>
           </div>
           <p class="text-secondary small mb-0">Testing portal for German job search, tailored resumes &amp; cover letters, and application tracking.</p>

@@ -175,7 +175,7 @@ layout_header('Account');
           <p class="small text-secondary mb-3">Master CV and Master cover letter stay separate. New job copies both for each application.</p>
           <div class="settings-doc-grid">
             <div class="settings-doc-tile">
-              <div class="dash-card-ico"><?= kaammilo_icon('doc', 'sm') ?></div>
+              <div class="dash-card-ico"><?= kaamfit_icon('doc', 'sm') ?></div>
               <div>
                 <h3>Master CV</h3>
                 <?php if ($masterResume): ?>
@@ -190,7 +190,7 @@ layout_header('Account');
               </div>
             </div>
             <div class="settings-doc-tile">
-              <div class="dash-card-ico"><?= kaammilo_icon('letter', 'sm') ?></div>
+              <div class="dash-card-ico"><?= kaamfit_icon('letter', 'sm') ?></div>
               <div>
                 <h3>Master cover letter</h3>
                 <?php if ($masterCover): ?>
@@ -264,7 +264,7 @@ layout_header('Account');
                 <?php foreach ($palettes as $id => $meta): ?>
                   <label class="settings-palette-pill">
                     <input type="radio" name="dashboard_palette" value="<?= App::e($id) ?>"<?= $palette === $id ? ' checked' : '' ?>>
-                    <span class="settings-palette-dot" style="background: <?= App::e($meta['tokens']['--km-accent'] ?? '#0d7377') ?>"></span>
+                    <span class="settings-palette-dot" style="background: <?= App::e($meta['tokens']['--kf-accent'] ?? '#0d7377') ?>"></span>
                     <?= App::e($meta['label']) ?>
                   </label>
                 <?php endforeach; ?>

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Jobs;
+namespace KaamFit\Jobs;
 
 use App;
-use KaamMilo\Jobs\ResumeJobMatch;
+use KaamFit\Jobs\ResumeJobMatch;
 
 
 final class JobQuery

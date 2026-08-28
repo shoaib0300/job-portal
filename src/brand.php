@@ -2,26 +2,38 @@
 
 declare(strict_types=1);
 
+/** Public product name (Urdu + English: work + fit). */
+function kaamfit_brand_name(): string
+{
+    return 'KaamFit';
+}
+
+/** Short marketing line for meta tags and hero. */
+function kaamfit_brand_tagline(): string
+{
+    return 'Your German job-hunt cockpit — search, tailor, track.';
+}
+
 /** @return array<string, string> */
-function kaammilo_brand_tokens(): array
+function kaamfit_brand_tokens(): array
 {
     return [
-        '--km-ink' => '#14213d',
-        '--km-muted' => '#5c6578',
-        '--km-accent' => '#0d7377',
-        '--km-accent-2' => '#e07a3d',
-        '--km-accent-soft' => '#e6f4f4',
-        '--km-sand' => '#f6f3ee',
-        '--km-line' => '#e2ddd4',
-        '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-        '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+        '--kf-ink' => '#14213d',
+        '--kf-muted' => '#5c6578',
+        '--kf-accent' => '#0d7377',
+        '--kf-accent-2' => '#e07a3d',
+        '--kf-accent-soft' => '#e6f4f4',
+        '--kf-sand' => '#f6f3ee',
+        '--kf-line' => '#e2ddd4',
+        '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+        '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
     ];
 }
 
-function kaammilo_brand_css_vars(): string
+function kaamfit_brand_css_vars(): string
 {
     $lines = [];
-    foreach (kaammilo_brand_tokens() as $key => $value) {
+    foreach (kaamfit_brand_tokens() as $key => $value) {
         $lines[] = $key . ': ' . $value . ';';
     }
     return implode("\n      ", $lines);
@@ -30,126 +42,126 @@ function kaammilo_brand_css_vars(): string
 /**
  * @return array<string, array{label: string, is_dark: bool, tokens: array<string, string>}>
  */
-function kaammilo_dashboard_palettes(): array
+function kaamfit_dashboard_palettes(): array
 {
     return [
         'light' => [
             'label' => 'Light',
             'is_dark' => false,
-            'tokens' => kaammilo_brand_tokens(),
+            'tokens' => kaamfit_brand_tokens(),
         ],
         'dark' => [
             'label' => 'Dark',
             'is_dark' => true,
             'tokens' => [
-                '--km-ink' => '#f0f4f8',
-                '--km-muted' => '#9aa8b8',
-                '--km-accent' => '#2ec4c7',
-                '--km-accent-2' => '#e07a3d',
-                '--km-accent-soft' => 'rgba(46, 196, 199, 0.15)',
-                '--km-sand' => '#121820',
-                '--km-line' => 'rgba(240, 244, 248, 0.12)',
-                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+                '--kf-ink' => '#f0f4f8',
+                '--kf-muted' => '#9aa8b8',
+                '--kf-accent' => '#2ec4c7',
+                '--kf-accent-2' => '#e07a3d',
+                '--kf-accent-soft' => 'rgba(46, 196, 199, 0.15)',
+                '--kf-sand' => '#121820',
+                '--kf-line' => 'rgba(240, 244, 248, 0.12)',
+                '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
             ],
         ],
         'rose' => [
             'label' => 'Rose',
             'is_dark' => false,
             'tokens' => [
-                '--km-ink' => '#3d2030',
-                '--km-muted' => '#7a5a68',
-                '--km-accent' => '#c45c7a',
-                '--km-accent-2' => '#e07a3d',
-                '--km-accent-soft' => '#fce8ee',
-                '--km-sand' => '#fdf5f7',
-                '--km-line' => '#edd8df',
-                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+                '--kf-ink' => '#3d2030',
+                '--kf-muted' => '#7a5a68',
+                '--kf-accent' => '#c45c7a',
+                '--kf-accent-2' => '#e07a3d',
+                '--kf-accent-soft' => '#fce8ee',
+                '--kf-sand' => '#fdf5f7',
+                '--kf-line' => '#edd8df',
+                '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
             ],
         ],
         'ocean' => [
             'label' => 'Ocean',
             'is_dark' => false,
             'tokens' => [
-                '--km-ink' => '#0f2438',
-                '--km-muted' => '#4a6278',
-                '--km-accent' => '#1a6b8a',
-                '--km-accent-2' => '#e07a3d',
-                '--km-accent-soft' => '#e3f0f7',
-                '--km-sand' => '#eef4f8',
-                '--km-line' => '#d4e2ec',
-                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+                '--kf-ink' => '#0f2438',
+                '--kf-muted' => '#4a6278',
+                '--kf-accent' => '#1a6b8a',
+                '--kf-accent-2' => '#e07a3d',
+                '--kf-accent-soft' => '#e3f0f7',
+                '--kf-sand' => '#eef4f8',
+                '--kf-line' => '#d4e2ec',
+                '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
             ],
         ],
         'forest' => [
             'label' => 'Forest',
             'is_dark' => false,
             'tokens' => [
-                '--km-ink' => '#1a2e24',
-                '--km-muted' => '#4a6358',
-                '--km-accent' => '#2d6a4f',
-                '--km-accent-2' => '#d4a373',
-                '--km-accent-soft' => '#e8f3ec',
-                '--km-sand' => '#f4f8f5',
-                '--km-line' => '#d5e5db',
-                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+                '--kf-ink' => '#1a2e24',
+                '--kf-muted' => '#4a6358',
+                '--kf-accent' => '#2d6a4f',
+                '--kf-accent-2' => '#d4a373',
+                '--kf-accent-soft' => '#e8f3ec',
+                '--kf-sand' => '#f4f8f5',
+                '--kf-line' => '#d5e5db',
+                '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
             ],
         ],
         'sunset' => [
             'label' => 'Sunset',
             'is_dark' => false,
             'tokens' => [
-                '--km-ink' => '#3d2518',
-                '--km-muted' => '#7a5c48',
-                '--km-accent' => '#c2410c',
-                '--km-accent-2' => '#ea580c',
-                '--km-accent-soft' => '#ffedd5',
-                '--km-sand' => '#fff8f3',
-                '--km-line' => '#f0ddd0',
-                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+                '--kf-ink' => '#3d2518',
+                '--kf-muted' => '#7a5c48',
+                '--kf-accent' => '#c2410c',
+                '--kf-accent-2' => '#ea580c',
+                '--kf-accent-soft' => '#ffedd5',
+                '--kf-sand' => '#fff8f3',
+                '--kf-line' => '#f0ddd0',
+                '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
             ],
         ],
         'lavender' => [
             'label' => 'Lavender',
             'is_dark' => false,
             'tokens' => [
-                '--km-ink' => '#2d2640',
-                '--km-muted' => '#6b6280',
-                '--km-accent' => '#7c6bae',
-                '--km-accent-2' => '#e07a3d',
-                '--km-accent-soft' => '#ede9f7',
-                '--km-sand' => '#f8f6fc',
-                '--km-line' => '#ddd6ec',
-                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+                '--kf-ink' => '#2d2640',
+                '--kf-muted' => '#6b6280',
+                '--kf-accent' => '#7c6bae',
+                '--kf-accent-2' => '#e07a3d',
+                '--kf-accent-soft' => '#ede9f7',
+                '--kf-sand' => '#f8f6fc',
+                '--kf-line' => '#ddd6ec',
+                '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
             ],
         ],
         'grape' => [
             'label' => 'Grape',
             'is_dark' => false,
             'tokens' => [
-                '--km-ink' => '#2a1838',
-                '--km-muted' => '#6e5a7a',
-                '--km-accent' => '#9333ea',
-                '--km-accent-2' => '#f59e0b',
-                '--km-accent-soft' => '#f3e8ff',
-                '--km-sand' => '#faf5ff',
-                '--km-line' => '#e9d5ff',
-                '--km-display' => '"Nunito", "Segoe UI", sans-serif',
-                '--km-body' => '"Source Sans 3", "Segoe UI", sans-serif',
+                '--kf-ink' => '#2a1838',
+                '--kf-muted' => '#6e5a7a',
+                '--kf-accent' => '#9333ea',
+                '--kf-accent-2' => '#f59e0b',
+                '--kf-accent-soft' => '#f3e8ff',
+                '--kf-sand' => '#faf5ff',
+                '--kf-line' => '#e9d5ff',
+                '--kf-display' => '"Nunito", "Segoe UI", sans-serif',
+                '--kf-body' => '"Source Sans 3", "Segoe UI", sans-serif',
             ],
         ],
     ];
 }
 
-function kaammilo_palette_css_vars(string $paletteId): string
+function kaamfit_palette_css_vars(string $paletteId): string
 {
-    $palettes = kaammilo_dashboard_palettes();
-    $tokens = $palettes[$paletteId]['tokens'] ?? kaammilo_brand_tokens();
+    $palettes = kaamfit_dashboard_palettes();
+    $tokens = $palettes[$paletteId]['tokens'] ?? kaamfit_brand_tokens();
     $lines = [];
     foreach ($tokens as $key => $value) {
         $lines[] = $key . ': ' . $value . ';';
@@ -157,34 +169,34 @@ function kaammilo_palette_css_vars(string $paletteId): string
     return implode("\n      ", $lines);
 }
 
-function kaammilo_palette_is_dark(string $paletteId): bool
+function kaamfit_palette_is_dark(string $paletteId): bool
 {
-    $palettes = kaammilo_dashboard_palettes();
+    $palettes = kaamfit_dashboard_palettes();
     return (bool) ($palettes[$paletteId]['is_dark'] ?? false);
 }
 
-function kaammilo_portal_fonts_href(): string
+function kaamfit_portal_fonts_href(): string
 {
     return 'https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap';
 }
 
-function kaammilo_logo_mark(string $size = 'md'): string
+function kaamfit_logo_mark(string $size = 'md'): string
 {
-    $cls = $size === 'sm' ? 'km-mark km-mark-sm' : 'km-mark';
-    $uid = 'km' . substr(md5($size . microtime()), 0, 6);
+    $cls = $size === 'sm' ? 'kf-mark kf-mark-sm' : 'kf-mark';
+    $uid = 'kf' . substr(md5($size . microtime()), 0, 6);
     return '<span class="' . $cls . '" aria-hidden="true">'
         . '<svg viewBox="0 0 40 40" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">'
         . '<defs><linearGradient id="' . $uid . '" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">'
         . '<stop stop-color="#14a3a8"/><stop offset="1" stop-color="#0a5f62"/>'
         . '</linearGradient></defs>'
         . '<rect x="1" y="1" width="38" height="38" rx="12" fill="url(#' . $uid . ')"/>'
-        . '<text x="20" y="26" text-anchor="middle" font-family="Nunito,Segoe UI,sans-serif" font-size="15" font-weight="800" fill="#fff">km</text>'
+        . '<text x="20" y="26" text-anchor="middle" font-family="Nunito,Segoe UI,sans-serif" font-size="14" font-weight="800" fill="#fff">kf</text>'
         . '<circle cx="31.5" cy="9.5" r="3.4" fill="#e07a3d"/>'
         . '</svg></span>';
 }
 
 /** Simple cartoon-style SVG icons for marketing and dashboard. */
-function kaammilo_icon(string $name, string $size = 'md'): string
+function kaamfit_icon(string $name, string $size = 'md'): string
 {
     $icons = [
         'search' => '<circle cx="14" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M20 20l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="14" cy="14" r="3" fill="currentColor" opacity="0.25"/>',
@@ -204,18 +216,18 @@ function kaammilo_icon(string $name, string $size = 'md'): string
     ];
     $paths = $icons[$name] ?? $icons['spark'];
     $px = $size === 'sm' ? 28 : ($size === 'lg' ? 48 : 40);
-    $cls = 'km-ico' . ($size !== 'md' ? ' km-ico-' . $size : '');
+    $cls = 'kf-ico' . ($size !== 'md' ? ' kf-ico-' . $size : '');
     return '<span class="' . $cls . '" aria-hidden="true"><svg viewBox="0 0 32 32" width="' . $px . '" height="' . $px . '" fill="none" xmlns="http://www.w3.org/2000/svg">' . $paths . '</svg></span>';
 }
 
-/** @deprecated Use kaammilo_logo_mark */
+/** @deprecated Use kaamfit_logo_mark */
 function applypath_logo_mark(string $size = 'md'): string
 {
-    return kaammilo_logo_mark($size);
+    return kaamfit_logo_mark($size);
 }
 
-/** @deprecated Use kaammilo_icon */
+/** @deprecated Use kaamfit_icon */
 function applypath_icon(string $name): string
 {
-    return kaammilo_icon($name);
+    return kaamfit_icon($name);
 }

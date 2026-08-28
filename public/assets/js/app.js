@@ -1064,7 +1064,7 @@
 })();
 
 (() => {
-  const heroes = document.querySelectorAll("[data-km-flow-hero]");
+  const heroes = document.querySelectorAll("[data-kf-flow-hero]");
   if (!heroes.length) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1072,7 +1072,7 @@
   const dotPositions = [60, 180, 300, 420, 540, 660];
 
   heroes.forEach((wrap) => {
-    const hero = wrap.querySelector(".km-flow-hero");
+    const hero = wrap.querySelector(".kf-flow-hero");
     const dotWrap = wrap.querySelector("[data-flow-dot-wrap]");
     const tabs = wrap.querySelectorAll("[data-flow-tab]");
     const panels = wrap.querySelectorAll("[data-flow-panel]");
@@ -1113,14 +1113,14 @@
     function startAutoplay() {
       if (reducedMotion) return;
       stopAutoplay();
-      hero.setAttribute("data-km-autoplay", "1");
+      hero.setAttribute("data-kf-autoplay", "1");
       timer = window.setInterval(() => {
         setStep(index + 1);
       }, 3500);
     }
 
     function stopAutoplay() {
-      hero.removeAttribute("data-km-autoplay");
+      hero.removeAttribute("data-kf-autoplay");
       if (timer) {
         window.clearInterval(timer);
         timer = null;

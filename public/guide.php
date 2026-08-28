@@ -16,14 +16,14 @@ site_layout_header('How to use', [
 ?>
 <section class="site-section" style="padding-top:2.25rem">
   <div class="site-kicker">Guide</div>
-  <h1 class="h2">How to use KaamMilo</h1>
+  <h1 class="h2">How to use <?= App::e(kaamfit_brand_name()) ?></h1>
   <p>Follow this path the first time you open the testing portal. It takes about 10–15 minutes for a full dry run.</p>
 
   <?php onboarding_render_hero(); ?>
 
   <div class="site-guide-list">
     <article class="site-guide-step site-reveal">
-      <?= kaammilo_icon('user') ?>
+      <?= kaamfit_icon('user') ?>
       <div>
         <div class="site-guide-num">01 · Account</div>
         <h3>Register or sign in</h3>
@@ -31,7 +31,7 @@ site_layout_header('How to use', [
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= kaammilo_icon('search') ?>
+      <?= kaamfit_icon('search') ?>
       <div>
         <div class="site-guide-num">02 · Jobs</div>
         <?php onboarding_render_mini('jobs', true); ?>
@@ -40,7 +40,7 @@ site_layout_header('How to use', [
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= kaammilo_icon('company') ?>
+      <?= kaamfit_icon('company') ?>
       <div>
         <div class="site-guide-num">03 · Companies</div>
         <h3>Career boards</h3>
@@ -48,16 +48,16 @@ site_layout_header('How to use', [
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= kaammilo_icon('letter') ?>
+      <?= kaamfit_icon('letter') ?>
       <div>
         <div class="site-guide-num">04 · Tailor</div>
         <?php onboarding_render_mini('copy', true); ?>
         <h3>New job from a JD</h3>
-        <p>Go to <strong>New job</strong> (tailor). Paste company, role, location, and the job description. KaamMilo copies your Master CV and Master cover letter into a Job CV for that application — Master CV stays clean.</p>
+        <p>Go to <strong>New job</strong> (tailor). Paste company, role, location, and the job description. <?= App::e(kaamfit_brand_name()) ?> copies your Master CV and Master cover letter into a Job CV for that application — Master CV stays clean.</p>
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= kaammilo_icon('doc') ?>
+      <?= kaamfit_icon('doc') ?>
       <div>
         <div class="site-guide-num">05 · Edit &amp; style</div>
         <?php onboarding_render_mini('edit', true); ?>
@@ -66,7 +66,7 @@ site_layout_header('How to use', [
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= kaammilo_icon('track') ?>
+      <?= kaamfit_icon('track') ?>
       <div>
         <div class="site-guide-num">06 · Track</div>
         <?php onboarding_render_mini('track', true); ?>
@@ -75,7 +75,7 @@ site_layout_header('How to use', [
       </div>
     </article>
     <article class="site-guide-step site-reveal">
-      <?= kaammilo_icon('lab') ?>
+      <?= kaamfit_icon('lab') ?>
       <div>
         <div class="site-guide-num">07 · Testing tip</div>
         <h3>Expect change</h3>

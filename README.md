@@ -1,4 +1,4 @@
-# KaamMilo
+# KaamFit
 
 PHP job-application portal (resume / cover letter / German job search).
 
@@ -6,13 +6,13 @@ PHP job-application portal (resume / cover letter / German job search).
 
 ```bash
 ddev start
-ddev composer dump-autoload   # PSR-4: KaamMilo\ + Freeworld\PhpJobspy\ (vendored)
+ddev composer dump-autoload   # PSR-4: KaamFit\ + Freeworld\PhpJobspy\ (vendored)
 # LinkedIn JobSpy (once per image, or after ddev restart with web-build Dockerfile):
 ddev exec bash bin/install_jobspy.sh
 cp .env.example .env    # DATABASE_URL; optional BRIGHT_DATA_* for Indeed/StepStone SERP
 ```
 
-Site: `https://kaammilo.ddev.site` · portal: `/dashboard` or `https://portal.kaammilo.ddev.site`
+Site: `https://kaamfit.ddev.site` · portal: `/dashboard` or `https://portal.kaamfit.ddev.site`
 
 ## Layout
 
@@ -21,13 +21,13 @@ Site: `https://kaammilo.ddev.site` · portal: `/dashboard` or `https://portal.ka
 | `public/*.php` | Thin HTTP entry scripts |
 | `src/Http/` | Controllers (Jobs first) |
 | `src/Views/` | PHP templates |
-| `src/Jobs/` | Job search domain (`KaamMilo\Jobs\…`) |
+| `src/Jobs/` | Job search domain (`KaamFit\Jobs\…`) |
 | `src/Jobs/Sources/` | Board adapters |
 | `packages/php-jobspy/` | Vendored [alexseif/php-jobspy](https://github.com/alexseif/php-jobspy) (DTO + scripts) |
 | `bin/jobspy_scrape.py` | LinkedIn scrape via `python-jobspy` |
 | `src/*.php` | Shared services still global (`App`, `Auth`, `Db`, …) |
 
-Composer maps `KaamMilo\` → `src/` and `Freeworld\PhpJobspy\` → `packages/php-jobspy/src/`.
+Composer maps `KaamFit\` → `src/` and `Freeworld\PhpJobspy\` → `packages/php-jobspy/src/`.
 
 ## LinkedIn
 
@@ -35,9 +35,9 @@ LinkedIn search uses **php-jobspy / python-jobspy** (not Bright Data Marketplace
 
 ## Adding a job source
 
-1. Create `src/Jobs/Sources/YourSource.php` in namespace `KaamMilo\Jobs\Sources`.
+1. Create `src/Jobs/Sources/YourSource.php` in namespace `KaamFit\Jobs\Sources`.
 2. Implement `search(JobQuery $query): array` returning `listings` + notices.
-3. Wire it in `KaamMilo\Jobs\JobAggregator::search`.
+3. Wire it in `KaamFit\Jobs\JobAggregator::search`.
 4. Register the source id/label in `JobQuery::SOURCES` if it should appear in filters.
 
 ## Jobs UX notes

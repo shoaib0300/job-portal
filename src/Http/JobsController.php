@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Http;
+namespace KaamFit\Http;
 
 use App;
 use Auth;
-use KaamMilo\Jobs\CareerCompanies;
-use KaamMilo\Jobs\JobAggregator;
-use KaamMilo\Jobs\JobQuery;
-use KaamMilo\Jobs\JobsResultsView;
-use KaamMilo\Jobs\ResumeJobMatch;
-use KaamMilo\Jobs\Sources\SerpBoardSource;
+use KaamFit\Jobs\CareerCompanies;
+use KaamFit\Jobs\JobAggregator;
+use KaamFit\Jobs\JobQuery;
+use KaamFit\Jobs\JobsResultsView;
+use KaamFit\Jobs\ResumeJobMatch;
+use KaamFit\Jobs\Sources\SerpBoardSource;
 
 final class JobsController
 {
@@ -65,7 +65,7 @@ final class JobsController
     }
 
     /**
-     * @param array{listings: list<\KaamMilo\Jobs\JobListing>, total: int, notices: list<string>, page: int, pages: int} $result
+     * @param array{listings: list<\KaamFit\Jobs\JobListing>, total: int, notices: list<string>, page: int, pages: int} $result
      */
     private function json(JobQuery $query, array $result, bool $ran): void
     {

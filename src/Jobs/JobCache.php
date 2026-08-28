@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Jobs;
+namespace KaamFit\Jobs;
 
 use App;
 use Db;

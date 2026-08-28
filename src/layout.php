@@ -98,8 +98,8 @@ function layout_header(string $title, array $opts = []): void
     $pdfKind = str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'cover') ? 'cover' : 'resume';
     $pdfLang = LibreTranslate::normalizeLang($opts['lang'] ?? ($_GET['lang'] ?? 'en'));
     $pdfTitle = PdfExport::printDocumentTitle($pdfKind, (string) ($profile['full_name'] ?? 'Document'), $pdfLang);
-    $htmlTitle = ($pdfMode && $isDoc) ? $pdfTitle : ($title . ' · KaamMilo');
-    $paletteAccent = App::dashboardPalettes()[$dashboardPalette]['tokens']['--km-accent'] ?? App::uiAccent();
+    $htmlTitle = ($pdfMode && $isDoc) ? $pdfTitle : ($title . ' · ' . kaamfit_brand_name());
+    $paletteAccent = App::dashboardPalettes()[$dashboardPalette]['tokens']['--kf-accent'] ?? App::uiAccent();
     if (!str_starts_with($paletteAccent, '#')) {
         $paletteAccent = App::uiAccent();
     }
@@ -112,21 +112,21 @@ function layout_header(string $title, array $opts = []): void
   <title><?= App::e($htmlTitle) ?></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="<?= App::e(kaammilo_portal_fonts_href()) ?>" rel="stylesheet">
+  <link href="<?= App::e(kaamfit_portal_fonts_href()) ?>" rel="stylesheet">
   <?php if ($isDoc): ?>
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828p">
-  <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828i">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828q">
+  <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
     :root {
-      <?= kaammilo_palette_css_vars($dashboardPalette) ?>
+      <?= kaamfit_palette_css_vars($dashboardPalette) ?>
 
-      --accent: var(--km-accent);
-      --bs-primary: var(--km-accent);
+      --accent: var(--kf-accent);
+      --bs-primary: var(--kf-accent);
       --bs-primary-rgb: <?= layout_accent_rgb($paletteAccent) ?>;
       --doc-accent: <?= App::e($docAccent) ?>;
       --doc-font: <?= App::e($fontStack) ?>;
@@ -153,7 +153,7 @@ function layout_header(string $title, array $opts = []): void
 <?php elseif ($isDoc): ?>
   <div class="site-shell site-shell-doc">
     <header class="doc-chrome no-print d-flex align-items-center gap-3 px-3 py-2 border-bottom bg-white">
-      <a class="brand text-decoration-none fw-semibold" href="<?= App::e(Site::portalHomePath()) ?>">KaamMilo</a>
+      <a class="brand text-decoration-none fw-semibold" href="<?= App::e(Site::portalHomePath()) ?>"><?= App::e(kaamfit_brand_name()) ?></a>
       <span class="doc-chrome-title text-secondary small me-auto"><?= App::e($title) ?></span>
       <a class="btn btn-sm btn-outline-secondary" href="<?= basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-letter.php' ? '/cover-design' : '/design' ?>">Style</a>
     </header>
@@ -162,13 +162,13 @@ function layout_header(string $title, array $opts = []): void
   <div class="dash d-flex min-vh-100">
     <aside class="offcanvas-lg offcanvas-start dash-sidebar" tabindex="-1" id="dashSidebar" aria-label="Main">
       <div class="offcanvas-header d-lg-none">
-        <h5 class="offcanvas-title">KaamMilo</h5>
+        <h5 class="offcanvas-title"><?= App::e(kaamfit_brand_name()) ?></h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#dashSidebar" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body d-flex flex-column p-3">
         <a class="dash-brand text-decoration-none d-none d-lg-flex align-items-center gap-2 mb-3" href="<?= App::e(Site::portalHomePath()) ?>">
-          <?= kaammilo_logo_mark('sm') ?>
-          <span class="dash-brand-text">KaamMilo</span>
+          <?= kaamfit_logo_mark('sm') ?>
+          <span class="dash-brand-text"><?= App::e(kaamfit_brand_name()) ?></span>
         </a>
         <nav class="nav flex-column dash-nav gap-1 flex-grow-1">
           <?php foreach ($nav as $item): ?>

@@ -10,18 +10,18 @@ site_layout_header('About');
 ?>
 <section class="site-section" style="padding-top:2.25rem">
   <div class="site-kicker">About</div>
-  <h1 class="h2">About KaamMilo</h1>
-  <p>KaamMilo helps job seekers in Germany move from finding a role to sending a tailored application — without losing track of what was sent where.</p>
+  <h1 class="h2">About <?= App::e(kaamfit_brand_name()) ?></h1>
+  <p><?= App::e(kaamfit_brand_name()) ?> helps job seekers in Germany move from finding a role to sending a tailored application — without losing track of what was sent where.</p>
   <p>Search boards and company career pages, tailor a copy of your resume and cover letter for each job, download EN/DE PDFs, and keep applications organized in one dashboard.</p>
 
   <div class="site-module-grid mt-4">
     <article class="site-module site-reveal" id="testing">
-      <?= kaammilo_icon('lab') ?>
+      <?= kaamfit_icon('lab') ?>
       <h3>Testing module</h3>
       <p>This public site and the logged-in app are a <strong>testing module</strong>. We use it to try UX, job sources, PDF export, and admin controls. Expect incomplete polish, occasional downtime, and data resets.</p>
     </article>
     <article class="site-module site-reveal">
-      <?= kaammilo_icon('user') ?>
+      <?= kaamfit_icon('user') ?>
       <h3>Who it’s for</h3>
       <p>Candidates applying to German employers — students, juniors, and experienced professionals who want a practical workflow instead of scattered Word files.</p>
     </article>

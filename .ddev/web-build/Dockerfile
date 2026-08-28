@@ -1,4 +1,4 @@
-## KaamMilo: Python JobSpy for LinkedIn (freeworld/php-jobspy)
+## KaamFit: Python JobSpy for LinkedIn (freeworld/php-jobspy)
 ## Avoid NUMPY==1.26.3 (no Py3.13 wheels) and debian pip uninstall conflicts.
 ## JobSpy failure must not block ddev start.
 RUN apt-get update \

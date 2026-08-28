@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-/** @var \KaamMilo\Jobs\JobQuery $query */
-/** @var array{listings: list<\KaamMilo\Jobs\JobListing>, total: int, notices: list<string>, page: int, pages: int} $result */
+/** @var \KaamFit\Jobs\JobQuery $query */
+/** @var array{listings: list<\KaamFit\Jobs\JobListing>, total: int, notices: list<string>, page: int, pages: int} $result */
 /** @var bool $ran */
 /** @var array<string, string> $sourceLabels */
 /** @var string $resumeTitle */
 /** @var array<string, int> $resumeTerms */
 
 use App;
-use KaamMilo\Jobs\JobText;
-use KaamMilo\Jobs\ResumeJobMatch;
+use KaamFit\Jobs\JobText;
+use KaamFit\Jobs\ResumeJobMatch;
 ?>
       <div class="d-flex flex-wrap align-items-center gap-2 mb-3" data-jobs-meta>
         <?php if ($ran): ?>

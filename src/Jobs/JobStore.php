@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Jobs;
+namespace KaamFit\Jobs;
 
-use KaamMilo\Jobs\Sources\SerpBoardSource;
+use KaamFit\Jobs\Sources\SerpBoardSource;
 use PDO;
 
 /**

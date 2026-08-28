@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Http;
+namespace KaamFit\Http;
 
 final class View
 {

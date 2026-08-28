@@ -18,8 +18,8 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 
-use KaamMilo\Jobs\JobStore;
-use KaamMilo\Jobs\JobsIngest;
+use KaamFit\Jobs\JobStore;
+use KaamFit\Jobs\JobsIngest;
 
 @set_time_limit(0);
 ini_set('memory_limit', '512M');

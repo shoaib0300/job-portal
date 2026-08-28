@@ -162,7 +162,7 @@ layout_header('Cover letter');
     </div>
 
     <div class="editor-master-card">
-      <h2 class="d-flex align-items-center gap-2"><?= kaammilo_icon('letter', 'sm') ?> Master cover letter</h2>
+      <h2 class="d-flex align-items-center gap-2"><?= kaamfit_icon('letter', 'sm') ?> Master cover letter</h2>
       <p class="muted">Your safe template. New jobs always copy from here.</p>
       <?php if ($master === null): ?>
         <p class="empty">No Master cover letter yet. <a href="/cover-edit">Create your Master cover letter</a> first.</p>
@@ -175,7 +175,7 @@ layout_header('Cover letter');
 
     <div class="editor-job-list">
       <div class="editor-job-list-head">
-        <h2 class="d-flex align-items-center gap-2"><?= kaammilo_icon('track', 'sm') ?> Job cover letters</h2>
+        <h2 class="d-flex align-items-center gap-2"><?= kaamfit_icon('track', 'sm') ?> Job cover letters</h2>
         <a class="btn btn-primary btn-sm" href="/tailor">New job</a>
       </div>
       <p class="muted">One copy per company or application. Master cover letter stays unchanged.</p>

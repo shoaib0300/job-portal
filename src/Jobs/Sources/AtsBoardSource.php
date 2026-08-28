@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Jobs\Sources;
+namespace KaamFit\Jobs\Sources;
 
 use App;
 use Auth;
-use KaamMilo\Jobs\JobCache;
-use KaamMilo\Jobs\JobHttp;
-use KaamMilo\Jobs\JobListing;
-use KaamMilo\Jobs\JobQuery;
-use KaamMilo\Jobs\JobText;
-use KaamMilo\Jobs\CareerCompanies;
+use KaamFit\Jobs\JobCache;
+use KaamFit\Jobs\JobHttp;
+use KaamFit\Jobs\JobListing;
+use KaamFit\Jobs\JobQuery;
+use KaamFit\Jobs\JobText;
+use KaamFit\Jobs\CareerCompanies;
 
 
 final class AtsBoardSource

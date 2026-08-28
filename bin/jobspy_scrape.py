@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""LinkedIn (and JobSpy sites) scrape helper for KaamMilo — stdin JSON → stdout JSON records."""
+"""LinkedIn (and JobSpy sites) scrape helper for KaamFit — stdin JSON → stdout JSON records."""
 from __future__ import annotations
 
 import json

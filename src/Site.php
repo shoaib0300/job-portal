@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Marketing site (kaammilo.ddev.site) vs job portal ( /dashboard or portal.kaammilo.ddev.site ).
+ * Marketing site (kaamfit.ddev.site) vs job portal ( /dashboard or portal.kaamfit.ddev.site ).
  */
 final class Site
 {
@@ -18,12 +18,12 @@ final class Site
         return str_starts_with($host, 'portal.');
     }
 
-    /** Shared parent cookie domain for kaammilo + portal.kaammilo on DDEV. */
+    /** Shared parent cookie domain for kaamfit + portal.kaamfit on DDEV. */
     public static function sessionCookieDomain(): ?string
     {
         $host = self::host();
-        if (preg_match('/(^|\.)kaammilo\.ddev\.site$/', $host)) {
-            return '.kaammilo.ddev.site';
+        if (preg_match('/(^|\.)kaamfit\.ddev\.site$/', $host)) {
+            return '.kaamfit.ddev.site';
         }
         return null;
     }
@@ -43,7 +43,7 @@ final class Site
                 || ((string) ($_SERVER['SERVER_PORT'] ?? '') === '443');
             return ($https ? 'https' : 'http') . '://' . $host;
         }
-        return 'https://kaammilo.ddev.site';
+        return 'https://kaamfit.ddev.site';
     }
 
     public static function portalBaseUrl(): string
@@ -53,8 +53,8 @@ final class Site
             return rtrim($env, '/');
         }
         $host = self::host();
-        if ($host !== '' && str_contains($host, 'kaammilo.ddev.site')) {
-            return 'https://portal.kaammilo.ddev.site';
+        if ($host !== '' && str_contains($host, 'kaamfit.ddev.site')) {
+            return 'https://portal.kaamfit.ddev.site';
         }
         // Path-based fallback when subdomain is not configured.
         return self::marketingBaseUrl() . '/dashboard';

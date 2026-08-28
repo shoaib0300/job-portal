@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Jobs;
+namespace KaamFit\Jobs;
 
 use App;
-use KaamMilo\Jobs\Sources\AdzunaSource;
-use KaamMilo\Jobs\Sources\ArbeitsagenturSource;
-use KaamMilo\Jobs\Sources\AtsBoardSource;
-use KaamMilo\Jobs\Sources\InteramtSource;
-use KaamMilo\Jobs\Sources\JobexportSource;
-use KaamMilo\Jobs\Sources\JobwareSource;
-use KaamMilo\Jobs\Sources\LinkedInSource;
-use KaamMilo\Jobs\Sources\SerpBoardSource;
+use KaamFit\Jobs\Sources\AdzunaSource;
+use KaamFit\Jobs\Sources\ArbeitsagenturSource;
+use KaamFit\Jobs\Sources\AtsBoardSource;
+use KaamFit\Jobs\Sources\InteramtSource;
+use KaamFit\Jobs\Sources\JobexportSource;
+use KaamFit\Jobs\Sources\JobwareSource;
+use KaamFit\Jobs\Sources\LinkedInSource;
+use KaamFit\Jobs\Sources\SerpBoardSource;
 
 
 final class JobAggregator

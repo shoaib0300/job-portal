@@ -769,7 +769,7 @@ final class App
     /** @return array<string, array{label: string, is_dark: bool, tokens: array<string, string>}> */
     public static function dashboardPalettes(): array
     {
-        return kaammilo_dashboard_palettes();
+        return kaamfit_dashboard_palettes();
     }
 
     public static function resolveDashboardPalette(?string $palette = null): string
@@ -790,7 +790,7 @@ final class App
 
     public static function dashboardPaletteIsDark(?string $palette = null): bool
     {
-        return kaammilo_palette_is_dark(self::resolveDashboardPalette($palette));
+        return kaamfit_palette_is_dark(self::resolveDashboardPalette($palette));
     }
 
     public static function resolveDensity(?string $density = null): string

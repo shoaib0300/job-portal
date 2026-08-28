@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace KaamMilo\Jobs;
+namespace KaamFit\Jobs;
 
-use KaamMilo\Http\View;
-use KaamMilo\Jobs\ResumeJobMatch;
+use KaamFit\Http\View;
+use KaamFit\Jobs\ResumeJobMatch;
 
 /**
  * Renders the jobs results panel HTML (meta, notices, cards, pagination).

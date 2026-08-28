@@ -350,11 +350,12 @@ final class SuperAdmin
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return;
         }
+        $brand = kaamfit_brand_name();
         $body = "Hi {$name},\n\n"
-            . "Your KaamMilo account has been enabled. You can sign in now.\n\n"
-            . "— KaamMilo\n";
+            . "Your {$brand} account has been enabled. You can sign in now.\n\n"
+            . "— {$brand}\n";
         try {
-            self::tryMail($email, 'KaamMilo — account enabled', $body);
+            self::tryMail($email, $brand . ' — account enabled', $body);
         } catch (Throwable) {
         }
     }

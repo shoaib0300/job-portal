@@ -1,11 +1,11 @@
-name: kaammilo
+name: kaamfit
 type: php
 docroot: public
 php_version: "8.4"
 webserver_type: apache-fpm
 xdebug_enabled: false
 additional_hostnames:
-    - portal.kaammilo
+    - portal.kaamfit
 additional_fqdns: []
 database:
     type: mysql
