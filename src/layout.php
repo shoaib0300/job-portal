@@ -27,6 +27,78 @@ function layout_user_initials(string $name): string
     return mb_strtoupper(mb_substr($name, 0, 2));
 }
 
+/** @return array{total: ?int, last_run: string} */
+function layout_jobs_sidebar_stats(): array
+{
+    static $cached = null;
+    if ($cached !== null) {
+        return $cached;
+    }
+
+    $cached = ['total' => null, 'last_run' => 'Not yet'];
+    try {
+        \KaamFit\Jobs\JobAggregator::ensureSchema();
+        $cached['total'] = \KaamFit\Jobs\JobStore::count();
+        $raw = App::setting(\KaamFit\Jobs\JobsIngest::SETTING_LAST_RUN, '') ?? '';
+        $cached['last_run'] = layout_format_cron_time((string) $raw);
+    } catch (Throwable) {
+        // DB / schema not ready
+    }
+
+    return $cached;
+}
+
+function layout_format_cron_time(string $iso): string
+{
+    if (trim($iso) === '') {
+        return 'Not yet';
+    }
+    $ts = strtotime($iso);
+    if ($ts === false) {
+        return 'Not yet';
+    }
+    $diff = time() - $ts;
+    if ($diff < 90) {
+        return 'Just now';
+    }
+    if ($diff < 7200) {
+        $mins = max(1, (int) round($diff / 60));
+
+        return $mins . ' min ago';
+    }
+    if ($diff < 86400) {
+        $hrs = max(1, (int) round($diff / 3600));
+
+        return $hrs . ' h ago';
+    }
+
+    return date('j M, H:i', $ts);
+}
+
+function layout_render_sidebar_meta(): void
+{
+    $stats = layout_jobs_sidebar_stats();
+    $total = $stats['total'];
+    $totalLabel = $total !== null ? number_format($total, 0, ',', '.') : '—';
+    ?>
+        <div class="dash-sidebar-meta">
+          <div class="dash-sidebar-meta-block">
+            <p class="dash-sidebar-meta-label">Need help? WhatsApp</p>
+            <a class="dash-sidebar-phone" href="tel:+491735732949">+49&nbsp;173&nbsp;5732949</a>
+            <p class="dash-sidebar-meta-note">
+              <a href="/help">How to use</a> · questions
+            </p>
+          </div>
+          <div class="dash-sidebar-meta-block dash-sidebar-meta-jobs">
+            <p class="dash-sidebar-meta-label">Job index</p>
+            <p class="dash-sidebar-meta-stat"><strong><?= App::e($totalLabel) ?></strong> jobs in database</p>
+            <p class="dash-sidebar-meta-note">Last 14 days only · refreshed about every 2&nbsp;h</p>
+            <p class="dash-sidebar-meta-note">Last Updated: <strong><?= App::e($stats['last_run']) ?></strong></p>
+          </div>
+        </div>
+    <?php
+}
+
 function layout_flash(?array $flash): void
 {
     if (!$flash) {
@@ -132,7 +204,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828y">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260828z">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
@@ -194,7 +266,9 @@ function layout_header(string $title, array $opts = []): void
             </a>
           <?php endforeach; ?>
         </nav>
-        <div class="dash-sidebar-foot pt-3 mt-auto">
+        <div class="dash-sidebar-bottom mt-auto">
+          <?php layout_render_sidebar_meta(); ?>
+        <div class="dash-sidebar-foot pt-3">
           <?php
           $authUser = Auth::user();
           $userName = (string) ($authUser['name'] ?? $profile['full_name'] ?? 'You');
@@ -219,6 +293,7 @@ function layout_header(string $title, array $opts = []): void
               <span class="dash-user-logout-label">Log out</span>
             </a>
           </div>
+        </div>
         </div>
       </div>
     </aside>
