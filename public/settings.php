@@ -73,12 +73,6 @@ $usagePeriodLabels = [
 ];
 $myTranslationRaw = LibreTranslate::usageForUserThisMonth(Auth::id());
 $myTranslation = LibreTranslate::usageForPeriod($myTranslationRaw, $usagePeriod);
-$paletteDots = [
-    'light' => '#0d7377',
-    'dark' => '#2ec4c7',
-    'rose' => '#c45c7a',
-    'ocean' => '#1a6b8a',
-];
 
 layout_header('Account');
 ?>
@@ -235,7 +229,7 @@ layout_header('Account');
                 <?php foreach ($palettes as $id => $meta): ?>
                   <label class="settings-palette-pill">
                     <input type="radio" name="dashboard_palette" value="<?= App::e($id) ?>"<?= $palette === $id ? ' checked' : '' ?>>
-                    <span class="settings-palette-dot" style="background: <?= App::e($paletteDots[$id] ?? '#0d7377') ?>"></span>
+                    <span class="settings-palette-dot" style="background: <?= App::e($meta['tokens']['--km-accent'] ?? '#0d7377') ?>"></span>
                     <?= App::e($meta['label']) ?>
                   </label>
                 <?php endforeach; ?>
