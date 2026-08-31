@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($postAction === 'save') {
         $status = (string) ($_POST['status'] ?? 'applied');
-        $allowed = ['applied', 'rejected', 'interview', 'offer', 'custom'];
+        $allowed = App::applicationStatuses();
         if (!in_array($status, $allowed, true)) {
             $status = 'applied';
         }
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::flash('Application deleted.');
         $backStatus = (string) ($_POST['return_status'] ?? 'all');
         $backQ = trim((string) ($_POST['return_q'] ?? ''));
-        $allowedBack = ['all', 'applied', 'rejected', 'interview', 'offer', 'custom'];
+        $allowedBack = ['all', 'preparing', 'applied', 'rejected', 'interview', 'offer', 'custom'];
         if (!in_array($backStatus, $allowedBack, true)) {
             $backStatus = 'all';
         }
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     App::redirect('/applications');
 }
 
-$statuses = ['applied', 'rejected', 'interview', 'offer', 'custom'];
+$statuses = App::applicationStatuses();
 
 if ($action === 'new' || $action === 'edit') {
     $row = [
@@ -210,7 +210,7 @@ if ($action === 'new' || $action === 'edit') {
 }
 
 $status = $_GET['status'] ?? 'all';
-$allowed = ['all', 'applied', 'rejected', 'interview', 'offer', 'custom'];
+$allowed = ['all', 'preparing', 'applied', 'rejected', 'interview', 'offer', 'custom'];
 if (!in_array($status, $allowed, true)) {
     $status = 'all';
 }
@@ -247,6 +247,7 @@ layout_header('Applications');
     <?php
     $statusFilters = [
         'all' => ['label' => 'All', 'icon' => 'track'],
+        'preparing' => ['label' => 'Preparing', 'icon' => 'edit'],
         'applied' => ['label' => 'Applied', 'icon' => 'applied'],
         'interview' => ['label' => 'Interview', 'icon' => 'interview'],
         'offer' => ['label' => 'Offer', 'icon' => 'offer'],
@@ -278,13 +279,7 @@ layout_header('Applications');
             $hasJd = $jd !== '';
             $rid = (int) ($app['resume_version_id'] ?? 0);
             $cid = (int) ($app['cover_letter_id'] ?? 0);
-            $badge = match ($app['status']) {
-                'rejected' => 'text-bg-danger',
-                'interview' => 'text-bg-info',
-                'offer' => 'text-bg-success',
-                'custom' => 'text-bg-secondary',
-                default => 'text-bg-primary',
-            };
+            $badge = App::applicationStatusBadgeClass((string) $app['status']);
             ?>
       <li class="application-item">
         <article class="application-card card shadow-sm">
@@ -297,9 +292,18 @@ layout_header('Applications');
             <p class="application-meta small text-secondary mb-0">
               <?php if ((string) ($app['location'] ?? '') !== ''): ?>
                 <span><?= App::e((string) $app['location']) ?></span>
-                <span class="application-meta-sep" aria-hidden="true">·</span>
               <?php endif; ?>
-              <time datetime="<?= App::e((string) $app['applied_date']) ?>"><?= App::e((string) $app['applied_date']) ?></time>
+              <?php if ((string) ($app['applied_date'] ?? '') !== ''): ?>
+                <?php if ((string) ($app['location'] ?? '') !== ''): ?>
+                  <span class="application-meta-sep" aria-hidden="true">·</span>
+                <?php endif; ?>
+                <time datetime="<?= App::e((string) $app['applied_date']) ?>"><?= App::e((string) $app['applied_date']) ?></time>
+              <?php elseif ((string) ($app['status'] ?? '') === 'preparing'): ?>
+                <?php if ((string) ($app['location'] ?? '') !== ''): ?>
+                  <span class="application-meta-sep" aria-hidden="true">·</span>
+                <?php endif; ?>
+                <span>Not applied yet</span>
+              <?php endif; ?>
             </p>
           </div>
 

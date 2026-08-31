@@ -1139,7 +1139,7 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
 
 .app-status-cards {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 0.85rem;
 }
 
@@ -1222,6 +1222,25 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
   background: linear-gradient(145deg, #334155 0%, #64748b 55%, #94a3b8 100%);
 }
 
+.app-status-card--preparing {
+  background: linear-gradient(145deg, #b45309 0%, #d97706 42%, #fbbf24 100%);
+  color: #1c1917;
+}
+
+.app-status-card--preparing:hover {
+  color: #1c1917;
+}
+
+.app-status-card--preparing .app-status-card-icon {
+  background: rgba(28, 25, 23, 0.12);
+  color: #1c1917;
+}
+
+.app-status-card--preparing.is-active {
+  border-color: rgba(28, 25, 23, 0.35);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.35), 0 12px 28px rgba(180, 83, 9, 0.28);
+}
+
 .app-status-card--applied {
   background: linear-gradient(145deg, #0f5c5f 0%, #0d7377 45%, #2dd4bf 100%);
 }
@@ -1244,7 +1263,7 @@ body:not(.page-doc):not(.pdf-mode)[data-palette="dark"] {
 
 @media (max-width: 1199.98px) {
   .app-status-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -2316,5 +2335,149 @@ body.page-doc.is-printing {
 @keyframes jobs-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Sticky job apply dock (bottom-right, viewport-fixed) */
+.job-apply-dock {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  z-index: 1080;
+  max-width: min(22rem, calc(100vw - 1.5rem));
+  margin: 0;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+
+.job-apply-dock > * {
+  pointer-events: auto;
+}
+
+.job-apply-dock-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  border: 1px solid var(--km-line, #e2ddd4);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(20, 33, 61, 0.12);
+  cursor: pointer;
+  text-align: left;
+  max-width: 100%;
+}
+
+.job-apply-dock-chip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.job-apply-dock-chip-expand {
+  font-size: 0.65rem;
+  line-height: 1;
+  color: var(--km-muted, #5c6578);
+  transform: rotate(180deg);
+}
+
+.job-apply-dock-minimize-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.job-apply-dock-chip-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--km-accent, #0d7377);
+}
+
+.job-apply-dock-chip-company {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--km-ink, #14213d);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 16rem;
+}
+
+.job-apply-dock:not(.is-minimized) .job-apply-dock-chip {
+  display: none;
+}
+
+.job-apply-dock.is-minimized .job-apply-dock-panel {
+  display: none !important;
+}
+
+.job-apply-dock-panel {
+  border: 1px solid var(--km-line, #e2ddd4);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.98);
+  max-height: min(70vh, calc(100vh - 2rem));
+  overflow-y: auto;
+}
+
+.job-apply-dock-title {
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.job-apply-dock-queue button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--km-accent, #0d7377);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 575.98px) {
+  .job-apply-dock {
+    max-width: calc(100vw - 1rem);
+    padding: 0.5rem 0.5rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.job-prepare-fab {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 1070;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+.job-prepare-fab .btn {
+  border-radius: 999px;
+  padding: 0.65rem 1.15rem;
+}
+
+body:has(.job-apply-dock:not(.is-minimized)) .job-prepare-fab,
+body:has(.job-apply-dock .job-apply-dock-panel:not([hidden])) .job-prepare-fab {
+  bottom: 7.5rem;
+}
+
+body:has(.job-apply-dock.is-minimized) .job-prepare-fab {
+  bottom: 4.5rem;
+}
+
+@media (max-width: 575.98px) {
+  .job-prepare-fab {
+    padding: 0.5rem 0.5rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  body:has(.job-apply-dock:not(.is-minimized)) .job-prepare-fab,
+  body:has(.job-apply-dock .job-apply-dock-panel:not([hidden])) .job-prepare-fab {
+    bottom: 6.5rem;
+  }
+
+  body:has(.job-apply-dock.is-minimized) .job-prepare-fab {
+    bottom: 3.75rem;
   }
 }

@@ -117,6 +117,75 @@ function layout_flash(?array $flash): void
     <?php
 }
 
+function layout_render_job_apply_dock(): void
+{
+    if (Auth::id() <= 0) {
+        return;
+    }
+    try {
+        App::ensureDashboardSchema();
+        $preparing = App::preparingApplications();
+    } catch (Throwable) {
+        return;
+    }
+    if ($preparing === []) {
+        return;
+    }
+
+    $items = [];
+    foreach ($preparing as $app) {
+        $rid = (int) ($app['resume_version_id'] ?? 0);
+        $cid = (int) ($app['cover_letter_id'] ?? 0);
+        $jobSource = trim((string) ($app['job_source'] ?? ''));
+        $jobId = trim((string) ($app['job_external_id'] ?? ''));
+        $jobHref = ($jobSource !== '' && $jobId !== '')
+            ? '/job?source=' . rawurlencode($jobSource) . '&id=' . rawurlencode($jobId)
+            : '';
+        $items[] = [
+            'id' => (int) $app['id'],
+            'company' => (string) ($app['company'] ?? ''),
+            'role' => (string) ($app['role'] ?? ''),
+            'resume_href' => $rid > 0 ? '/resume-edit?version=' . $rid : '',
+            'cover_href' => $cid > 0 ? '/cover-edit?id=' . $cid : '',
+            'job_href' => $jobHref,
+        ];
+    }
+    $payload = json_encode($items, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]';
+    $count = count($items);
+    ?>
+  <div id="jobApplyDock" class="job-apply-dock is-minimized" data-job-apply-dock data-items="<?= App::e($payload) ?>" aria-live="polite">
+    <button type="button" class="job-apply-dock-chip" data-job-apply-expand aria-expanded="false" title="Open application reminder">
+      <span class="job-apply-dock-chip-row">
+        <span class="job-apply-dock-chip-label">Preparing<?= $count > 1 ? ' · ' . $count : '' ?></span>
+        <span class="job-apply-dock-chip-expand" aria-hidden="true">▲</span>
+      </span>
+      <span class="job-apply-dock-chip-company"><?= App::e((string) $items[0]['company']) ?></span>
+    </button>
+    <div class="job-apply-dock-panel card shadow" hidden>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+          <div class="job-apply-dock-title-wrap">
+            <p class="job-apply-dock-kicker small text-secondary mb-1">Did you apply on the employer website?</p>
+            <p class="job-apply-dock-title fw-semibold mb-0" data-job-apply-title></p>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary job-apply-dock-minimize-btn" data-job-apply-minimize aria-label="Minimize panel">
+            Minimize
+          </button>
+        </div>
+        <div class="job-apply-dock-links d-flex flex-wrap gap-2 small mb-3" data-job-apply-links></div>
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <button type="button" class="btn btn-primary btn-sm" data-job-apply-yes>Yes, I applied</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-job-apply-not-yet>Not yet</button>
+        </div>
+        <?php if ($count > 1): ?>
+          <div class="job-apply-dock-queue small text-secondary mt-3" data-job-apply-queue></div>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+    <?php
+}
+
 /**
  * Download PDF (free) + Translate PDF (paid) controls.
  *
@@ -208,7 +277,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260829a">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260831d">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
@@ -352,10 +421,13 @@ function layout_footer(bool $withJs = true): void
   </div>
         <?php
     endif;
+    if (!$embed && !$isAuthPage && !$isDocPage) {
+        layout_render_job_apply_dock();
+    }
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260828m"></script>
+  <script src="/assets/js/app.js?v=20260831c"></script>
   <script>window.kmTranslateLangs=<?= json_encode(TranslateLanguages::optionsForJs(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]' ?>;</script>
         <?php
     endif;

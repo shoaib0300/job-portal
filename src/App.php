@@ -274,7 +274,7 @@ final class App
             $like = '%' . $q . '%';
             array_push($params, $like, $like, $like, $like);
         }
-        $sql .= ' ORDER BY applied_date DESC, id DESC';
+        $sql .= ' ORDER BY COALESCE(applied_date, "1970-01-01") DESC, updated_at DESC, id DESC';
         $stmt = Db::pdo()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();
@@ -284,6 +284,7 @@ final class App
     {
         $counts = [
             'all' => 0,
+            'preparing' => 0,
             'applied' => 0,
             'rejected' => 0,
             'interview' => 0,
@@ -312,12 +313,22 @@ final class App
             'location' => "ALTER TABLE applications ADD COLUMN location VARCHAR(160) NOT NULL DEFAULT '' AFTER role",
             'resume_version_id' => 'ALTER TABLE applications ADD COLUMN resume_version_id INT UNSIGNED NULL AFTER link',
             'cover_letter_id' => 'ALTER TABLE applications ADD COLUMN cover_letter_id INT UNSIGNED NULL AFTER resume_version_id',
+            'job_source' => "ALTER TABLE applications ADD COLUMN job_source VARCHAR(32) NULL AFTER cover_letter_id",
+            'job_external_id' => "ALTER TABLE applications ADD COLUMN job_external_id VARCHAR(191) NULL AFTER job_source",
         ];
         foreach ($alters as $col => $sql) {
             $exists = $pdo->query('SHOW COLUMNS FROM applications LIKE ' . $pdo->quote($col))->fetch();
             if ($exists === false) {
                 $pdo->exec($sql);
             }
+        }
+
+        $statusCol = $pdo->query("SHOW COLUMNS FROM applications LIKE 'status'")->fetch();
+        $statusType = is_array($statusCol) ? (string) ($statusCol['Type'] ?? '') : '';
+        if ($statusType !== '' && !str_contains($statusType, 'preparing')) {
+            $pdo->exec(
+                "ALTER TABLE applications MODIFY status ENUM('preparing','applied','rejected','interview','offer','custom') NOT NULL DEFAULT 'preparing'"
+            );
         }
 
         $defaults = [
@@ -338,6 +349,197 @@ final class App
         }
     }
 
+    /** @return list<string> */
+    public static function applicationStatuses(): array
+    {
+        return ['preparing', 'applied', 'rejected', 'interview', 'offer', 'custom'];
+    }
+
+    /** Applications with docs ready but user has not confirmed applying yet. */
+    public static function preparingApplications(): array
+    {
+        self::ensureDashboardSchema();
+        $stmt = Db::pdo()->prepare(
+            'SELECT * FROM applications WHERE user_id = ? AND status = ? ORDER BY updated_at DESC, id DESC'
+        );
+        $stmt->execute([self::userId(), 'preparing']);
+
+        return $stmt->fetchAll();
+    }
+
+    public static function jobApplicationKey(string $source, string $externalId): string
+    {
+        return trim($source) . ':' . trim($externalId);
+    }
+
+    /**
+     * @return array{id:int,status:string,resume_version_id:?int,cover_letter_id:?int,company:string,role:string,job_source:?string,job_external_id:?string}|null
+     */
+    public static function applicationForJob(
+        string $source,
+        string $externalId,
+        string $company = '',
+        string $role = '',
+        string $link = ''
+    ): ?array {
+        self::ensureDashboardSchema();
+        $uid = self::userId();
+        $pdo = Db::pdo();
+
+        if ($source !== '' && $externalId !== '') {
+            $stmt = $pdo->prepare(
+                'SELECT * FROM applications WHERE user_id = ? AND job_source = ? AND job_external_id = ? ORDER BY id DESC LIMIT 1'
+            );
+            $stmt->execute([$uid, $source, $externalId]);
+            $row = $stmt->fetch();
+            if (is_array($row)) {
+                return self::normalizeApplicationRow($row);
+            }
+        }
+
+        $link = self::normalizeHttpUrl($link);
+        if ($link !== '') {
+            $stmt = $pdo->prepare(
+                'SELECT * FROM applications WHERE user_id = ? AND link = ? ORDER BY id DESC LIMIT 1'
+            );
+            $stmt->execute([$uid, $link]);
+            $row = $stmt->fetch();
+            if (is_array($row)) {
+                return self::normalizeApplicationRow($row);
+            }
+        }
+
+        $company = trim($company);
+        $role = trim($role);
+        if ($company !== '' && $role !== '') {
+            $stmt = $pdo->prepare(
+                'SELECT * FROM applications WHERE user_id = ? AND company = ? AND role = ? ORDER BY id DESC LIMIT 1'
+            );
+            $stmt->execute([$uid, $company, $role]);
+            $row = $stmt->fetch();
+            if (is_array($row)) {
+                return self::normalizeApplicationRow($row);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param list<\KaamFit\Jobs\JobListing> $jobs
+     * @return array<string, array{status:string,id:int}>
+     */
+    public static function applicationStatusMapForJobs(array $jobs): array
+    {
+        if ($jobs === []) {
+            return [];
+        }
+        self::ensureDashboardSchema();
+        $uid = self::userId();
+        $pdo = Db::pdo();
+
+        $pairs = [];
+        foreach ($jobs as $job) {
+            if ($job->source !== '' && $job->externalId !== '') {
+                $pairs[] = [$job->source, $job->externalId];
+            }
+        }
+
+        $map = [];
+        if ($pairs !== []) {
+            $placeholders = implode(',', array_fill(0, count($pairs), '(?,?)'));
+            $params = [$uid];
+            foreach ($pairs as $pair) {
+                array_push($params, $pair[0], $pair[1]);
+            }
+            $stmt = $pdo->prepare(
+                "SELECT id, status, job_source, job_external_id FROM applications
+                 WHERE user_id = ? AND (job_source, job_external_id) IN ({$placeholders})"
+            );
+            $stmt->execute($params);
+            foreach ($stmt->fetchAll() as $row) {
+                $key = self::jobApplicationKey((string) ($row['job_source'] ?? ''), (string) ($row['job_external_id'] ?? ''));
+                if ($key !== ':') {
+                    $map[$key] = [
+                        'id' => (int) $row['id'],
+                        'status' => (string) ($row['status'] ?? ''),
+                    ];
+                }
+            }
+        }
+
+        $links = [];
+        foreach ($jobs as $job) {
+            $key = self::jobApplicationKey($job->source, $job->externalId);
+            if (isset($map[$key])) {
+                continue;
+            }
+            $href = self::normalizeHttpUrl($job->applyHref());
+            if ($href !== '') {
+                $links[$href][] = $key;
+            }
+        }
+        if ($links !== []) {
+            $in = implode(',', array_fill(0, count($links), '?'));
+            $params = array_merge([$uid], array_keys($links));
+            $stmt = $pdo->prepare(
+                "SELECT id, status, link FROM applications WHERE user_id = ? AND link IN ({$in})"
+            );
+            $stmt->execute($params);
+            foreach ($stmt->fetchAll() as $row) {
+                $href = (string) ($row['link'] ?? '');
+                foreach ($links[$href] ?? [] as $jobKey) {
+                    if (!isset($map[$jobKey])) {
+                        $map[$jobKey] = [
+                            'id' => (int) $row['id'],
+                            'status' => (string) ($row['status'] ?? ''),
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $map;
+    }
+
+    public static function confirmApplicationApplied(int $applicationId): void
+    {
+        self::ensureDashboardSchema();
+        $stmt = Db::pdo()->prepare(
+            'UPDATE applications SET status = ?, applied_date = ?, updated_at = CURRENT_TIMESTAMP
+             WHERE id = ? AND user_id = ?'
+        );
+        $stmt->execute(['applied', date('Y-m-d'), $applicationId, self::userId()]);
+        if ($stmt->rowCount() === 0) {
+            throw new InvalidArgumentException('Application not found.');
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $row
+     * @return array{id:int,status:string,resume_version_id:?int,cover_letter_id:?int,company:string,role:string,job_source:?string,job_external_id:?string}
+     */
+    private static function normalizeApplicationRow(array $row): array
+    {
+        return [
+            'id' => (int) ($row['id'] ?? 0),
+            'status' => (string) ($row['status'] ?? ''),
+            'resume_version_id' => (int) ($row['resume_version_id'] ?? 0) > 0 ? (int) $row['resume_version_id'] : null,
+            'cover_letter_id' => (int) ($row['cover_letter_id'] ?? 0) > 0 ? (int) $row['cover_letter_id'] : null,
+            'company' => (string) ($row['company'] ?? ''),
+            'role' => (string) ($row['role'] ?? ''),
+            'job_source' => ($row['job_source'] ?? null) !== null && (string) $row['job_source'] !== ''
+                ? (string) $row['job_source'] : null,
+            'job_external_id' => ($row['job_external_id'] ?? null) !== null && (string) $row['job_external_id'] !== ''
+                ? (string) $row['job_external_id'] : null,
+        ];
+    }
+
+    private static function isAdvancedApplicationStatus(string $status): bool
+    {
+        return in_array($status, ['applied', 'interview', 'offer', 'rejected'], true);
+    }
+
     /**
      * Copy Main resume + Main cover for a JD and log Applications.
      * Never overwrites Main. Prefer this over writing data/tailor_*.php files.
@@ -350,12 +552,14 @@ final class App
         string $location,
         string $jdSnippet = '',
         string $link = '',
-        string $status = 'applied',
+        string $status = 'preparing',
         ?string $profileTitle = null,
         ?string $summary = null,
         ?string $skills = null,
         ?string $coverBody = null,
-        string $notes = ''
+        string $notes = '',
+        ?string $jobSource = null,
+        ?string $jobExternalId = null
     ): array {
         self::ensureDashboardSchema();
         Versions::ensureSchema();
@@ -437,21 +641,32 @@ final class App
             null,
             $location,
             $resumeId,
-            $coverId
+            $coverId,
+            $jobSource,
+            $jobExternalId
         );
+
+        $app = self::applicationForJob(
+            (string) ($jobSource ?? ''),
+            (string) ($jobExternalId ?? ''),
+            $company,
+            $role,
+            $link
+        );
+        $finalStatus = $app['status'] ?? $status;
 
         return [
             'resume_id' => $resumeId,
             'cover_id' => $coverId,
             'application_id' => $appId,
             'location' => $location,
-            'status' => $status,
+            'status' => $finalStatus,
         ];
     }
 
     /**
      * Log / update an application when a JD is tailored.
-     * Default status is "applied". Pass another allowed status if needed.
+     * Default status is "preparing". Pass "applied" only when user confirms.
      *
      * @return int application id
      */
@@ -459,42 +674,62 @@ final class App
         string $company,
         string $role,
         string $jdSnippet = '',
-        string $status = 'applied',
+        string $status = 'preparing',
         string $notes = '',
         string $link = '',
         ?string $appliedDate = null,
         string $location = '',
         ?int $resumeVersionId = null,
-        ?int $coverLetterId = null
+        ?int $coverLetterId = null,
+        ?string $jobSource = null,
+        ?string $jobExternalId = null
     ): int {
         self::ensureDashboardSchema();
-        $allowed = ['applied', 'rejected', 'interview', 'offer', 'custom'];
+        $allowed = self::applicationStatuses();
         if (!in_array($status, $allowed, true)) {
-            $status = 'applied';
+            $status = 'preparing';
         }
         $company = trim($company);
         $role = trim($role);
         if ($company === '' || $role === '') {
             throw new InvalidArgumentException('Company and role are required');
         }
-        $date = $appliedDate !== null && trim($appliedDate) !== ''
-            ? trim($appliedDate)
-            : date('Y-m-d');
+        $link = self::normalizeHttpUrl($link);
+        $jobSource = $jobSource !== null && trim($jobSource) !== '' ? trim($jobSource) : null;
+        $jobExternalId = $jobExternalId !== null && trim($jobExternalId) !== '' ? trim($jobExternalId) : null;
 
         $pdo = Db::pdo();
         $uid = self::userId();
-        $existing = $pdo->prepare(
-            'SELECT id, resume_version_id, cover_letter_id, link FROM applications WHERE user_id = ? AND company = ? AND role = ? ORDER BY id DESC LIMIT 1'
-        );
-        $existing->execute([$uid, $company, $role]);
-        $row = $existing->fetch();
+        $row = null;
+        if ($jobSource !== null && $jobExternalId !== null) {
+            $byJob = $pdo->prepare(
+                'SELECT * FROM applications WHERE user_id = ? AND job_source = ? AND job_external_id = ? ORDER BY id DESC LIMIT 1'
+            );
+            $byJob->execute([$uid, $jobSource, $jobExternalId]);
+            $row = $byJob->fetch() ?: null;
+        }
+        if ($row === null && $link !== '') {
+            $byLink = $pdo->prepare(
+                'SELECT * FROM applications WHERE user_id = ? AND link = ? ORDER BY id DESC LIMIT 1'
+            );
+            $byLink->execute([$uid, $link]);
+            $row = $byLink->fetch() ?: null;
+        }
+        if ($row === null) {
+            $existing = $pdo->prepare(
+                'SELECT * FROM applications WHERE user_id = ? AND company = ? AND role = ? ORDER BY id DESC LIMIT 1'
+            );
+            $existing->execute([$uid, $company, $role]);
+            $row = $existing->fetch() ?: null;
+        }
 
         $location = trim($location);
         $resumeVersionId = $resumeVersionId !== null && $resumeVersionId > 0 ? $resumeVersionId : null;
         $coverLetterId = $coverLetterId !== null && $coverLetterId > 0 ? $coverLetterId : null;
 
-        if ($row) {
+        if (is_array($row)) {
             $id = (int) $row['id'];
+            $currentStatus = (string) ($row['status'] ?? 'preparing');
             if ($resumeVersionId === null && (int) ($row['resume_version_id'] ?? 0) > 0) {
                 $resumeVersionId = (int) $row['resume_version_id'];
             }
@@ -504,30 +739,63 @@ final class App
             if ($link === '' && trim((string) ($row['link'] ?? '')) !== '') {
                 $link = (string) $row['link'];
             }
+            if ($jobSource === null && trim((string) ($row['job_source'] ?? '')) !== '') {
+                $jobSource = (string) $row['job_source'];
+            }
+            if ($jobExternalId === null && trim((string) ($row['job_external_id'] ?? '')) !== '') {
+                $jobExternalId = (string) $row['job_external_id'];
+            }
+
+            $nextStatus = $status;
+            if ($status === 'preparing' && self::isAdvancedApplicationStatus($currentStatus)) {
+                $nextStatus = $currentStatus;
+            }
+
+            $date = $row['applied_date'] ?? null;
+            if ($nextStatus === 'applied') {
+                $date = $appliedDate !== null && trim($appliedDate) !== ''
+                    ? trim($appliedDate)
+                    : date('Y-m-d');
+            } elseif ($nextStatus === 'preparing') {
+                $date = null;
+            }
+
             $pdo->prepare(
                 'UPDATE applications
                  SET status = ?, applied_date = ?, notes = ?, jd_snippet = ?, link = ?,
-                     location = ?, resume_version_id = ?, cover_letter_id = ?, updated_at = CURRENT_TIMESTAMP
+                     location = ?, resume_version_id = ?, cover_letter_id = ?,
+                     job_source = ?, job_external_id = ?, updated_at = CURRENT_TIMESTAMP
                  WHERE id = ? AND user_id = ?'
             )->execute([
-                $status,
+                $nextStatus,
                 $date,
-                $notes !== '' ? $notes : null,
-                $jdSnippet !== '' ? $jdSnippet : null,
+                $notes !== '' ? $notes : ($row['notes'] ?? null),
+                $jdSnippet !== '' ? $jdSnippet : ($row['jd_snippet'] ?? null),
                 $link !== '' ? $link : null,
-                $location,
+                $location !== '' ? $location : (string) ($row['location'] ?? ''),
                 $resumeVersionId,
                 $coverLetterId,
+                $jobSource,
+                $jobExternalId,
                 $id,
                 $uid,
             ]);
+
             return $id;
+        }
+
+        $date = null;
+        if ($status === 'applied') {
+            $date = $appliedDate !== null && trim($appliedDate) !== ''
+                ? trim($appliedDate)
+                : date('Y-m-d');
         }
 
         $pdo->prepare(
             'INSERT INTO applications
-                (user_id, company, role, location, status, applied_date, notes, jd_snippet, link, resume_version_id, cover_letter_id)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                (user_id, company, role, location, status, applied_date, notes, jd_snippet, link,
+                 resume_version_id, cover_letter_id, job_source, job_external_id)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         )->execute([
             $uid,
             $company,
@@ -540,7 +808,10 @@ final class App
             $link !== '' ? $link : null,
             $resumeVersionId,
             $coverLetterId,
+            $jobSource,
+            $jobExternalId,
         ]);
+
         return (int) $pdo->lastInsertId();
     }
 
@@ -592,12 +863,25 @@ final class App
     public static function statusLabel(string $status): string
     {
         return match ($status) {
+            'preparing' => 'Preparing',
             'applied' => 'Applied',
             'rejected' => 'Rejected',
             'interview' => 'Interview',
             'offer' => 'Offer',
             'custom' => 'Custom',
             default => ucfirst($status),
+        };
+    }
+
+    public static function applicationStatusBadgeClass(string $status): string
+    {
+        return match ($status) {
+            'preparing' => 'text-bg-warning',
+            'rejected' => 'text-bg-danger',
+            'interview' => 'text-bg-info',
+            'offer' => 'text-bg-success',
+            'custom' => 'text-bg-secondary',
+            default => 'text-bg-primary',
         };
     }
 

@@ -14,8 +14,9 @@ final class JobsResultsView
 {
     /**
      * @param array{listings: list<JobListing>, total: int, notices: list<string>, page: int, pages: int} $result
+     * @param array<string, array{status:string,id:int}> $applicationMap
      */
-    public static function render(JobQuery $query, array $result, bool $ran): string
+    public static function render(JobQuery $query, array $result, bool $ran, array $applicationMap = []): string
     {
         return View::render('jobs/results', [
             'query' => $query,
@@ -24,6 +25,7 @@ final class JobsResultsView
             'sourceLabels' => JobQuery::SOURCES,
             'resumeTitle' => ResumeJobMatch::masterTitle(),
             'resumeTerms' => $query->matchResume ? ResumeJobMatch::scoreTerms() : [],
+            'applicationMap' => $applicationMap,
         ]);
     }
 }

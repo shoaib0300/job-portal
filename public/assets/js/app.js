@@ -1172,3 +1172,181 @@
     });
   });
 })();
+
+(function initJobApplyDock() {
+  const root = document.querySelector("[data-job-apply-dock]");
+  if (!root) return;
+
+  if (root.parentElement !== document.body) {
+    document.body.appendChild(root);
+  }
+
+  let items = [];
+  try {
+    items = JSON.parse(root.getAttribute("data-items") || "[]");
+  } catch (_e) {
+    return;
+  }
+  if (!Array.isArray(items) || items.length === 0) return;
+
+  const storageKey = "kmJobDockMinimized";
+  const readMinimized = () => {
+    try {
+      const raw = sessionStorage.getItem(storageKey);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed.map((n) => Number(n)) : [];
+    } catch (_err) {
+      return [];
+    }
+  };
+  const writeMinimized = (ids) => {
+    sessionStorage.setItem(storageKey, JSON.stringify(ids));
+  };
+
+  let index = 0;
+  const panel = root.querySelector(".job-apply-dock-panel");
+  const titleEl = root.querySelector("[data-job-apply-title]");
+  const linksEl = root.querySelector("[data-job-apply-links]");
+  const queueEl = root.querySelector("[data-job-apply-queue]");
+  const chipCompany = root.querySelector(".job-apply-dock-chip-company");
+
+  const current = () => items[index] || null;
+
+  const render = () => {
+    const item = current();
+    if (!item) {
+      root.remove();
+      return;
+    }
+    if (titleEl) {
+      titleEl.textContent = `${item.company} · ${item.role}`;
+    }
+    if (chipCompany) {
+      chipCompany.textContent = item.company;
+    }
+    if (linksEl) {
+      const parts = [];
+      if (item.resume_href) {
+        parts.push(`<a href="${item.resume_href}">Edit resume</a>`);
+      }
+      if (item.cover_href) {
+        parts.push(`<a href="${item.cover_href}">Edit cover</a>`);
+      }
+      if (item.job_href) {
+        parts.push(`<a href="${item.job_href}">Open job</a>`);
+      }
+      linksEl.innerHTML = parts.join(" · ") || "";
+    }
+    if (queueEl && items.length > 1) {
+      queueEl.innerHTML = items
+        .map((it, i) => {
+          if (i === index) return "";
+          return `<button type="button" data-job-apply-pick="${i}">${it.company}</button>`;
+        })
+        .filter(Boolean)
+        .join(" · ");
+    }
+  };
+
+  const setExpanded = (expanded) => {
+    root.classList.toggle("is-minimized", !expanded);
+    if (panel) {
+      panel.hidden = !expanded;
+    }
+    const chip = root.querySelector("[data-job-apply-expand]");
+    if (chip) {
+      chip.setAttribute("aria-expanded", expanded ? "true" : "false");
+    }
+  };
+
+  const minimizeCurrent = () => {
+    const item = current();
+    if (!item) return;
+    const ids = readMinimized();
+    if (!ids.includes(item.id)) {
+      ids.push(item.id);
+      writeMinimized(ids);
+    }
+    setExpanded(false);
+  };
+
+  root.addEventListener("click", async (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    if (target.closest("[data-job-apply-expand]")) {
+      setExpanded(true);
+      return;
+    }
+    if (target.closest("[data-job-apply-minimize]")) {
+      minimizeCurrent();
+      return;
+    }
+    if (target.closest("[data-job-apply-not-yet]")) {
+      minimizeCurrent();
+      return;
+    }
+    const pick = target.closest("[data-job-apply-pick]");
+    if (pick) {
+      index = Number(pick.getAttribute("data-job-apply-pick") || 0);
+      render();
+      setExpanded(true);
+      return;
+    }
+    if (target.closest("[data-job-apply-yes]")) {
+      const item = current();
+      if (!item) return;
+      const btn = target.closest("[data-job-apply-yes]");
+      if (btn instanceof HTMLButtonElement) {
+        btn.disabled = true;
+      }
+      try {
+        const body = new FormData();
+        body.append("action", "confirm_applied");
+        body.append("application_id", String(item.id));
+        const res = await fetch("/job-application.php", {
+          method: "POST",
+          body,
+          credentials: "same-origin",
+        });
+        const json = await res.json();
+        if (!json.ok) {
+          throw new Error(json.error || "Could not update status");
+        }
+        const minimized = readMinimized().filter((id) => id !== item.id);
+        writeMinimized(minimized);
+        items.splice(index, 1);
+        if (index >= items.length) {
+          index = Math.max(0, items.length - 1);
+        }
+        if (items.length === 0) {
+          root.remove();
+          return;
+        }
+        render();
+        const next = current();
+        if (next && !readMinimized().includes(next.id)) {
+          setExpanded(true);
+        } else {
+          setExpanded(false);
+        }
+      } catch (err) {
+        if (btn instanceof HTMLButtonElement) {
+          btn.disabled = false;
+        }
+        window.alert(err instanceof Error ? err.message : "Could not update status");
+      }
+    }
+  });
+
+  render();
+  setExpanded(false);
+})();
+
+(function initJobPrepareFab() {
+  document.querySelectorAll(".job-prepare-fab").forEach((fab) => {
+    if (fab.parentElement !== document.body) {
+      document.body.appendChild(fab);
+    }
+  });
+})();

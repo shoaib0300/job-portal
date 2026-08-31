@@ -10,6 +10,7 @@ use KaamFit\Jobs\JobQuery;
 use KaamFit\Jobs\JobText;
 
 JobAggregator::ensureSchema();
+App::ensureDashboardSchema();
 
 $source = trim((string) ($_GET['source'] ?? $_POST['source'] ?? ''));
 $externalId = trim((string) ($_GET['id'] ?? $_POST['id'] ?? ''));
@@ -33,21 +34,32 @@ if ($locationDefault === '') {
     $locationDefault = 'Germany';
 }
 
+$company = $job->company !== '' ? $job->company : 'Company';
+$role = $job->title !== '' ? $job->title : 'Role';
+$existingApp = App::applicationForJob($source, $externalId, $company, $role, $applyHref);
+
 $postAction = (string) ($_POST['action'] ?? '');
 $backToJob = '/job?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'confirm_applied') {
     try {
+        $resumeId = $existingApp['resume_version_id'] ?? null;
+        $coverId = $existingApp['cover_letter_id'] ?? null;
         $appId = App::logJdApplication(
-            $job->company !== '' ? $job->company : 'Company',
-            $job->title !== '' ? $job->title : 'Role',
+            $company,
+            $role,
             $jdPlain,
             'applied',
             'Applied on employer website from Jobs · ' . (JobQuery::SOURCES[$job->source] ?? $job->source),
             $applyHref,
-            null,
-            $locationDefault
+            date('Y-m-d'),
+            $locationDefault,
+            $resumeId,
+            $coverId,
+            $source,
+            $externalId
         );
-        App::flash('Logged as applied (#' . $appId . '). No new resume was created.');
+        App::flash('Marked as applied (#' . $appId . ').');
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
     }
@@ -55,39 +67,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'confirm_applied') 
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($postAction === 'prepare' || $postAction === 'apply')) {
-    $location = $locationDefault;
     try {
         $result = App::tailorFromJd(
-            $job->company !== '' ? $job->company : 'Company',
-            $job->title !== '' ? $job->title : 'Role',
-            $location,
+            $company,
+            $role,
+            $locationDefault,
             $jdPlain,
             $applyHref,
-            'applied',
+            'preparing',
             null,
             null,
             null,
             null,
-            'From Jobs · ' . (JobQuery::SOURCES[$job->source] ?? $job->source)
+            'From Jobs · ' . (JobQuery::SOURCES[$job->source] ?? $job->source),
+            $source,
+            $externalId
         );
         $ready = $applyHref !== ''
-            ? ' Docs ready. Apply on the employer site when you are done editing.'
+            ? ' Apply on the employer site when you are done editing.'
             : '';
         App::flash(
-            'Copied Main into resume #' . $result['resume_id']
+            'Resume #' . $result['resume_id']
             . ' and cover #' . $result['cover_id']
-            . '. Application #' . $result['application_id']
-            . ' · ' . $result['location']
+            . ' ready · ' . $result['location']
             . ' · ' . App::statusLabel($result['status']) . '.'
             . $ready
         );
-        App::redirect('/resume-edit');
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
-        App::redirect('/job?source=' . rawurlencode($source) . '&id=' . rawurlencode($externalId));
     }
+    App::redirect($backToJob);
 }
 
+$existingApp = App::applicationForJob($source, $externalId, $company, $role, $applyHref);
 $sourceLabels = JobQuery::SOURCES;
 
 layout_header($job->title !== '' ? $job->title : 'Job');
@@ -98,6 +110,17 @@ layout_header($job->title !== '' ? $job->title : 'Job');
     <h1><?= App::e($job->title) ?></h1>
     <p>
       <span class="badge text-bg-light border"><?= App::e($sourceLabels[$job->source] ?? $job->source) ?></span>
+      <?php if ($job->workMode !== 'unknown'): ?>
+        <span class="badge text-bg-light border"><?= App::e($job->workMode) ?></span>
+      <?php endif; ?>
+      <?php if ($job->employment !== 'unknown'): ?>
+        <span class="badge text-bg-light border"><?= App::e($job->employment) ?></span>
+      <?php endif; ?>
+      <?php if ($existingApp !== null): ?>
+        <span class="badge <?= App::e(App::applicationStatusBadgeClass($existingApp['status'])) ?>">
+          <?= App::e($existingApp['status'] === 'applied' ? 'Applied already' : App::statusLabel($existingApp['status'])) ?>
+        </span>
+      <?php endif; ?>
       <strong><?= App::e($job->company) ?></strong>
       · <?= App::e($job->locationLine()) ?>
       <?php if ($job->postedAt): ?>
@@ -106,6 +129,16 @@ layout_header($job->title !== '' ? $job->title : 'Job');
         · Posted date not listed
       <?php endif; ?>
     </p>
+    <?php if ($existingApp !== null && ($existingApp['resume_version_id'] || $existingApp['cover_letter_id'])): ?>
+      <div class="d-flex flex-wrap gap-2 mb-2">
+        <?php if ($existingApp['resume_version_id']): ?>
+          <a class="btn btn-sm btn-outline-primary" href="/resume-edit?version=<?= (int) $existingApp['resume_version_id'] ?>">Edit resume</a>
+        <?php endif; ?>
+        <?php if ($existingApp['cover_letter_id']): ?>
+          <a class="btn btn-sm btn-outline-primary" href="/cover-edit?id=<?= (int) $existingApp['cover_letter_id'] ?>">Edit cover</a>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
     <div class="preview-links d-flex flex-wrap gap-2">
       <?php if ($job->source === 'arbeitsagentur' && $job->listingHref() !== ''): ?>
         <a class="btn btn-sm btn-outline-secondary" href="<?= App::e($job->listingHref()) ?>" target="_blank" rel="noopener">Original BA listing</a>
@@ -167,11 +200,7 @@ layout_header($job->title !== '' ? $job->title : 'Job');
       <section class="card shadow-sm">
         <div class="card-body">
           <h2 class="h6">Apply</h2>
-          <?php if ($job->source === 'arbeitsagentur'): ?>
-            <p class="small text-secondary">Use the buttons above for BA contacts or the employer site. Prepare your docs here first if you want.</p>
-          <?php else: ?>
-            <p class="small text-secondary">Prepare your docs here, then apply on the employer site.</p>
-          <?php endif; ?>
+          <p class="small text-secondary">Use the button bottom-right to prepare docs. Status stays <strong>Preparing</strong> until you confirm you applied.</p>
           <dl class="small mb-3">
             <?php if ($job->workMode !== 'unknown'): ?>
               <dt>Mode</dt><dd><?= App::e($job->workMode) ?></dd>
@@ -186,33 +215,37 @@ layout_header($job->title !== '' ? $job->title : 'Job');
               <dt>Salary</dt><dd><?= App::e($job->salaryText) ?></dd>
             <?php endif; ?>
           </dl>
-          <?php if ($job->source !== 'arbeitsagentur' && $applyHref !== ''): ?>
+          <?php if ($applyHref !== ''): ?>
             <a class="btn btn-primary w-100 mb-2" href="<?= App::e($applyHref) ?>" target="_blank" rel="noopener">Apply on employer website</a>
-            <p class="small text-secondary mb-3">Opens the employer form only. Nothing is logged until you confirm below.</p>
           <?php endif; ?>
-          <form method="post" class="mb-3 p-3 border rounded bg-body-secondary">
-            <input type="hidden" name="action" value="confirm_applied">
-            <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
-            <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
-            <p class="small mb-2"><strong>Have you applied on the employer website?</strong></p>
-            <p class="small text-secondary mb-2">Adds this role to Applications as applied. Does not copy or create a resume.</p>
-            <button type="submit" class="btn btn-outline-primary w-100">Yes, I applied</button>
-          </form>
-          <form method="post">
-            <input type="hidden" name="action" value="prepare">
-            <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
-            <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
-            <div class="mb-3">
-              <label class="form-label" for="location">Job location</label>
-              <input type="hidden" name="location" value="<?= App::e($locationDefault) ?>">
-              <p class="form-control-plaintext border rounded px-3 py-2 mb-0 bg-body-secondary" id="location"><?= App::e($locationDefault) ?></p>
-            </div>
-            <button type="submit" class="btn btn-outline-primary w-100">Prepare resume and letter</button>
-          </form>
+          <?php if ($existingApp === null || $existingApp['status'] === 'preparing'): ?>
+            <form method="post">
+              <input type="hidden" name="action" value="prepare">
+              <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
+              <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
+              <button type="submit" class="btn btn-outline-primary w-100">
+                <?= $existingApp !== null ? 'Refresh resume and letter' : 'Prepare resume and letter' ?>
+              </button>
+            </form>
+          <?php elseif ($existingApp['status'] === 'applied'): ?>
+            <p class="small text-success mb-0">You marked this job as applied. Docs are linked in Applications.</p>
+          <?php endif; ?>
         </div>
       </section>
     </div>
   </div>
 </main>
+<?php if ($existingApp === null || $existingApp['status'] === 'preparing'): ?>
+  <div class="job-prepare-fab" aria-label="Prepare application documents">
+    <form method="post">
+      <input type="hidden" name="action" value="prepare">
+      <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
+      <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
+      <button type="submit" class="btn btn-primary shadow">
+        <?= $existingApp !== null ? 'Refresh resume &amp; letter' : 'Prepare resume &amp; letter' ?>
+      </button>
+    </form>
+  </div>
+<?php endif; ?>
 <?php
 layout_footer();

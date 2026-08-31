@@ -7,6 +7,7 @@ declare(strict_types=1);
 /** @var bool $ran */
 /** @var array<string, string> $sourceLabels */
 /** @var string $resumeTitle */
+/** @var array<string, array{status:string,id:int}> $applicationMap */
 /** @var array<string, int> $resumeTerms */
 
 use App;
@@ -67,6 +68,17 @@ use KaamFit\Jobs\ResumeJobMatch;
               $detail = '/job?source=' . rawurlencode($job->source) . '&id=' . rawurlencode($job->externalId);
               $fitScore = $query->matchResume ? ResumeJobMatch::fitScore($job, $resumeTerms) : 0;
               $fitLabel = $query->matchResume ? ResumeJobMatch::fitLabel($fitScore) : '';
+              $appKey = App::jobApplicationKey($job->source, $job->externalId);
+              $appStatus = $applicationMap[$appKey]['status'] ?? null;
+              $appBadgeLabel = match ($appStatus) {
+                  'applied' => 'Applied',
+                  'preparing' => 'Preparing',
+                  'interview' => 'Interview',
+                  'offer' => 'Offer',
+                  'rejected' => 'Rejected',
+                  'custom' => 'Custom',
+                  default => null,
+              };
               ?>
               <div class="col">
                 <article class="card shadow-sm h-100 jobs-job-card">
@@ -75,6 +87,12 @@ use KaamFit\Jobs\ResumeJobMatch;
                       <span class="badge text-bg-light border"><?= App::e($sourceLabels[$job->source] ?? $job->source) ?></span>
                       <?php if ($job->workMode !== 'unknown'): ?>
                         <span class="badge text-bg-light border"><?= App::e($job->workMode) ?></span>
+                      <?php endif; ?>
+                      <?php if ($job->employment !== 'unknown'): ?>
+                        <span class="badge text-bg-light border"><?= App::e($job->employment) ?></span>
+                      <?php endif; ?>
+                      <?php if ($appBadgeLabel !== null): ?>
+                        <span class="badge <?= App::e(App::applicationStatusBadgeClass((string) $appStatus)) ?>"><?= App::e($appBadgeLabel) ?></span>
                       <?php endif; ?>
                       <?php if ($fitLabel !== ''): ?>
                         <span class="badge <?= $fitScore >= 12 ? 'text-bg-success' : 'text-bg-light border' ?>"><?= App::e($fitLabel) ?></span>

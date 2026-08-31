@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (string) ($_POST['location'] ?? ''),
             (string) ($_POST['jd_snippet'] ?? ''),
             App::normalizeHttpUrl((string) ($_POST['link'] ?? '')),
-            (string) ($_POST['status'] ?? 'applied'),
+            (string) ($_POST['status'] ?? 'preparing'),
             null,
             null,
             null,
