@@ -44,7 +44,7 @@ final class JobQuery
         'Thüringen',
     ];
 
-    /** SERP/Unlocker boards only — LinkedIn uses LinkedInSource (guest API). */
+    /** Legacy SERP boards — VPS-native scrapers are used instead unless JOBS_SERP_FALLBACK=1. */
     public const SERP_BOARDS = ['indeed', 'stepstone', 'xing', 'glassdoor'];
 
     /** Built-in defaults until the user saves a different Sources selection. */

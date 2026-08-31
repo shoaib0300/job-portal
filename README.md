@@ -9,7 +9,7 @@ ddev start
 ddev composer dump-autoload   # PSR-4: KaamFit\ + Freeworld\PhpJobspy\ (vendored)
 # LinkedIn JobSpy (once per image, or after ddev restart with web-build Dockerfile):
 ddev exec bash bin/install_jobspy.sh
-cp .env.example .env    # DATABASE_URL; optional BRIGHT_DATA_* for Indeed/StepStone SERP
+cp .env.example .env    # DATABASE_URL; optional BRIGHT_DATA_* for career-site unlocker
 ddev exec php bin/seed_glossary.php   # EN↔DE translation glossary (reduces DeepL usage); re-run after updating src/glossary/en_de.php
 ```
 
@@ -25,14 +25,25 @@ Site: `https://kaamfit.ddev.site` · portal: `/dashboard` or `https://portal.kaa
 | `src/Jobs/` | Job search domain (`KaamFit\Jobs\…`) |
 | `src/Jobs/Sources/` | Board adapters |
 | `packages/php-jobspy/` | Vendored [alexseif/php-jobspy](https://github.com/alexseif/php-jobspy) (DTO + scripts) |
-| `bin/jobspy_scrape.py` | LinkedIn scrape via `python-jobspy` |
+| `bin/jobspy_scrape.py` | LinkedIn / Indeed / Glassdoor scrape via `python-jobspy` |
 | `src/*.php` | Shared services still global (`App`, `Auth`, `Db`, …) |
 
 Composer maps `KaamFit\` → `src/` and `Freeworld\PhpJobspy\` → `packages/php-jobspy/src/`.
 
+## Job boards (VPS)
+
+| Board | Source class | Needs |
+|-------|--------------|-------|
+| LinkedIn | `LinkedInSource` | `python-jobspy` (`bin/install_jobspy.sh`) |
+| Indeed / Glassdoor | `JobspyBoardSource` | `python-jobspy` |
+| StepStone / XING | `StepStoneSource` / `XingSource` | PHP HTTP only (no API token) |
+| Arbeitsagentur, Jobexport, Jobware, Adzuna | existing sources | mostly free |
+
+`BRIGHT_DATA_API_TOKEN` is optional — for ATS company site boards and SERP fallback (`JOBS_SERP_FALLBACK=1`).
+
 ## LinkedIn
 
-LinkedIn search uses **php-jobspy / python-jobspy** (not Bright Data Marketplace, not the empty guest stub from datacenter IPs). Germany + max 7 days are applied in `LinkedInSource`.
+LinkedIn search uses **php-jobspy / python-jobspy** (not Bright Data). Germany + max 14 days are applied in `JobspySupport`.
 
 ## Adding a job source
 

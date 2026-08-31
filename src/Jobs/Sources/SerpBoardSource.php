@@ -14,13 +14,16 @@ use KaamFit\Jobs\JobText;
 
 final class SerpBoardSource
 {
-    /** Google SERP boards via Bright Data Unlocker — LinkedIn is first-party (LinkedInSource). */
+    /** Google SERP fallback — native VPS sources handle these boards by default. */
     public const BOARDS = [
         'indeed' => ['label' => 'Indeed', 'site' => 'site:indeed.de OR site:de.indeed.com'],
         'stepstone' => ['label' => 'StepStone', 'site' => 'site:stepstone.de'],
         'xing' => ['label' => 'XING', 'site' => 'site:xing.com/jobs'],
         'glassdoor' => ['label' => 'Glassdoor', 'site' => 'site:glassdoor.de/Job OR site:www.glassdoor.com/job-listing'],
     ];
+
+    /** Boards with built-in VPS scrapers (JobSpy or PHP). */
+    private const NATIVE_BOARDS = ['indeed', 'glassdoor', 'stepstone', 'xing'];
     // Jobware uses JobwareSource (HTML), not Google SERP.
 
     public static function token(): string
@@ -33,12 +36,25 @@ final class SerpBoardSource
         return self::token() !== '';
     }
 
+    private static function serpFallbackEnabled(): bool
+    {
+        $flag = strtolower(trim((string) (getenv('JOBS_SERP_FALLBACK') ?: '')));
+
+        return in_array($flag, ['1', 'true', 'yes', 'on'], true);
+    }
+
     /**
      * @return array{listings: list<JobListing>, notices: list<string>}
      */
     public static function search(JobQuery $query): array
     {
         $wanted = array_values(array_intersect(array_keys(self::BOARDS), $query->sources));
+        if ($wanted === []) {
+            return ['listings' => [], 'notices' => []];
+        }
+        if (!self::serpFallbackEnabled()) {
+            $wanted = array_values(array_diff($wanted, self::NATIVE_BOARDS));
+        }
         if ($wanted === []) {
             return ['listings' => [], 'notices' => []];
         }

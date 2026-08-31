@@ -12,8 +12,11 @@ use KaamFit\Jobs\Sources\AtsBoardSource;
 use KaamFit\Jobs\Sources\InteramtSource;
 use KaamFit\Jobs\Sources\JobexportSource;
 use KaamFit\Jobs\Sources\JobwareSource;
+use KaamFit\Jobs\Sources\JobspyBoardSource;
 use KaamFit\Jobs\Sources\LinkedInSource;
 use KaamFit\Jobs\Sources\SerpBoardSource;
+use KaamFit\Jobs\Sources\StepStoneSource;
+use KaamFit\Jobs\Sources\XingSource;
 
 
 final class JobAggregator
@@ -143,6 +146,22 @@ final class JobAggregator
             $notices = array_merge($notices, $li['notices']);
         }
 
+        $jb = JobspyBoardSource::search($query);
+        $listings = array_merge($listings, $jb['listings']);
+        $notices = array_merge($notices, $jb['notices']);
+
+        if ($query->wantsSource('stepstone')) {
+            $ss = StepStoneSource::search($query);
+            $listings = array_merge($listings, $ss['listings']);
+            $notices = array_merge($notices, $ss['notices']);
+        }
+
+        if ($query->wantsSource('xing')) {
+            $xg = XingSource::search($query);
+            $listings = array_merge($listings, $xg['listings']);
+            $notices = array_merge($notices, $xg['notices']);
+        }
+
         $serp = SerpBoardSource::search($query);
         $listings = array_merge($listings, $serp['listings']);
         $notices = array_merge($notices, $serp['notices']);
@@ -231,6 +250,15 @@ final class JobAggregator
         }
         if ($source === 'linkedin') {
             return LinkedInSource::details($externalId) ?? $cached;
+        }
+        if (in_array($source, JobspyBoardSource::BOARD_IDS, true)) {
+            return JobspyBoardSource::details($source, $externalId) ?? $cached;
+        }
+        if ($source === 'stepstone') {
+            return StepStoneSource::details($externalId) ?? $cached;
+        }
+        if ($source === 'xing') {
+            return XingSource::details($externalId) ?? $cached;
         }
         if ($source === 'jobware') {
             return JobwareSource::details($externalId) ?? $cached;

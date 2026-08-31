@@ -69,15 +69,14 @@ $progressRunning = in_array((string) ($progress['status'] ?? ''), ['running', 's
 super_layout_header('Jobs');
 ?>
 <?php if (!$hasBrightData): ?>
-  <div class="alert alert-warning">
-    <p class="mb-1"><strong>Glassdoor / Indeed / StepStone / XING</strong> need <code>BRIGHT_DATA_API_TOKEN</code> — without it they are empty.</p>
-    <p class="mb-1"><strong>Jobware</strong> listings come from the public sitemap (no token). Opening a job loads the full description via Jobware’s JSON API.</p>
-    <p class="mb-1"><strong>Jobexport</strong> works without an API. We crawl the newest pages of stellenboerse (and keep last 14 days).</p>
-    <p class="mb-0"><strong>Adzuna</strong> uses the official Germany API — set <code>ADZUNA_APP_ID</code> and <code>ADZUNA_APP_KEY</code> (free at developer.adzuna.com). Direct adzuna.de HTML is CloudFront-blocked.</p>
+  <div class="alert alert-light border small">
+    <p class="mb-1"><strong>Indeed / Glassdoor</strong> use <code>python-jobspy</code> on the server (<code>bin/install_jobspy.sh</code>). <strong>StepStone / XING</strong> use built-in PHP scrapers — no Bright Data token required.</p>
+    <p class="mb-1"><strong>LinkedIn</strong> also needs python-jobspy. <strong>Jobware</strong> listings come from the public sitemap. <strong>Jobexport</strong> crawls stellenboerse (last 14 days).</p>
+    <p class="mb-0"><strong>Adzuna</strong> uses the official Germany API — set <code>ADZUNA_APP_ID</code> and <code>ADZUNA_APP_KEY</code>. Optional <code>BRIGHT_DATA_API_TOKEN</code> only for company career sites (Mercedes/BMW-style) or SERP fallback (<code>JOBS_SERP_FALLBACK=1</code>).</p>
   </div>
 <?php else: ?>
   <div class="alert alert-light border small">
-    Bright Data token is set — SERP boards (Indeed, StepStone, XING, Glassdoor) can run on fetch. Jobware listings use the sitemap; detail text uses Jobware’s API. Adzuna uses <code>ADZUNA_APP_ID</code> / <code>ADZUNA_APP_KEY</code> (or Bright Data as HTML fallback).
+    Bright Data token is set — optional SERP fallback for Indeed/StepStone/XING/Glassdoor when <code>JOBS_SERP_FALLBACK=1</code>. Native VPS scrapers run by default. Jobware uses the sitemap; Adzuna uses <code>ADZUNA_APP_ID</code> / <code>ADZUNA_APP_KEY</code>.
   </div>
 <?php endif; ?>
 <div class="card shadow-sm border-success mb-4">

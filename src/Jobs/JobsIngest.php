@@ -30,6 +30,10 @@ final class JobsIngest
         $boards = [
             'arbeitsagentur',
             'linkedin',
+            'indeed',
+            'glassdoor',
+            'stepstone',
+            'xing',
             'jobexport',
             'jobware',
             'adzuna',
@@ -142,6 +146,21 @@ final class JobsIngest
             'city' => '',
             'sources' => ['adzuna'],
         ];
+        // VPS-native boards (Indeed / Glassdoor via JobSpy; StepStone / XING via PHP scrapers).
+        foreach (['', 'Software', 'IT', 'Mitarbeiter'] as $boardQ) {
+            $seeds[] = [
+                'q' => $boardQ,
+                'city' => '',
+                'sources' => ['indeed', 'glassdoor', 'stepstone', 'xing'],
+            ];
+        }
+        foreach (['Berlin', 'München', 'Hamburg'] as $boardCity) {
+            $seeds[] = [
+                'q' => 'Software',
+                'city' => $boardCity,
+                'sources' => ['indeed', 'glassdoor', 'stepstone', 'xing'],
+            ];
+        }
         $seeds[] = [
             'q' => '',
             'city' => '',

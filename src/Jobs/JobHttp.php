@@ -27,6 +27,7 @@ final class JobHttp
                 CURLOPT_TIMEOUT => $timeout,
                 CURLOPT_CONNECTTIMEOUT => 6,
                 CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_ENCODING => '',
             ]);
             $body = curl_exec($ch);
             $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -215,6 +216,7 @@ final class JobHttp
                 CURLOPT_TIMEOUT => $timeout,
                 CURLOPT_CONNECTTIMEOUT => 6,
                 CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_ENCODING => '',
             ]);
             curl_multi_add_handle($mh, $ch);
             $handles[$key] = $ch;
