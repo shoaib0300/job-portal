@@ -26,7 +26,7 @@ final class JobsController
 
         $get = JobQuery::mergeRequest($_GET);
         $query = JobQuery::fromRequest($get);
-        $ran = isset($get['search']) || $query->hasKeywords() || $query->city !== '' || $query->bundesland !== ''
+        $ran = isset($get['search']) || $query->hasKeywords() || $query->hasProfessionFilter() || $query->city !== '' || $query->bundesland !== ''
             || $query->hasLevelFilter() || $query->matchResume;
         if (isset($_GET['search'])) {
             JobQuery::saveFilters($query);
@@ -35,6 +35,7 @@ final class JobsController
         $result = [
             'listings' => [],
             'total' => 0,
+            'index_total' => 0,
             'notices' => [],
             'page' => 1,
             'pages' => 1,
@@ -69,7 +70,7 @@ final class JobsController
     }
 
     /**
-     * @param array{listings: list<\KaamFit\Jobs\JobListing>, total: int, notices: list<string>, page: int, pages: int} $result
+     * @param array{listings: list<\KaamFit\Jobs\JobListing>, total: int, index_total: int, notices: list<string>, page: int, pages: int} $result
      * @param array<string, array{status:string,id:int}> $applicationMap
      */
     private function json(JobQuery $query, array $result, bool $ran, array $applicationMap): void
@@ -82,6 +83,7 @@ final class JobsController
             'page' => (int) $result['page'],
             'pages' => (int) $result['pages'],
             'total' => (int) $result['total'],
+            'index_total' => (int) ($result['index_total'] ?? $result['total']),
             'ran' => $ran,
             'query' => $query->toQuery(),
         ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

@@ -53,19 +53,42 @@ final class JobStore
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
         // Older installs: add content_key if missing.
-        $cols = [];
-        foreach ($pdo->query('SHOW COLUMNS FROM job_listings')->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $cols[(string) ($row['Field'] ?? '')] = true;
-        }
-        if (!isset($cols['content_key'])) {
-            $pdo->exec('ALTER TABLE job_listings ADD COLUMN content_key CHAR(64) NOT NULL DEFAULT \'\' AFTER fingerprint');
-            try {
-                $pdo->exec('ALTER TABLE job_listings ADD KEY idx_job_content (content_key)');
-            } catch (\Throwable) {
-                // index may already exist
+        if (!self::schemaFlag('schema_job_store_v1')) {
+            $cols = [];
+            foreach ($pdo->query('SHOW COLUMNS FROM job_listings')->fetchAll(PDO::FETCH_ASSOC) as $row) {
+                $cols[(string) ($row['Field'] ?? '')] = true;
             }
+            if (!isset($cols['content_key'])) {
+                $pdo->exec('ALTER TABLE job_listings ADD COLUMN content_key CHAR(64) NOT NULL DEFAULT \'\' AFTER fingerprint');
+                try {
+                    $pdo->exec('ALTER TABLE job_listings ADD KEY idx_job_content (content_key)');
+                } catch (\Throwable) {
+                    // index may already exist
+                }
+            }
+            self::setSchemaFlag('schema_job_store_v1');
         }
         self::$ready = true;
+    }
+
+    private static function schemaFlag(string $key): bool
+    {
+        try {
+            $stmt = \Db::pdo()->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
+            $stmt->execute([$key]);
+            return $stmt->fetchColumn() !== false;
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
+    private static function setSchemaFlag(string $key): void
+    {
+        $stmt = \Db::pdo()->prepare(
+            'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+        );
+        $stmt->execute([$key, '1']);
     }
 
     /**
@@ -218,12 +241,13 @@ final class JobStore
     public static function search(JobQuery $query): array
     {
         self::ensureSchema();
-        $sources = $query->sources !== []
-            ? $query->sources
-            : array_merge(['arbeitsagentur', 'linkedin', 'jobexport', 'adzuna', 'interamt'], array_keys(SerpBoardSource::BOARDS));
-        $sources = array_values(array_unique(array_map('strval', $sources)));
+        $sources = self::resolveSources($query);
         if ($sources === []) {
             return [];
+        }
+
+        if ($query->isBrowseMode()) {
+            return self::searchBrowse($query, $sources);
         }
 
         // Each selected source is queried on its own with a high cap so adding BA
@@ -244,6 +268,99 @@ final class JobStore
         return $out;
     }
 
+    public static function countForQuery(JobQuery $query): int
+    {
+        self::ensureSchema();
+        $sources = self::resolveSources($query);
+        if ($sources === []) {
+            return 0;
+        }
+        [$where, $params] = self::browseSqlWhere($query, $sources);
+        $sql = 'SELECT COUNT(*) FROM job_listings WHERE ' . implode(' AND ', $where);
+        $stmt = \Db::pdo()->prepare($sql);
+        $stmt->execute($params);
+
+        return (int) $stmt->fetchColumn();
+    }
+
+    /**
+     * @param list<string> $sources
+     * @return list<JobListing>
+     */
+    private static function searchBrowse(JobQuery $query, array $sources): array
+    {
+        [$where, $params] = self::browseSqlWhere($query, $sources);
+        $sql = 'SELECT payload FROM job_listings WHERE ' . implode(' AND ', $where)
+            . ' ORDER BY COALESCE(posted_at, DATE(fetched_at)) DESC, fetched_at DESC';
+        $stmt = \Db::pdo()->prepare($sql);
+        $stmt->execute($params);
+        $out = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $data = json_decode((string) ($row['payload'] ?? ''), true);
+            if (!is_array($data)) {
+                continue;
+            }
+            $out[] = JobText::enrich(JobListing::fromArray($data));
+        }
+
+        return $out;
+    }
+
+    /** @return list<string> */
+    private static function resolveSources(JobQuery $query): array
+    {
+        $sources = $query->sources !== []
+            ? $query->sources
+            : array_merge(['arbeitsagentur', 'linkedin', 'jobexport', 'adzuna', 'interamt'], array_keys(SerpBoardSource::BOARDS));
+
+        return array_values(array_unique(array_map('strval', $sources)));
+    }
+
+    /**
+     * @param list<string> $sources
+     * @return array{0: list<string>, 1: list<mixed>}
+     */
+    private static function browseSqlWhere(JobQuery $query, array $sources): array
+    {
+        $placeholders = implode(',', array_fill(0, count($sources), '?'));
+        $where = ['source IN (' . $placeholders . ')'];
+        $params = $sources;
+        if ($query->postedDays > 0) {
+            $where[] = '(posted_at IS NULL OR posted_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+                OR (posted_at IS NULL AND fetched_at >= DATE_SUB(NOW(), INTERVAL ? DAY)))';
+            $params[] = $query->postedDays;
+            $params[] = $query->postedDays;
+        }
+
+        self::appendBundeslandSql($query, $where, $params);
+
+        return [$where, $params];
+    }
+
+    /**
+     * @param list<string> $where
+     * @param list<mixed> $params
+     */
+    private static function appendBundeslandSql(JobQuery $query, array &$where, array &$params): void
+    {
+        if ($query->bundesland === '') {
+            return;
+        }
+        $parts = [];
+        foreach (JobText::bundeslandSqlLikePatterns($query->bundesland) as $pattern) {
+            $parts[] = 'bundesland LIKE ?';
+            $params[] = $pattern;
+        }
+        foreach (JobText::citiesForBundeslandSql($query->bundesland) as $cityToken) {
+            $parts[] = 'city LIKE ?';
+            $params[] = '%' . $cityToken . '%';
+        }
+        if ($parts === []) {
+            return;
+        }
+        $where[] = '(' . implode(' OR ', $parts) . ')';
+    }
+
     /** @return list<JobListing> */
     private static function searchOneSource(JobQuery $query, string $source, int $limit): array
     {
@@ -256,16 +373,35 @@ final class JobStore
             array_push($params, $like, $like, $like, $like, $like);
         }
 
-        if ($query->keywords !== [] && !$query->matchResume) {
+        self::appendBundeslandSql($query, $where, $params);
+
+        if (!$query->matchResume) {
+            $kwParts = [];
+            foreach ($query->sqlKeywords() as $kw) {
+                $kw = trim((string) $kw);
+                if ($kw === '') {
+                    continue;
+                }
+                $kwParts[] = '(title LIKE ? OR company LIKE ? OR description LIKE ? OR city LIKE ? OR bundesland LIKE ?)';
+                $like = '%' . $kw . '%';
+                array_push($params, $like, $like, $like, $like, $like);
+            }
+            if ($kwParts !== []) {
+                $where[] = '(' . implode(' OR ', $kwParts) . ')';
+            }
+        }
+
+        if ($query->keywords !== [] && $query->matchResume) {
+            // Wider SQL recall for resume mode — post-filter ranks by CV fit.
             $kwParts = [];
             foreach ($query->keywords as $kw) {
                 $kw = trim((string) $kw);
                 if ($kw === '') {
                     continue;
                 }
-                $kwParts[] = '(title LIKE ? OR company LIKE ? OR description LIKE ? OR city LIKE ?)';
+                $kwParts[] = '(title LIKE ? OR company LIKE ? OR description LIKE ?)';
                 $like = '%' . $kw . '%';
-                array_push($params, $like, $like, $like, $like);
+                array_push($params, $like, $like, $like);
             }
             if ($kwParts !== []) {
                 $where[] = '(' . implode(' OR ', $kwParts) . ')';
@@ -279,14 +415,7 @@ final class JobStore
             $params[] = $query->postedDays;
         }
 
-        if ($query->workMode !== '') {
-            $where[] = 'work_mode = ?';
-            $params[] = $query->workMode;
-        }
-        if ($query->employment !== '') {
-            $where[] = 'employment = ?';
-            $params[] = $query->employment;
-        }
+        // work_mode / employment / bundesland: applied in JobAggregator::postFilter after location enrich.
 
         $limit = max(50, min(2000, $limit));
         $sql = 'SELECT payload FROM job_listings WHERE ' . implode(' AND ', $where)
@@ -299,7 +428,7 @@ final class JobStore
             if (!is_array($data)) {
                 continue;
             }
-            $out[] = JobListing::fromArray($data);
+            $out[] = JobText::enrich(JobListing::fromArray($data));
         }
         return $out;
     }

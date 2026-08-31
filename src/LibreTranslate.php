@@ -9,9 +9,15 @@ declare(strict_types=1);
 final class LibreTranslate
 {
     private const CHUNK = 1400;
+    private static bool $ready = false;
 
     public static function ensureSchema(): void
     {
+        if (self::$ready) {
+            return;
+        }
+        self::$ready = true;
+
         $pdo = Db::pdo();
         $pdo->exec(
             'CREATE TABLE IF NOT EXISTS translation_cache (

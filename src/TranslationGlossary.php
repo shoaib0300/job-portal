@@ -7,9 +7,15 @@ final class TranslationGlossary
 {
     /** @var array<string, string>|null */
     private static ?array $memory = null;
+    private static bool $ready = false;
 
     public static function ensureSchema(): void
     {
+        if (self::$ready) {
+            return;
+        }
+        self::$ready = true;
+
         Db::pdo()->exec(
             'CREATE TABLE IF NOT EXISTS translation_glossary (
               id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

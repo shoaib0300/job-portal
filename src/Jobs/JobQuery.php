@@ -48,7 +48,17 @@ final class JobQuery
     public const SERP_BOARDS = ['indeed', 'stepstone', 'xing', 'glassdoor'];
 
     /** Built-in defaults until the user saves a different Sources selection. */
-    public const DEFAULT_SOURCES = ['arbeitsagentur', 'jobexport', 'adzuna', 'career'];
+    public const DEFAULT_SOURCES = [
+        'arbeitsagentur',
+        'linkedin',
+        'jobexport',
+        'jobware',
+        'adzuna',
+        'career',
+        'indeed',
+        'stepstone',
+        'xing',
+    ];
 
     /** Hard cap: never search/show jobs older than this many days. */
     public const MAX_POSTED_DAYS = 14;
@@ -64,6 +74,7 @@ final class JobQuery
         public string $q = '',
         public string $city = '',
         public string $bundesland = '',
+        public string $profession = '',
         public string $workMode = '',
         public bool $student = false,
         public bool $junior = false,
@@ -96,6 +107,9 @@ final class JobQuery
         $this->size = min(50, max(10, $this->size));
         if (!in_array($this->bundesland, self::BUNDESLAENDER, true)) {
             $this->bundesland = '';
+        }
+        if (!JobProfessions::isValid($this->profession)) {
+            $this->profession = '';
         }
         if (!in_array($this->workMode, ['remote', 'hybrid', 'onsite'], true)) {
             $this->workMode = '';
@@ -200,7 +214,8 @@ final class JobQuery
         }
         if (isset($get['search']) || isset($get['sources']) || isset($get['q']) || isset($get['q_add'])
             || trim((string) ($get['city'] ?? '')) !== ''
-            || trim((string) ($get['bundesland'] ?? '')) !== '') {
+            || trim((string) ($get['bundesland'] ?? '')) !== ''
+            || trim((string) ($get['profession'] ?? '')) !== '') {
             return $get;
         }
         $saved = self::savedFiltersQuery();
@@ -231,14 +246,10 @@ final class JobQuery
             self::parseKeywords($get['q_add'] ?? '')
         ));
         $matchResume = isset($get['match_resume']);
+        $userKeywords = $keywords;
         if ($matchResume) {
-            // Resume mode: ignore Level / Language / salary filters — match on JD vs resume only.
             $resumeKeywords = self::normalizeKeywords(ResumeJobMatch::searchKeywords());
-            if ($resumeKeywords !== []) {
-                $keywords = $resumeKeywords;
-            } elseif ($keywords === []) {
-                $keywords = $resumeKeywords;
-            }
+            $keywords = self::normalizeKeywords(array_merge($userKeywords, $resumeKeywords));
         }
 
         $companies = [];
@@ -257,20 +268,21 @@ final class JobQuery
             implode(', ', $keywords),
             trim((string) ($get['city'] ?? '')),
             trim((string) ($get['bundesland'] ?? '')),
+            trim((string) ($get['profession'] ?? '')),
             (string) ($get['work_mode'] ?? ''),
-            $matchResume ? false : isset($get['student']),
-            $matchResume ? false : isset($get['junior']),
-            $matchResume ? false : isset($get['graduate']),
-            $matchResume ? false : isset($get['internship']),
-            $matchResume ? false : isset($get['no_experience']),
-            $matchResume ? false : isset($get['minijob']),
+            isset($get['student']),
+            isset($get['junior']),
+            isset($get['graduate']),
+            isset($get['internship']),
+            isset($get['no_experience']),
+            isset($get['minijob']),
             (string) ($get['employment'] ?? ''),
             $matchResume ? false : isset($get['english']),
             $matchResume ? '' : (string) ($get['german_level'] ?? ''),
             $matchResume ? false : isset($get['has_salary']),
             $matchResume,
             (int) ($get['posted'] ?? self::MAX_POSTED_DAYS),
-            $matchResume ? 'relevance' : (string) ($get['sort'] ?? 'relevance'),
+            (string) ($get['sort'] ?? 'relevance'),
             $sources,
             (int) ($get['page'] ?? 1),
             20,
@@ -302,6 +314,30 @@ final class JobQuery
     public function hasKeywords(): bool
     {
         return $this->keywords !== [];
+    }
+
+    /** Role keywords for SQL recall — user chips, or profession preset when chips are empty. */
+    public function sqlKeywords(): array
+    {
+        if ($this->keywords !== []) {
+            return $this->keywords;
+        }
+        if ($this->profession !== '') {
+            return JobProfessions::keywords($this->profession);
+        }
+
+        return [];
+    }
+
+    /** @return list<string> */
+    public function professionKeywords(): array
+    {
+        return $this->profession !== '' ? JobProfessions::keywords($this->profession) : [];
+    }
+
+    public function hasProfessionFilter(): bool
+    {
+        return $this->profession !== '';
     }
 
     /** Extra keywords appended to free-text search only when the user typed no roles. */
@@ -342,6 +378,23 @@ final class JobQuery
         return $this->student || $this->junior || $this->graduate || $this->internship || $this->noExperience || $this->minijob;
     }
 
+    /** No role/location/level filters — load full index slice (no per-source cap). */
+    public function isBrowseMode(): bool
+    {
+        return !$this->hasKeywords()
+            && $this->city === ''
+            && $this->bundesland === ''
+            && $this->profession === ''
+            && !$this->hasLevelFilter()
+            && $this->employment === ''
+            && $this->workMode === ''
+            && $this->companies === []
+            && !$this->matchResume
+            && !$this->english
+            && $this->germanLevel === ''
+            && !$this->hasSalary;
+    }
+
     /** Space-joined roles for APIs that take one was= string (Arbeitsagentur). */
     public function searchWas(): string
     {
@@ -376,6 +429,7 @@ final class JobQuery
             'q' => $this->keywords,
             'city' => $this->city,
             'bundesland' => $this->bundesland,
+            'profession' => $this->profession,
             'work_mode' => $this->workMode,
             'employment' => $this->employment,
             'german_level' => $this->germanLevel,
@@ -426,6 +480,7 @@ final class JobQuery
             'keywords' => $this->keywords,
             'city' => $this->city,
             'bundesland' => $this->bundesland,
+            'profession' => $this->profession,
             'work_mode' => $this->workMode,
             'student' => $this->student,
             'junior' => $this->junior,
@@ -443,7 +498,72 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v20:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v26:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+    }
+
+    /** Human-readable active filters for empty-state hints. @return list<string> */
+    public function activeFilterLabels(): array
+    {
+        $labels = [];
+        if ($this->keywords !== []) {
+            $labels[] = 'Roles: ' . implode(', ', $this->keywords);
+        }
+        if ($this->city !== '') {
+            $labels[] = 'City: ' . $this->city;
+        }
+        if ($this->bundesland !== '') {
+            $labels[] = 'Bundesland: ' . $this->bundesland;
+        }
+        if ($this->profession !== '') {
+            $labels[] = 'Profession: ' . JobProfessions::label($this->profession);
+        }
+        if ($this->workMode !== '') {
+            $labels[] = 'Work: ' . $this->workMode;
+        }
+        if ($this->employment !== '') {
+            $labels[] = 'Hours: ' . $this->employment;
+        }
+        if ($this->postedDays === 1) {
+            $labels[] = 'Posted: today only';
+        }
+        if ($this->matchResume) {
+            $labels[] = 'Match my resume';
+        }
+        if ($this->student) {
+            $labels[] = 'Student';
+        }
+        if ($this->junior) {
+            $labels[] = 'Junior';
+        }
+        if ($this->graduate) {
+            $labels[] = 'Absolvent';
+        }
+        if ($this->internship) {
+            $labels[] = 'Praktikum';
+        }
+        if ($this->noExperience) {
+            $labels[] = 'No experience';
+        }
+        if ($this->minijob) {
+            $labels[] = 'Minijob';
+        }
+        if ($this->english) {
+            $labels[] = 'English';
+        }
+        if ($this->germanLevel !== '') {
+            $labels[] = 'German ' . $this->germanLevel;
+        }
+        if ($this->hasSalary) {
+            $labels[] = 'Mentions salary';
+        }
+        if ($this->companies !== []) {
+            $labels[] = count($this->companies) . ' companies';
+        }
+        if (count($this->sources) < count(self::SOURCES)) {
+            $labels[] = count($this->sources) . ' sources';
+        }
+
+        return $labels;
     }
 
     /** Days window passed to boards / post-filter (always 1 or 14). */

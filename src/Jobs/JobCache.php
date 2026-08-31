@@ -16,18 +16,28 @@ final class JobCache
     /** Drop cached rows / jobs older than this (matches JobQuery::MAX_POSTED_DAYS). */
     public const MAX_JOB_AGE_DAYS = 14;
 
+    private static bool $ready = false;
     private static bool $purgedThisRequest = false;
 
     public static function ensureSchema(): void
     {
-        Db::pdo()->exec(
+        if (self::$ready) {
+            return;
+        }
+        self::$ready = true;
+        $pdo = Db::pdo();
+        $pdo->exec(
             'CREATE TABLE IF NOT EXISTS job_search_cache (
               query_hash VARCHAR(80) NOT NULL PRIMARY KEY,
-              payload MEDIUMTEXT NOT NULL,
+              payload LONGTEXT NOT NULL,
               fetched_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
-        self::purgeStale();
+        $col = $pdo->query("SHOW COLUMNS FROM job_search_cache LIKE 'payload'")->fetch();
+        $type = strtolower((string) ($col['Type'] ?? ''));
+        if ($type !== '' && $type !== 'longtext') {
+            $pdo->exec('ALTER TABLE job_search_cache MODIFY payload LONGTEXT NOT NULL');
+        }
     }
 
     /**
@@ -198,6 +208,34 @@ final class JobCache
         return $data;
     }
 
+    /** Card fields only — descriptions stay in job_listings and blow up search cache size. */
+    private const SEARCH_LISTING_KEYS = [
+        'source', 'external_id', 'title', 'company', 'city', 'bundesland', 'country',
+        'work_mode', 'employment', 'offer_type', 'seniority_tags', 'languages',
+        'salary_text', 'posted_at', 'url', 'apply_url', 'fingerprint',
+    ];
+
+    /**
+     * @param list<JobListing> $listings
+     * @return list<array<string, mixed>>
+     */
+    public static function listingsForSearchCache(array $listings): array
+    {
+        $out = [];
+        foreach ($listings as $job) {
+            $row = $job->toArray();
+            $slim = [];
+            foreach (self::SEARCH_LISTING_KEYS as $key) {
+                if (array_key_exists($key, $row)) {
+                    $slim[$key] = $row[$key];
+                }
+            }
+            $out[] = $slim;
+        }
+
+        return $out;
+    }
+
     /** @param array<string, mixed> $payload */
     public static function put(string $key, array $payload): void
     {
@@ -228,11 +266,15 @@ final class JobCache
         if (!is_string($json)) {
             return;
         }
-        $stmt = Db::pdo()->prepare(
-            'INSERT INTO job_search_cache (query_hash, payload) VALUES (?, ?)
-             ON DUPLICATE KEY UPDATE payload = VALUES(payload), fetched_at = CURRENT_TIMESTAMP'
-        );
-        $stmt->execute([self::storageKey($key), $json]);
+        try {
+            $stmt = Db::pdo()->prepare(
+                'INSERT INTO job_search_cache (query_hash, payload) VALUES (?, ?)
+                 ON DUPLICATE KEY UPDATE payload = VALUES(payload), fetched_at = CURRENT_TIMESTAMP'
+            );
+            $stmt->execute([self::storageKey($key), $json]);
+        } catch (Throwable) {
+            // Cache is optional — never break job search if the blob is too large.
+        }
     }
 
     public static function putListing(JobListing $job): void

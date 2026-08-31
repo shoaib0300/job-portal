@@ -183,6 +183,27 @@ final class ResumeJobMatch
         return 'Low fit';
     }
 
+    /** True when any resume term appears in the job title or description. */
+    public static function matchesAnyTerm(JobListing $job, ?array $terms = null): bool
+    {
+        $terms = $terms ?? self::scoreTerms();
+        if ($terms === []) {
+            return false;
+        }
+        $blob = mb_strtolower($job->title . "\n" . $job->description);
+        foreach ($terms as $term) {
+            $t = mb_strtolower(trim($term));
+            if ($t === '' || mb_strlen($t) < 3) {
+                continue;
+            }
+            if (mb_strpos($blob, $t) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @return array{profile: array<string, mixed>, sections: list<array<string, mixed>>, experiences: list<array<string, mixed>>}
      */

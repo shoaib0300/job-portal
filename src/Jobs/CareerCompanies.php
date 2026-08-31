@@ -15,8 +15,15 @@ use Db;
  */
 final class CareerCompanies
 {
+    private static bool $ready = false;
+
     public static function ensureSchema(): void
     {
+        if (self::$ready) {
+            return;
+        }
+        self::$ready = true;
+
         $pdo = Db::pdo();
         $pdo->exec(
             'CREATE TABLE IF NOT EXISTS career_companies (
@@ -34,7 +41,6 @@ final class CareerCompanies
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
         self::seedGlobalIfEmpty();
-        self::syncMissingCatalogEntries(0);
     }
 
     /** Insert catalog rows that are not yet in the shared list (e.g. new Nordex board). */

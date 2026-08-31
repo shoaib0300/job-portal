@@ -3,20 +3,24 @@
 declare(strict_types=1);
 
 /** @var \KaamFit\Jobs\JobQuery $query */
-/** @var array{listings: list<\KaamFit\Jobs\JobListing>, total: int, notices: list<string>, page: int, pages: int} $result */
+/** @var array{listings: list<\KaamFit\Jobs\JobListing>, total: int, index_total: int, notices: list<string>, page: int, pages: int} $result */
 /** @var bool $ran */
 /** @var array<string, string> $sourceLabels */
 /** @var string $resumeTitle */
 /** @var array<string, array{status:string,id:int}> $applicationMap */
 /** @var array<string, int> $resumeTerms */
 
-use App;
 use KaamFit\Jobs\JobText;
 use KaamFit\Jobs\ResumeJobMatch;
 ?>
       <div class="d-flex flex-wrap align-items-center gap-2 mb-3" data-jobs-meta>
         <?php if ($ran): ?>
-          <p class="text-secondary small mb-0 me-auto" data-jobs-count><?= (int) $result['total'] ?> jobs · page <?= (int) $result['page'] ?> of <?= (int) $result['pages'] ?></p>
+          <div class="me-auto">
+            <p class="text-secondary small mb-0" data-jobs-count><?= number_format((int) $result['total'], 0, ',', '.') ?> jobs · page <?= (int) $result['page'] ?> of <?= (int) $result['pages'] ?></p>
+            <?php if ($query->isBrowseMode() && (int) ($result['index_total'] ?? 0) > 0): ?>
+              <p class="text-secondary small mb-0"><?= number_format((int) $result['index_total'], 0, ',', '.') ?> in index<?= (int) $result['index_total'] !== (int) $result['total'] ? ' · duplicates merged' : '' ?> · last <?= (int) $query->postedDays === 1 ? '24h' : '14 days' ?> · Germany</p>
+            <?php endif; ?>
+          </div>
         <?php else: ?>
           <p class="text-secondary small mb-0 me-auto" data-jobs-count>Set filters above, then search.</p>
         <?php endif; ?>
@@ -32,16 +36,19 @@ use KaamFit\Jobs\ResumeJobMatch;
       <?php if (!$ran): ?>
         <div class="card shadow-sm">
           <div class="card-body">
-            <p class="mb-2">Pick filters and search. Default sources are Bundesagentur für Arbeit and Jobexport — your last search is restored until you Reset.</p>
+            <p class="mb-2">Pick filters and search. With no role or location filters, you browse the full ingested index (last 14 days, selected sources).</p>
             <p class="text-secondary small mb-0">Student preset: Werkstudent + Praktikum in Berlin.</p>
             <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs?search=1&amp;posted=14&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
           </div>
         </div>
       <?php else: ?>
-        <?php if ($query->matchResume && $query->sort !== 'recent'): ?>
+        <?php if ($query->sort === 'recent'): ?>
+          <p class="small mb-2">Sorted by most recent post<?= $query->matchResume ? ' (CV fit breaks ties)' : '' ?>.</p>
+        <?php elseif ($query->matchResume): ?>
           <p class="small mb-2">Sorted by Master CV fit<?= $resumeTitle !== '' ? ' · ' . App::e($resumeTitle) : '' ?>.</p>
-        <?php elseif ($query->sort === 'recent'): ?>
-          <p class="small mb-2">Sorted by most recent post.</p>
+        <?php endif; ?>
+        <?php if ($query->profession !== ''): ?>
+          <p class="small mb-3">Profession: <span class="badge text-bg-light border"><?= App::e(\KaamFit\Jobs\JobProfessions::label($query->profession)) ?></span></p>
         <?php endif; ?>
         <?php if ($query->keywords !== []): ?>
           <p class="small mb-3">Roles:
@@ -58,7 +65,21 @@ use KaamFit\Jobs\ResumeJobMatch;
           <div class="card shadow-sm">
             <div class="card-body">
               <p class="mb-2">No jobs matched.</p>
-              <p class="text-secondary small mb-0">Some filters or sources may show few or no jobs while we expand coverage. Try different filters, another source, or a job portal.</p>
+              <?php if ($query->activeFilterLabels() !== []): ?>
+                <p class="small mb-2">Active filters:</p>
+                <div class="d-flex flex-wrap gap-1 mb-3">
+                  <?php foreach ($query->activeFilterLabels() as $label): ?>
+                    <span class="badge text-bg-light border"><?= App::e($label) ?></span>
+                  <?php endforeach; ?>
+                </div>
+              <?php endif; ?>
+              <p class="text-secondary small mb-2">The index has <?= number_format(\KaamFit\Jobs\JobStore::count(), 0, ',', '.') ?> jobs from cron ingest. Narrow filters (Bundesland, Level, Match my resume, Posted today) often remove everything.</p>
+              <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-sm btn-outline-primary" href="/jobs?<?= App::e($query->toQuery(['bundesland' => '', 'page' => 1])) ?>">Clear Bundesland</a>
+                <a class="btn btn-sm btn-outline-primary" href="/jobs?<?= App::e($query->toQuery(['profession' => '', 'page' => 1])) ?>">Clear Profession</a>
+                <a class="btn btn-sm btn-outline-primary" href="/jobs?<?= App::e($query->toQuery(['posted' => 14, 'page' => 1])) ?>">Last 14 days</a>
+                <a class="btn btn-sm btn-outline-secondary" href="/jobs?reset=1">Reset all filters</a>
+              </div>
             </div>
           </div>
         <?php else: ?>

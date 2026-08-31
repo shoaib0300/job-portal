@@ -64,9 +64,59 @@ final class JobText
     }
 
     /** Foreign cities/countries that must never be rescued by a Berlin/Germany mention in the JD. */
-    private const FOREIGN_LOCATION_RE = '/\b(spain|españa|spanish\s+market|madrid|barcelona|valencia|seville|sevilla|malaga|france|french\s+market|paris|lyon|marseille|italy|italia|italian\s+market|rome|roma|milan|milano|portugal|lisbon|lisboa|netherlands|holland|amsterdam|rotterdam|belgium|brussels|bruxelles|poland|warsaw|warszawa|krakow|austria|österreich|wien|vienna|switzerland|schweiz|zürich|zurich|geneva|uk\b|united kingdom|london|manchester|ireland|dublin|usa|united states|new york|san francisco|toronto|canada|india|bangalore|bengaluru|hyderabad|singapore|dubai|uae|czech|prague|praha|sweden|stockholm|denmark|copenhagen|norway|oslo|finland|helsinki|hungary|budapest|romania|bucharest|greece|athens|turkey|istanbul)\b/u';
+    private const FOREIGN_LOCATION_RE = '/\b(spain|españa|spanish\s+market|madrid|barcelona|valencia|seville|sevilla|malaga|france|french\s+market|paris|lyon|marseille|italy|italia|italian\s+market|rome|roma|milan|milano|portugal|lisbon|lisboa|netherlands|holland|amsterdam|rotterdam|belgium|brussels|bruxelles|luxembourg|luxemburg|lëtzebuerg|poland|warsaw|warszawa|krakow|austria|österreich|wien|vienna|switzerland|schweiz|zürich|zurich|geneva|uk\b|united kingdom|london|manchester|ireland|dublin|usa|united states|new york|san francisco|toronto|canada|india|bangalore|bengaluru|hyderabad|singapore|dubai|uae|czech|prague|praha|sweden|stockholm|denmark|copenhagen|norway|oslo|finland|helsinki|hungary|budapest|romania|bucharest|greece|athens|turkey|istanbul)\b/u';
 
-    private const GERMANY_PLACE_RE = '/\b(germany|deutschland|federal republic of germany|bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg-vorpommern|saarland|bremen|hamburg|berlin|münchen|munich|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|erfurt|mainz|rostock|kassel|saarbrücken|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|jena|wolfsburg|göttingen|reutlingen|koblenz|trier|passau|bamberg|bayreuth|konstanz|flensburg|schweinfurt)\b/u';
+    private const GERMANY_PLACE_RE = '/\b(germany|deutschland|federal republic of germany|bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg-vorpommern|saarland|bremen|hamburg|berlin|münchen|munich|garching|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|erfurt|mainz|rostock|kassel|saarbrücken|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|jena|wolfsburg|göttingen|reutlingen|koblenz|trier|passau|bamberg|bayreuth|konstanz|flensburg|schweinfurt|schwerin|greifswald|wismar|stralsund)\b/u';
+
+    /** @var array<string, string> */
+    private const BA_REGION_MAP = [
+        'BADEN-WUERTTEMBERG' => 'Baden-Württemberg',
+        'BAYERN' => 'Bayern',
+        'BERLIN' => 'Berlin',
+        'BRANDENBURG' => 'Brandenburg',
+        'BREMEN' => 'Bremen',
+        'HAMBURG' => 'Hamburg',
+        'HESSEN' => 'Hessen',
+        'MECKLENBURG-VORPOMMERN' => 'Mecklenburg-Vorpommern',
+        'NIEDERSACHSEN' => 'Niedersachsen',
+        'NORDRHEIN-WESTFALEN' => 'Nordrhein-Westfalen',
+        'RHEINLAND-PFALZ' => 'Rheinland-Pfalz',
+        'SAARLAND' => 'Saarland',
+        'SACHSEN' => 'Sachsen',
+        'SACHSEN-ANHALT' => 'Sachsen-Anhalt',
+        'SCHLESWIG-HOLSTEIN' => 'Schleswig-Holstein',
+        'THUERINGEN' => 'Thüringen',
+    ];
+
+    /** @var array<string, string> normalized city token → Bundesland */
+    private const CITY_BUNDESLAND = [
+        'münchen' => 'Bayern', 'munich' => 'Bayern', 'garching' => 'Bayern', 'augsburg' => 'Bayern',
+        'nürnberg' => 'Bayern', 'nuremberg' => 'Bayern', 'ingolstadt' => 'Bayern', 'regensburg' => 'Bayern',
+        'würzburg' => 'Bayern', 'passau' => 'Bayern', 'bamberg' => 'Bayern', 'bayreuth' => 'Bayern',
+        'freiburg' => 'Baden-Württemberg', 'karlsruhe' => 'Baden-Württemberg', 'mannheim' => 'Baden-Württemberg',
+        'heidelberg' => 'Baden-Württemberg', 'ulm' => 'Baden-Württemberg', 'heilbronn' => 'Baden-Württemberg',
+        'reutlingen' => 'Baden-Württemberg', 'konstanz' => 'Baden-Württemberg',
+        'köln' => 'Nordrhein-Westfalen', 'cologne' => 'Nordrhein-Westfalen', 'düsseldorf' => 'Nordrhein-Westfalen',
+        'dortmund' => 'Nordrhein-Westfalen', 'essen' => 'Nordrhein-Westfalen', 'duisburg' => 'Nordrhein-Westfalen',
+        'bochum' => 'Nordrhein-Westfalen', 'wuppertal' => 'Nordrhein-Westfalen', 'bielefeld' => 'Nordrhein-Westfalen',
+        'bonn' => 'Nordrhein-Westfalen', 'münster' => 'Nordrhein-Westfalen', 'krefeld' => 'Nordrhein-Westfalen',
+        'leverkusen' => 'Nordrhein-Westfalen', 'paderborn' => 'Nordrhein-Westfalen',
+        'frankfurt' => 'Hessen', 'wiesbaden' => 'Hessen', 'darmstadt' => 'Hessen', 'kassel' => 'Hessen',
+        'hannover' => 'Niedersachsen', 'braunschweig' => 'Niedersachsen', 'oldenburg' => 'Niedersachsen',
+        'osnabrück' => 'Niedersachsen', 'wolfsburg' => 'Niedersachsen', 'göttingen' => 'Niedersachsen',
+        'stuhr' => 'Niedersachsen',
+        'berlin' => 'Berlin', 'hamburg' => 'Hamburg', 'bremen' => 'Bremen',
+        'leipzig' => 'Sachsen', 'dresden' => 'Sachsen', 'chemnitz' => 'Sachsen',
+        'magdeburg' => 'Sachsen-Anhalt', 'halle' => 'Sachsen-Anhalt',
+        'rostock' => 'Mecklenburg-Vorpommern', 'schwerin' => 'Mecklenburg-Vorpommern',
+        'greifswald' => 'Mecklenburg-Vorpommern', 'wismar' => 'Mecklenburg-Vorpommern', 'stralsund' => 'Mecklenburg-Vorpommern',
+        'neubrandenburg' => 'Mecklenburg-Vorpommern', 'güstrow' => 'Mecklenburg-Vorpommern', 'gustrow' => 'Mecklenburg-Vorpommern',
+        'anklam' => 'Mecklenburg-Vorpommern', 'waren' => 'Mecklenburg-Vorpommern', 'neustrelitz' => 'Mecklenburg-Vorpommern',
+        'kiel' => 'Schleswig-Holstein', 'lübeck' => 'Schleswig-Holstein', 'flensburg' => 'Schleswig-Holstein',
+        'erfurt' => 'Thüringen', 'jena' => 'Thüringen',
+        'mainz' => 'Rheinland-Pfalz', 'koblenz' => 'Rheinland-Pfalz', 'trier' => 'Rheinland-Pfalz',
+        'ludwigshafen' => 'Rheinland-Pfalz', 'saarbrücken' => 'Saarland', 'potsdam' => 'Brandenburg',
+    ];
 
     /**
      * True when city/country/title clearly place the role outside Germany.
@@ -615,7 +665,301 @@ final class JobText
                 $job->postedAt = $parsed;
             }
         }
+
+        return self::normalizeLocation($job);
+    }
+
+    public static function matchesBundesland(string $jobBundesland, string $filterBundesland): bool
+    {
+        $jobBundesland = self::prettyBundesland($jobBundesland);
+        $filterBundesland = trim($filterBundesland);
+        if ($filterBundesland === '') {
+            return true;
+        }
+        if ($jobBundesland === '') {
+            return false;
+        }
+
+        return mb_stripos($jobBundesland, $filterBundesland) !== false
+            || mb_stripos($filterBundesland, $jobBundesland) !== false;
+    }
+
+    /** City / Bundesland filter after normalizeLocation(). Unknown or wrong region is dropped when a state is selected. */
+    public static function matchesLocationFilter(JobListing $job, string $filterCity, string $filterBundesland): bool
+    {
+        if ($filterCity !== '' && $job->city !== '') {
+            if (mb_stripos($job->city, $filterCity) === false) {
+                return false;
+            }
+        }
+
+        if ($filterBundesland === '') {
+            return true;
+        }
+
+        $jobBl = self::prettyBundesland($job->bundesland);
+        if ($jobBl !== '') {
+            return self::matchesBundesland($jobBl, $filterBundesland);
+        }
+
+        if ($job->city !== '') {
+            $inferred = self::bundeslandForCity($job->city);
+            if ($inferred !== '') {
+                return self::matchesBundesland($inferred, $filterBundesland);
+            }
+        }
+
+        return false;
+    }
+
+    /** @return list<string> normalized city tokens likely in this Bundesland */
+    public static function citiesForBundesland(string $bundesland): array
+    {
+        $out = [];
+        foreach (self::CITY_BUNDESLAND as $city => $bl) {
+            if (self::matchesBundesland($bl, $bundesland)) {
+                $out[] = $city;
+            }
+        }
+
+        return $out;
+    }
+
+    /** Higher = better location match when user picked a Bundesland. */
+    public static function locationRelevance(JobListing $job, string $filterBundesland): int
+    {
+        if ($filterBundesland === '') {
+            return 0;
+        }
+        if ($job->city !== '') {
+            $inferred = self::bundeslandForCity($job->city);
+            if ($inferred !== '' && self::matchesBundesland($inferred, $filterBundesland)) {
+                return 2;
+            }
+        }
+        $jobBl = self::prettyBundesland($job->bundesland);
+        if ($jobBl !== '' && self::matchesBundesland($jobBl, $filterBundesland)) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    /** @return list<string> LIKE patterns for bundesland column when filtering by state */
+    public static function bundeslandSqlLikePatterns(string $filterBundesland): array
+    {
+        $filterBundesland = trim($filterBundesland);
+        if ($filterBundesland === '') {
+            return [];
+        }
+
+        $patterns = ['%' . $filterBundesland . '%'];
+        $extras = [
+            'Mecklenburg-Vorpommern' => ['%Mecklenburg%', '%MECKLENBURG%', '%Pomerania%', '%MV%'],
+            'Bayern' => ['%Bayern%', '%Bavaria%', '%BAYERN%'],
+            'Baden-Württemberg' => ['%Baden%', '%Württemberg%', '%Wuerttemberg%'],
+            'Nordrhein-Westfalen' => ['%Nordrhein%', '%Westfalen%', '%NRW%'],
+            'Rheinland-Pfalz' => ['%Rheinland%', '%Pfalz%'],
+            'Sachsen-Anhalt' => ['%Sachsen-Anhalt%', '%Sachsen Anhalt%'],
+            'Schleswig-Holstein' => ['%Schleswig%', '%Holstein%'],
+        ];
+        if (isset($extras[$filterBundesland])) {
+            $patterns = array_merge($patterns, $extras[$filterBundesland]);
+        }
+        foreach (self::BA_REGION_MAP as $raw => $canonical) {
+            if (self::matchesBundesland($canonical, $filterBundesland)) {
+                $patterns[] = '%' . str_replace('_', '%', $raw) . '%';
+            }
+        }
+
+        return array_values(array_unique($patterns));
+    }
+
+    /** City tokens safe for SQL LIKE (skip short tokens that false-match other towns). */
+    public static function citiesForBundeslandSql(string $bundesland): array
+    {
+        $skip = ['waren'];
+
+        return array_values(array_filter(
+            self::citiesForBundesland($bundesland),
+            static fn(string $city): bool => !in_array(mb_strtolower($city), $skip, true),
+        ));
+    }
+
+    public static function normalizeLocation(JobListing $job): JobListing
+    {
+        $job->bundesland = self::prettyBundesland($job->bundesland);
+        $job->country = self::prettyCountry($job->country);
+
+        if (preg_match('/\bluxemburg|luxembourg|lëtzebuerg\b/ui', $job->city)
+            || preg_match('/\bluxemburg|luxembourg|lëtzebuerg\b/ui', $job->bundesland)) {
+            if ($job->city === '' && $job->bundesland !== '') {
+                $job->city = $job->bundesland;
+            }
+            $job->country = 'Luxembourg';
+        }
+
+        if ($job->city === '') {
+            $fromUrl = self::cityFromJobUrl($job->applyUrl);
+            if ($fromUrl === '') {
+                $fromUrl = self::cityFromJobUrl($job->url);
+            }
+            if ($fromUrl !== '') {
+                $job->city = $fromUrl;
+            }
+        }
+
+        if ($job->city === '') {
+            $fromText = self::cityFromText($job->title . "\n" . $job->description);
+            if ($fromText !== '') {
+                $job->city = $fromText;
+            }
+        }
+
+        if ($job->bundesland === '' && $job->city !== '') {
+            $job->bundesland = self::bundeslandForCity($job->city);
+        }
+
+        if ($job->fingerprint === '' || str_ends_with($job->fingerprint, '|')) {
+            $job->fingerprint = JobListing::makeFingerprint($job->company, $job->title, $job->city);
+        }
+
         return $job;
+    }
+
+    public static function prettyBundesland(string $region): string
+    {
+        $region = trim($region);
+        if ($region === '') {
+            return '';
+        }
+        $key = strtoupper(str_replace(['ü', 'ä', 'ö', 'ß'], ['UE', 'AE', 'OE', 'SS'], $region));
+        $key = preg_replace('/[\s_]+/', '-', $key) ?? $key;
+        if (isset(self::BA_REGION_MAP[$key])) {
+            return self::BA_REGION_MAP[$key];
+        }
+        if (preg_match('/mecklenburg.*pomeran/i', $region)) {
+            return 'Mecklenburg-Vorpommern';
+        }
+        foreach (JobQuery::BUNDESLAENDER as $bl) {
+            if (mb_strtolower($bl) === mb_strtolower($region)) {
+                return $bl;
+            }
+        }
+
+        return $region;
+    }
+
+    private static function prettyCountry(string $land): string
+    {
+        $land = trim($land);
+        if ($land === '' || strcasecmp($land, 'DEUTSCHLAND') === 0 || strcasecmp($land, 'Germany') === 0) {
+            return 'Germany';
+        }
+
+        return $land;
+    }
+
+    private static function bundeslandForCity(string $city): string
+    {
+        $norm = mb_strtolower(trim($city));
+        if ($norm === '') {
+            return '';
+        }
+        if (isset(self::CITY_BUNDESLAND[$norm])) {
+            return self::CITY_BUNDESLAND[$norm];
+        }
+        if (preg_match('/^([^,]+?)(?:\s+bei\s+|\s*,)/u', $norm, $m)) {
+            $base = trim($m[1]);
+            if (isset(self::CITY_BUNDESLAND[$base])) {
+                return self::CITY_BUNDESLAND[$base];
+            }
+        }
+        foreach (preg_split('/\s+bei\s+/u', $norm) ?: [] as $part) {
+            $part = trim($part);
+            if (isset(self::CITY_BUNDESLAND[$part])) {
+                return self::CITY_BUNDESLAND[$part];
+            }
+        }
+        foreach (JobQuery::BUNDESLAENDER as $bl) {
+            if (mb_strtolower($bl) === $norm) {
+                return $bl;
+            }
+        }
+
+        return '';
+    }
+
+    private static function cityFromJobUrl(string $url): string
+    {
+        $url = trim($url);
+        if ($url === '') {
+            return '';
+        }
+        $path = mb_strtolower((string) (parse_url($url, PHP_URL_PATH) ?? ''));
+        if ($path === '') {
+            return '';
+        }
+        if (preg_match('/-(\d{4,6})-([a-z0-9-]+)--\d+\.html$/', $path, $m)) {
+            return self::slugToCityName((string) $m[2]);
+        }
+        if (preg_match('#/job/(\d+)/#', $path, $m)) {
+            return '';
+        }
+        if (preg_match('#/jobs?/([^/]+)/#', $path, $m)) {
+            $slug = (string) $m[1];
+            if (!preg_match('/^\d+$/', $slug)) {
+                return self::slugToCityName($slug);
+            }
+        }
+
+        return '';
+    }
+
+    private static function slugToCityName(string $slug): string
+    {
+        $slug = trim(mb_strtolower($slug));
+        if ($slug === '') {
+            return '';
+        }
+        $slug = preg_replace('/-(munich|berlin|hamburg|frankfurt|stuttgart|dusseldorf|koeln|cologne|nuernberg|nuremberg)$/', '', $slug) ?? $slug;
+        $replacements = [
+            'muenchen' => 'München', 'munchen' => 'München', 'koeln' => 'Köln', 'nuernberg' => 'Nürnberg',
+            'dusseldorf' => 'Düsseldorf', 'goettingen' => 'Göttingen', 'wuerzburg' => 'Würzburg',
+            'luebeck' => 'Lübeck', 'saarbruecken' => 'Saarbrücken', 'luebeck' => 'Lübeck',
+        ];
+        $words = preg_split('/[\s-]+/u', $slug) ?: [];
+        $out = [];
+        foreach ($words as $word) {
+            if ($word === '' || $word === 'bei') {
+                if ($word === 'bei') {
+                    $out[] = 'bei';
+                }
+                continue;
+            }
+            $out[] = $replacements[$word] ?? mb_convert_case($word, MB_CASE_TITLE, 'UTF-8');
+        }
+
+        return trim(implode(' ', $out));
+    }
+
+    private static function cityFromText(string $text): string
+    {
+        $text = trim($text);
+        if ($text === '') {
+            return '';
+        }
+        if (preg_match('/\b([A-ZÄÖÜ][a-zäöüß]+(?:\s+bei\s+[A-ZÄÖÜ][a-zäöüß]+(?:\s*\([^)]+\))?)?)\s*(?:\n|$)/u', $text, $m)) {
+            $city = trim($m[1]);
+            if (!preg_match('/\b(company|apply|date|we help|at sap)\b/ui', $city)) {
+                return $city;
+            }
+        }
+        if (preg_match('/\b(?:standort|location|ort|arbeitsort|einsatzort)\s*[:]\s*([^\n,;]+)/ui', $text, $m)) {
+            return trim($m[1]);
+        }
+
+        return '';
     }
 
     /**

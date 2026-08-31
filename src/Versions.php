@@ -10,8 +10,15 @@ declare(strict_types=1);
  */
 final class Versions
 {
+    private static bool $ready = false;
+
     public static function ensureSchema(): void
     {
+        if (self::$ready) {
+            return;
+        }
+        self::$ready = true;
+
         $pdo = Db::pdo();
 
         $pdo->exec(
@@ -31,12 +38,35 @@ final class Versions
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
 
-        $cols = $pdo->query('SHOW COLUMNS FROM cover_letters LIKE \'is_base\'')->fetch();
-        if ($cols === false) {
-            $pdo->exec(
-                'ALTER TABLE cover_letters ADD COLUMN is_base TINYINT(1) NOT NULL DEFAULT 0 AFTER is_active'
-            );
+        if (!self::schemaFlag($pdo, 'schema_versions_v1')) {
+            $cols = $pdo->query('SHOW COLUMNS FROM cover_letters LIKE \'is_base\'')->fetch();
+            if ($cols === false) {
+                $pdo->exec(
+                    'ALTER TABLE cover_letters ADD COLUMN is_base TINYINT(1) NOT NULL DEFAULT 0 AFTER is_active'
+                );
+            }
+            self::setSchemaFlag($pdo, 'schema_versions_v1');
         }
+    }
+
+    private static function schemaFlag(PDO $pdo, string $key): bool
+    {
+        try {
+            $stmt = $pdo->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
+            $stmt->execute([$key]);
+            return $stmt->fetchColumn() !== false;
+        } catch (Throwable) {
+            return false;
+        }
+    }
+
+    private static function setSchemaFlag(PDO $pdo, string $key): void
+    {
+        $stmt = $pdo->prepare(
+            'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+        );
+        $stmt->execute([$key, '1']);
     }
 
     private static function uid(): int

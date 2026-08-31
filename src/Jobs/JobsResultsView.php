@@ -13,7 +13,7 @@ use KaamFit\Jobs\ResumeJobMatch;
 final class JobsResultsView
 {
     /**
-     * @param array{listings: list<JobListing>, total: int, notices: list<string>, page: int, pages: int} $result
+     * @param array{listings: list<JobListing>, total: int, index_total: int, notices: list<string>, page: int, pages: int} $result
      * @param array<string, array{status:string,id:int}> $applicationMap
      */
     public static function render(JobQuery $query, array $result, bool $ran, array $applicationMap = []): string

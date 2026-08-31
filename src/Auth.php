@@ -5,12 +5,18 @@ declare(strict_types=1);
 final class Auth
 {
     private static ?array $user = null;
+    private static bool $schemaReady = false;
 
     /** Allow Auth::user() for inactive accounts during workspace provisioning. */
     private static bool $allowInactiveSession = false;
 
     public static function ensureSchema(): void
     {
+        if (self::$schemaReady) {
+            return;
+        }
+        self::$schemaReady = true;
+
         $pdo = Db::pdo();
 
         $pdo->exec(
@@ -35,46 +41,72 @@ final class Auth
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
 
-        $tables = [
-            'resume_profile',
-            'resume_sections',
-            'experience_entries',
-            'resume_versions',
-            'cover_letters',
-            'applications',
-            'search_history',
-        ];
-        foreach ($tables as $table) {
-            $exists = $pdo->query('SHOW COLUMNS FROM `' . $table . '` LIKE \'user_id\'')->fetch();
-            if ($exists === false) {
+        if (!self::schemaFlag($pdo, 'schema_auth_v1')) {
+            $tables = [
+                'resume_profile',
+                'resume_sections',
+                'experience_entries',
+                'resume_versions',
+                'cover_letters',
+                'applications',
+                'search_history',
+            ];
+            foreach ($tables as $table) {
+                $exists = $pdo->query('SHOW COLUMNS FROM `' . $table . '` LIKE \'user_id\'')->fetch();
+                if ($exists === false) {
+                    $pdo->exec(
+                        'ALTER TABLE `' . $table . '` ADD COLUMN user_id INT UNSIGNED NOT NULL DEFAULT 0 AFTER id'
+                    );
+                }
+            }
+
+            $hasSectionKey = false;
+            $hasUserSection = false;
+            foreach ($pdo->query('SHOW INDEX FROM resume_sections')->fetchAll() as $idx) {
+                $name = (string) ($idx['Key_name'] ?? '');
+                if ($name === 'uq_section_key') {
+                    $hasSectionKey = true;
+                }
+                if ($name === 'uq_user_section') {
+                    $hasUserSection = true;
+                }
+            }
+            if ($hasSectionKey) {
+                $pdo->exec('ALTER TABLE resume_sections DROP INDEX uq_section_key');
+            }
+            if (!$hasUserSection) {
                 $pdo->exec(
-                    'ALTER TABLE `' . $table . '` ADD COLUMN user_id INT UNSIGNED NOT NULL DEFAULT 0 AFTER id'
+                    'ALTER TABLE resume_sections ADD UNIQUE KEY uq_user_section (user_id, section_key)'
                 );
             }
+            self::setSchemaFlag($pdo, 'schema_auth_v1');
         }
 
-        $hasSectionKey = false;
-        $hasUserSection = false;
-        foreach ($pdo->query('SHOW INDEX FROM resume_sections')->fetchAll() as $idx) {
-            $name = (string) ($idx['Key_name'] ?? '');
-            if ($name === 'uq_section_key') {
-                $hasSectionKey = true;
-            }
-            if ($name === 'uq_user_section') {
-                $hasUserSection = true;
-            }
+        if (!self::schemaFlag($pdo, 'schema_auth_seed_v1')) {
+            self::seedOwner($pdo);
+            self::setSchemaFlag($pdo, 'schema_auth_seed_v1');
         }
-        if ($hasSectionKey) {
-            $pdo->exec('ALTER TABLE resume_sections DROP INDEX uq_section_key');
-        }
-        if (!$hasUserSection) {
-            $pdo->exec(
-                'ALTER TABLE resume_sections ADD UNIQUE KEY uq_user_section (user_id, section_key)'
-            );
-        }
-
-        self::seedOwner($pdo);
         // Super-admin schema is owned by SuperAdmin::ensureSchema (bootstrap).
+    }
+
+    private static function schemaFlag(PDO $pdo, string $key): bool
+    {
+        try {
+            $stmt = $pdo->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
+            $stmt->execute([$key]);
+            return $stmt->fetchColumn() !== false;
+        } catch (Throwable) {
+            return false;
+        }
+    }
+
+    private static function setSchemaFlag(PDO $pdo, string $key): void
+    {
+        $stmt = $pdo->prepare(
+            'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+        );
+        $stmt->execute([$key, '1']);
     }
 
     private static function seedOwner(PDO $pdo): void

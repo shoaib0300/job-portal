@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 final class App
 {
+    private static bool $dashboardSchemaReady = false;
+
+    /** @var array<string, string>|null */
+    private static ?array $userSettings = null;
+
+    /** @var array<string, string>|null */
+    private static ?array $globalSettings = null;
+
     public static function isDev(): bool
     {
         $env = strtolower((string) (getenv('APP_ENV') ?: 'prod'));
@@ -17,25 +25,19 @@ final class App
 
     public static function setting(string $key, ?string $default = null): ?string
     {
-        $pdo = Db::pdo();
         $uid = self::userId();
         if ($uid > 0) {
-            $stmt = $pdo->prepare(
-                'SELECT `value` FROM user_settings WHERE user_id = ? AND `key` = ? LIMIT 1'
-            );
-            $stmt->execute([$uid, $key]);
-            $row = $stmt->fetch();
-            if ($row !== false) {
-                return (string) $row['value'];
+            self::loadUserSettings();
+            if (array_key_exists($key, self::$userSettings ?? [])) {
+                return self::$userSettings[$key];
             }
         }
-        $stmt = $pdo->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
-        $stmt->execute([$key]);
-        $row = $stmt->fetch();
-        if ($row === false) {
-            return $default;
+        self::loadGlobalSettings();
+        if (array_key_exists($key, self::$globalSettings ?? [])) {
+            return self::$globalSettings[$key];
         }
-        return (string) $row['value'];
+
+        return $default;
     }
 
     public static function setSetting(string $key, string $value): void
@@ -47,6 +49,8 @@ final class App
                  ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
             );
             $stmt->execute([$uid, $key, $value]);
+            self::loadUserSettings();
+            self::$userSettings[$key] = $value;
             return;
         }
         $stmt = Db::pdo()->prepare(
@@ -54,6 +58,63 @@ final class App
              ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
         );
         $stmt->execute([$key, $value]);
+        self::loadGlobalSettings();
+        self::$globalSettings[$key] = $value;
+    }
+
+    private static function loadUserSettings(): void
+    {
+        if (self::$userSettings !== null) {
+            return;
+        }
+        self::$userSettings = [];
+        $uid = self::userId();
+        if ($uid <= 0) {
+            return;
+        }
+        $stmt = Db::pdo()->prepare('SELECT `key`, `value` FROM user_settings WHERE user_id = ?');
+        $stmt->execute([$uid]);
+        foreach ($stmt->fetchAll() as $row) {
+            self::$userSettings[(string) $row['key']] = (string) $row['value'];
+        }
+    }
+
+    private static function loadGlobalSettings(): void
+    {
+        if (self::$globalSettings !== null) {
+            return;
+        }
+        self::$globalSettings = [];
+        try {
+            $stmt = Db::pdo()->query('SELECT `key`, `value` FROM settings');
+            foreach ($stmt->fetchAll() as $row) {
+                self::$globalSettings[(string) $row['key']] = (string) $row['value'];
+            }
+        } catch (Throwable) {
+            // settings table may not exist during first install
+        }
+    }
+
+    private static function schemaFlag(string $key): bool
+    {
+        try {
+            $stmt = Db::pdo()->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
+            $stmt->execute([$key]);
+            return $stmt->fetchColumn() !== false;
+        } catch (Throwable) {
+            return false;
+        }
+    }
+
+    private static function setSchemaFlag(string $key): void
+    {
+        $stmt = Db::pdo()->prepare(
+            'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+        );
+        $stmt->execute([$key, '1']);
+        self::loadGlobalSettings();
+        self::$globalSettings[$key] = '1';
     }
 
     public static function profile(): array
@@ -308,27 +369,35 @@ final class App
 
     public static function ensureDashboardSchema(): void
     {
-        $pdo = Db::pdo();
-        $alters = [
-            'location' => "ALTER TABLE applications ADD COLUMN location VARCHAR(160) NOT NULL DEFAULT '' AFTER role",
-            'resume_version_id' => 'ALTER TABLE applications ADD COLUMN resume_version_id INT UNSIGNED NULL AFTER link',
-            'cover_letter_id' => 'ALTER TABLE applications ADD COLUMN cover_letter_id INT UNSIGNED NULL AFTER resume_version_id',
-            'job_source' => "ALTER TABLE applications ADD COLUMN job_source VARCHAR(32) NULL AFTER cover_letter_id",
-            'job_external_id' => "ALTER TABLE applications ADD COLUMN job_external_id VARCHAR(191) NULL AFTER job_source",
-        ];
-        foreach ($alters as $col => $sql) {
-            $exists = $pdo->query('SHOW COLUMNS FROM applications LIKE ' . $pdo->quote($col))->fetch();
-            if ($exists === false) {
-                $pdo->exec($sql);
-            }
+        if (self::$dashboardSchemaReady) {
+            return;
         }
+        self::$dashboardSchemaReady = true;
 
-        $statusCol = $pdo->query("SHOW COLUMNS FROM applications LIKE 'status'")->fetch();
-        $statusType = is_array($statusCol) ? (string) ($statusCol['Type'] ?? '') : '';
-        if ($statusType !== '' && !str_contains($statusType, 'preparing')) {
-            $pdo->exec(
-                "ALTER TABLE applications MODIFY status ENUM('preparing','applied','rejected','interview','offer','custom') NOT NULL DEFAULT 'preparing'"
-            );
+        if (!self::schemaFlag('schema_dashboard_v2')) {
+            $pdo = Db::pdo();
+            $alters = [
+                'location' => "ALTER TABLE applications ADD COLUMN location VARCHAR(160) NOT NULL DEFAULT '' AFTER role",
+                'resume_version_id' => 'ALTER TABLE applications ADD COLUMN resume_version_id INT UNSIGNED NULL AFTER link',
+                'cover_letter_id' => 'ALTER TABLE applications ADD COLUMN cover_letter_id INT UNSIGNED NULL AFTER resume_version_id',
+                'job_source' => "ALTER TABLE applications ADD COLUMN job_source VARCHAR(32) NULL AFTER cover_letter_id",
+                'job_external_id' => "ALTER TABLE applications ADD COLUMN job_external_id VARCHAR(191) NULL AFTER job_source",
+            ];
+            foreach ($alters as $col => $sql) {
+                $exists = $pdo->query('SHOW COLUMNS FROM applications LIKE ' . $pdo->quote($col))->fetch();
+                if ($exists === false) {
+                    $pdo->exec($sql);
+                }
+            }
+
+            $statusCol = $pdo->query("SHOW COLUMNS FROM applications LIKE 'status'")->fetch();
+            $statusType = is_array($statusCol) ? (string) ($statusCol['Type'] ?? '') : '';
+            if ($statusType !== '' && !str_contains($statusType, 'preparing')) {
+                $pdo->exec(
+                    "ALTER TABLE applications MODIFY status ENUM('preparing','applied','rejected','interview','offer','custom') NOT NULL DEFAULT 'preparing'"
+                );
+            }
+            self::setSchemaFlag('schema_dashboard_v2');
         }
 
         $defaults = [
@@ -358,9 +427,9 @@ final class App
     /** Applications with docs ready but user has not confirmed applying yet. */
     public static function preparingApplications(): array
     {
-        self::ensureDashboardSchema();
         $stmt = Db::pdo()->prepare(
-            'SELECT * FROM applications WHERE user_id = ? AND status = ? ORDER BY updated_at DESC, id DESC'
+            'SELECT id, company, role, resume_version_id, cover_letter_id, job_source, job_external_id
+             FROM applications WHERE user_id = ? AND status = ? ORDER BY updated_at DESC, id DESC'
         );
         $stmt->execute([self::userId(), 'preparing']);
 

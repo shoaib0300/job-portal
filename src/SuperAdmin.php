@@ -5,9 +5,15 @@ declare(strict_types=1);
 final class SuperAdmin
 {
     private static ?array $admin = null;
+    private static bool $schemaReady = false;
 
     public static function ensureSchema(): void
     {
+        if (self::$schemaReady) {
+            return;
+        }
+        self::$schemaReady = true;
+
         $pdo = Db::pdo();
 
         $pdo->exec(
@@ -42,8 +48,31 @@ final class SuperAdmin
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4'
         );
 
-        self::ensureUserColumns($pdo);
+        if (!self::schemaFlag($pdo, 'schema_superadmin_v1')) {
+            self::ensureUserColumns($pdo);
+            self::setSchemaFlag($pdo, 'schema_superadmin_v1');
+        }
         self::seed($pdo);
+    }
+
+    private static function schemaFlag(PDO $pdo, string $key): bool
+    {
+        try {
+            $stmt = $pdo->prepare('SELECT `value` FROM settings WHERE `key` = ? LIMIT 1');
+            $stmt->execute([$key]);
+            return $stmt->fetchColumn() !== false;
+        } catch (Throwable) {
+            return false;
+        }
+    }
+
+    private static function setSchemaFlag(PDO $pdo, string $key): void
+    {
+        $stmt = $pdo->prepare(
+            'INSERT INTO settings (`key`, `value`) VALUES (?, ?)
+             ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)'
+        );
+        $stmt->execute([$key, '1']);
     }
 
     private static function ensureUserColumns(PDO $pdo): void

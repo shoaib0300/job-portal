@@ -588,6 +588,13 @@ final class JobsIngest
             'message' => 'Purging jobs older than ' . $days . ' days…',
             'seed_label' => 'Cleanup',
         ]);
+        try {
+            JobCache::purgeStale();
+            CareerCompanies::syncMissingCatalogEntries(0);
+        } catch (\Throwable $e) {
+            $errors[] = 'housekeeping: ' . $e->getMessage();
+            $log('  housekeeping warning: ' . $e->getMessage());
+        }
         $purged = JobStore::purgeOlderThanDays($days);
         $totalAfter = JobStore::count();
         $finishedAt = date('Y-m-d H:i:s');

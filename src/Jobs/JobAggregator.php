@@ -21,6 +21,8 @@ use KaamFit\Jobs\Sources\XingSource;
 
 final class JobAggregator
 {
+    private static bool $ready = false;
+
     private const SOURCE_RANK = [
         'arbeitsagentur' => 0,
         'public_sector' => 1,
@@ -38,6 +40,11 @@ final class JobAggregator
 
     public static function ensureSchema(): void
     {
+        if (self::$ready) {
+            return;
+        }
+        self::$ready = true;
+
         JobCache::ensureSchema();
         JobStore::ensureSchema();
         try {
@@ -55,7 +62,7 @@ final class JobAggregator
     /**
      * User-facing search: read from job_listings only (filled by cron ingest).
      *
-     * @return array{listings: list<JobListing>, total: int, notices: list<string>, page: int, pages: int}
+     * @return array{listings: list<JobListing>, total: int, index_total: int, notices: list<string>, page: int, pages: int}
      */
     public static function search(JobQuery $query, bool $useCache = true): array
     {
@@ -67,15 +74,24 @@ final class JobAggregator
                 $all = [];
                 foreach ($cached['listings'] as $row) {
                     if (is_array($row)) {
-                        $all[] = JobListing::fromArray($row);
+                        $all[] = JobText::enrich(JobListing::fromArray($row));
                     }
                 }
-                return self::paginate($all, $query, is_array($cached['notices'] ?? null) ? $cached['notices'] : []);
+                $indexTotal = (int) ($cached['index_total'] ?? count($all));
+
+                return self::paginate(
+                    $all,
+                    $query,
+                    is_array($cached['notices'] ?? null) ? $cached['notices'] : [],
+                    $indexTotal
+                );
             }
         }
 
         $notices = [];
         $listings = JobStore::search($query);
+        $beforeFilter = count($listings);
+        $indexTotal = $query->isBrowseMode() ? JobStore::countForQuery($query) : $beforeFilter;
         if ($listings === [] && JobStore::count() === 0) {
             $notices[] = 'Job index is empty. Jobs are refreshed every 2 hours in the background.';
         }
@@ -83,18 +99,22 @@ final class JobAggregator
         // Filter first, then dedupe — otherwise a preferred source (e.g. BA) can replace
         // a Jobware/Jobexport twin and then fail filters, shrinking the result set.
         $listings = self::postFilter($listings, $query);
+        if ($beforeFilter > 0 && $listings === []) {
+            $notices[] = 'Jobs were found in the index but your filters removed all of them. Try clearing Bundesland, Level boxes, “Match my resume”, or switch Posted to Last 14 days.';
+        }
         $listings = self::dedupe($listings);
         if ($query->matchResume) {
-            $listings = self::filterByResumeFit($listings);
+            $listings = self::filterByResumeFit($listings, $query);
         }
         $listings = self::rank($listings, $query);
 
         JobCache::put($query->cacheKey(), [
-            'listings' => array_map(static fn(JobListing $j): array => $j->toArray(), $listings),
+            'listings' => JobCache::listingsForSearchCache($listings),
             'notices' => $notices,
+            'index_total' => $indexTotal,
         ]);
 
-        return self::paginate($listings, $query, $notices);
+        return self::paginate($listings, $query, $notices, $indexTotal);
     }
 
     /**
@@ -320,15 +340,17 @@ final class JobAggregator
     public static function postFilter(array $listings, JobQuery $query): array
     {
         return array_values(array_filter($listings, static function (JobListing $job) use ($query): bool {
-            if ($query->bundesland !== '' && $job->bundesland !== '') {
-                if (mb_stripos($job->bundesland, $query->bundesland) === false
-                    && mb_stripos($query->bundesland, $job->bundesland) === false) {
-                    return false;
-                }
+            JobText::normalizeLocation($job);
+            if (!JobText::matchesLocationFilter($job, $query->city, $query->bundesland)) {
+                return false;
             }
-            if ($query->city !== '' && $job->city !== '') {
-                if (mb_stripos($job->city, $query->city) === false) {
-                    return false;
+            if ($query->hasProfessionFilter()) {
+                $profKw = $query->professionKeywords();
+                if ($profKw !== []) {
+                    $blob = $job->title . ' ' . $job->company . ' ' . $job->description;
+                    if (!JobText::matchesAnyKeyword($blob, $profKw)) {
+                        return false;
+                    }
                 }
             }
             if ($query->workMode !== '' && $job->workMode !== 'unknown' && $job->workMode !== $query->workMode) {
@@ -504,9 +526,19 @@ final class JobAggregator
      */
     public static function rank(array $listings, JobQuery $query): array
     {
-        $keywords = array_map(static fn(string $k): string => mb_strtolower($k), $query->keywords);
+        $keywords = array_map(
+            static fn(string $k): string => mb_strtolower($k),
+            $query->keywords !== [] ? $query->keywords : $query->sqlKeywords()
+        );
         $resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
         usort($listings, static function (JobListing $a, JobListing $b) use ($keywords, $resumeTerms, $query): int {
+            if ($query->bundesland !== '') {
+                $la = JobText::locationRelevance($a, $query->bundesland);
+                $lb = JobText::locationRelevance($b, $query->bundesland);
+                if ($la !== $lb) {
+                    return $lb <=> $la;
+                }
+            }
             if ($query->sort === 'recent') {
                 $pa = self::postedSortTs($a);
                 $pb = self::postedSortTs($b);
@@ -544,15 +576,30 @@ final class JobAggregator
      * @param list<JobListing> $listings
      * @return list<JobListing>
      */
-    private static function filterByResumeFit(array $listings): array
+    private static function filterByResumeFit(array $listings, JobQuery $query): array
     {
         $terms = ResumeJobMatch::scoreTerms();
         if ($terms === []) {
             return $listings;
         }
+        $min = ResumeJobMatch::minFitScore();
+        $levelFilter = $query->hasLevelFilter();
+
         return array_values(array_filter(
             $listings,
-            static fn(JobListing $job): bool => ResumeJobMatch::fitScore($job, $terms) >= ResumeJobMatch::minFitScore()
+            static function (JobListing $job) use ($query, $terms, $min, $levelFilter): bool {
+                if (ResumeJobMatch::fitScore($job, $terms) >= $min) {
+                    return true;
+                }
+        if (!$levelFilter) {
+                    return false;
+                }
+                if (self::matchesLevelFilter($job, $query)) {
+                    return true;
+                }
+
+                return ResumeJobMatch::matchesAnyTerm($job, $terms);
+            }
         ));
     }
 
@@ -584,9 +631,9 @@ final class JobAggregator
     /**
      * @param list<JobListing> $listings
      * @param list<string> $notices
-     * @return array{listings: list<JobListing>, total: int, notices: list<string>, page: int, pages: int}
+     * @return array{listings: list<JobListing>, total: int, index_total: int, notices: list<string>, page: int, pages: int}
      */
-    private static function paginate(array $listings, JobQuery $query, array $notices): array
+    private static function paginate(array $listings, JobQuery $query, array $notices, int $indexTotal = 0): array
     {
         $total = count($listings);
         $pages = max(1, (int) ceil($total / $query->size));
@@ -595,6 +642,7 @@ final class JobAggregator
         return [
             'listings' => $slice,
             'total' => $total,
+            'index_total' => $indexTotal > 0 ? $indexTotal : $total,
             'notices' => self::visibleNotices($notices),
             'page' => $page,
             'pages' => $pages,

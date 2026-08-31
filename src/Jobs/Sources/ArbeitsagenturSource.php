@@ -184,7 +184,7 @@ final class ArbeitsagenturSource
             $title,
             $company,
             $ort['ort'],
-            $this->prettyRegion($ort['region']),
+            JobText::prettyBundesland($this->prettyRegion($ort['region'])),
             $this->prettyCountry($ort['land']),
             'unknown',
             $employment,
@@ -250,7 +250,7 @@ final class ArbeitsagenturSource
             $title,
             $company,
             $ort['ort'] !== '' ? $ort['ort'] : (string) ($fallback?->city ?? ''),
-            $this->prettyRegion($ort['region'] !== '' ? $ort['region'] : (string) ($fallback?->bundesland ?? '')),
+            JobText::prettyBundesland($this->prettyRegion($ort['region'] !== '' ? $ort['region'] : (string) ($fallback?->bundesland ?? ''))),
             $this->prettyCountry($ort['land'] !== '' ? $ort['land'] : (string) ($fallback?->country ?? 'Germany')),
             JobText::workMode($title . ' ' . $desc, $zeitHint),
             $employment,
@@ -277,16 +277,37 @@ final class ArbeitsagenturSource
             $ort['ort'] = (string) ($row['arbeitsort']['ort'] ?? '');
             $ort['region'] = (string) ($row['arbeitsort']['region'] ?? '');
             $ort['land'] = (string) ($row['arbeitsort']['land'] ?? '');
-            return $ort;
+            if ($ort['ort'] !== '' || $ort['region'] !== '') {
+                return $ort;
+            }
         }
-        $locs = $row['stellenlokationen'] ?? $row['arbeitsorte'] ?? [];
-        if (is_array($locs) && isset($locs[0]) && is_array($locs[0])) {
-            $first = $locs[0];
-            $addr = isset($first['adresse']) && is_array($first['adresse']) ? $first['adresse'] : $first;
-            $ort['ort'] = (string) ($addr['ort'] ?? '');
-            $ort['region'] = (string) ($addr['region'] ?? '');
-            $ort['land'] = (string) ($addr['land'] ?? '');
+        foreach (['stellenlokationen', 'arbeitsorte', 'einsatzorte'] as $key) {
+            $locs = $row[$key] ?? null;
+            if (!is_array($locs)) {
+                continue;
+            }
+            foreach ($locs as $loc) {
+                if (!is_array($loc)) {
+                    continue;
+                }
+                $addr = isset($loc['adresse']) && is_array($loc['adresse']) ? $loc['adresse'] : $loc;
+                $city = (string) ($addr['ort'] ?? $addr['ortsname'] ?? '');
+                $region = (string) ($addr['region'] ?? $addr['bundesland'] ?? '');
+                $land = (string) ($addr['land'] ?? '');
+                if ($city !== '') {
+                    return ['ort' => $city, 'region' => $region, 'land' => $land];
+                }
+                if ($region !== '' && $ort['region'] === '') {
+                    $ort = ['ort' => '', 'region' => $region, 'land' => $land !== '' ? $land : $ort['land']];
+                }
+            }
         }
+        if (isset($row['eintrittsort']) && is_array($row['eintrittsort'])) {
+            $ort['ort'] = (string) ($row['eintrittsort']['ort'] ?? $ort['ort']);
+            $ort['region'] = (string) ($row['eintrittsort']['region'] ?? $ort['region']);
+            $ort['land'] = (string) ($row['eintrittsort']['land'] ?? $ort['land']);
+        }
+
         return $ort;
     }
 

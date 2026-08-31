@@ -53,6 +53,11 @@ if (isset($_GET['max_seeds']) || isset($_POST['max_seeds'])) {
 }
 
 if ($purgeOnly) {
+    try {
+        \KaamFit\Jobs\JobCache::purgeStale();
+    } catch (Throwable) {
+        // non-fatal
+    }
     $days = JobsIngest::autoDeleteDays();
     $n = JobStore::purgeOlderThanDays($days);
     echo json_encode([

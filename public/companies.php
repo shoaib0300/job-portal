@@ -9,6 +9,7 @@ use KaamFit\Jobs\CareerCompanies;
 use KaamFit\Jobs\JobQuery;
 
 CareerCompanies::ensureSchema();
+CareerCompanies::syncMissingCatalogEntries(0);
 $uid = Auth::id();
 CareerCompanies::purgePersonalDuplicates($uid);
 

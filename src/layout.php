@@ -35,13 +35,33 @@ function layout_jobs_sidebar_stats(): array
         return $cached;
     }
 
+    $cacheDir = dirname(__DIR__) . '/storage/cache';
+    $cacheFile = $cacheDir . '/jobs-sidebar-stats.json';
+    $ttl = 300;
+    if (is_file($cacheFile) && (time() - (int) filemtime($cacheFile)) < $ttl) {
+        $raw = file_get_contents($cacheFile);
+        if (is_string($raw) && $raw !== '') {
+            $decoded = json_decode($raw, true);
+            if (is_array($decoded)) {
+                $cached = [
+                    'total' => isset($decoded['total']) ? (int) $decoded['total'] : null,
+                    'today' => isset($decoded['today']) ? (int) $decoded['today'] : null,
+                    'last_run' => (string) ($decoded['last_run'] ?? 'Not yet'),
+                ];
+                return $cached;
+            }
+        }
+    }
+
     $cached = ['total' => null, 'today' => null, 'last_run' => 'Not yet'];
     try {
-        \KaamFit\Jobs\JobAggregator::ensureSchema();
         $cached['total'] = \KaamFit\Jobs\JobStore::count();
         $cached['today'] = \KaamFit\Jobs\JobStore::countFetchedToday();
         $raw = App::setting(\KaamFit\Jobs\JobsIngest::SETTING_LAST_RUN, '') ?? '';
         $cached['last_run'] = layout_format_cron_time((string) $raw);
+        if (is_dir($cacheDir) || @mkdir($cacheDir, 0775, true)) {
+            @file_put_contents($cacheFile, json_encode($cached, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '{}');
+        }
     } catch (Throwable) {
         // DB / schema not ready
     }
@@ -123,7 +143,6 @@ function layout_render_job_apply_dock(): void
         return;
     }
     try {
-        App::ensureDashboardSchema();
         $preparing = App::preparingApplications();
     } catch (Throwable) {
         return;
@@ -427,7 +446,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260831c"></script>
+  <script src="/assets/js/app.js?v=20260831e"></script>
   <script>window.kmTranslateLangs=<?= json_encode(TranslateLanguages::optionsForJs(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]' ?>;</script>
         <?php
     endif;

@@ -11,8 +11,6 @@ declare(strict_types=1);
 /** @var string $resumeTitle */
 /** @var bool $serpConfigured */
 /** @var string $resultsHtml */
-
-use App;
 ?>
 <main class="jobs-page">
   <header class="page-head">
@@ -37,7 +35,7 @@ use App;
         </div>
 
         <div class="row g-3">
-          <div class="col-lg-4" data-keyword-chips>
+          <div class="col-lg-3" data-keyword-chips>
             <label class="form-label" for="q-input">Role keywords</label>
             <div class="keyword-chip-list" data-keyword-list>
               <?php foreach ($query->keywords as $kw): ?>
@@ -61,7 +59,7 @@ use App;
               <p class="small text-secondary mb-0 mt-1">Master CV: <?= App::e($resumeTitle) ?></p>
             <?php endif; ?>
             <p class="small text-secondary mb-0 mt-1" data-match-resume-hint<?= $query->matchResume ? '' : ' hidden' ?>>
-              Compares job descriptions to your resume. Level, English, salary, and German filters are ignored.
+              Ranks jobs by your Master CV. With <strong>Student</strong> (or other Level) checked, also shows matching student/Werkstudent roles and jobs with at least one CV keyword.
             </p>
           </div>
 
@@ -78,6 +76,19 @@ use App;
               <?php endforeach; ?>
             </select>
           </div>
+          <div class="col-6 col-md-4 col-lg-3">
+            <label class="form-label" for="profession">Profession</label>
+            <select class="form-select form-select-sm" id="profession" name="profession">
+              <option value="">Any</option>
+              <?php foreach (\KaamFit\Jobs\JobProfessions::groups() as $groupLabel => $items): ?>
+                <optgroup label="<?= App::e($groupLabel) ?>">
+                  <?php foreach ($items as $slug => $label): ?>
+                    <option value="<?= App::e($slug) ?>"<?= $query->profession === $slug ? ' selected' : '' ?>><?= App::e($label) ?></option>
+                  <?php endforeach; ?>
+                </optgroup>
+              <?php endforeach; ?>
+            </select>
+          </div>
           <div class="col-6 col-md-4 col-lg-2">
             <label class="form-label" for="work_mode">Work mode</label>
             <select class="form-select form-select-sm" id="work_mode" name="work_mode">
@@ -87,6 +98,9 @@ use App;
               <option value="onsite"<?= $query->workMode === 'onsite' ? ' selected' : '' ?>>On-site</option>
             </select>
           </div>
+        </div>
+
+        <div class="row g-3 mt-1">
           <div class="col-6 col-md-4 col-lg-2">
             <label class="form-label" for="employment">Hours</label>
             <select class="form-select form-select-sm" id="employment" name="employment">
@@ -96,39 +110,36 @@ use App;
               <option value="mini"<?= $query->employment === 'mini' ? ' selected' : '' ?>>Minijob</option>
             </select>
           </div>
-        </div>
-
-        <div class="row g-3 mt-1" data-match-resume-disable>
           <div class="col-lg-4">
             <div class="form-label mb-1">Level</div>
             <div class="d-flex flex-wrap gap-3">
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="student" value="1" id="f-student"<?= $query->student ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="student" value="1" id="f-student"<?= $query->student ? ' checked' : '' ?>>
                 <label class="form-check-label" for="f-student">Student</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="junior" value="1" id="f-junior"<?= $query->junior ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="junior" value="1" id="f-junior"<?= $query->junior ? ' checked' : '' ?>>
                 <label class="form-check-label" for="f-junior">Junior</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="graduate" value="1" id="f-graduate"<?= $query->graduate ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="graduate" value="1" id="f-graduate"<?= $query->graduate ? ' checked' : '' ?>>
                 <label class="form-check-label" for="f-graduate">Absolvent</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="internship" value="1" id="f-intern"<?= $query->internship ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="internship" value="1" id="f-intern"<?= $query->internship ? ' checked' : '' ?>>
                 <label class="form-check-label" for="f-intern">Praktikum</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="no_experience" value="1" id="f-noexp"<?= $query->noExperience ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="no_experience" value="1" id="f-noexp"<?= $query->noExperience ? ' checked' : '' ?>>
                 <label class="form-check-label" for="f-noexp">No experience</label>
               </div>
               <div class="form-check mb-0">
-                <input class="form-check-input" type="checkbox" name="minijob" value="1" id="f-mini"<?= $query->minijob ? ' checked' : '' ?><?= $query->matchResume ? ' disabled' : '' ?>>
+                <input class="form-check-input" type="checkbox" name="minijob" value="1" id="f-mini"<?= $query->minijob ? ' checked' : '' ?>>
                 <label class="form-check-label" for="f-mini">Minijob</label>
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-4" data-match-resume-disable>
             <div class="form-label mb-1">Language</div>
             <div class="d-flex flex-wrap align-items-center gap-3">
               <div class="form-check mb-0">
