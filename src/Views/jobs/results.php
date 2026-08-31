@@ -18,7 +18,11 @@ use KaamFit\Jobs\ResumeJobMatch;
           <div class="me-auto">
             <p class="text-secondary small mb-0" data-jobs-count><?= number_format((int) $result['total'], 0, ',', '.') ?> jobs · page <?= (int) $result['page'] ?> of <?= (int) $result['pages'] ?></p>
             <?php if ($query->isBrowseMode() && (int) ($result['index_total'] ?? 0) > 0): ?>
-              <p class="text-secondary small mb-0"><?= number_format((int) $result['index_total'], 0, ',', '.') ?> in index<?= (int) $result['index_total'] !== (int) $result['total'] ? ' · duplicates merged' : '' ?> · last <?= (int) $query->postedDays === 1 ? '24h' : '14 days' ?> · Germany</p>
+              <?php
+                $studentJobOnly = $query->wantsSource('studentjob') && count($query->sources) === 1;
+                $postedLabel = (int) $query->postedDays === 1 ? '24h' : '14 days';
+              ?>
+              <p class="text-secondary small mb-0"><?= number_format((int) $result['index_total'], 0, ',', '.') ?><?= $studentJobOnly ? ' from StudentJob.de sitemap' : ' in index' ?><?= (int) $result['index_total'] !== (int) $result['total'] ? ' · after filters' : '' ?> · last <?= $postedLabel ?> · Germany</p>
             <?php endif; ?>
           </div>
         <?php else: ?>
@@ -38,7 +42,7 @@ use KaamFit\Jobs\ResumeJobMatch;
           <div class="card-body">
             <p class="mb-2">Pick filters and search. With no role or location filters, you browse the full ingested index (last 14 days, selected sources).</p>
             <p class="text-secondary small mb-0">Student preset: Werkstudent + Praktikum in Berlin.</p>
-            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs?search=1&amp;posted=14&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university">Student jobs in Berlin</a>
+            <a class="btn btn-sm btn-outline-primary mt-3" href="/jobs?search=1&amp;posted=14&amp;q%5B%5D=Werkstudent&amp;city=Berlin&amp;student=1&amp;internship=1&amp;sources%5B%5D=arbeitsagentur&amp;sources%5B%5D=jobexport&amp;sources%5B%5D=university&amp;sources%5B%5D=studentjob">Student jobs in Berlin</a>
           </div>
         </div>
       <?php else: ?>

@@ -22,6 +22,7 @@ final class JobQuery
         'jobexport' => 'Jobexport (recommend for odd jobs)',
         'career' => 'Company career pages',
         'university' => 'University / student portals',
+        'studentjob' => 'StudentJob.de (student jobs)',
         'public_sector' => 'Public-sector (Interamt)',
     ];
 
@@ -407,6 +408,9 @@ final class JobQuery
         if ($bits === [] && $this->wantsSource('university')) {
             $bits[] = 'Werkstudent';
         }
+        if ($bits === [] && $this->wantsSource('studentjob') && count($this->sources) === 1) {
+            $bits[] = 'Werkstudent';
+        }
         return implode(' ', $bits);
     }
 
@@ -535,7 +539,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v28:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v31:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Human-readable active filters for empty-state hints. @return list<string> */

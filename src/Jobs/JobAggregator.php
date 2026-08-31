@@ -16,6 +16,7 @@ use KaamFit\Jobs\Sources\JobspyBoardSource;
 use KaamFit\Jobs\Sources\LinkedInSource;
 use KaamFit\Jobs\Sources\SerpBoardSource;
 use KaamFit\Jobs\Sources\StepStoneSource;
+use KaamFit\Jobs\Sources\StudentJobSource;
 use KaamFit\Jobs\Sources\XingSource;
 
 
@@ -28,6 +29,7 @@ final class JobAggregator
         'public_sector' => 1,
         'career' => 2,
         'university' => 3,
+        'studentjob' => 3,
         'stepstone' => 4,
         'indeed' => 5,
         'xing' => 6,
@@ -60,7 +62,7 @@ final class JobAggregator
     }
 
     /**
-     * User-facing search: read from job_listings only (filled by cron ingest).
+     * User-facing search: read from job_listings; StudentJob.de is also fetched live when selected.
      *
      * @return array{listings: list<JobListing>, total: int, index_total: int, notices: list<string>, page: int, pages: int}
      */
@@ -90,9 +92,18 @@ final class JobAggregator
 
         $notices = [];
         $listings = JobStore::search($query);
+        if ($query->wantsSource('studentjob')) {
+            $listings = self::mergeStudentJobLive($listings, $query, $notices);
+        }
         $beforeFilter = count($listings);
-        $indexTotal = $query->isBrowseMode() ? JobStore::countForQuery($query) : $beforeFilter;
-        if ($listings === [] && JobStore::count() === 0) {
+        if ($query->isBrowseMode()) {
+            $indexTotal = $query->wantsSource('studentjob')
+                ? max(JobStore::countForQuery($query), $beforeFilter)
+                : JobStore::countForQuery($query);
+        } else {
+            $indexTotal = $beforeFilter;
+        }
+        if ($listings === [] && JobStore::count() === 0 && !$query->wantsSource('studentjob')) {
             $notices[] = 'Job index is empty. Jobs are refreshed every 2 hours in the background.';
         }
 
@@ -101,6 +112,12 @@ final class JobAggregator
         $listings = self::postFilter($listings, $query);
         if ($beforeFilter > 0 && $listings === []) {
             $notices[] = 'Jobs were found in the index but your filters removed all of them. Try clearing Bundesland, Level boxes, “Match my resume”, or switch Posted to Last 14 days.';
+        } elseif (
+            $listings === []
+            && $query->wantsSource('studentjob')
+            && count($query->sources) === 1
+        ) {
+            $notices[] = 'StudentJob.de returned no matches for these filters. Try clearing Profession or adding a city.';
         }
         $listings = self::dedupe($listings);
         if ($query->matchResume) {
@@ -227,6 +244,14 @@ final class JobAggregator
             $notices = array_merge($notices, $az['notices']);
         }
 
+        if ($query->wantsSource('studentjob')) {
+            $sj = StudentJobSource::search($query);
+            $listings = array_merge($listings, $sj['listings']);
+            if ($sj['notice']) {
+                $notices[] = $sj['notice'];
+            }
+        }
+
         // Keep every board’s results for the store. Cross-platform duplicates are
         // skipped in JobStore by company+title+posted date (content_key).
         // Do not fingerprint-dedupe here — that preferred AA and wiped Jobexport.
@@ -295,10 +320,55 @@ final class JobAggregator
         if ($source === 'jobexport') {
             return JobexportSource::details($externalId) ?? $cached;
         }
+        if ($source === 'studentjob') {
+            return StudentJobSource::details($externalId) ?? $cached;
+        }
         if ($source === 'adzuna') {
             return AdzunaSource::details($externalId) ?? $cached;
         }
         return $cached;
+    }
+
+    /**
+     * @param list<JobListing> $dbListings
+     * @param list<string> $notices
+     * @return list<JobListing>
+     */
+    private static function mergeStudentJobLive(array $dbListings, JobQuery $query, array &$notices): array
+    {
+        $live = StudentJobSource::search($query);
+        if ($live['notice']) {
+            $notices[] = $live['notice'];
+        }
+        $liveListings = $live['listings'];
+        if ($liveListings === []) {
+            return $dbListings;
+        }
+
+        return self::mergeListingsForSource($dbListings, $liveListings, 'studentjob');
+    }
+
+    /**
+     * Replace listings for one source with a fresher live set.
+     *
+     * @param list<JobListing> $existing
+     * @param list<JobListing> $incoming
+     * @return list<JobListing>
+     */
+    private static function mergeListingsForSource(array $existing, array $incoming, string $source): array
+    {
+        $byKey = [];
+        foreach ($existing as $job) {
+            if ($job->source === $source) {
+                continue;
+            }
+            $byKey[$job->source . ':' . $job->externalId] = $job;
+        }
+        foreach ($incoming as $job) {
+            $byKey[$job->source . ':' . $job->externalId] = $job;
+        }
+
+        return array_values($byKey);
     }
 
     /**
