@@ -584,6 +584,70 @@ final class App
         }
     }
 
+    /** Remove a preparing application and its tailored resume/cover copies. */
+    public static function discardPreparingApplication(int $applicationId): void
+    {
+        self::ensureDashboardSchema();
+        Versions::ensureSchema();
+        $uid = self::userId();
+        $stmt = Db::pdo()->prepare(
+            'SELECT status, resume_version_id, cover_letter_id FROM applications WHERE id = ? AND user_id = ? LIMIT 1'
+        );
+        $stmt->execute([$applicationId, $uid]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row === false) {
+            throw new InvalidArgumentException('Application not found.');
+        }
+        if ((string) ($row['status'] ?? '') !== 'preparing') {
+            throw new InvalidArgumentException('Only preparing applications can be discarded.');
+        }
+
+        $resumeId = (int) ($row['resume_version_id'] ?? 0);
+        $coverId = (int) ($row['cover_letter_id'] ?? 0);
+        $activeResume = Versions::activeResumeVersion();
+        $resumeWasActive = $resumeId > 0
+            && $activeResume !== null
+            && (int) ($activeResume['id'] ?? 0) === $resumeId;
+        $activeCover = self::activeCoverLetter();
+        $coverWasActive = $coverId > 0
+            && $activeCover !== null
+            && (int) ($activeCover['id'] ?? 0) === $coverId;
+
+        $del = Db::pdo()->prepare('DELETE FROM applications WHERE id = ? AND user_id = ? AND status = ?');
+        $del->execute([$applicationId, $uid, 'preparing']);
+        if ($del->rowCount() === 0) {
+            throw new InvalidArgumentException('Application not found.');
+        }
+
+        if ($resumeId > 0) {
+            try {
+                Versions::deleteResumeVersion($resumeId);
+            } catch (RuntimeException) {
+                // Skip if linked to Master CV (should not happen for tailored copies).
+            }
+        }
+        if ($coverId > 0) {
+            try {
+                Versions::deleteCover($coverId);
+            } catch (RuntimeException) {
+                // Skip if linked to Main cover.
+            }
+        }
+
+        if ($resumeWasActive) {
+            $base = Versions::baseResumeVersion();
+            if ($base !== null) {
+                Versions::loadResumeVersion((int) $base['id']);
+            }
+        }
+        if ($coverWasActive) {
+            $baseCover = Versions::baseCoverLetter();
+            if ($baseCover !== null) {
+                Versions::activateCover((int) $baseCover['id']);
+            }
+        }
+    }
+
     /**
      * @param array<string, mixed> $row
      * @return array{id:int,status:string,resume_version_id:?int,cover_letter_id:?int,company:string,role:string,job_source:?string,job_external_id:?string}
@@ -606,7 +670,7 @@ final class App
 
     private static function isAdvancedApplicationStatus(string $status): bool
     {
-        return in_array($status, ['applied', 'interview', 'offer', 'rejected'], true);
+        return in_array($status, ['applied', 'interview', 'offer', 'rejected', 'custom'], true);
     }
 
     /**
@@ -722,7 +786,7 @@ final class App
             $role,
             $link
         );
-        $finalStatus = $app['status'] ?? $status;
+        $finalStatus = $app !== null ? ($app['status'] ?? $status) : $status;
 
         return [
             'resume_id' => $resumeId,

@@ -43,8 +43,8 @@ $backToJob = '/job?source=' . rawurlencode($source) . '&id=' . rawurlencode($ext
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'confirm_applied') {
     try {
-        $resumeId = $existingApp['resume_version_id'] ?? null;
-        $coverId = $existingApp['cover_letter_id'] ?? null;
+        $resumeId = $existingApp !== null ? ($existingApp['resume_version_id'] ?? null) : null;
+        $coverId = $existingApp !== null ? ($existingApp['cover_letter_id'] ?? null) : null;
         $appId = App::logJdApplication(
             $company,
             $role,
@@ -60,6 +60,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'confirm_applied') 
             $externalId
         );
         App::flash('Marked as applied (#' . $appId . ').');
+    } catch (Throwable $e) {
+        App::flash($e->getMessage(), 'error');
+    }
+    App::redirect($backToJob);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $postAction === 'discard') {
+    try {
+        if ($existingApp === null || ($existingApp['status'] ?? '') !== 'preparing') {
+            throw new InvalidArgumentException('Nothing to discard.');
+        }
+        App::discardPreparingApplication((int) $existingApp['id']);
+        App::flash('Discarded preparing application and tailored documents.');
     } catch (Throwable $e) {
         App::flash($e->getMessage(), 'error');
     }
@@ -227,6 +240,14 @@ layout_header($job->title !== '' ? $job->title : 'Job');
                 <?= $existingApp !== null ? 'Refresh resume and letter' : 'Prepare resume and letter' ?>
               </button>
             </form>
+            <?php if ($existingApp !== null): ?>
+              <form method="post" class="mt-2" onsubmit="return confirm('Discard this preparing application and delete the tailored resume and cover letter?');">
+                <input type="hidden" name="action" value="discard">
+                <input type="hidden" name="source" value="<?= App::e($job->source) ?>">
+                <input type="hidden" name="id" value="<?= App::e($job->externalId) ?>">
+                <button type="submit" class="btn btn-outline-danger w-100">Discard application</button>
+              </form>
+            <?php endif; ?>
           <?php elseif ($existingApp['status'] === 'applied'): ?>
             <p class="small text-success mb-0">You marked this job as applied. Docs are linked in Applications.</p>
           <?php endif; ?>

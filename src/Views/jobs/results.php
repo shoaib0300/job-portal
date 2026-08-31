@@ -48,7 +48,8 @@ use KaamFit\Jobs\ResumeJobMatch;
           <p class="small mb-2">Sorted by Master CV fit<?= $resumeTitle !== '' ? ' · ' . App::e($resumeTitle) : '' ?>.</p>
         <?php endif; ?>
         <?php if ($query->profession !== ''): ?>
-          <p class="small mb-3">Profession: <span class="badge text-bg-light border"><?= App::e(\KaamFit\Jobs\JobProfessions::label($query->profession)) ?></span></p>
+          <p class="small mb-3">Profession: <span class="badge text-bg-light border"><?= App::e(\KaamFit\Jobs\JobProfessions::label($query->profession)) ?></span>
+            <span class="text-secondary">— scans all jobs in your location, matches any related keyword (incl. Werkstudent).</span></p>
         <?php endif; ?>
         <?php if ($query->keywords !== []): ?>
           <p class="small mb-3">Roles:

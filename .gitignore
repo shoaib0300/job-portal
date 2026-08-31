@@ -28,6 +28,8 @@ Thumbs.db
 !/storage/pdfs/.gitkeep
 /storage/logs/*
 !/storage/logs/.gitkeep
+/storage/cache/*
+!/storage/cache/.gitkeep
 *.log
 /public/uploads/photos/*
 !/public/uploads/photos/.gitkeep

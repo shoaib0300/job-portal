@@ -27,6 +27,15 @@ try {
         exit;
     }
 
+    if ($action === 'discard_preparing') {
+        if ($applicationId <= 0) {
+            throw new InvalidArgumentException('Missing application.');
+        }
+        App::discardPreparingApplication($applicationId);
+        echo json_encode(['ok' => true, 'discarded' => true], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     if ($action === 'minimize') {
         echo json_encode(['ok' => true], JSON_UNESCAPED_UNICODE);
         exit;

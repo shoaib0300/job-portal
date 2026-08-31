@@ -344,11 +344,14 @@ final class JobAggregator
             if (!JobText::matchesLocationFilter($job, $query->city, $query->bundesland)) {
                 return false;
             }
-            if ($query->hasProfessionFilter()) {
-                $profKw = $query->professionKeywords();
-                if ($profKw !== []) {
+            if ($query->hasProfessionFilter() || (!$query->matchResume && $query->hasKeywords())) {
+                $terms = $query->roleMatchKeywords();
+                if ($terms !== []) {
                     $blob = $job->title . ' ' . $job->company . ' ' . $job->description;
-                    if (!JobText::matchesAnyKeyword($blob, $profKw)) {
+                    $ok = $query->hasProfessionFilter()
+                        ? JobText::matchesAnyKeywordLoose($blob, $terms)
+                        : JobText::matchesAnyKeyword($blob, $terms);
+                    if (!$ok) {
                         return false;
                     }
                 }
@@ -363,12 +366,6 @@ final class JobAggregator
                         return false;
                     }
                 } elseif ($job->employment !== 'unknown' && $job->employment !== $query->employment) {
-                    return false;
-                }
-            }
-            if ($query->hasKeywords() && !$query->matchResume) {
-                $blob = $job->title . ' ' . $job->company . ' ' . $job->city . ' ' . $job->description;
-                if (!JobText::matchesAnyKeyword($blob, $query->keywords)) {
                     return false;
                 }
             }
@@ -528,7 +525,7 @@ final class JobAggregator
     {
         $keywords = array_map(
             static fn(string $k): string => mb_strtolower($k),
-            $query->keywords !== [] ? $query->keywords : $query->sqlKeywords()
+            $query->roleMatchKeywords() !== [] ? $query->roleMatchKeywords() : $query->keywords
         );
         $resumeTerms = $query->matchResume ? ResumeJobMatch::scoreTerms() : [];
         usort($listings, static function (JobListing $a, JobListing $b) use ($keywords, $resumeTerms, $query): int {

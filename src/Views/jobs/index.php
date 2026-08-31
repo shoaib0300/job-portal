@@ -88,6 +88,7 @@ declare(strict_types=1);
                 </optgroup>
               <?php endforeach; ?>
             </select>
+            <p class="small text-secondary mb-0 mt-1">Deep search: all jobs in your city/state, any matching word counts (incl. Werkstudent). IT includes dev, QA, network.</p>
           </div>
           <div class="col-6 col-md-4 col-lg-2">
             <label class="form-label" for="work_mode">Work mode</label>

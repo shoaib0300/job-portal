@@ -207,6 +207,59 @@ final class JobText
         return false;
     }
 
+    /**
+     * Loose OR matching: any profession/role term or any of its word parts may match (incl. compounds).
+     *
+     * @param list<string> $keywords
+     */
+    public static function matchesAnyKeywordLoose(string $text, array $keywords): bool
+    {
+        if ($keywords === []) {
+            return true;
+        }
+        $hay = self::foldMatch($text);
+        if ($hay === '') {
+            return false;
+        }
+        foreach ($keywords as $kw) {
+            if (self::looseTermMatches($hay, (string) $kw)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function looseTermMatches(string $hay, string $term): bool
+    {
+        $fold = self::foldMatch($term);
+        if ($fold === '') {
+            return false;
+        }
+        if (str_contains($hay, $fold)) {
+            return true;
+        }
+        if (self::keywordChipMatches($hay, $term)) {
+            return true;
+        }
+        $parts = preg_split('/[\s\-\/\(\),]+/u', $fold) ?: [];
+        foreach ($parts as $part) {
+            $part = trim($part);
+            if ($part === '') {
+                continue;
+            }
+            $len = mb_strlen($part);
+            if ($len >= 3 && str_contains($hay, $part)) {
+                return true;
+            }
+            if ($len === 2 && preg_match('/\b' . preg_quote($part, '/') . '\b/u', $hay)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static function keywordChipMatches(string $hay, string $kw): bool
     {
         $chip = self::foldMatch($kw);

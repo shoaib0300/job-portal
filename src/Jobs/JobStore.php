@@ -252,7 +252,7 @@ final class JobStore
 
         // Each selected source is queried on its own with a high cap so adding BA
         // cannot push Jobware/Jobexport rows out of a shared global LIMIT.
-        $perSource = 2500;
+        $perSource = $query->usesDeepProfessionSearch() ? 5000 : 2500;
         $out = [];
         $seen = [];
         foreach ($sources as $source) {

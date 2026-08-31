@@ -195,6 +195,7 @@ function layout_render_job_apply_dock(): void
         <div class="d-flex flex-wrap gap-2 align-items-center">
           <button type="button" class="btn btn-primary btn-sm" data-job-apply-yes>Yes, I applied</button>
           <button type="button" class="btn btn-outline-secondary btn-sm" data-job-apply-not-yet>Not yet</button>
+          <button type="button" class="btn btn-outline-danger btn-sm ms-auto" data-job-apply-discard>Discard</button>
         </div>
         <?php if ($count > 1): ?>
           <div class="job-apply-dock-queue small text-secondary mt-3" data-job-apply-queue></div>

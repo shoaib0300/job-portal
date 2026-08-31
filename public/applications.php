@@ -68,8 +68,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($postAction === 'delete') {
         $delId = (int) ($_POST['id'] ?? 0);
-        $stmt = $pdo->prepare('DELETE FROM applications WHERE id = ? AND user_id = ?');
-        $stmt->execute([$delId, Auth::id()]);
+        if ($delId > 0) {
+            $check = $pdo->prepare('SELECT status FROM applications WHERE id = ? AND user_id = ? LIMIT 1');
+            $check->execute([$delId, Auth::id()]);
+            $statusRow = $check->fetch(PDO::FETCH_ASSOC);
+            if (is_array($statusRow) && ($statusRow['status'] ?? '') === 'preparing') {
+                App::discardPreparingApplication($delId);
+            } else {
+                $stmt = $pdo->prepare('DELETE FROM applications WHERE id = ? AND user_id = ?');
+                $stmt->execute([$delId, Auth::id()]);
+            }
+        }
         App::flash('Application deleted.');
         $backStatus = (string) ($_POST['return_status'] ?? 'all');
         $backQ = trim((string) ($_POST['return_q'] ?? ''));

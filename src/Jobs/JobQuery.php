@@ -179,6 +179,27 @@ final class JobQuery
         return $out;
     }
 
+    /** @param list<string> $a @param list<string> $b @return list<string> */
+    private static function mergeKeywords(array $a, array $b): array
+    {
+        $out = [];
+        $seen = [];
+        foreach (array_merge($a, $b) as $item) {
+            $item = trim((string) $item);
+            if ($item === '') {
+                continue;
+            }
+            $key = mb_strtolower($item);
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            $out[] = $item;
+        }
+
+        return $out;
+    }
+
     /** @return list<string> */
     public static function defaultSources(): array
     {
@@ -316,23 +337,39 @@ final class JobQuery
         return $this->keywords !== [];
     }
 
-    /** Role keywords for SQL recall — user chips, or profession preset when chips are empty. */
+    /** Role keywords for SQL recall — user chips, or profession SQL hints when chips are empty. */
     public function sqlKeywords(): array
     {
         if ($this->keywords !== []) {
-            return $this->keywords;
+            return self::normalizeKeywords($this->keywords);
         }
         if ($this->profession !== '') {
-            return JobProfessions::keywords($this->profession);
+            return JobProfessions::sqlHintTokens($this->profession);
         }
 
         return [];
     }
 
+    /** Merged role chips + profession preset — OR match in post-filter (no 12-term cap). */
+    public function roleMatchKeywords(): array
+    {
+        if ($this->profession === '' && $this->keywords === []) {
+            return [];
+        }
+
+        return self::mergeKeywords(self::normalizeKeywords($this->keywords), $this->professionKeywords());
+    }
+
     /** @return list<string> */
     public function professionKeywords(): array
     {
-        return $this->profession !== '' ? JobProfessions::keywords($this->profession) : [];
+        return $this->profession !== '' ? JobProfessions::searchKeywords($this->profession) : [];
+    }
+
+    /** Scan full location slice from DB; profession matched in post-filter. */
+    public function usesDeepProfessionSearch(): bool
+    {
+        return $this->profession !== '';
     }
 
     public function hasProfessionFilter(): bool
@@ -498,7 +535,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v26:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v28:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Human-readable active filters for empty-state hints. @return list<string> */

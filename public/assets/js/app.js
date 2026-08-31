@@ -1286,6 +1286,50 @@
       minimizeCurrent();
       return;
     }
+    if (target.closest("[data-job-apply-discard]")) {
+      const item = current();
+      if (!item) return;
+      const label = `${item.company} · ${item.role}`;
+      if (!window.confirm(`Discard "${label}"?\n\nThis deletes the preparing application and its tailored resume and cover letter.`)) {
+        return;
+      }
+      const btn = target.closest("[data-job-apply-discard]");
+      if (btn instanceof HTMLButtonElement) {
+        btn.disabled = true;
+      }
+      try {
+        const body = new FormData();
+        body.append("action", "discard_preparing");
+        body.append("application_id", String(item.id));
+        const res = await fetch("/job-application.php", {
+          method: "POST",
+          body,
+          credentials: "same-origin",
+        });
+        const json = await res.json();
+        if (!json.ok) {
+          throw new Error(json.error || "Could not discard");
+        }
+        const minimized = readMinimized().filter((id) => id !== item.id);
+        writeMinimized(minimized);
+        items.splice(index, 1);
+        if (index >= items.length) {
+          index = Math.max(0, items.length - 1);
+        }
+        if (items.length === 0) {
+          root.remove();
+          return;
+        }
+        render();
+        setExpanded(items.length > 0);
+      } catch (err) {
+        if (btn instanceof HTMLButtonElement) {
+          btn.disabled = false;
+        }
+        window.alert(err instanceof Error ? err.message : "Could not discard");
+      }
+      return;
+    }
     const pick = target.closest("[data-job-apply-pick]");
     if (pick) {
       index = Number(pick.getAttribute("data-job-apply-pick") || 0);
