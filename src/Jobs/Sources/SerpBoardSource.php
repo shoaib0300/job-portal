@@ -135,7 +135,10 @@ final class SerpBoardSource
                     $company = trim($m[1]);
                     $title = trim((string) preg_replace('/\s[-–|]\s.+$/u', '', $title));
                 }
-                $posted = JobText::parsePostedDate($snip . "\n" . $title);
+                $posted = JobText::parsePostedDate($snip);
+                if ($posted === null && $title !== '') {
+                    $posted = JobText::parsePostedDate($title);
+                }
                 $job = new JobListing(
                     $id,
                     hash('sha256', $link),

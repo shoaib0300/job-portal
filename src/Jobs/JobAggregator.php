@@ -425,25 +425,27 @@ final class JobAggregator
     /** Unix ts for recency sort. Unknown posted date ranks as fresh (not 1970). */
     private static function postedSortTs(JobListing $job): int
     {
-        if ($job->postedAt !== null && $job->postedAt !== '') {
-            $ts = strtotime($job->postedAt);
+        if (JobText::isPlausiblePostedDate($job->postedAt)) {
+            $ts = strtotime(substr((string) $job->postedAt, 0, 10));
             if ($ts !== false) {
                 return $ts;
             }
         }
+
         return time();
     }
 
     /** True when postedAt is missing/unparseable, or within the last $days days. */
     private static function isWithinPostedWindow(JobListing $job, int $days): bool
     {
-        if ($job->postedAt === null || $job->postedAt === '') {
+        if (!JobText::isPlausiblePostedDate($job->postedAt)) {
             return true;
         }
-        $ts = strtotime($job->postedAt);
+        $ts = strtotime(substr((string) $job->postedAt, 0, 10));
         if ($ts === false) {
             return true;
         }
+
         return $ts >= (time() - ($days * 86400));
     }
 
@@ -571,7 +573,8 @@ final class JobAggregator
                 $score += 3;
             }
         }
-        if ($job->postedAt && strtotime($job->postedAt) > time() - 86400) {
+        if ($job->postedAt && JobText::isPlausiblePostedDate($job->postedAt)
+            && strtotime(substr((string) $job->postedAt, 0, 10)) > time() - 86400) {
             $score += 2;
         }
         $score += 10 - (self::SOURCE_RANK[$job->source] ?? 10);

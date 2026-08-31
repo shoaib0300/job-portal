@@ -129,10 +129,14 @@ final class JobCache
         if ($postedAt === null || $postedAt === '') {
             return false;
         }
-        $ts = strtotime($postedAt);
+        if (!JobText::isPlausiblePostedDate($postedAt)) {
+            return false;
+        }
+        $ts = strtotime(substr($postedAt, 0, 10));
         if ($ts === false) {
             return false;
         }
+
         return $ts < (time() - (self::MAX_JOB_AGE_DAYS * 86400));
     }
 

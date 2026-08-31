@@ -416,14 +416,40 @@ final class JobText
     /** Human-readable posted date for cards / detail (ISO → “24 Aug 2026”). */
     public static function formatPosted(?string $postedAt): string
     {
-        if ($postedAt === null || trim($postedAt) === '') {
+        if (!self::isPlausiblePostedDate($postedAt)) {
             return '';
         }
-        $ts = strtotime($postedAt);
+        $ts = strtotime(substr((string) $postedAt, 0, 10));
         if ($ts === false) {
-            return trim($postedAt);
+            return trim((string) $postedAt);
         }
+
         return date('j M Y', $ts);
+    }
+
+    /** True when postedAt is a real past/today listing date (not a job start date in the future). */
+    public static function isPlausiblePostedDate(?string $postedAt): bool
+    {
+        if ($postedAt === null || trim($postedAt) === '') {
+            return false;
+        }
+        $ts = strtotime(substr(trim($postedAt), 0, 10));
+        if ($ts === false) {
+            return false;
+        }
+
+        return $ts <= strtotime('tomorrow');
+    }
+
+    /** Drop future or invalid posted_at values (e.g. start dates stored by mistake). */
+    public static function sanitizePostedAt(?string $postedAt): ?string
+    {
+        if ($postedAt === null || trim($postedAt) === '') {
+            return null;
+        }
+        $ymd = substr(trim($postedAt), 0, 10);
+
+        return self::isPlausiblePostedDate($ymd) ? $ymd : null;
     }
 
     public static function displayHtml(string $text): string
@@ -579,8 +605,12 @@ final class JobText
                 $job->salaryText = trim($m[0]);
             }
         }
+        $job->postedAt = self::sanitizePostedAt($job->postedAt);
         if ($job->postedAt === null || $job->postedAt === '') {
-            $parsed = self::parsePostedDate($job->title . "\n" . $job->description);
+            $parsed = self::parsePostedDate($job->description);
+            if ($parsed === null && trim($job->title) !== '') {
+                $parsed = self::parsePostedDate($job->title);
+            }
             if ($parsed !== null) {
                 $job->postedAt = $parsed;
             }
@@ -598,12 +628,17 @@ final class JobText
         if ($t === '') {
             return null;
         }
-        if (preg_match('/\b(20\d{2}-\d{2}-\d{2})\b/', $t, $m)) {
-            return $m[1];
+
+        $relative = self::parseRelativePostedDate($t);
+        if ($relative !== null) {
+            return $relative;
         }
-        if (preg_match('/\b(\d{1,2})\.(\d{1,2})\.(20\d{2})\b/', $t, $m)) {
-            return sprintf('%04d-%02d-%02d', (int) $m[3], (int) $m[2], (int) $m[1]);
-        }
+
+        return self::parseAbsolutePostedDate($t);
+    }
+
+    private static function parseRelativePostedDate(string $t): ?string
+    {
         $lower = mb_strtolower($t);
         if (preg_match('/\b(heute|today|just posted|gerade (veröffentlicht|online))\b/u', $lower)) {
             return date('Y-m-d');
@@ -622,6 +657,91 @@ final class JobText
             || preg_match('/\b(\d+)\s*(?:stunden?|hours?)\s*ago\b/u', $lower)) {
             return date('Y-m-d');
         }
+
         return null;
+    }
+
+    private static function parseAbsolutePostedDate(string $t): ?string
+    {
+        /** @var list<array{ymd: string, offset: int, score: int}> $candidates */
+        $candidates = [];
+
+        if (preg_match_all('/\b(20\d{2}-\d{2}-\d{2})\b/', $t, $matches, PREG_OFFSET_CAPTURE)) {
+            foreach ($matches[1] as $m) {
+                $ymd = (string) $m[0];
+                $offset = (int) $m[1];
+                if (self::isStartDateMarkerBefore($t, $offset)) {
+                    continue;
+                }
+                $candidates[] = [
+                    'ymd' => $ymd,
+                    'offset' => $offset,
+                    'score' => self::isPostingContextBefore($t, $offset) ? 10 : 0,
+                ];
+            }
+        }
+
+        if (preg_match_all('/\b(\d{1,2})\.(\d{1,2})\.(20\d{2})\b/u', $t, $matches, PREG_OFFSET_CAPTURE)) {
+            foreach ($matches[0] as $i => $full) {
+                $offset = (int) $full[1];
+                if (self::isStartDateMarkerBefore($t, $offset)) {
+                    continue;
+                }
+                $ymd = sprintf(
+                    '%04d-%02d-%02d',
+                    (int) $matches[3][$i][0],
+                    (int) $matches[2][$i][0],
+                    (int) $matches[1][$i][0]
+                );
+                $candidates[] = [
+                    'ymd' => $ymd,
+                    'offset' => $offset,
+                    'score' => self::isPostingContextBefore($t, $offset) ? 10 : 0,
+                ];
+            }
+        }
+
+        if ($candidates === []) {
+            return null;
+        }
+
+        usort($candidates, static function (array $a, array $b): int {
+            if ($a['score'] !== $b['score']) {
+                return $b['score'] <=> $a['score'];
+            }
+
+            return $a['offset'] <=> $b['offset'];
+        });
+
+        foreach ($candidates as $candidate) {
+            if (self::isPlausiblePostedDate($candidate['ymd'])) {
+                return $candidate['ymd'];
+            }
+        }
+
+        return null;
+    }
+
+    private static function isStartDateMarkerBefore(string $text, int $offset): bool
+    {
+        $before = mb_substr($text, max(0, $offset - 48), min(48, $offset));
+        $lower = mb_strtolower($before);
+
+        return (bool) preg_match(
+            '/(?:\bstart\b|\bab\b|\bbeginn\b|\beintritt(?:sdatum)?\b|\bstellenantritt\b|'
+            . '\bverfügbar\b|\bverfuegbar\b|\bjobstart\b|\bstartdatum\b|\bas of\b|\bstarting\b)\s*$/iu',
+            $lower
+        );
+    }
+
+    private static function isPostingContextBefore(string $text, int $offset): bool
+    {
+        $before = mb_substr($text, max(0, $offset - 56), min(56, $offset));
+        $lower = mb_strtolower($before);
+
+        return (bool) preg_match(
+            '/(?:veröffentlicht|veroeffentlicht|published|posted|online|seit|erschienen|aktualisiert|updated)\s*$/iu',
+            $lower
+        ) || (bool) preg_match('/\b(am|on|vom|from)\s*$/iu', $lower);
     }
 }
