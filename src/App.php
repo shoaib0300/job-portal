@@ -677,6 +677,7 @@ final class App
      * Copy Main resume + Main cover for a JD and log Applications.
      * Never overwrites Main. Prefer this over writing data/tailor_*.php files.
      *
+     * @param list<array{company_contains?:string,position_contains?:string,bullets:string}>|null $experienceOverrides
      * @return array{resume_id:int,cover_id:int,application_id:int,location:string,status:string}
      */
     public static function tailorFromJd(
@@ -692,7 +693,8 @@ final class App
         ?string $coverBody = null,
         string $notes = '',
         ?string $jobSource = null,
-        ?string $jobExternalId = null
+        ?string $jobExternalId = null,
+        ?array $experienceOverrides = null
     ): array {
         self::ensureDashboardSchema();
         Versions::ensureSchema();
@@ -731,6 +733,10 @@ final class App
             }
         }
         unset($section);
+
+        if ($experienceOverrides !== null && $experienceOverrides !== []) {
+            self::applyExperienceOverrides($snapshot, $experienceOverrides);
+        }
 
         $resumeTitle = $role . ' — ' . $company;
         $resumeId = Versions::saveResumeVersion(
@@ -795,6 +801,46 @@ final class App
             'location' => $location,
             'status' => $finalStatus,
         ];
+    }
+
+    /**
+     * Replace experience bullets in a resume snapshot copy (Main employers/dates unchanged).
+     *
+     * @param array<string, mixed> $snapshot
+     * @param list<array{company_contains?:string,position_contains?:string,bullets:string}> $overrides
+     */
+    private static function applyExperienceOverrides(array &$snapshot, array $overrides): void
+    {
+        if (!isset($snapshot['experiences']) || !is_array($snapshot['experiences'])) {
+            return;
+        }
+        foreach ($snapshot['experiences'] as &$job) {
+            if (!is_array($job)) {
+                continue;
+            }
+            $company = mb_strtolower(trim((string) ($job['company'] ?? '')));
+            $position = mb_strtolower(trim((string) ($job['position'] ?? '')));
+            foreach ($overrides as $rule) {
+                if (!is_array($rule)) {
+                    continue;
+                }
+                $needCo = mb_strtolower(trim((string) ($rule['company_contains'] ?? '')));
+                $needPos = mb_strtolower(trim((string) ($rule['position_contains'] ?? '')));
+                $bullets = trim((string) ($rule['bullets'] ?? ''));
+                if ($bullets === '') {
+                    continue;
+                }
+                if ($needCo !== '' && !str_contains($company, $needCo)) {
+                    continue;
+                }
+                if ($needPos !== '' && !str_contains($position, $needPos)) {
+                    continue;
+                }
+                $job['bullets'] = $bullets;
+                break;
+            }
+        }
+        unset($job);
     }
 
     /**

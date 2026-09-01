@@ -10,7 +10,8 @@ declare(strict_types=1);
  *   {"company":"Acme","role":"QA","location":"Hamburg, Germany","jd":"..."}
  *   JSON
  *
- * Optional keys: user, link, status, profile_title, summary, skills, cover_body, notes
+ * Optional keys: user, link, status, profile_title, summary, skills, cover_body, notes,
+ * experiences (array of {company_contains, position_contains?, bullets})
  */
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
@@ -61,7 +62,10 @@ try {
         isset($data['summary']) ? (string) $data['summary'] : null,
         isset($data['skills']) ? (string) $data['skills'] : null,
         isset($data['cover_body']) ? (string) $data['cover_body'] : null,
-        (string) ($data['notes'] ?? '')
+        (string) ($data['notes'] ?? ''),
+        isset($data['job_source']) ? (string) $data['job_source'] : null,
+        isset($data['job_external_id']) ? (string) $data['job_external_id'] : null,
+        is_array($data['experiences'] ?? null) ? $data['experiences'] : null
     );
 } catch (Throwable $e) {
     fwrite(STDERR, $e->getMessage() . "\n");

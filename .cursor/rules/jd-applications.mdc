@@ -7,13 +7,13 @@ alwaysApply: true
 
 Whenever the user pastes a job description or asks to edit/tailor a resume or cover letter for a company/role:
 
-**Never write a new file under `data/`.** Tailoring is stored in MySQL via `App::tailorFromJd()` (dashboard Apply page or `bin/tailor.php`).
+**Never write a new file under `data/`.** Never create `tmp_*.php` or other one-off tailor scripts in the repo. Tailoring is stored in MySQL via `App::tailorFromJd()` (dashboard Apply page or `bin/tailor.php` only).
 
 1. Copy **Main** resume + **Main** cover (never overwrite Main unless asked).
 2. **Always set the job location** on both:
    - Resume snapshot `location` (e.g. `München, Germany`, `Berlin, Germany`)
    - Cover letter: mention the location in the letter body and/or company line (e.g. `Company · München`)
-3. Light-tailor title/summary/skills from the JD in **English** (the user's `document_lang`); keep experience mostly intact unless asked. Use **Translate PDF…** (DeepL) for German or other languages — do not put German in the resume snapshot unless `document_lang` is `de` or the user asks for German.
+3. Tailor title/summary/skills from the JD in **English** (the user's `document_lang`). **Also reframe experience bullets** in the snapshot copy to match the JD (same employers/dates; JD-aligned wording). Pass `experiences` in `bin/tailor.php` JSON. Use **Translate PDF…** (DeepL) for German — do not put German in the resume snapshot unless `document_lang` is `de` or the user asks for German.
 4. **Always** log the job in Applications (`status` default `applied` unless the user names another).
 5. Tell the user: resume ID, cover ID, location, and Applications status.
 
@@ -25,7 +25,7 @@ Open `/tailor.php`, submit company / role / location / JD, then edit summary, sk
 
 ### B. CLI (inside DDEV) — preferred from chat
 
-Pipe JSON to `bin/tailor.php --user muqaddas` (or another username/email) with optional `summary`, `skills`, `cover_body`, `profile_title`:
+Pipe JSON to `bin/tailor.php --user muqaddas` (or another username/email) with optional `summary`, `skills`, `cover_body`, `profile_title`, `experiences`:
 
 ```bash
 ddev exec php bin/tailor.php <<'JSON'
