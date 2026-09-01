@@ -10,7 +10,7 @@ final class PdfExport
      */
     public static function documentUrl(string $doc, array $query = [], bool $forHost = false): string
     {
-        $path = $doc === 'cover' ? '/cover-letter.php' : '/resume.php';
+        $path = $doc === 'cover' ? '/cover-letter' : '/resume';
         $params = array_merge([
             'embed' => '1',
             'pdf' => '1',
