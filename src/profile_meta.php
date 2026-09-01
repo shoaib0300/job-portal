@@ -15,18 +15,20 @@ function render_profile_details(array $profile, bool $includeLinks = true, bool 
     $contact = [];
     if (App::filled($profile['phone'] ?? null)) {
         $phone = (string) $profile['phone'];
-        $tel = preg_replace('/[^\d+]/', '', $phone) ?: $phone;
-        $contact[] = [
-            'text' => $phone,
-            'url' => 'tel:' . $tel,
-        ];
+        $item = ['text' => $phone];
+        if ($includeLinks) {
+            $tel = preg_replace('/[^\d+]/', '', $phone) ?: $phone;
+            $item['url'] = 'tel:' . $tel;
+        }
+        $contact[] = $item;
     }
     if (App::filled($profile['email'] ?? null)) {
         $email = (string) $profile['email'];
-        $contact[] = [
-            'text' => $email,
-            'url' => 'mailto:' . $email,
-        ];
+        $item = ['text' => $email];
+        if ($includeLinks) {
+            $item['url'] = 'mailto:' . $email;
+        }
+        $contact[] = $item;
     }
     if (App::filled($profile['location'] ?? null)) {
         $contact[] = ['text' => (string) $profile['location']];

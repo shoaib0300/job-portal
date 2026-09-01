@@ -177,6 +177,7 @@ if ($action === 'new' || $action === 'edit') {
               <div class="col-12">
                 <p class="text-secondary small mb-0">Linked resume <a href="/resume.php?version=<?= (int) $row['resume_version_id'] ?>">#<?= (int) $row['resume_version_id'] ?></a>
                   · <a href="<?= App::e(PdfExport::downloadHrefOriginal('resume', $resumePdfExtra)) ?>">PDF</a>
+                  · <a href="<?= App::e(PdfExport::downloadHrefAts('resume', $resumePdfExtra)) ?>">ATS PDF</a>
                   · <a href="<?= App::e(PdfExport::downloadHrefTranslated('resume', $translateTarget, $resumePdfExtra)) ?>">Translate to <?= App::e(TranslateLanguages::label($translateTarget)) ?></a></p>
               </div>
             <?php endif; ?>
@@ -320,9 +321,11 @@ layout_header('Applications');
             <div class="application-docs" aria-label="Job documents">
               <?php if ($rid > 0): ?>
                 <a class="application-doc" href="/resume?version=<?= $rid ?>" title="View job CV">CV</a>
+                <a class="application-doc application-doc-ats" href="<?= App::e(PdfExport::downloadHrefAts('resume', ['version' => $rid])) ?>" title="Upload to employer portal (SAP, Workday)">ATS CV</a>
               <?php endif; ?>
               <?php if ($cid > 0): ?>
                 <a class="application-doc" href="/cover-letter?id=<?= $cid ?>" title="View job cover letter">Cover</a>
+                <a class="application-doc application-doc-ats" href="<?= App::e(PdfExport::downloadHrefAts('cover', ['id' => $cid])) ?>" title="Upload to employer portal">ATS Cover</a>
               <?php endif; ?>
             </div>
           <?php endif; ?>

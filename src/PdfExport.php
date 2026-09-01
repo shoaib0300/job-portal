@@ -119,6 +119,13 @@ final class PdfExport
         return self::personSlug($name) . '_' . $suffix . '_' . TranslateLanguages::filenameSuffix($lang) . '.pdf';
     }
 
+    /** SAP/ATS portals: short ASCII name, no spaces or language suffix. */
+    public static function safeAtsFilename(string $doc, string $name): string
+    {
+        $slug = self::personSlug($name);
+        return $doc === 'cover' ? $slug . '_Cover_Letter.pdf' : $slug . '_CV.pdf';
+    }
+
     /** Browser print / Save as PDF document title (no .pdf). */
     public static function printDocumentTitle(string $doc, string $name, string $lang = 'en'): string
     {
@@ -143,6 +150,12 @@ final class PdfExport
     public static function downloadHrefOriginal(string $doc, array $extra = []): string
     {
         return self::downloadHref($doc, App::resolveDocumentLang(), $extra);
+    }
+
+    /** Minimal PDF for employer ATS uploads (no photo, plain theme). */
+    public static function downloadHrefAts(string $doc, array $extra = []): string
+    {
+        return self::downloadHrefOriginal($doc, array_merge($extra, ['ats' => '1', 'theme' => 'ivory']));
     }
 
     /** Paid PDF translated to target language via DeepL. */
@@ -182,14 +195,14 @@ final class PdfExport
 
         try {
             self::generateViaService($doc, $query, $outfile);
-            return $outfile;
+            return self::finalizeExport($outfile, $query);
         } catch (Throwable $e) {
             $errors[] = 'service: ' . $e->getMessage();
         }
 
         try {
             self::generateViaNode($doc, $query, $outfile);
-            return $outfile;
+            return self::finalizeExport($outfile, $query);
         } catch (Throwable $e) {
             $errors[] = 'node: ' . $e->getMessage();
         }
@@ -284,6 +297,41 @@ final class PdfExport
             $detail = trim($stderr !== '' ? $stderr : $stdout);
             throw new RuntimeException($detail !== '' ? $detail : 'export-pdf.mjs failed');
         }
+    }
+
+    /**
+     * @param array<string, mixed> $query
+     */
+    private static function finalizeExport(string $outfile, array $query): string
+    {
+        if (AtsExport::isEnabled($query)) {
+            return self::optimizeForAts($outfile);
+        }
+        return $outfile;
+    }
+
+    /** Re-save as PDF 1.4 for picky employer ATS uploads (SAP, etc.). */
+    private static function optimizeForAts(string $infile): string
+    {
+        $gs = trim((string) shell_exec('command -v gs 2>/dev/null'));
+        if ($gs === '' || !is_file($infile)) {
+            return $infile;
+        }
+        $outfile = preg_replace('/\.pdf$/i', '', $infile) . '-ats.pdf';
+        if ($outfile === $infile) {
+            $outfile = $infile . '.ats.pdf';
+        }
+        $cmd = escapeshellcmd($gs)
+            . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress'
+            . ' -dNOPAUSE -dQUIET -dBATCH -sOutputFile='
+            . escapeshellarg($outfile) . ' ' . escapeshellarg($infile) . ' 2>/dev/null';
+        exec($cmd, $unused, $code);
+        if ($code === 0 && is_file($outfile) && filesize($outfile) > 100) {
+            @unlink($infile);
+            return $outfile;
+        }
+        @unlink($outfile);
+        return $infile;
     }
 
     private static function findNode(): string

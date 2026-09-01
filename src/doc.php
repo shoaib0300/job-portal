@@ -5,11 +5,15 @@ declare(strict_types=1);
 /**
  * Shared query overrides for live preview / design studio.
  *
- * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, company: string, versionId: int, coverId: int, lang: string, translate: bool, target: string}
+ * @return array{theme: string, accent: string, font: string, embed: bool, pdfMode: bool, ats: bool, company: string, versionId: int, coverId: int, lang: string, translate: bool, target: string}
  */
 function doc_view_options(): array
 {
+    $ats = isset($_GET['ats']) && (string) $_GET['ats'] === '1';
     $theme = App::resolveTheme($_GET['theme'] ?? null);
+    if ($ats) {
+        $theme = 'ivory';
+    }
     $accent = App::resolveAccent($_GET['accent'] ?? null);
     $font = App::resolveFont($_GET['font'] ?? null);
     $embed = isset($_GET['embed']) && (string) $_GET['embed'] === '1';
@@ -26,6 +30,7 @@ function doc_view_options(): array
         'font' => $font,
         'embed' => $embed,
         'pdfMode' => $pdfMode,
+        'ats' => $ats,
         'company' => App::setting('active_company', '') ?: '',
         'versionId' => isset($_GET['version']) ? (int) $_GET['version'] : 0,
         'coverId' => isset($_GET['id']) ? (int) $_GET['id'] : 0,

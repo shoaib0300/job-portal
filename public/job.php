@@ -146,9 +146,11 @@ layout_header($job->title !== '' ? $job->title : 'Job');
       <div class="d-flex flex-wrap gap-2 mb-2">
         <?php if ($existingApp['resume_version_id']): ?>
           <a class="btn btn-sm btn-outline-primary" href="/resume-edit?version=<?= (int) $existingApp['resume_version_id'] ?>">Edit resume</a>
+          <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHrefAts('resume', ['version' => (int) $existingApp['resume_version_id']])) ?>">ATS CV PDF</a>
         <?php endif; ?>
         <?php if ($existingApp['cover_letter_id']): ?>
           <a class="btn btn-sm btn-outline-primary" href="/cover-edit?id=<?= (int) $existingApp['cover_letter_id'] ?>">Edit cover</a>
+          <a class="btn btn-sm btn-outline-primary" href="<?= App::e(PdfExport::downloadHrefAts('cover', ['id' => (int) $existingApp['cover_letter_id']])) ?>">ATS cover PDF</a>
         <?php endif; ?>
       </div>
     <?php endif; ?>

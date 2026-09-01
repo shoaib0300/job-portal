@@ -20,6 +20,7 @@ $accent = $opts['accent'];
 $font = $opts['font'];
 $embed = $opts['embed'];
 $pdfMode = $opts['pdfMode'];
+$atsMode = !empty($opts['ats']);
 $exportOptions = Versions::coverExportOptions();
 $translateError = null;
 if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && $opts['target'] !== $documentLang) {
@@ -80,7 +81,7 @@ if (!$embed):
     <?php if (App::filled($profile['title'] ?? null)): ?>
       <span><?= App::e($profile['title']) ?></span>
     <?php endif; ?>
-    <?php render_profile_details($profile, true, true); ?>
+    <?php render_profile_details($profile, !$atsMode, !$atsMode); ?>
   </header>
 
   <?php if ($letter): ?>

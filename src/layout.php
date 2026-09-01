@@ -223,6 +223,7 @@ function layout_pdf_buttons(string $doc, array $extra = [], array $opts = []): v
     $exportAttr = $exportJson !== '' ? ' data-export-options="' . $exportJson . '"' : '';
     ?>
     <a class="btn btn-sm btn-primary" href="<?= App::e(PdfExport::downloadHrefOriginal($doc, $extra)) ?>" data-download-pdf data-doc="<?= $docAttr ?>"<?= $exportAttr ?>>Download PDF</a>
+    <a class="btn btn-sm btn-outline-primary" href="<?= App::e(PdfExport::downloadHrefAts($doc, $extra)) ?>" title="For employer portals (SAP, Workday): no links, PDF 1.4, simple filename">ATS PDF</a>
     <button type="button" class="btn btn-sm btn-outline-secondary" data-translate-pdf data-doc="<?= $docAttr ?>"<?= $exportAttr ?>>Translate PDF…</button>
     <?php
 }

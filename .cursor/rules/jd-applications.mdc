@@ -16,6 +16,7 @@ Whenever the user pastes a job description or asks to edit/tailor a resume or co
 3. Tailor title/summary/skills from the JD in **English** (the user's `document_lang`). **Also reframe experience bullets** in the snapshot copy to match the JD (same employers/dates; JD-aligned wording). Pass `experiences` in `bin/tailor.php` JSON. Use **Translate PDF…** (DeepL) for German — do not put German in the resume snapshot unless `document_lang` is `de` or the user asks for German.
 4. **Always** log the job in Applications (`status` default `applied` unless the user names another).
 5. Tell the user: resume ID, cover ID, location, and Applications status.
+6. For **employer portal uploads** (SAP, Workday, etc.), tell the user to use **ATS PDF** (not regular PDF or Print). It strips employer name from the resume, removes hyperlinks, uses a simple filename (`name_CV.pdf`), and exports PDF 1.4. Link: `/pdf.php?version={id}&ats=1&theme=ivory&doc=resume&lang=en` or **ATS PDF** on Applications / resume toolbar. **Never put the employer name in the resume summary** — only in the cover letter.
 
 ## How to apply (use one of these)
 

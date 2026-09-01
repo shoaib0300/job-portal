@@ -12,6 +12,7 @@ Versions::ensureSchema();
 
 $opts = doc_view_options();
 $versionId = (int) ($opts['versionId'] ?? 0);
+$atsMode = !empty($opts['ats']);
 $documentLang = App::resolveDocumentLang();
 $lang = (string) ($opts['lang'] ?? $documentLang);
 $payload = Versions::resumePayloadForView($versionId > 0 ? $versionId : null);
@@ -28,6 +29,9 @@ if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && $opts['targe
             exit;
         }
     }
+}
+if ($atsMode) {
+    $payload = AtsExport::sanitizeResumePayload($payload);
 }
 $profile = $payload['profile'];
 $sections = $payload['sections'];
@@ -81,9 +85,9 @@ if (!$embed):
 <?php endif; ?>
 <?php endif; ?>
 
-<article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?><?= App::shouldShowPhoto($profile) ? ' has-photo' : ' no-photo' ?>" data-doc="resume">
+<article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?><?= App::shouldShowPhoto($profile) && !$atsMode ? ' has-photo' : ' no-photo' ?>" data-doc="resume">
   <header class="resume-header">
-    <?php if (App::shouldShowPhoto($profile)): ?>
+    <?php if (App::shouldShowPhoto($profile) && !$atsMode): ?>
       <div class="resume-photo">
         <img src="<?= App::e(App::photoUrl($profile)) ?>" alt="<?= App::e($profile['full_name']) ?>">
       </div>
@@ -93,7 +97,7 @@ if (!$embed):
       <?php if (App::filled($profile['title'] ?? null)): ?>
         <p class="resume-title"><?= App::e($profile['title']) ?></p>
       <?php endif; ?>
-      <?php render_profile_details($profile, true); ?>
+      <?php render_profile_details($profile, !$atsMode, !$atsMode); ?>
     </div>
   </header>
 

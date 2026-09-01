@@ -19,7 +19,10 @@ $target = $translate ? TranslateLanguages::normalize((string) ($_GET['target'] ?
 $lang = $translate && $target !== '' ? $target : $documentLang;
 
 $profile = App::profile();
-$filename = PdfExport::safeFilename($doc, (string) ($profile['full_name'] ?? 'Document'), $lang);
+$atsExport = isset($_GET['ats']) && (string) $_GET['ats'] === '1';
+$filename = $atsExport
+    ? PdfExport::safeAtsFilename($doc, (string) ($profile['full_name'] ?? 'Document'))
+    : PdfExport::safeFilename($doc, (string) ($profile['full_name'] ?? 'Document'), $lang);
 
 $inline = isset($_GET['inline']) && (string) $_GET['inline'] === '1';
 
@@ -41,6 +44,10 @@ if ($doc === 'resume' && $version > 0) {
 }
 if ($doc === 'cover' && $coverId > 0) {
     $query['id'] = $coverId;
+}
+if (isset($_GET['ats']) && (string) $_GET['ats'] === '1') {
+    $query['ats'] = '1';
+    $query['theme'] = 'ivory';
 }
 
 try {

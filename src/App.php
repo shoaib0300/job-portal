@@ -738,6 +738,8 @@ final class App
             self::applyExperienceOverrides($snapshot, $experienceOverrides);
         }
 
+        $snapshot = AtsExport::sanitizeSnapshot($snapshot, $company);
+
         $resumeTitle = $role . ' — ' . $company;
         $resumeId = Versions::saveResumeVersion(
             $resumeTitle,
