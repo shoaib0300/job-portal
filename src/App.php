@@ -1442,6 +1442,7 @@ final class App
             'index.php', '' => '',
             'tailor.php' => 'apply',
             'jobs.php', 'job.php' => 'jobs',
+            'saved-jobs.php' => 'saved-jobs',
             'companies.php' => 'companies',
             'applications.php', 'history.php' => 'applications',
             'documents.php', 'editor.php', 'resume-edit.php', 'design.php' => 'resume',

@@ -266,6 +266,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'dashboard', 'href' => Site::portalHomePath(), 'label' => 'Home', 'icon' => 'home'],
         ['key' => 'apply', 'href' => '/tailor', 'label' => 'New job', 'icon' => 'apply'],
         ['key' => 'jobs', 'href' => '/jobs', 'label' => 'Jobs', 'icon' => 'jobs'],
+        ['key' => 'saved-jobs', 'href' => '/saved-jobs', 'label' => 'Saved jobs', 'icon' => 'bookmark'],
         ['key' => 'companies', 'href' => '/companies', 'label' => 'Companies', 'icon' => 'company'],
         ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
         ['key' => 'resume', 'href' => '/editor', 'label' => 'Resume', 'icon' => 'edit'],
@@ -298,7 +299,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260831d">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260901a">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
   <style>
@@ -448,7 +449,7 @@ function layout_footer(bool $withJs = true): void
     if ($withJs):
         ?>
   <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/app.js?v=20260831e"></script>
+  <script src="/assets/js/app.js?v=20260901a"></script>
   <script>window.kmTranslateLangs=<?= json_encode(TranslateLanguages::optionsForJs(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]' ?>;</script>
         <?php
     endif;

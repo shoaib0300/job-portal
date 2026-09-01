@@ -11,6 +11,7 @@ use KaamFit\Jobs\JobAggregator;
 use KaamFit\Jobs\JobQuery;
 use KaamFit\Jobs\JobsResultsView;
 use KaamFit\Jobs\ResumeJobMatch;
+use KaamFit\Jobs\SavedJobs;
 use KaamFit\Jobs\Sources\SerpBoardSource;
 
 final class JobsController
@@ -47,9 +48,12 @@ final class JobsController
         $applicationMap = $ran && $result['listings'] !== []
             ? App::applicationStatusMapForJobs($result['listings'])
             : [];
+        $savedMap = $ran && $result['listings'] !== []
+            ? SavedJobs::mapForJobs($result['listings'])
+            : [];
 
         if (isset($_GET['format']) && (string) $_GET['format'] === 'json') {
-            $this->json($query, $result, $ran, $applicationMap);
+            $this->json($query, $result, $ran, $applicationMap, $savedMap);
             return;
         }
 
@@ -65,21 +69,22 @@ final class JobsController
             ],
             'resumeTitle' => ResumeJobMatch::masterTitle(),
             'serpConfigured' => SerpBoardSource::configured(),
-            'resultsHtml' => JobsResultsView::render($query, $result, $ran, $applicationMap),
+            'resultsHtml' => JobsResultsView::render($query, $result, $ran, $applicationMap, $savedMap),
         ]);
     }
 
     /**
      * @param array{listings: list<\KaamFit\Jobs\JobListing>, total: int, index_total: int, notices: list<string>, page: int, pages: int} $result
      * @param array<string, array{status:string,id:int}> $applicationMap
+     * @param array<string, true> $savedMap
      */
-    private function json(JobQuery $query, array $result, bool $ran, array $applicationMap): void
+    private function json(JobQuery $query, array $result, bool $ran, array $applicationMap, array $savedMap): void
     {
         header('Content-Type: application/json; charset=utf-8');
         header('Cache-Control: no-store');
         echo json_encode([
             'ok' => true,
-            'html' => JobsResultsView::render($query, $result, $ran, $applicationMap),
+            'html' => JobsResultsView::render($query, $result, $ran, $applicationMap, $savedMap),
             'page' => (int) $result['page'],
             'pages' => (int) $result['pages'],
             'total' => (int) $result['total'],

@@ -8,6 +8,7 @@ require_once dirname(__DIR__) . '/src/layout.php';
 use KaamFit\Jobs\JobAggregator;
 use KaamFit\Jobs\JobQuery;
 use KaamFit\Jobs\JobText;
+use KaamFit\Jobs\SavedJobs;
 
 JobAggregator::ensureSchema();
 App::ensureDashboardSchema();
@@ -114,13 +115,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($postAction === 'prepare' || $post
 
 $existingApp = App::applicationForJob($source, $externalId, $company, $role, $applyHref);
 $sourceLabels = JobQuery::SOURCES;
+$jobSaved = SavedJobs::isSaved(App::userId(), $source, $externalId);
+
+require_once dirname(__DIR__) . '/src/Views/jobs/_bookmark_button.php';
 
 layout_header($job->title !== '' ? $job->title : 'Job');
 ?>
 <main class="page-wide">
   <header class="page-head">
     <p><a href="<?= App::e(JobQuery::jobsHref()) ?>">&larr; Jobs</a></p>
-    <h1><?= App::e($job->title) ?></h1>
+    <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+      <h1 class="mb-0"><?= App::e($job->title) ?></h1>
+      <div class="jobs-bookmark-detail">
+        <?php render_job_bookmark_button($source, $externalId, $jobSaved, [
+            'title' => $job->title,
+            'company' => $job->company,
+            'location' => $job->locationLine(),
+            'apply_url' => $job->applyHref(),
+        ]); ?>
+      </div>
+    </div>
     <p>
       <span class="badge text-bg-light border"><?= App::e($sourceLabels[$job->source] ?? $job->source) ?></span>
       <?php if ($job->workMode !== 'unknown'): ?>

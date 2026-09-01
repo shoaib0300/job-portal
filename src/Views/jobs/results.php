@@ -8,10 +8,13 @@ declare(strict_types=1);
 /** @var array<string, string> $sourceLabels */
 /** @var string $resumeTitle */
 /** @var array<string, array{status:string,id:int}> $applicationMap */
+/** @var array<string, true> $savedMap */
 /** @var array<string, int> $resumeTerms */
 
 use KaamFit\Jobs\JobText;
 use KaamFit\Jobs\ResumeJobMatch;
+
+require_once dirname(__DIR__, 3) . '/src/Views/jobs/_bookmark_button.php';
 ?>
       <div class="d-flex flex-wrap align-items-center gap-2 mb-3" data-jobs-meta>
         <?php if ($ran): ?>
@@ -96,6 +99,7 @@ use KaamFit\Jobs\ResumeJobMatch;
               $fitLabel = $query->matchResume ? ResumeJobMatch::fitLabel($fitScore) : '';
               $appKey = App::jobApplicationKey($job->source, $job->externalId);
               $appStatus = $applicationMap[$appKey]['status'] ?? null;
+              $isSaved = isset($savedMap[$appKey]);
               $appBadgeLabel = match ($appStatus) {
                   'applied' => 'Applied',
                   'preparing' => 'Preparing',
@@ -107,9 +111,15 @@ use KaamFit\Jobs\ResumeJobMatch;
               };
               ?>
               <div class="col">
-                <article class="card shadow-sm h-100 jobs-job-card">
+                <article class="card shadow-sm h-100 jobs-job-card position-relative">
+                    <?php render_job_bookmark_button($job->source, $job->externalId, $isSaved, [
+                        'title' => $job->title,
+                        'company' => $job->company,
+                        'location' => $job->locationLine(),
+                        'apply_url' => $job->applyHref(),
+                    ]); ?>
                   <div class="card-body d-flex flex-column">
-                    <div class="d-flex flex-wrap gap-1 mb-2">
+                    <div class="d-flex flex-wrap gap-1 mb-2 jobs-job-card-badges">
                       <span class="badge text-bg-light border"><?= App::e($sourceLabels[$job->source] ?? $job->source) ?></span>
                       <?php if ($job->workMode !== 'unknown'): ?>
                         <span class="badge text-bg-light border"><?= App::e($job->workMode) ?></span>

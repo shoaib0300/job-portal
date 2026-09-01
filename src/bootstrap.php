@@ -79,6 +79,7 @@ try {
     Auth::ensureSchema();
     SuperAdmin::ensureSchema();
     KaamFit\Jobs\JobAggregator::ensureSchema();
+    KaamFit\Jobs\SavedJobs::ensureSchema();
     LibreTranslate::ensureSchema();
     TranslationGlossary::ensureSchema();
 } catch (Throwable $e) {

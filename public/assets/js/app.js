@@ -1047,6 +1047,83 @@
 })();
 
 (() => {
+  function setBookmarkState(btn, saved) {
+    btn.classList.toggle("is-saved", saved);
+    btn.setAttribute("aria-pressed", saved ? "true" : "false");
+    const label = saved ? "Remove saved job" : "Save job";
+    btn.setAttribute("aria-label", label);
+    btn.setAttribute("title", label);
+    const img = btn.querySelector(".jobs-bookmark-img");
+    if (img) {
+      const nextSrc = saved
+        ? btn.getAttribute("data-filled-src")
+        : btn.getAttribute("data-outline-src");
+      if (nextSrc) img.src = nextSrc;
+    }
+  }
+
+  document.addEventListener("click", async (event) => {
+    const btn = event.target.closest("[data-job-bookmark]");
+    if (!btn || btn.disabled) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const source = btn.getAttribute("data-source") || "";
+    const externalId = btn.getAttribute("data-external-id") || "";
+    if (!source || !externalId) return;
+
+    const wasSaved = btn.classList.contains("is-saved");
+    btn.disabled = true;
+
+    const body = new FormData();
+    body.set("action", "toggle");
+    body.set("source", source);
+    body.set("external_id", externalId);
+    body.set("title", btn.getAttribute("data-title") || "");
+    body.set("company", btn.getAttribute("data-company") || "");
+    body.set("location", btn.getAttribute("data-location") || "");
+    body.set("apply_url", btn.getAttribute("data-apply-url") || "");
+
+    try {
+      const res = await fetch("/job-bookmark.php", {
+        method: "POST",
+        body,
+        credentials: "same-origin",
+        headers: { Accept: "application/json" },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Could not save job");
+      }
+      setBookmarkState(btn, !!data.saved);
+
+      document.querySelectorAll("[data-job-bookmark]").forEach((other) => {
+        if (
+          other !== btn &&
+          other.getAttribute("data-source") === source &&
+          other.getAttribute("data-external-id") === externalId
+        ) {
+          setBookmarkState(other, !!data.saved);
+        }
+      });
+
+      const listItem = btn.closest(".saved-jobs-item");
+      if (listItem && !data.saved) {
+        listItem.remove();
+        const list = document.querySelector(".saved-jobs-list");
+        if (list && !list.querySelector(".saved-jobs-item")) {
+          window.location.reload();
+        }
+      }
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : "Could not save job");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+})();
+
+(() => {
   const form = document.querySelector("[data-settings-look-form]");
   const preview = document.querySelector("[data-settings-preview]");
   if (!form || !preview) return;
