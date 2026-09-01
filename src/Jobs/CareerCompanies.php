@@ -256,6 +256,8 @@ final class CareerCompanies
             'zalando' => '#FF6900',
             'sap' => '#0FAAFF',
             'rossmann' => '#C8102E',
+            'meine-karriere-im-handel' => '#005192',
+            'citti' => '#005192',
         ];
         foreach ($known as $needle => $color) {
             if (str_contains($hay, $needle)) {
@@ -320,10 +322,10 @@ final class CareerCompanies
         $type = strtolower(trim($type));
         $key = trim($key);
         $url = trim($url);
-        if ($name === '' || $key === '' || !in_array($type, ['greenhouse', 'personio', 'smartrecruiters', 'successfactors', 'site', 'sitemap'], true)) {
-            throw new InvalidArgumentException('Need company name, type (greenhouse/personio/smartrecruiters/successfactors/site/sitemap), and key.');
+        if ($name === '' || $key === '' || !in_array($type, ['greenhouse', 'personio', 'smartrecruiters', 'successfactors', 'site', 'sitemap', 'portal'], true)) {
+            throw new InvalidArgumentException('Need company name, type (greenhouse/personio/smartrecruiters/successfactors/site/sitemap/portal), and key.');
         }
-        if ($type === 'site' || $type === 'sitemap' || $type === 'successfactors') {
+        if ($type === 'site' || $type === 'sitemap' || $type === 'successfactors' || $type === 'portal') {
             $host = self::hostFromUrl($url !== '' ? $url : $key);
             if ($host === '') {
                 throw new InvalidArgumentException('Site/sitemap/SuccessFactors boards need a careers URL like https://jobs.example.com/');
@@ -489,6 +491,7 @@ final class CareerCompanies
             ['name' => 'Edeka', 'type' => 'site', 'key' => 'verbund.edeka', 'url' => 'https://verbund.edeka/karriere'],
             ['name' => 'dm-drogerie', 'type' => 'site', 'key' => 'www.dm.de', 'url' => 'https://www.dm.de/unternehmen/karriere'],
             ['name' => 'Rossmann', 'type' => 'sitemap', 'key' => 'jobs.rossmann.de', 'url' => 'https://jobs.rossmann.de/'],
+            ['name' => 'Meine Karriere im Handel (CITTI)', 'type' => 'portal', 'key' => 'www.meine-karriere-im-handel.de', 'url' => 'https://www.meine-karriere-im-handel.de/jobsuche'],
             ['name' => 'DIS AG', 'type' => 'sitemap', 'key' => 'jobs.de.dis-ag.com', 'url' => 'https://jobs.de.dis-ag.com/'],
             ['name' => 'DATEV', 'type' => 'site', 'key' => 'www.datev.de', 'url' => 'https://www.datev.de/web/de/karriere'],
             ['name' => 'TeamViewer', 'type' => 'site', 'key' => 'www.teamviewer.com', 'url' => 'https://www.teamviewer.com/en/company/careers'],

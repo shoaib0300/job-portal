@@ -167,6 +167,12 @@ final class JobsIngest
             'sources' => ['career'],
             'companies' => ['successfactors:jobs.nordex-online.com'],
         ];
+        $seeds[] = [
+            'q' => '',
+            'city' => '',
+            'sources' => ['career'],
+            'companies' => ['portal:www.meine-karriere-im-handel.de'],
+        ];
 
         // StudentJob.de — sitemap fills the full 14-day catalog in one seed.
         $seeds[] = [

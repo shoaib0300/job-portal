@@ -44,6 +44,7 @@ final class AtsBoardSource
         $siteBoards = [];
         $sitemapBoards = [];
         $sfBoards = [];
+        $portalBoards = [];
         foreach ($boards as $board) {
             $t = (string) ($board['type'] ?? '');
             if ($t === 'site') {
@@ -52,6 +53,8 @@ final class AtsBoardSource
                 $sitemapBoards[] = $board;
             } elseif ($t === 'successfactors') {
                 $sfBoards[] = $board;
+            } elseif ($t === 'portal') {
+                $portalBoards[] = $board;
             } else {
                 $apiBoards[] = $board;
             }
@@ -114,6 +117,13 @@ final class AtsBoardSource
         $ok += $siteResult['ok'];
         if ($siteResult['notice']) {
             $notices[] = $siteResult['notice'];
+        }
+
+        $portalResult = MeineKarrierePortalSource::searchBoards($portalBoards, $query);
+        $listings = array_merge($listings, $portalResult['listings']);
+        $ok += $portalResult['ok'];
+        if ($portalResult['notice']) {
+            $notices[] = $portalResult['notice'];
         }
 
         $needle = mb_strtolower(trim($query->searchWas() . ($studentBias ? ' werkstudent praktikum hiwi' : '')));
@@ -708,6 +718,10 @@ final class AtsBoardSource
 
     public static function details(string $externalId): ?JobListing
     {
+        if (str_starts_with($externalId, 'portal:')) {
+            return MeineKarrierePortalSource::details($externalId);
+        }
+
         $cached = JobCache::getListing('career', $externalId)
             ?? JobCache::getListing('university', $externalId);
         if ($cached === null) {

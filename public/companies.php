@@ -54,7 +54,7 @@ if (!in_array($scope, ['all', 'shared', 'mine'], true)) {
     $scope = 'all';
 }
 $type = strtolower(trim((string) ($_GET['type'] ?? '')));
-if (!in_array($type, ['', 'greenhouse', 'personio', 'smartrecruiters', 'successfactors', 'site', 'sitemap'], true)) {
+if (!in_array($type, ['', 'greenhouse', 'personio', 'smartrecruiters', 'successfactors', 'site', 'sitemap', 'portal'], true)) {
     $type = '';
 }
 $search = trim((string) ($_GET['q'] ?? ''));
@@ -117,6 +117,7 @@ layout_header('Companies');
           <select class="form-select" id="board_type" name="board_type" required>
             <option value="site">Career site URL</option>
             <option value="sitemap">Job sitemap</option>
+            <option value="portal">CITTI job portal</option>
             <option value="successfactors">SuccessFactors</option>
             <option value="greenhouse">Greenhouse</option>
             <option value="personio">Personio</option>
@@ -152,7 +153,7 @@ layout_header('Companies');
         <label class="form-label" for="filter-type">Type</label>
         <select class="form-select" id="filter-type" name="type">
           <option value=""<?= $type === '' ? ' selected' : '' ?>>All types</option>
-          <?php foreach (['greenhouse', 'personio', 'smartrecruiters', 'successfactors', 'site', 'sitemap'] as $t): ?>
+          <?php foreach (['greenhouse', 'personio', 'smartrecruiters', 'successfactors', 'site', 'sitemap', 'portal'] as $t): ?>
             <option value="<?= $t ?>"<?= $type === $t ? ' selected' : '' ?>><?= App::e($t) ?></option>
           <?php endforeach; ?>
         </select>

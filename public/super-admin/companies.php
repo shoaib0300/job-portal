@@ -71,6 +71,7 @@ super_layout_header('Shared companies');
         <select class="form-select" id="board_type" name="board_type" required>
           <option value="site">Career site URL</option>
           <option value="sitemap">Job sitemap</option>
+          <option value="portal">CITTI job portal</option>
           <option value="successfactors">SuccessFactors</option>
           <option value="greenhouse">Greenhouse</option>
           <option value="personio">Personio</option>

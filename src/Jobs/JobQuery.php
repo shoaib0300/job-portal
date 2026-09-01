@@ -539,7 +539,7 @@ final class JobQuery
             'sources' => $this->sources,
             'companies' => $this->companies,
         ];
-        return 'search:v31:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
+        return 'search:v32:' . hash('sha256', (string) json_encode($payload, JSON_UNESCAPED_UNICODE));
     }
 
     /** Human-readable active filters for empty-state hints. @return list<string> */
