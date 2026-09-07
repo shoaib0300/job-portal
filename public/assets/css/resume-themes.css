@@ -1387,12 +1387,19 @@
 
 /* Embed / PDF */
 .site-shell-embed {
-  width: min(900px, 100%);
-  padding: 1rem;
+  width: 210mm;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
 }
 
 body.is-embed {
-  background: #ece8df;
+  background: #fff;
+}
+
+body.is-embed.pdf-mode,
+body.pdf-mode.is-embed {
+  background: #fff;
 }
 
 .pdf-mode .resume,
@@ -1401,7 +1408,12 @@ body.is-embed {
 .cover-letter.pdf-ready {
   box-shadow: none;
   border-radius: 0;
-  max-width: 100%;
+  border: none;
+  max-width: 210mm;
+  width: 210mm;
+  margin: 0;
+  padding: 12mm 12mm;
+  box-sizing: border-box;
 }
 
 @media print {
@@ -1451,7 +1463,8 @@ body.is-embed {
     min-height: 297mm !important;
     height: auto !important;
     margin: 0 !important;
-    padding: 18mm 16mm !important;
+    /* Single content inset only — @page margin must stay 0 (no double margins). */
+    padding: 12mm 12mm !important;
     box-sizing: border-box !important;
     /* Clone padding + background onto every page fragment (fixes page-2 top flush) */
     -webkit-box-decoration-break: clone !important;
@@ -1462,6 +1475,20 @@ body.is-embed {
     overflow: visible !important;
     page-break-after: avoid !important;
     background-clip: padding-box !important;
+  }
+
+  .resume.theme-ats,
+  .resume.theme-ivory,
+  .cover-letter.theme-ats,
+  .cover-letter.theme-ivory,
+  .resume.density-compact,
+  .cover-letter.density-compact {
+    padding: 10mm 11mm !important;
+  }
+
+  .resume.density-tight,
+  .cover-letter.density-tight {
+    padding: 10mm 11mm !important;
   }
 
   /* Full-page theme fills — fixed layer paints on every printed page */
@@ -1644,16 +1671,24 @@ body.is-embed {
 .resume.theme-classic,
 .resume.theme-technical,
 .resume.theme-minimal,
-.resume.theme-ivory {
+.resume.theme-ivory,
+.cover-letter.theme-modern_de,
+.cover-letter.theme-ats,
+.cover-letter.theme-classic,
+.cover-letter.theme-technical,
+.cover-letter.theme-minimal,
+.cover-letter.theme-ivory {
   font-family: "Source Sans 3", "Inter", Arial, Helvetica, sans-serif;
   max-width: 210mm;
-  padding: 14mm 16mm;
+  width: 100%;
+  padding: 12mm 12mm;
   border-radius: 0;
   box-shadow: none;
   border: 1px solid #ddd;
   line-height: 1.35;
   font-size: 10.5pt;
   color: #1a1a1a;
+  box-sizing: border-box;
 }
 
 .resume.theme-modern_de .resume-header h1,
@@ -1879,15 +1914,17 @@ body.is-embed {
 }
 
 /* Density */
-.resume.density-tight {
+.resume.density-tight,
+.cover-letter.density-tight {
   font-size: 10pt;
-  padding: 12mm 14mm;
+  padding: 10mm 11mm;
   line-height: 1.3;
 }
 .resume.density-tight .resume-section h2 { margin-top: 0.7rem; }
-.resume.density-compact {
+.resume.density-compact,
+.cover-letter.density-compact {
   font-size: 9.5pt;
-  padding: 10mm 12mm;
+  padding: 8mm 10mm;
   line-height: 1.28;
 }
 .resume.density-compact .resume-section h2 { margin-top: 0.55rem; font-size: 10pt; }
@@ -1976,7 +2013,8 @@ body.is-embed {
   }
 }
 
+/* Print page box: zero margin — content padding on .resume/.cover-letter is the only inset. */
 @page {
-  size: A4;
-  margin: 12mm;
+  size: A4 portrait;
+  margin: 0;
 }
