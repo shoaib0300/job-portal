@@ -368,9 +368,15 @@ final class Auth
         $pdo = Db::pdo();
 
         $defaults = [
-            'accent_color' => '#5B4CDB',
-            'theme' => 'sage',
-            'font_family' => 'candara',
+            'accent_color' => '#0d7377',
+            'theme' => 'modern_de',
+            'resume_template' => 'modern_de',
+            'resume_mode' => 'professional',
+            'photo_mode' => 'with_photo',
+            'resume_density' => 'normal',
+            'show_personal_extras' => '0',
+            'show_signature' => '0',
+            'font_family' => 'arial',
             'pdf_mode' => '0',
             'active_company' => '',
             'ui_density' => 'comfortable',
@@ -380,6 +386,7 @@ final class Auth
             'name_size' => 'md',
             'font_size' => 'md',
             'section_spacing' => 'md',
+            'document_lang' => 'en',
         ];
         $insSet = $pdo->prepare(
             'INSERT INTO user_settings (user_id, `key`, `value`) VALUES (?, ?, ?)
@@ -401,17 +408,24 @@ final class Auth
         ]);
 
         $sections = [
-            ['summary', 'Summary', 'Write a short professional summary.', 10],
-            ['experience', 'Experience', '', 20],
-            ['skills', 'Skills', "Tools\n\nLanguages\nEnglish — Professional Working Proficiency", 30],
-            ['education', 'Education', '', 40],
+            ['summary', 'Kurzprofil', 'Write a short professional profile (3–5 lines).', 10, 1],
+            ['experience', 'Berufserfahrung', '', 20, 1],
+            ['education', 'Ausbildung / Studium', '', 30, 1],
+            ['skills', 'Kenntnisse & Fähigkeiten', "Programmiersprachen\nPHP · JavaScript\n\nFrameworks\nSymfony · React\n\nTools\nGit · Docker · MySQL", 40, 1],
+            ['languages', 'Sprachen', "Deutsch — B1\nEnglisch — C1", 50, 1],
+            ['certificates', 'Zertifikate & Weiterbildungen', '', 60, 0],
+            ['projects', 'Projekte', '', 70, 0],
+            ['internships', 'Praktika', '', 80, 0],
+            ['interests', 'Interessen', '', 90, 0],
+            ['additional', 'Weitere Informationen', '', 100, 0],
+            ['signature', 'Ort / Datum', '', 110, 0],
         ];
         $insSec = $pdo->prepare(
             'INSERT INTO resume_sections (user_id, section_key, title, body, sort_order, visible)
-             VALUES (?, ?, ?, ?, ?, 1)'
+             VALUES (?, ?, ?, ?, ?, ?)'
         );
         foreach ($sections as $section) {
-            $insSec->execute([$userId, $section[0], $section[1], $section[2], $section[3]]);
+            $insSec->execute([$userId, $section[0], $section[1], $section[2], $section[3], $section[4]]);
         }
 
         $pdo->prepare(

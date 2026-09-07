@@ -292,12 +292,37 @@ final class App
 
     public static function experienceDateRange(array $entry): string
     {
-        $start = trim((string) ($entry['start_date'] ?? ''));
-        $end = trim((string) ($entry['end_date'] ?? ''));
+        $start = self::normalizeCvDate(trim((string) ($entry['start_date'] ?? '')));
+        $endRaw = trim((string) ($entry['end_date'] ?? ''));
+        $endLower = mb_strtolower($endRaw);
+        $present = $endRaw === '' || in_array($endLower, ['present', 'current', 'heute', 'now', 'ongoing'], true);
+        $end = $present && $start !== '' ? 'heute' : self::normalizeCvDate($endRaw);
         if ($start !== '' && $end !== '') {
             return $start . ' – ' . $end;
         }
+
         return $start !== '' ? $start : $end;
+    }
+
+    /** Normalize free-text dates toward MM/YYYY when possible. */
+    public static function normalizeCvDate(string $raw): string
+    {
+        $raw = trim($raw);
+        if ($raw === '') {
+            return '';
+        }
+        if (preg_match('/^(0?[1-9]|1[0-2])[\/.\-](\d{4})$/', $raw, $m)) {
+            return sprintf('%02d/%s', (int) $m[1], $m[2]);
+        }
+        if (preg_match('/^(\d{4})[\/.\-](0?[1-9]|1[0-2])$/', $raw, $m)) {
+            return sprintf('%02d/%s', (int) $m[2], $m[1]);
+        }
+        $ts = strtotime($raw);
+        if ($ts !== false && preg_match('/\d{4}/', $raw)) {
+            return date('m/Y', $ts);
+        }
+
+        return $raw;
     }
 
     public static function activeCoverLetter(): ?array
@@ -730,9 +755,19 @@ final class App
             }
             if ($key === 'skills' && $skills !== null) {
                 $section['body'] = $skills;
+            } elseif ($key === 'skills' && $jdSnippet !== '') {
+                $section['body'] = self::reorderSkillsForJd(
+                    (string) ($section['body'] ?? ''),
+                    $jdSnippet
+                );
             }
         }
         unset($section);
+
+        $meta = is_array($snapshot['meta'] ?? null)
+            ? \KaamFit\Resume\ResumeLayout::mergeMeta($snapshot['meta'])
+            : \KaamFit\Resume\ResumeLayout::defaultMeta();
+        $snapshot['meta'] = $meta;
 
         if ($experienceOverrides !== null && $experienceOverrides !== []) {
             self::applyExperienceOverrides($snapshot, $experienceOverrides);
@@ -803,6 +838,53 @@ final class App
             'location' => $location,
             'status' => $finalStatus,
         ];
+    }
+
+    /**
+     * Reorder skill lines/categories so JD-matching tokens appear first.
+     * Never invents skills — only reorders existing text.
+     */
+    private static function reorderSkillsForJd(string $skillsBody, string $jd): string
+    {
+        $skillsBody = trim($skillsBody);
+        $jd = mb_strtolower(trim($jd));
+        if ($skillsBody === '' || $jd === '') {
+            return $skillsBody;
+        }
+        $score = static function (string $chunk) use ($jd): int {
+            $chunkLower = mb_strtolower($chunk);
+            $tokens = preg_split('/[^a-z0-9+#.\-]+/ui', $chunkLower) ?: [];
+            $hit = 0;
+            foreach ($tokens as $t) {
+                $t = trim($t);
+                if (mb_strlen($t) < 2) {
+                    continue;
+                }
+                if (str_contains($jd, $t)) {
+                    $hit++;
+                }
+            }
+
+            return $hit;
+        };
+        $blocks = preg_split("/\n{2,}/", $skillsBody) ?: [];
+        if (count($blocks) <= 1) {
+            $parts = preg_split('/\s*[·|,;]\s*/u', $skillsBody) ?: [];
+            $parts = array_values(array_filter(array_map('trim', $parts)));
+            if (count($parts) < 2) {
+                return $skillsBody;
+            }
+            usort($parts, static function (string $a, string $b) use ($score): int {
+                return $score($b) <=> $score($a);
+            });
+
+            return implode(' · ', $parts);
+        }
+        usort($blocks, static function (string $a, string $b) use ($score): int {
+            return $score($b) <=> $score($a);
+        });
+
+        return implode("\n\n", array_map('trim', $blocks));
     }
 
     /**
@@ -1068,69 +1150,15 @@ final class App
 
     public static function themes(): array
     {
-        return [
-            'midnight' => [
-                'label' => 'Midnight',
-                'blurb' => 'Word-style dark letter — large caps name, Aptos/Arial, pipe contacts.',
-            ],
-            'sage' => [
-                'label' => 'Sage',
-                'blurb' => 'Word-style sage letter — centered name, Candara, contact between thin rules.',
-            ],
-            'classic' => [
-                'label' => 'Classic',
-                'blurb' => 'Serif name, accent underline — clean and traditional.',
-            ],
-            'modern' => [
-                'label' => 'Modern',
-                'blurb' => 'Bold left accent bar and open spacing.',
-            ],
-            'compact' => [
-                'label' => 'Compact',
-                'blurb' => 'Tighter type for one-page applications.',
-            ],
-            'sidebar' => [
-                'label' => 'Sidebar',
-                'blurb' => 'Colored side column for contact and name.',
-            ],
-            'executive' => [
-                'label' => 'Executive',
-                'blurb' => 'Clean left-aligned layout with refined rules — formal and sharp.',
-            ],
-            'company' => [
-                'label' => 'Company tint',
-                'blurb' => 'Soft brand wash using your accent color.',
-            ],
-            'banner' => [
-                'label' => 'Banner',
-                'blurb' => 'Full-width accent header band with white name.',
-            ],
-            'split' => [
-                'label' => 'Split',
-                'blurb' => 'Two-tone header with name left and contacts right.',
-            ],
-            'minimal' => [
-                'label' => 'Minimal',
-                'blurb' => 'Quiet typography, almost no decoration.',
-            ],
-            'slate' => [
-                'label' => 'Slate',
-                'blurb' => 'Dark slate header strip for strong contrast.',
-            ],
-            'serif' => [
-                'label' => 'Editorial',
-                'blurb' => 'Large serif headlines with editorial section titles.',
-            ],
-            'cards' => [
-                'label' => 'Cards',
-                'blurb' => 'Each section sits in a soft bordered card.',
-            ],
-            'timeline' => [
-                'label' => 'Timeline',
-                'blurb' => 'Centered header, vertical rail with icons, dates on the left — burgundy accents.',
-                'accent' => '#8B1A1A',
-            ],
-        ];
+        $out = [];
+        foreach (\KaamFit\Resume\ResumeLayout::TEMPLATES as $key => $meta) {
+            $out[$key] = [
+                'label' => $meta['label'],
+                'blurb' => $meta['blurb'],
+            ];
+        }
+
+        return $out;
     }
 
     public static function filled(?string $value): bool
@@ -1296,8 +1324,7 @@ final class App
 
     public static function resolveTheme(?string $theme): string
     {
-        $theme = $theme ?: (self::setting('theme', 'sage') ?: 'sage');
-        return in_array($theme, self::themeKeys(), true) ? $theme : 'sage';
+        return \KaamFit\Resume\ResumeLayout::resolveTemplate($theme);
     }
 
     public static function resolveAccent(?string $accent): string

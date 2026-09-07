@@ -8,11 +8,20 @@ declare(strict_types=1);
  * @param array $profile
  * @param bool $includeLinks
  * @param bool $includeMeta  gender / DOB / country / nationality
+ * @param string $uiLang  en|de for meta labels
  */
-function render_profile_details(array $profile, bool $includeLinks = true, bool $includeMeta = true): void
-{
+function render_profile_details(
+    array $profile,
+    bool $includeLinks = true,
+    bool $includeMeta = true,
+    string $uiLang = 'en'
+): void {
+    $isDe = str_starts_with(strtolower($uiLang), 'de');
     $dob = App::formatDate(isset($profile['date_of_birth']) ? (string) $profile['date_of_birth'] : null);
     $contact = [];
+    if (App::filled($profile['location'] ?? null)) {
+        $contact[] = ['text' => (string) $profile['location']];
+    }
     if (App::filled($profile['phone'] ?? null)) {
         $phone = (string) $profile['phone'];
         $item = ['text' => $phone];
@@ -30,33 +39,56 @@ function render_profile_details(array $profile, bool $includeLinks = true, bool 
         }
         $contact[] = $item;
     }
-    if (App::filled($profile['location'] ?? null)) {
-        $contact[] = ['text' => (string) $profile['location']];
-    }
     if ($includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
             if (!empty($link['url'])) {
+                $label = (string) ($link['label'] ?? $link['url']);
+                $url = (string) $link['url'];
+                // Prefer host path for display when label looks like a full URL
+                if (str_starts_with($label, 'http')) {
+                    $host = parse_url($url, PHP_URL_HOST) ?: $label;
+                    $path = trim((string) (parse_url($url, PHP_URL_PATH) ?: ''), '/');
+                    $label = $path !== '' ? $host . '/' . $path : (string) $host;
+                }
                 $contact[] = [
-                    'text' => (string) ($link['label'] ?? $link['url']),
-                    'url' => (string) $link['url'],
+                    'text' => $label,
+                    'url' => $url,
                 ];
+            } elseif (!empty($link['label'])) {
+                $contact[] = ['text' => (string) $link['label']];
+            }
+        }
+    } elseif (!$includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
+        foreach ($profile['links'] as $link) {
+            if (!empty($link['url'])) {
+                $label = (string) ($link['label'] ?? $link['url']);
+                $url = (string) $link['url'];
+                if (str_starts_with($label, 'http') || $label === $url) {
+                    $host = parse_url($url, PHP_URL_HOST) ?: $url;
+                    $path = trim((string) (parse_url($url, PHP_URL_PATH) ?: ''), '/');
+                    $label = $path !== '' ? $host . '/' . $path : (string) $host;
+                }
+                $contact[] = ['text' => $label];
             }
         }
     }
 
     $meta = [];
     if ($includeMeta) {
+        $labels = $isDe
+            ? ['gender' => 'Geschlecht', 'dob' => 'Geburtsdatum', 'country' => 'Land', 'nationality' => 'Staatsangehörigkeit']
+            : ['gender' => 'Gender', 'dob' => 'Date of birth', 'country' => 'Country', 'nationality' => 'Nationality'];
         if (App::filled($profile['gender'] ?? null)) {
-            $meta[] = ['label' => 'Gender', 'text' => (string) $profile['gender']];
+            $meta[] = ['label' => $labels['gender'], 'text' => (string) $profile['gender']];
         }
         if ($dob !== '') {
-            $meta[] = ['label' => 'Date of birth', 'text' => $dob];
+            $meta[] = ['label' => $labels['dob'], 'text' => $dob];
         }
         if (App::filled($profile['country'] ?? null)) {
-            $meta[] = ['label' => 'Country', 'text' => (string) $profile['country']];
+            $meta[] = ['label' => $labels['country'], 'text' => (string) $profile['country']];
         }
         if (App::filled($profile['nationality'] ?? null)) {
-            $meta[] = ['label' => 'Nationality', 'text' => (string) $profile['nationality']];
+            $meta[] = ['label' => $labels['nationality'], 'text' => (string) $profile['nationality']];
         }
     }
 

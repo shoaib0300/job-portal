@@ -105,6 +105,8 @@ final class Versions
             ];
         }
 
+        $meta = \KaamFit\Resume\ResumeLayout::defaultMeta();
+
         return [
             'profile_title' => $profileTitle !== null
                 ? $profileTitle
@@ -112,6 +114,7 @@ final class Versions
             'location' => (string) ($profile['location'] ?? ''),
             'sections' => $sections,
             'experiences' => $experiences,
+            'meta' => $meta,
         ];
     }
 
@@ -128,13 +131,22 @@ final class Versions
     {
         $decoded = json_decode($json, true);
         if (!is_array($decoded)) {
-            return ['profile_title' => '', 'location' => '', 'sections' => [], 'experiences' => []];
+            return [
+                'profile_title' => '',
+                'location' => '',
+                'sections' => [],
+                'experiences' => [],
+                'meta' => \KaamFit\Resume\ResumeLayout::defaultMeta(),
+            ];
         }
+        $meta = is_array($decoded['meta'] ?? null) ? $decoded['meta'] : [];
+
         return [
             'profile_title' => (string) ($decoded['profile_title'] ?? ''),
             'location' => (string) ($decoded['location'] ?? ''),
             'sections' => is_array($decoded['sections'] ?? null) ? $decoded['sections'] : [],
             'experiences' => is_array($decoded['experiences'] ?? null) ? $decoded['experiences'] : [],
+            'meta' => \KaamFit\Resume\ResumeLayout::mergeMeta($meta),
         ];
     }
 
@@ -405,27 +417,40 @@ final class Versions
     {
         $profile = App::profile();
         if ($versionId === null || $versionId <= 0) {
+            $meta = \KaamFit\Resume\ResumeLayout::defaultMeta();
+            $experiences = App::experiences(true);
+            $sections = \KaamFit\Resume\ResumeLayout::prepareSections(App::sections(true), $experiences, $meta);
+
             return [
                 'profile' => $profile,
-                'sections' => App::sections(true),
-                'experiences' => App::experiences(true),
+                'sections' => $sections,
+                'experiences' => $experiences,
                 'version' => null,
                 'company' => App::setting('active_company', '') ?: '',
+                'meta' => $meta,
             ];
         }
 
         $row = self::resumeVersion($versionId);
         if ($row === null) {
+            $meta = \KaamFit\Resume\ResumeLayout::defaultMeta();
+            $experiences = App::experiences(true);
+            $sections = \KaamFit\Resume\ResumeLayout::prepareSections(App::sections(true), $experiences, $meta);
+
             return [
                 'profile' => $profile,
-                'sections' => App::sections(true),
-                'experiences' => App::experiences(true),
+                'sections' => $sections,
+                'experiences' => $experiences,
                 'version' => null,
                 'company' => App::setting('active_company', '') ?: '',
+                'meta' => $meta,
             ];
         }
 
         $snapshot = self::decodeSnapshot((string) $row['snapshot']);
+        $meta = is_array($snapshot['meta'] ?? null)
+            ? \KaamFit\Resume\ResumeLayout::mergeMeta($snapshot['meta'])
+            : \KaamFit\Resume\ResumeLayout::defaultMeta();
         if (($snapshot['profile_title'] ?? '') !== '') {
             $profile['title'] = $snapshot['profile_title'];
         }
@@ -433,17 +458,17 @@ final class Versions
             $profile['location'] = $snapshot['location'];
         }
 
-        $sections = array_values(array_filter(
-            $snapshot['sections'],
-            static fn($s): bool => is_array($s) && (int) ($s['visible'] ?? 1) === 1
-        ));
-        usort($sections, static fn($a, $b): int => ((int) ($a['sort_order'] ?? 0)) <=> ((int) ($b['sort_order'] ?? 0)));
-
         $experiences = array_values(array_filter(
             $snapshot['experiences'],
             static fn($e): bool => is_array($e) && (int) ($e['visible'] ?? 1) === 1
         ));
         usort($experiences, static fn($a, $b): int => ((int) ($a['sort_order'] ?? 0)) <=> ((int) ($b['sort_order'] ?? 0)));
+
+        $sections = \KaamFit\Resume\ResumeLayout::prepareSections(
+            is_array($snapshot['sections'] ?? null) ? $snapshot['sections'] : [],
+            $experiences,
+            $meta
+        );
 
         return [
             'profile' => $profile,
@@ -451,6 +476,7 @@ final class Versions
             'experiences' => $experiences,
             'version' => $row,
             'company' => (string) ($row['company'] ?? '') ?: (App::setting('active_company', '') ?: ''),
+            'meta' => $meta,
         ];
     }
 
@@ -460,16 +486,28 @@ final class Versions
         $profile = App::profileForUser($userId);
         $row = self::masterResumeForUser($userId);
         if ($row === null) {
+            $meta = \KaamFit\Resume\ResumeLayout::defaultMeta();
+            $experiences = App::experiencesForUser($userId, true);
+            $sections = \KaamFit\Resume\ResumeLayout::prepareSections(
+                App::sectionsForUser($userId, true),
+                $experiences,
+                $meta
+            );
+
             return [
                 'profile' => $profile,
-                'sections' => App::sectionsForUser($userId, true),
-                'experiences' => App::experiencesForUser($userId, true),
+                'sections' => $sections,
+                'experiences' => $experiences,
                 'version' => null,
                 'company' => App::userSetting($userId, 'active_company', '') ?: '',
+                'meta' => $meta,
             ];
         }
 
         $snapshot = self::decodeSnapshot((string) $row['snapshot']);
+        $meta = is_array($snapshot['meta'] ?? null)
+            ? \KaamFit\Resume\ResumeLayout::mergeMeta($snapshot['meta'])
+            : \KaamFit\Resume\ResumeLayout::defaultMeta();
         if (($snapshot['profile_title'] ?? '') !== '') {
             $profile['title'] = $snapshot['profile_title'];
         }
@@ -477,17 +515,17 @@ final class Versions
             $profile['location'] = $snapshot['location'];
         }
 
-        $sections = array_values(array_filter(
-            $snapshot['sections'],
-            static fn($s): bool => is_array($s) && (int) ($s['visible'] ?? 1) === 1
-        ));
-        usort($sections, static fn($a, $b): int => ((int) ($a['sort_order'] ?? 0)) <=> ((int) ($b['sort_order'] ?? 0)));
-
         $experiences = array_values(array_filter(
             $snapshot['experiences'],
             static fn($e): bool => is_array($e) && (int) ($e['visible'] ?? 1) === 1
         ));
         usort($experiences, static fn($a, $b): int => ((int) ($a['sort_order'] ?? 0)) <=> ((int) ($b['sort_order'] ?? 0)));
+
+        $sections = \KaamFit\Resume\ResumeLayout::prepareSections(
+            is_array($snapshot['sections'] ?? null) ? $snapshot['sections'] : [],
+            $experiences,
+            $meta
+        );
 
         return [
             'profile' => $profile,
@@ -495,6 +533,7 @@ final class Versions
             'experiences' => $experiences,
             'version' => $row,
             'company' => (string) ($row['company'] ?? '') ?: (App::userSetting($userId, 'active_company', '') ?: ''),
+            'meta' => $meta,
         ];
     }
 

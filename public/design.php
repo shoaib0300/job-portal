@@ -5,8 +5,14 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 
-$pdo = Db::pdo();
 Versions::ensureSchema();
+
+// Resume Studio owns template/layout; keep design POST for legacy AJAX.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    App::redirect('/resume-edit#layout');
+}
+
+$pdo = Db::pdo();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';

@@ -11,9 +11,10 @@ final class DemoSample
     public static function persona(): array
     {
         return [
-            'name' => 'Aisha Khan',
-            'title' => 'Working Student | IT · QA · Hamburg',
-            'email' => 'aisha.khan@example.com',
+            'name' => 'Max Mustermann',
+            'title' => 'Softwareentwickler | PHP · Symfony · JavaScript',
+            'email' => 'max.mustermann@example.com',
+            'note' => 'Demo persona — sample data only.',
         ];
     }
 

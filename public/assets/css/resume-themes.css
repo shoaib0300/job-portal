@@ -1636,3 +1636,347 @@ body.is-embed {
     line-height: 1.45 !important;
   }
 }
+
+/* ========== German Lebenslauf templates (modern_de, ats, classic, technical, minimal) ========== */
+
+.resume.theme-modern_de,
+.resume.theme-ats,
+.resume.theme-classic,
+.resume.theme-technical,
+.resume.theme-minimal,
+.resume.theme-ivory {
+  font-family: "Source Sans 3", "Inter", Arial, Helvetica, sans-serif;
+  max-width: 210mm;
+  padding: 14mm 16mm;
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid #ddd;
+  line-height: 1.35;
+  font-size: 10.5pt;
+  color: #1a1a1a;
+}
+
+.resume.theme-modern_de .resume-header h1,
+.resume.theme-classic .resume-header h1,
+.resume.theme-technical .resume-header h1,
+.resume.theme-minimal .resume-header h1,
+.resume.theme-ats .resume-header h1 {
+  font-size: 22pt;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: #111;
+}
+
+.resume.theme-modern_de .resume-title,
+.resume.theme-classic .resume-title,
+.resume.theme-technical .resume-title,
+.resume.theme-minimal .resume-title {
+  color: var(--doc-accent, #0d7377);
+  font-weight: 600;
+  font-size: 11pt;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.resume.theme-modern_de .resume-photo,
+.resume.theme-classic .resume-photo,
+.resume.theme-technical .resume-photo {
+  width: 28mm;
+  height: 35mm;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
+.resume.theme-modern_de .resume-photo img,
+.resume.theme-classic .resume-photo img,
+.resume.theme-technical .resume-photo img {
+  border-radius: 2px;
+  object-position: center top;
+}
+
+.resume.theme-minimal .resume-photo {
+  width: 26mm;
+  height: 32mm;
+  border-radius: 2px;
+  border: none;
+}
+
+.resume.theme-ats .resume-photo { display: none !important; }
+
+.resume.theme-modern_de .resume-contact,
+.resume.theme-classic .resume-contact,
+.resume.theme-technical .resume-contact,
+.resume.theme-minimal .resume-contact,
+.resume.theme-ats .resume-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  font-size: 9.5pt;
+  color: #333;
+}
+
+.resume.theme-modern_de .resume-contact li + li::before,
+.resume.theme-classic .resume-contact li + li::before,
+.resume.theme-technical .resume-contact li + li::before,
+.resume.theme-minimal .resume-contact li + li::before {
+  content: "·";
+  margin-right: 0.75rem;
+  color: #999;
+}
+
+.resume.theme-ats .resume-contact {
+  display: block;
+}
+.resume.theme-ats .resume-contact li {
+  display: inline;
+}
+.resume.theme-ats .resume-contact li + li::before {
+  content: " | ";
+  color: #666;
+}
+
+.resume.theme-modern_de .resume-section h2,
+.resume.theme-classic .resume-section h2,
+.resume.theme-technical .resume-section h2,
+.resume.theme-minimal .resume-section h2,
+.resume.theme-ats .resume-section h2 {
+  font-size: 11pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1.5px solid var(--doc-accent, #0d7377);
+  padding-bottom: 0.2rem;
+  margin: 0.95rem 0 0.45rem;
+  color: #111;
+  font-family: inherit;
+}
+
+.resume.theme-ats .resume-section h2 {
+  border-bottom: 1px solid #333;
+  color: #000;
+}
+
+.resume.theme-classic .resume-section h2 {
+  border-bottom-color: #222;
+  letter-spacing: 0.06em;
+}
+
+.resume.theme-minimal .resume-section h2 {
+  border-bottom: 1px solid #ccc;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11.5pt;
+}
+
+.resume.theme-technical .resume-section h2 {
+  border-bottom-width: 2px;
+}
+
+.resume.theme-modern_de .experience-position,
+.resume.theme-classic .experience-position,
+.resume.theme-technical .experience-position,
+.resume.theme-minimal .experience-position,
+.resume.theme-ats .experience-position {
+  font-weight: 700;
+  font-size: 10.5pt;
+  margin: 0;
+}
+
+.resume.theme-modern_de .experience-company,
+.resume.theme-classic .experience-company,
+.resume.theme-technical .experience-company,
+.resume.theme-minimal .experience-company,
+.resume.theme-ats .experience-company {
+  margin: 0.1rem 0;
+  font-size: 9.5pt;
+  color: #333;
+}
+
+.resume.theme-modern_de .experience-dates,
+.resume.theme-classic .experience-dates,
+.resume.theme-technical .experience-dates,
+.resume.theme-minimal .experience-dates,
+.resume.theme-ats .experience-dates {
+  font-size: 9pt;
+  color: #555;
+  white-space: nowrap;
+}
+
+.resume.theme-modern_de .experience-top,
+.resume.theme-classic .experience-top,
+.resume.theme-technical .experience-top,
+.resume.theme-minimal .experience-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.resume.theme-ats .experience-aside { display: none; }
+.resume.theme-ats .experience-top { display: block; }
+
+.resume.theme-modern_de .experience-bullets,
+.resume.theme-classic .experience-bullets,
+.resume.theme-technical .experience-bullets,
+.resume.theme-minimal .experience-bullets,
+.resume.theme-ats .experience-bullets {
+  margin: 0.25rem 0 0.55rem;
+  padding-left: 1.1rem;
+  font-size: 9.5pt;
+}
+
+.resume.theme-modern_de .skills-heading,
+.resume.theme-technical .skills-heading {
+  font-size: 9.5pt;
+  font-weight: 700;
+  margin: 0.35rem 0 0.1rem;
+}
+
+.resume.theme-modern_de .skills-items,
+.resume.theme-technical .skills-items,
+.resume.theme-ats .skills-items {
+  margin: 0 0 0.35rem;
+  font-size: 9.5pt;
+}
+
+.languages-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 9.5pt;
+}
+.languages-list li { margin: 0.15rem 0; }
+.lang-name { font-weight: 600; }
+
+.certificate-name,
+.project-name,
+.education-degree {
+  font-weight: 700;
+  margin: 0;
+  font-size: 10pt;
+}
+.certificate-provider,
+.project-desc,
+.education-school {
+  margin: 0.1rem 0;
+  font-size: 9.5pt;
+}
+.certificate-date,
+.project-tech,
+.education-dates,
+.education-extra {
+  margin: 0.05rem 0;
+  font-size: 9pt;
+  color: #555;
+}
+
+.resume-signature {
+  margin-top: 1.25rem;
+  font-size: 9.5pt;
+}
+
+/* Density */
+.resume.density-tight {
+  font-size: 10pt;
+  padding: 12mm 14mm;
+  line-height: 1.3;
+}
+.resume.density-tight .resume-section h2 { margin-top: 0.7rem; }
+.resume.density-compact {
+  font-size: 9.5pt;
+  padding: 10mm 12mm;
+  line-height: 1.28;
+}
+.resume.density-compact .resume-section h2 { margin-top: 0.55rem; font-size: 10pt; }
+.resume.density-compact .experience-bullets { margin-bottom: 0.35rem; }
+
+/* Resume Studio */
+.resume-studio {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr) minmax(300px, 380px);
+  gap: 0;
+  min-height: calc(100vh - 4rem);
+  background: var(--kf-sand, #f6f3ee);
+  border: 1px solid var(--kf-line, #e2ddd4);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.resume-studio-nav,
+.resume-studio-editor {
+  background: #fff;
+  border-right: 1px solid var(--kf-line, #e2ddd4);
+  padding: 1rem;
+  overflow: auto;
+  max-height: calc(100vh - 4rem);
+}
+.resume-studio-editor { border-right: none; border-left: 1px solid var(--kf-line, #e2ddd4); }
+.resume-studio-preview {
+  background: #e8e4dc;
+  padding: 1rem;
+  overflow: auto;
+  max-height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.resume-studio-preview iframe {
+  width: min(100%, 210mm);
+  height: 297mm;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+.resume-studio-nav .studio-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.9rem;
+}
+.resume-studio-nav .studio-nav-item:hover,
+.resume-studio-nav .studio-nav-item.is-active {
+  background: var(--kf-accent-soft, #e6f4f4);
+}
+.resume-studio-nav .studio-nav-item.is-hidden-section { opacity: 0.55; }
+.resume-check-panel { font-size: 0.85rem; }
+.resume-check-panel .issue-error { color: #a61b1b; }
+.resume-check-panel .issue-warning { color: #9a6700; }
+.resume-check-panel .issue-info { color: #555; }
+.resume-studio-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.studio-panel { display: none; }
+.studio-panel.is-active { display: block; }
+@media (max-width: 1100px) {
+  .resume-studio {
+    grid-template-columns: 1fr;
+  }
+  .resume-studio-nav,
+  .resume-studio-editor,
+  .resume-studio-preview {
+    max-height: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid var(--kf-line, #e2ddd4);
+  }
+  .resume-studio-preview iframe {
+    height: 70vh;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 12mm;
+}

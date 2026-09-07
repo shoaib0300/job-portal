@@ -8,6 +8,9 @@ require_once dirname(__DIR__) . '/src/doc.php';
 require_once dirname(__DIR__) . '/src/profile_meta.php';
 require_once dirname(__DIR__) . '/src/experience.php';
 
+use KaamFit\Resume\ResumeLayout;
+use KaamFit\Resume\ResumePhotoMode;
+
 Versions::ensureSchema();
 
 $opts = doc_view_options();
@@ -33,11 +36,24 @@ if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && $opts['targe
 if ($atsMode) {
     $payload = AtsExport::sanitizeResumePayload($payload);
 }
-$profile = $payload['profile'];
+
+$meta = is_array($payload['meta'] ?? null)
+    ? ResumeLayout::mergeMeta($payload['meta'])
+    : ResumeLayout::defaultMeta();
+$theme = $atsMode ? 'ats' : ResumeLayout::resolveTemplate($opts['theme'] ?: ($meta['template'] ?? null));
+$density = ResumeLayout::resolveDensity($_GET['density'] ?? ($meta['density'] ?? null));
+$photoMode = ResumePhotoMode::effective($meta['photo_mode'] ?? null, $atsMode);
+$showExtras = !empty($meta['show_personal_extras']) && !$atsMode && $photoMode !== ResumePhotoMode::ANONYMIZED;
+
+$profile = ResumePhotoMode::prepareProfile(
+    $payload['profile'],
+    $photoMode,
+    $showExtras,
+    $atsMode
+);
 $sections = $payload['sections'];
 $experiences = $payload['experiences'];
 $version = $payload['version'];
-$theme = $opts['theme'];
 $accent = $opts['accent'];
 $font = $opts['font'];
 $embed = $opts['embed'];
@@ -46,9 +62,14 @@ $company = $versionId > 0
     ? (string) ($payload['company'] ?? '')
     : ($opts['company'] ?? '');
 $exportOptions = Versions::resumeExportOptions();
+$showPhoto = ResumePhotoMode::shouldShowPhoto($profile, $photoMode, $atsMode);
+$includeLinks = !$atsMode;
+$includeMeta = $showExtras;
 
-layout_header($profile['full_name'] . ' — Resume', [
-    'body_class' => 'page-doc theme-' . $theme . ($embed ? ' is-embed' : ''),
+layout_header($profile['full_name'] . ' — ' . (str_starts_with(strtolower($lang), 'de') ? 'Lebenslauf' : 'Resume'), [
+    'body_class' => 'page-doc theme-' . $theme
+        . ' density-' . $density
+        . ($embed ? ' is-embed' : ''),
     'theme' => $theme,
     'accent' => $accent,
     'font' => $font,
@@ -62,15 +83,15 @@ if (!$embed):
 ?>
 <main class="doc-toolbar no-print">
   <div class="doc-toolbar-inner d-flex flex-wrap justify-content-between align-items-center gap-2">
-    <a class="btn btn-sm btn-link text-decoration-none" href="/design">&larr; Style</a>
+    <a class="btn btn-sm btn-link text-decoration-none" href="/resume-edit">&larr; Studio</a>
     <div class="doc-actions d-flex flex-wrap gap-2 align-items-center">
       <?php if ($version): ?>
         <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $version['id'] ?></span> <?= App::e(Versions::resumeDisplayLabel($version)) ?></span>
       <?php else: ?>
-        <span class="badge rounded-pill text-bg-light border">Resume</span>
+        <span class="badge rounded-pill text-bg-light border"><?= str_starts_with(strtolower($lang), 'de') ? 'Lebenslauf' : 'Resume' ?></span>
       <?php endif; ?>
       <a class="btn btn-sm btn-outline-secondary" href="/editor#versions">My resumes</a>
-      <a class="btn btn-sm btn-outline-secondary" href="/design">Change style</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/resume-edit">Edit</a>
       <button type="button" class="btn btn-sm btn-primary" data-print data-doc="resume"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
       <?php
@@ -85,9 +106,14 @@ if (!$embed):
 <?php endif; ?>
 <?php endif; ?>
 
-<article class="resume theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?><?= App::shouldShowPhoto($profile) && !$atsMode ? ' has-photo' : ' no-photo' ?>" data-doc="resume">
+<article
+  class="resume theme-<?= App::e($theme) ?> density-<?= App::e($density) ?><?= $pdfMode ? ' pdf-ready' : '' ?><?= $showPhoto ? ' has-photo' : ' no-photo' ?>"
+  data-doc="resume"
+  data-template="<?= App::e($theme) ?>"
+  data-photo-mode="<?= App::e($photoMode) ?>"
+>
   <header class="resume-header">
-    <?php if (App::shouldShowPhoto($profile) && !$atsMode): ?>
+    <?php if ($showPhoto): ?>
       <div class="resume-photo">
         <img src="<?= App::e(App::photoUrl($profile)) ?>" alt="<?= App::e($profile['full_name']) ?>">
       </div>
@@ -97,23 +123,22 @@ if (!$embed):
       <?php if (App::filled($profile['title'] ?? null)): ?>
         <p class="resume-title"><?= App::e($profile['title']) ?></p>
       <?php endif; ?>
-      <?php render_profile_details($profile, !$atsMode, !$atsMode); ?>
+      <?php render_profile_details($profile, $includeLinks, $includeMeta, $lang); ?>
     </div>
   </header>
 
   <div class="resume-sections">
   <?php foreach ($sections as $section): ?>
-    <section class="resume-section" data-section="<?= App::e((string) ($section['section_key'] ?? '')) ?>">
-      <h2><?= App::e($section['title']) ?></h2>
-      <?php if (($section['section_key'] ?? '') === 'experience'): ?>
-        <?php render_experience_entries($experiences); ?>
-      <?php elseif (($section['section_key'] ?? '') === 'skills'): ?>
-        <div class="resume-body"><?php render_skills_body((string) ($section['body'] ?? '')); ?></div>
-      <?php elseif (($section['section_key'] ?? '') === 'education'): ?>
-        <div class="resume-body"><?php render_education_body((string) ($section['body'] ?? '')); ?></div>
-      <?php else: ?>
-        <div class="resume-body"><?= App::nl2p($section['body']) ?></div>
-      <?php endif; ?>
+    <?php
+      $key = (string) ($section['section_key'] ?? '');
+      $title = (string) ($section['title'] ?? '');
+      if ($title === '' || in_array(strtolower($title), ['summary', 'experience', 'skills', 'education', 'profile'], true)) {
+          $title = ResumeLayout::sectionLabel($key !== '' ? $key : 'summary', $lang);
+      }
+    ?>
+    <section class="resume-section" data-section="<?= App::e($key) ?>">
+      <h2><?= App::e($title) ?></h2>
+      <?php render_resume_section_body($key, (string) ($section['body'] ?? ''), $experiences, $profile); ?>
     </section>
   <?php endforeach; ?>
   </div>

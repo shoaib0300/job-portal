@@ -112,11 +112,17 @@ final class PdfExport
         return $slug !== '' ? $slug : 'document';
     }
 
-    /** External download name — never version titles; optional _en / _de. */
+    /** External download name — Lebenslauf (DE) or CV (EN); never version titles. */
     public static function safeFilename(string $doc, string $name, string $lang = 'en'): string
     {
-        $suffix = $doc === 'cover' ? 'cover_letter' : 'resume';
-        return self::personSlug($name) . '_' . $suffix . '_' . TranslateLanguages::filenameSuffix($lang) . '.pdf';
+        $slug = self::personSlug($name);
+        if ($doc === 'cover') {
+            return $slug . '_cover_letter_' . TranslateLanguages::filenameSuffix($lang) . '.pdf';
+        }
+        $isDe = str_starts_with(strtolower($lang), 'de');
+        $label = $isDe ? 'Lebenslauf' : 'CV';
+
+        return $slug . '_' . $label . '.pdf';
     }
 
     /** SAP/ATS portals: short ASCII name, no spaces or language suffix. */
@@ -155,7 +161,7 @@ final class PdfExport
     /** Minimal PDF for employer ATS uploads (no photo, plain theme). */
     public static function downloadHrefAts(string $doc, array $extra = []): string
     {
-        return self::downloadHrefOriginal($doc, array_merge($extra, ['ats' => '1', 'theme' => 'ivory']));
+        return self::downloadHrefOriginal($doc, array_merge($extra, ['ats' => '1', 'theme' => 'ats']));
     }
 
     /** Paid PDF translated to target language via DeepL. */

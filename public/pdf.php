@@ -47,7 +47,7 @@ if ($doc === 'cover' && $coverId > 0) {
 }
 if (isset($_GET['ats']) && (string) $_GET['ats'] === '1') {
     $query['ats'] = '1';
-    $query['theme'] = 'ivory';
+    $query['theme'] = 'ats';
 }
 
 try {

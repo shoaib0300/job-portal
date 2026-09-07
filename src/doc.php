@@ -12,7 +12,7 @@ function doc_view_options(): array
     $ats = isset($_GET['ats']) && (string) $_GET['ats'] === '1';
     $theme = App::resolveTheme($_GET['theme'] ?? null);
     if ($ats) {
-        $theme = 'ivory';
+        $theme = 'ats';
     }
     $accent = App::resolveAccent($_GET['accent'] ?? null);
     $font = App::resolveFont($_GET['font'] ?? null);

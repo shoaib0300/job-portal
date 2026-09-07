@@ -6,6 +6,10 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/editor_ui.php';
 
+use KaamFit\Resume\ResumeCheck;
+use KaamFit\Resume\ResumeLayout;
+use KaamFit\Resume\ResumePhotoMode;
+
 $pdo = Db::pdo();
 Versions::ensureSchema();
 
@@ -256,6 +260,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::redirect('/resume-edit#sections');
     }
 
+    if ($action === 'save_layout') {
+        $template = \KaamFit\Resume\ResumeLayout::resolveTemplate((string) ($_POST['resume_template'] ?? ''));
+        $mode = \KaamFit\Resume\ResumeLayout::resolveMode((string) ($_POST['resume_mode'] ?? ''));
+        $photoMode = \KaamFit\Resume\ResumePhotoMode::resolve((string) ($_POST['photo_mode'] ?? ''));
+        $density = \KaamFit\Resume\ResumeLayout::resolveDensity((string) ($_POST['resume_density'] ?? ''));
+        $prevMode = \KaamFit\Resume\ResumeLayout::resolveMode(null);
+        App::setSetting('resume_template', $template);
+        App::setSetting('theme', $template);
+        App::setSetting('resume_mode', $mode);
+        App::setSetting('photo_mode', $photoMode);
+        App::setSetting('resume_density', $density);
+        App::setSetting('show_personal_extras', isset($_POST['show_personal_extras']) ? '1' : '0');
+        App::setSetting('show_signature', isset($_POST['show_signature']) ? '1' : '0');
+        if (!empty($_POST['accent_color'])) {
+            App::setSetting('accent_color', App::resolveAccent((string) $_POST['accent_color']));
+        }
+        // Apply mode default section order only when mode actually changes.
+        if ($mode !== $prevMode) {
+            $order = \KaamFit\Resume\ResumeLayout::defaultOrder($mode);
+            $rank = array_flip($order);
+            $stmt = $pdo->prepare('SELECT id, section_key FROM resume_sections WHERE user_id = ?');
+            $stmt->execute([Auth::id()]);
+            $upd = $pdo->prepare('UPDATE resume_sections SET sort_order = ? WHERE id = ? AND user_id = ?');
+            foreach ($stmt->fetchAll() as $row) {
+                $key = (string) $row['section_key'];
+                $sort = isset($rank[$key]) ? (10 + $rank[$key] * 10) : 900;
+                $upd->execute([$sort, (int) $row['id'], Auth::id()]);
+            }
+        }
+        App::flash('Layout saved.');
+        App::redirect('/resume-edit#layout');
+    }
+
     if ($action === 'save_open_resume') {
         $active = Versions::activeResumeVersion();
         $base = Versions::baseResumeVersion();
@@ -271,7 +308,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (int) $target['id'],
                 true
             );
-            $name = Versions::resumeDisplayLabel($target);
             App::flash(((int) ($target['is_base'] ?? 0) === 1 ? 'Master CV saved.' : 'Job CV saved.'));
         } else {
             Versions::updateBaseFromLive(Versions::MASTER_CV_LABEL);
@@ -283,6 +319,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     App::flash('Unknown action.', 'error');
     App::redirect('/resume-edit');
 }
+
+$uiLang = App::resolveDocumentLang();
+ResumeLayout::ensureMissingSections(Auth::id(), str_starts_with(strtolower($uiLang), 'de') ? 'de' : 'en');
 
 $profile = App::profile();
 $sections = App::sections(false);
@@ -307,64 +346,177 @@ if (count($links) < 2) {
     $links[] = ['label' => '', 'url' => ''];
 }
 
-layout_header('Edit resume');
+$template = ResumeLayout::resolveTemplate(null);
+$mode = ResumeLayout::resolveMode(null);
+$photoMode = ResumePhotoMode::resolve(null);
+$density = ResumeLayout::resolveDensity(null);
+$showExtras = (App::setting('show_personal_extras', '0') ?: '0') === '1';
+$showSignature = (App::setting('show_signature', '0') ?: '0') === '1';
+$accent = App::resolveAccent(null);
+
+$payload = Versions::resumePayloadForView($editingResumeId > 0 ? $editingResumeId : null);
+$check = ResumeCheck::analyze($payload, $payload['meta'] ?? ResumeLayout::defaultMeta());
+
+$jdSnippet = '';
+if ($editingResumeId > 0) {
+    $appStmt = Db::pdo()->prepare(
+        'SELECT jd_snippet FROM applications WHERE user_id = ? AND resume_version_id = ? ORDER BY id DESC LIMIT 1'
+    );
+    $appStmt->execute([Auth::id(), $editingResumeId]);
+    $jdSnippet = (string) ($appStmt->fetchColumn() ?: '');
+}
+$match = $jdSnippet !== '' ? ResumeCheck::jdMatchEstimate($payload, $jdSnippet) : null;
+
+$previewQs = [
+    'embed' => '1',
+    'pdf' => '1',
+    'theme' => $template,
+    'density' => $density,
+];
+if ($editingResumeId > 0) {
+    $previewQs['version'] = $editingResumeId;
+}
+$previewUrl = '/resume?' . http_build_query($previewQs);
+$pdfQs = $editingResumeId > 0 ? ['version' => $editingResumeId] : [];
+
+layout_header(ResumeLayout::ui('studio', $uiLang));
 ?>
-<main class="editor">
-  <header class="page-head">
-    <h1>
-      <?php if ($editingResumeId > 0): ?>
-        <span class="doc-id">#<?= $editingResumeId ?></span>
-      <?php endif; ?>
-      <?= App::e($editingResumeName) ?>
-    </h1>
-    <p><a href="/editor">← My resumes</a></p>
-    <div class="resume-context-banner<?= $isEditingMaster ? ' is-master' : ' is-job' ?>">
-      <?php if ($isEditingMaster): ?>
-        <strong>Editing Master CV</strong> — your template. New jobs always copy from here.
-      <?php else: ?>
-        <strong>Editing Job CV:</strong> <?= App::e($editingResumeName) ?>. Master CV is unchanged.
-      <?php endif; ?>
+<main class="editor resume-studio-page">
+  <header class="page-head resume-studio-toolbar">
+    <div>
+      <h1 class="h4 mb-1">
+        <?php if ($editingResumeId > 0): ?>
+          <span class="doc-id">#<?= $editingResumeId ?></span>
+        <?php endif; ?>
+        <?= App::e($editingResumeName) ?>
+      </h1>
+      <p class="mb-0 small text-muted">
+        <a href="/editor">← My resumes</a>
+        · <?= $isEditingMaster ? 'Master CV' : 'Job CV' ?>
+      </p>
     </div>
-    <div class="preview-links">
-      <a class="btn btn-sm btn-outline-secondary" href="/resume" target="_blank" rel="noopener">Preview</a>
-      <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
-      <?php
-        $resumePdfQs = $editingResumeId > 0 ? ['version' => $editingResumeId] : [];
-        layout_pdf_buttons('resume', $resumePdfQs);
-      ?>
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <form method="post" class="d-inline">
+        <input type="hidden" name="action" value="save_open_resume">
+        <button type="submit" class="btn btn-sm btn-primary"><?= App::e($saveResumeLabel) ?></button>
+      </form>
+      <div class="dropdown">
+        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <?= App::e(ResumeLayout::ui('download', $uiLang)) ?>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="<?= App::e(PdfExport::downloadHrefOriginal('resume', $pdfQs)) ?>"><?= App::e(ResumeLayout::ui('standard', $uiLang)) ?></a></li>
+          <li><a class="dropdown-item" href="<?= App::e(PdfExport::downloadHrefAts('resume', $pdfQs)) ?>"><?= App::e(ResumeLayout::ui('ats', $uiLang)) ?></a></li>
+          <li><a class="dropdown-item" href="<?= App::e(PdfExport::downloadHrefTranslated('resume', 'de', $pdfQs)) ?>"><?= App::e(ResumeLayout::ui('german', $uiLang)) ?></a></li>
+          <li><a class="dropdown-item" href="<?= App::e(PdfExport::downloadHrefTranslated('resume', 'en', $pdfQs)) ?>"><?= App::e(ResumeLayout::ui('english', $uiLang)) ?></a></li>
+        </ul>
+      </div>
+      <span class="badge text-bg-light border" id="studio-page-badge" title="Estimated A4 pages">— / 2 pages</span>
     </div>
   </header>
 
-  <div class="editor-grid">
-    <aside class="editor-nav nav flex-column">
-      <a class="nav-link px-0" href="/editor">My resumes</a>
-      <a class="nav-link px-0" href="#profile">Profile</a>
-      <a class="nav-link px-0" href="#experience">Experience</a>
-      <a class="nav-link px-0" href="#sections">Sections</a>
-      <a class="nav-link px-0" href="/design">Style</a>
+  <div class="resume-context-banner<?= $isEditingMaster ? ' is-master' : ' is-job' ?> mb-3">
+    <?php if ($isEditingMaster): ?>
+      <strong>Editing Master CV</strong> — your template. Tailoring always copies from here.
+    <?php else: ?>
+      <strong>Editing Job CV:</strong> <?= App::e($editingResumeName) ?>. Master CV is unchanged.
+    <?php endif; ?>
+  </div>
+
+  <div class="resume-studio" data-resume-studio data-preview-base="<?= App::e($previewUrl) ?>" data-check-url="/resume-check<?= $editingResumeId > 0 ? '?version=' . $editingResumeId : '' ?>">
+    <aside class="resume-studio-nav" aria-label="<?= App::e(ResumeLayout::ui('sections', $uiLang)) ?>">
+      <p class="small text-uppercase text-muted fw-semibold mb-2"><?= App::e(ResumeLayout::ui('sections', $uiLang)) ?></p>
+      <a class="studio-nav-item is-active" href="#panel-layout" data-studio-panel="layout"><?= App::e(ResumeLayout::ui('layout', $uiLang)) ?></a>
+      <a class="studio-nav-item" href="#panel-profile" data-studio-panel="profile"><?= App::e(ResumeLayout::ui('profile', $uiLang)) ?></a>
+      <a class="studio-nav-item" href="#panel-experience" data-studio-panel="experience"><?= App::e(ResumeLayout::sectionLabel('experience', $uiLang)) ?></a>
+      <?php foreach ($sections as $section): ?>
+        <?php
+          $sk = (string) ($section['section_key'] ?? '');
+          if ($sk === 'experience') {
+              continue;
+          }
+          $label = (string) ($section['title'] ?? $sk);
+          $hidden = (int) ($section['visible'] ?? 1) !== 1;
+        ?>
+        <a class="studio-nav-item<?= $hidden ? ' is-hidden-section' : '' ?>" href="#panel-sections" data-studio-panel="sections" data-section-id="<?= (int) $section['id'] ?>">
+          <span><?= App::e($label) ?></span>
+          <?php if ($hidden): ?><span class="small">hidden</span><?php endif; ?>
+        </a>
+      <?php endforeach; ?>
+      <a class="studio-nav-item" href="#panel-check" data-studio-panel="check"><?= App::e(ResumeLayout::ui('check', $uiLang)) ?></a>
+      <hr>
+      <a class="studio-nav-item" href="/editor">My resumes</a>
     </aside>
 
-    <div class="editor-main">
-      <div class="now-editing">
-        <p><?= $isEditingMaster ? 'Changes save to your Master CV.' : 'Changes save to this Job CV only.' ?></p>
-        <form method="post" class="form form-inline-actions">
-          <input type="hidden" name="action" value="save_open_resume">
-          <button type="submit" class="btn btn-primary"><?= App::e($saveResumeLabel) ?></button>
-        </form>
+    <div class="resume-studio-preview">
+      <div class="d-flex justify-content-between w-100 align-items-center" style="max-width:210mm">
+        <strong class="small"><?= App::e(ResumeLayout::ui('preview', $uiLang)) ?></strong>
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-studio-refresh>Refresh</button>
       </div>
+      <iframe title="A4 resume preview" data-studio-preview src="<?= App::e($previewUrl) ?>" loading="lazy"></iframe>
+    </div>
 
-      <section class="editor-block" id="profile">
-        <h2>Profile</h2>
+    <div class="resume-studio-editor">
+      <p class="small text-uppercase text-muted fw-semibold mb-2"><?= App::e(ResumeLayout::ui('editor', $uiLang)) ?></p>
+
+      <section class="studio-panel is-active" id="panel-layout" data-panel="layout">
+        <h2 class="h5"><?= App::e(ResumeLayout::ui('layout', $uiLang)) ?></h2>
+        <form method="post" class="form">
+          <input type="hidden" name="action" value="save_layout">
+          <label class="form-label">Template
+            <select class="form-select" name="resume_template">
+              <?php foreach (ResumeLayout::TEMPLATES as $key => $meta): ?>
+                <option value="<?= App::e($key) ?>"<?= $template === $key ? ' selected' : '' ?>><?= App::e($meta['label']) ?> — <?= App::e($meta['blurb']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </label>
+          <label class="form-label mt-2">Mode
+            <select class="form-select" name="resume_mode">
+              <option value="professional"<?= $mode === 'professional' ? ' selected' : '' ?>>Professional</option>
+              <option value="student"<?= $mode === 'student' ? ' selected' : '' ?>>Student / Werkstudent</option>
+            </select>
+          </label>
+          <label class="form-label mt-2">Photo mode
+            <select class="form-select" name="photo_mode">
+              <option value="with_photo"<?= $photoMode === 'with_photo' ? ' selected' : '' ?>>With photo</option>
+              <option value="without_photo"<?= $photoMode === 'without_photo' ? ' selected' : '' ?>>Without photo</option>
+              <option value="anonymized"<?= $photoMode === 'anonymized' ? ' selected' : '' ?>>Anonymized</option>
+            </select>
+          </label>
+          <label class="form-label mt-2">Density
+            <select class="form-select" name="resume_density">
+              <option value="normal"<?= $density === 'normal' ? ' selected' : '' ?>>Normal</option>
+              <option value="tight"<?= $density === 'tight' ? ' selected' : '' ?>>Tight</option>
+              <option value="compact"<?= $density === 'compact' ? ' selected' : '' ?>>Compact (~2 pages)</option>
+            </select>
+          </label>
+          <label class="form-label mt-2">Accent
+            <input class="form-control form-control-color" type="color" name="accent_color" value="<?= App::e($accent) ?>">
+          </label>
+          <label class="check d-block mt-2">
+            <input type="checkbox" name="show_personal_extras" value="1"<?= $showExtras ? ' checked' : '' ?>>
+            Show optional personal extras (DOB, nationality…)
+          </label>
+          <label class="check d-block mt-1">
+            <input type="checkbox" name="show_signature" value="1"<?= $showSignature ? ' checked' : '' ?>>
+            Prefer signature section when filled
+          </label>
+          <button type="submit" class="btn btn-primary mt-3">Save layout</button>
+        </form>
+      </section>
+
+      <section class="studio-panel" id="panel-profile" data-panel="profile">
+        <h2 class="h5"><?= App::e(ResumeLayout::ui('profile', $uiLang)) ?></h2>
         <form method="post" class="form" enctype="multipart/form-data">
           <input type="hidden" name="action" value="save_profile">
           <input type="hidden" name="id" value="<?= (int) $profile['id'] ?>">
-          <div class="row g-3">
-            <div class="col-md-6">
+          <div class="row g-2">
+            <div class="col-12">
               <label class="form-label" for="full_name">Full name</label>
               <input class="form-control" type="text" id="full_name" name="full_name" required value="<?= App::e($profile['full_name']) ?>">
             </div>
-            <div class="col-md-6">
-              <label class="form-label" for="title">Title</label>
+            <div class="col-12">
+              <label class="form-label" for="title">Professional title</label>
               <input class="form-control" type="text" id="title" name="title" value="<?= App::e($profile['title']) ?>">
             </div>
             <div class="col-md-6">
@@ -372,173 +524,117 @@ layout_header('Edit resume');
               <input class="form-control" type="email" id="email" name="email" value="<?= App::e($profile['email']) ?>">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="phone">Mobile</label>
-              <input class="form-control" type="text" id="phone" name="phone" value="<?= App::e($profile['phone']) ?>" placeholder="+1 555 0100">
+              <label class="form-label" for="phone">Phone</label>
+              <input class="form-control" type="text" id="phone" name="phone" value="<?= App::e($profile['phone']) ?>">
             </div>
-            <div class="col-md-6">
-              <label class="form-label" for="location">Location</label>
+            <div class="col-12">
+              <label class="form-label" for="location">City / location</label>
               <input class="form-control" type="text" id="location" name="location" value="<?= App::e($profile['location']) ?>">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="gender">Gender</label>
+              <label class="form-label" for="gender">Gender (optional)</label>
               <select class="form-select" id="gender" name="gender">
                 <?php
                 $gender = (string) ($profile['gender'] ?? '');
-                $genders = ['' => '— Prefer not to say / hide —', 'Male' => 'Male', 'Female' => 'Female', 'Non-binary' => 'Non-binary', 'Other' => 'Other'];
+                $genders = ['' => '— Hide —', 'Male' => 'Male', 'Female' => 'Female', 'Non-binary' => 'Non-binary', 'Other' => 'Other'];
                 foreach ($genders as $val => $label):
                 ?>
                   <option value="<?= App::e($val) ?>"<?= $gender === $val ? ' selected' : '' ?>><?= App::e($label) ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label class="form-label" for="date_of_birth">Date of birth</label>
               <input class="form-control" type="date" id="date_of_birth" name="date_of_birth" value="<?= App::e((string) ($profile['date_of_birth'] ?? '')) ?>">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label class="form-label" for="country">Country</label>
               <input class="form-control" type="text" id="country" name="country" value="<?= App::e((string) ($profile['country'] ?? '')) ?>">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label class="form-label" for="nationality">Nationality</label>
               <input class="form-control" type="text" id="nationality" name="nationality" value="<?= App::e((string) ($profile['nationality'] ?? '')) ?>">
             </div>
           </div>
-
-          <fieldset class="photo-fieldset">
-            <legend>Profile picture</legend>
+          <fieldset class="photo-fieldset mt-3">
+            <legend>Application photo</legend>
             <?php $photoUrl = App::photoUrl($profile); ?>
             <?php if ($photoUrl !== ''): ?>
-              <div class="photo-preview">
-                <img src="<?= App::e($photoUrl) ?>" alt="Current profile photo">
-              </div>
+              <div class="photo-preview mb-2"><img src="<?= App::e($photoUrl) ?>" alt="" style="width:84px;height:105px;object-fit:cover;border-radius:2px"></div>
             <?php endif; ?>
-            <label>Upload photo
-              <input type="file" name="photo" accept="image/jpeg,image/png,image/webp">
-            </label>
-            <label class="check">
+            <input class="form-control" type="file" name="photo" accept="image/jpeg,image/png,image/webp">
+            <label class="check d-block mt-2">
               <input type="checkbox" name="show_photo" value="1"<?= (int) ($profile['show_photo'] ?? 1) === 1 ? ' checked' : '' ?>>
-              Show picture on resume templates
+              Allow photo when photo mode is “with photo”
             </label>
             <?php if ($photoUrl !== ''): ?>
-              <label class="check">
-                <input type="checkbox" name="remove_photo" value="1">
-                Remove picture
-              </label>
+              <label class="check d-block"><input type="checkbox" name="remove_photo" value="1"> Remove photo</label>
             <?php endif; ?>
-            <p class="empty" style="margin:0">JPG, PNG, or WebP · max 3MB. Uncheck “Show picture” to hide it without deleting.</p>
           </fieldset>
-
-          <fieldset class="links-fieldset">
+          <fieldset class="links-fieldset mt-3">
             <legend>Links</legend>
             <?php foreach ($links as $link): ?>
-              <div class="link-row">
-                <input type="text" name="link_label[]" placeholder="Label" value="<?= App::e($link['label'] ?? '') ?>">
-                <input type="url" name="link_url[]" placeholder="https://" value="<?= App::e($link['url'] ?? '') ?>">
+              <div class="link-row d-flex gap-2 mb-2">
+                <input class="form-control" type="text" name="link_label[]" placeholder="Label" value="<?= App::e($link['label'] ?? '') ?>">
+                <input class="form-control" type="url" name="link_url[]" placeholder="https://" value="<?= App::e($link['url'] ?? '') ?>">
               </div>
             <?php endforeach; ?>
             <button type="button" class="btn btn-sm btn-outline-secondary" data-add-link>Add link</button>
           </fieldset>
-          <p class="empty" style="margin:0">Empty fields are hidden on the resume.</p>
-          <button type="submit" class="btn btn-primary">Save profile</button>
+          <button type="submit" class="btn btn-primary mt-3">Save profile</button>
         </form>
       </section>
 
-      <section class="editor-block" id="experience">
-        <h2>Experience</h2>
-        <p class="empty" style="margin-top:0">Add each company as its own entry. Position is bold on the resume. Company and dates sit on the left/right layout.</p>
-
+      <section class="studio-panel" id="panel-experience" data-panel="experience">
+        <h2 class="h5"><?= App::e(ResumeLayout::sectionLabel('experience', $uiLang)) ?></h2>
         <form method="post" class="section-order-form" data-section-sorter>
           <input type="hidden" name="action" value="save_experiences">
           <div class="section-sort-list" data-sort-list>
             <?php foreach ($experiences as $job): ?>
               <?php $jid = (int) $job['id']; ?>
-              <div class="section-sort-item experience-edit-item" data-sort-item draggable="true" id="experience-<?= $jid ?>">
+              <div class="section-sort-item experience-edit-item mb-3" data-sort-item draggable="true">
                 <input type="hidden" name="experience_id[]" value="<?= $jid ?>">
                 <?php editor_render_sort_controls(); ?>
                 <div class="section-sort-body">
-                  <div class="experience-fields">
-                    <label>Company
-                      <input type="text" name="company[<?= $jid ?>]" value="<?= App::e($job['company']) ?>" required>
-                    </label>
-                    <label>Position (bold)
-                      <input type="text" name="position[<?= $jid ?>]" value="<?= App::e($job['position']) ?>" required>
-                    </label>
-                    <label>Location
-                      <input type="text" name="location[<?= $jid ?>]" value="<?= App::e($job['location']) ?>" placeholder="City, Country">
-                    </label>
-                    <label>Start date
-                      <input type="text" name="start_date[<?= $jid ?>]" value="<?= App::e($job['start_date']) ?>" placeholder="Oct 2025">
-                    </label>
-                    <label>End date
-                      <input type="text" name="end_date[<?= $jid ?>]" value="<?= App::e($job['end_date']) ?>" placeholder="Dec 2025 or Present">
-                    </label>
-                    <label class="check exp-visible">
-                      <input type="checkbox" name="visible[<?= $jid ?>]" value="1"<?= (int) $job['visible'] === 1 ? ' checked' : '' ?>>
-                      Visible
-                    </label>
+                  <label class="form-label">Position <input class="form-control" type="text" name="position[<?= $jid ?>]" value="<?= App::e($job['position']) ?>" required></label>
+                  <label class="form-label">Company <input class="form-control" type="text" name="company[<?= $jid ?>]" value="<?= App::e($job['company']) ?>" required></label>
+                  <label class="form-label">Location <input class="form-control" type="text" name="location[<?= $jid ?>]" value="<?= App::e($job['location']) ?>"></label>
+                  <div class="row g-2">
+                    <div class="col-6"><label class="form-label">Start <input class="form-control" type="text" name="start_date[<?= $jid ?>]" value="<?= App::e($job['start_date']) ?>" placeholder="03/2024"></label></div>
+                    <div class="col-6"><label class="form-label">End <input class="form-control" type="text" name="end_date[<?= $jid ?>]" value="<?= App::e($job['end_date']) ?>" placeholder="heute"></label></div>
                   </div>
-                  <label>Bullets / details
-                    <textarea name="bullets[<?= $jid ?>]" rows="6" placeholder="• Achievement one&#10;• Achievement two"><?= App::e($job['bullets']) ?></textarea>
-                  </label>
-                  <div class="form-actions">
-                    <button type="submit" form="experience-delete-<?= $jid ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this experience entry?');">Delete</button>
-                  </div>
+                  <label class="check"><input type="checkbox" name="visible[<?= $jid ?>]" value="1"<?= (int) $job['visible'] === 1 ? ' checked' : '' ?>> Visible</label>
+                  <label class="form-label">Bullets<textarea class="form-control" name="bullets[<?= $jid ?>]" rows="5"><?= App::e($job['bullets']) ?></textarea></label>
+                  <button type="submit" form="experience-delete-<?= $jid ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete?');">Delete</button>
                 </div>
               </div>
             <?php endforeach; ?>
           </div>
-          <div class="form-actions section-order-actions">
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
+          <button type="submit" class="btn btn-primary">Save experience</button>
         </form>
-
         <?php foreach ($experiences as $job): ?>
           <form method="post" id="experience-delete-<?= (int) $job['id'] ?>" hidden>
             <input type="hidden" name="action" value="delete_experience">
             <input type="hidden" name="id" value="<?= (int) $job['id'] ?>">
           </form>
         <?php endforeach; ?>
-
-        <form method="post" class="form add-section">
-          <h3>Add company / role</h3>
+        <form method="post" class="form mt-4">
+          <h3 class="h6">Add role</h3>
           <input type="hidden" name="action" value="add_experience">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Company</label>
-              <input class="form-control" type="text" name="company" required placeholder="Company name">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Position</label>
-              <input class="form-control" type="text" name="position" required placeholder="Job title">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Location</label>
-              <input class="form-control" type="text" name="location" placeholder="City, Country">
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Start date</label>
-              <input class="form-control" type="text" name="start_date" placeholder="Oct 2025">
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">End date</label>
-              <input class="form-control" type="text" name="end_date" placeholder="Present">
-            </div>
-            <div class="col-12">
-              <label class="form-label">Bullets / details</label>
-              <textarea class="form-control" name="bullets" rows="5" placeholder="• First achievement&#10;• Second achievement"></textarea>
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary">Add experience</button>
-            </div>
+          <label class="form-label">Company <input class="form-control" name="company" required></label>
+          <label class="form-label">Position <input class="form-control" name="position" required></label>
+          <label class="form-label">Location <input class="form-control" name="location"></label>
+          <div class="row g-2">
+            <div class="col-6"><label class="form-label">Start <input class="form-control" name="start_date" placeholder="03/2024"></label></div>
+            <div class="col-6"><label class="form-label">End <input class="form-control" name="end_date" placeholder="heute"></label></div>
           </div>
+          <label class="form-label">Bullets <textarea class="form-control" name="bullets" rows="4"></textarea></label>
+          <button type="submit" class="btn btn-primary">Add</button>
         </form>
       </section>
 
-      <section class="editor-block" id="sections">
-        <h2>Resume sections</h2>
-        <p class="empty" style="margin-top:0">Drag the grip handle (or use the chevrons) to reorder, then click <strong>Save</strong>. Experience content is edited in the <a href="#experience">Experience</a> tab.</p>
-
+      <section class="studio-panel" id="panel-sections" data-panel="sections">
+        <h2 class="h5"><?= App::e(ResumeLayout::ui('sections', $uiLang)) ?></h2>
         <form method="post" class="section-order-form" data-section-sorter>
           <input type="hidden" name="action" value="save_sections">
           <div class="section-sort-list" data-sort-list>
@@ -547,57 +643,134 @@ layout_header('Edit resume');
               $sid = (int) $section['id'];
               $isExperience = ($section['section_key'] ?? '') === 'experience';
               ?>
-              <div class="section-sort-item" data-sort-item draggable="true" id="section-<?= $sid ?>">
+              <div class="section-sort-item mb-3" data-sort-item draggable="true" id="section-<?= $sid ?>">
                 <input type="hidden" name="section_id[]" value="<?= $sid ?>">
                 <?php editor_render_sort_controls(); ?>
                 <div class="section-sort-body">
-                  <div class="section-form-head">
-                    <label class="grow">Title
-                      <input type="text" name="title[<?= $sid ?>]" value="<?= App::e($section['title']) ?>">
-                    </label>
-                    <label class="check">
-                      <input type="checkbox" name="visible[<?= $sid ?>]" value="1"<?= (int) $section['visible'] === 1 ? ' checked' : '' ?>>
-                      Visible
-                    </label>
-                  </div>
+                  <label class="form-label">Title <input class="form-control" type="text" name="title[<?= $sid ?>]" value="<?= App::e($section['title']) ?>"></label>
+                  <label class="check"><input type="checkbox" name="visible[<?= $sid ?>]" value="1"<?= (int) $section['visible'] === 1 ? ' checked' : '' ?>> Visible</label>
                   <?php if ($isExperience): ?>
-                    <p class="empty" style="margin:0">Company roles are managed under <a href="#experience">Experience</a>.</p>
+                    <p class="small text-muted">Managed under Experience.</p>
                     <input type="hidden" name="body[<?= $sid ?>]" value="">
                   <?php else: ?>
-                    <label>Body
-                      <textarea name="body[<?= $sid ?>]" rows="8"><?= App::e($section['body']) ?></textarea>
-                    </label>
+                    <label class="form-label">Body <textarea class="form-control" name="body[<?= $sid ?>]" rows="7"><?= App::e($section['body']) ?></textarea></label>
                   <?php endif; ?>
-                  <div class="form-actions">
-                    <button type="submit" form="section-delete-<?= $sid ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this section?');">Delete</button>
-                  </div>
+                  <button type="submit" form="section-delete-<?= $sid ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete section?');">Delete</button>
                 </div>
               </div>
             <?php endforeach; ?>
           </div>
-          <div class="form-actions section-order-actions">
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
+          <button type="submit" class="btn btn-primary">Save sections</button>
         </form>
-
         <?php foreach ($sections as $section): ?>
           <form method="post" id="section-delete-<?= (int) $section['id'] ?>" hidden>
             <input type="hidden" name="action" value="delete_section">
             <input type="hidden" name="id" value="<?= (int) $section['id'] ?>">
           </form>
         <?php endforeach; ?>
-
-        <form method="post" class="form add-section">
-          <h3>Add section</h3>
+        <form method="post" class="form mt-4">
+          <h3 class="h6">Add section</h3>
           <input type="hidden" name="action" value="add_section">
-          <label>Key <input type="text" name="section_key" placeholder="e.g. certifications"></label>
-          <label>Title <input type="text" name="title" placeholder="Certifications"></label>
-          <label>Body <textarea name="body" rows="4"></textarea></label>
-          <button type="submit" class="btn btn-primary">Add section</button>
+          <label class="form-label">Key <input class="form-control" name="section_key" placeholder="languages"></label>
+          <label class="form-label">Title <input class="form-control" name="title"></label>
+          <label class="form-label">Body <textarea class="form-control" name="body" rows="3"></textarea></label>
+          <button type="submit" class="btn btn-primary">Add</button>
         </form>
+      </section>
+
+      <section class="studio-panel" id="panel-check" data-panel="check">
+        <h2 class="h5"><?= App::e(ResumeLayout::ui('check', $uiLang)) ?></h2>
+        <div class="resume-check-panel" data-check-panel>
+          <p class="small mb-2">
+            <?= (int) $check['summary']['errors'] ?> errors ·
+            <?= (int) $check['summary']['warnings'] ?> warnings ·
+            <?= (int) $check['summary']['info'] ?> notes
+          </p>
+          <ul class="list-unstyled mb-3" data-check-list>
+            <?php foreach ($check['issues'] as $issue): ?>
+              <li class="issue-<?= App::e($issue['level']) ?> mb-1">• <?= App::e($issue['message']) ?></li>
+            <?php endforeach; ?>
+            <?php if ($check['issues'] === []): ?>
+              <li class="text-muted">No issues detected.</li>
+            <?php endif; ?>
+          </ul>
+          <?php if ($match): ?>
+            <div class="border rounded p-2 bg-light">
+              <strong><?= App::e(ResumeLayout::ui('match', $uiLang)) ?>: <?= (int) $match['overall'] ?>%</strong>
+              <p class="small mb-0 mt-1">Skills <?= (int) $match['skills'] ?>% · Experience <?= (int) $match['experience'] ?>% · Education <?= (int) $match['education'] ?>% · Keywords <?= (int) $match['keywords'] ?>% · Languages <?= (int) $match['languages'] ?>%</p>
+              <p class="small text-muted mb-0">Estimate only — not an ATS guarantee.</p>
+            </div>
+          <?php else: ?>
+            <p class="small text-muted">Link a JD via Applications / tailor to see a match estimate.</p>
+          <?php endif; ?>
+        </div>
       </section>
     </div>
   </div>
 </main>
+<script>
+(function () {
+  var root = document.querySelector('[data-resume-studio]');
+  if (!root) return;
+  var iframe = root.querySelector('[data-studio-preview]');
+  var badge = document.getElementById('studio-page-badge');
+  var panels = root.querySelectorAll('[data-panel]');
+  var nav = root.querySelectorAll('[data-studio-panel]');
+
+  function showPanel(name) {
+    panels.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-panel') === name); });
+    nav.forEach(function (n) { n.classList.toggle('is-active', n.getAttribute('data-studio-panel') === name); });
+  }
+  nav.forEach(function (n) {
+    n.addEventListener('click', function (e) {
+      e.preventDefault();
+      showPanel(n.getAttribute('data-studio-panel'));
+    });
+  });
+
+  function refreshPreview() {
+    if (!iframe) return;
+    var url = root.getAttribute('data-preview-base') || iframe.src;
+    iframe.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_ts=' + Date.now();
+  }
+  var refreshBtn = root.querySelector('[data-studio-refresh]');
+  if (refreshBtn) refreshBtn.addEventListener('click', refreshPreview);
+
+  function updatePages() {
+    try {
+      var doc = iframe.contentDocument;
+      if (!doc) return;
+      var article = doc.querySelector('.resume');
+      if (!article) return;
+      var h = article.scrollHeight || article.offsetHeight;
+      var pages = Math.max(1, Math.ceil(h / (297 * 3.78))); // ~px per mm at 96dpi
+      // Prefer mm via CSS pixels: 1mm ≈ 3.7795px
+      pages = Math.max(1, Math.ceil(h / 1122.5));
+      if (badge) badge.textContent = pages + ' / 2 pages';
+      var checkUrl = root.getAttribute('data-check-url') || '/resume-check';
+      fetch(checkUrl + (checkUrl.indexOf('?') >= 0 ? '&' : '?') + 'pages=' + encodeURIComponent(pages))
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data || !data.check) return;
+          var list = root.querySelector('[data-check-list]');
+          if (!list) return;
+          list.innerHTML = '';
+          (data.check.issues || []).forEach(function (issue) {
+            var li = document.createElement('li');
+            li.className = 'issue-' + issue.level + ' mb-1';
+            li.textContent = '• ' + issue.message;
+            list.appendChild(li);
+          });
+          if (!(data.check.issues || []).length) {
+            list.innerHTML = '<li class="text-muted">No issues detected.</li>';
+          }
+        }).catch(function () {});
+    } catch (e) {}
+  }
+  if (iframe) {
+    iframe.addEventListener('load', updatePages);
+  }
+})();
+</script>
 <?php
 layout_footer();

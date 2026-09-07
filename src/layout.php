@@ -301,7 +301,7 @@ function layout_header(string $title, array $opts = []): void
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
   <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260901a">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
-  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260828b">
+  <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260907a">
   <style>
     :root {
       <?= kaamfit_palette_css_vars($dashboardPalette) ?>
