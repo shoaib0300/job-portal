@@ -192,6 +192,114 @@ if ($action === 'new' || $action === 'edit') {
                   · <a href="<?= App::e(PdfExport::downloadHrefTranslated('cover', $translateTarget, $coverPdfExtra)) ?>">Translate to <?= App::e(TranslateLanguages::label($translateTarget)) ?></a></p>
               </div>
             <?php endif; ?>
+
+            <?php if ((int) $row['id'] > 0): ?>
+              <?php
+                \KaamFit\UserDocuments::ensureSchema();
+                $pkgLang = App::resolveDocumentLang();
+                $attached = \KaamFit\UserDocuments::forApplication((int) $row['id']);
+                $pkgStatus = \KaamFit\UserDocuments::packageStatus($row);
+                $library = \KaamFit\UserDocuments::listDocuments();
+                $attachedIds = array_map(static fn($a): int => (int) $a['document_id'], $attached);
+              ?>
+              <div class="col-12" id="package">
+                <div class="card border app-package-card">
+                  <div class="card-body">
+                    <div class="d-flex flex-wrap justify-content-between gap-2 align-items-center mb-2">
+                      <h2 class="h5 mb-0"><?= App::e(\KaamFit\UserDocuments::ui('package', $pkgLang)) ?></h2>
+                      <?php if ($pkgStatus['ready']): ?>
+                        <span class="badge text-bg-success"><?= App::e(\KaamFit\UserDocuments::ui('ready', $pkgLang)) ?></span>
+                      <?php else: ?>
+                        <span class="badge text-bg-warning">Missing: <?= App::e(implode(', ', $pkgStatus['missing'])) ?></span>
+                      <?php endif; ?>
+                    </div>
+                    <ul class="list-unstyled app-package-list mb-3">
+                      <li class="app-package-item">
+                        <strong>1. <?= App::e(\KaamFit\UserDocuments::slotLabel('resume', $pkgLang)) ?></strong>
+                        <?php if ($pkgStatus['resume']): ?>
+                          <span class="text-success">✓</span> Resume #<?= (int) $row['resume_version_id'] ?>
+                          · <a href="<?= App::e(PdfExport::downloadHrefOriginal('resume', ['version' => (int) $row['resume_version_id']])) ?>">PDF</a>
+                          · <a href="<?= App::e(PdfExport::downloadHrefAts('resume', ['version' => (int) $row['resume_version_id']])) ?>">ATS</a>
+                        <?php else: ?>
+                          <span class="text-warning">⚠ Not linked</span>
+                        <?php endif; ?>
+                      </li>
+                      <li class="app-package-item">
+                        <strong>2. <?= App::e(\KaamFit\UserDocuments::slotLabel('cover', $pkgLang)) ?></strong>
+                        <?php if ($pkgStatus['cover']): ?>
+                          <span class="text-success">✓</span> Cover #<?= (int) $row['cover_letter_id'] ?>
+                          · <a href="<?= App::e(PdfExport::downloadHrefOriginal('cover', ['id' => (int) $row['cover_letter_id']])) ?>">PDF</a>
+                        <?php else: ?>
+                          <span class="text-warning">⚠ Not linked</span>
+                        <?php endif; ?>
+                      </li>
+                      <li class="app-package-item">
+                        <strong>3+. Supporting documents</strong>
+                        <?php if ($attached === []): ?>
+                          <span class="text-secondary">None attached yet</span>
+                        <?php else: ?>
+                          <ol class="mb-0 ps-3">
+                            <?php foreach ($attached as $att): ?>
+                              <li class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+                                <span>
+                                  <?= App::e((string) $att['name']) ?>
+                                  <span class="badge text-bg-light border"><?= App::e(\KaamFit\UserDocuments::typeLabel((string) $att['doc_type'], $pkgLang)) ?></span>
+                                  <span class="small text-secondary">v<?= (int) $att['version_no'] ?></span>
+                                </span>
+                                <span class="d-flex gap-2">
+                                  <a class="btn btn-sm btn-outline-secondary" href="<?= App::e(\KaamFit\UserDocuments::versionDownloadUrl((int) $att['document_version_id'], true)) ?>" target="_blank" rel="noopener">Preview</a>
+                                  <form method="post" action="/app-package" class="d-inline">
+                                    <input type="hidden" name="application_id" value="<?= (int) $row['id'] ?>">
+                                    <input type="hidden" name="action" value="detach">
+                                    <input type="hidden" name="document_id" value="<?= (int) $att['document_id'] ?>">
+                                    <button class="btn btn-sm btn-outline-danger" type="submit"><?= App::e(\KaamFit\UserDocuments::ui('detach', $pkgLang)) ?></button>
+                                  </form>
+                                </span>
+                              </li>
+                            <?php endforeach; ?>
+                          </ol>
+                        <?php endif; ?>
+                      </li>
+                    </ul>
+
+                    <details class="mb-3">
+                      <summary class="btn btn-sm btn-outline-primary"><?= App::e(\KaamFit\UserDocuments::ui('add', $pkgLang)) ?></summary>
+                      <form method="post" action="/app-package" class="mt-2 border rounded p-2">
+                        <input type="hidden" name="application_id" value="<?= (int) $row['id'] ?>">
+                        <input type="hidden" name="action" value="attach">
+                        <?php if ($library === []): ?>
+                          <p class="small mb-2">No documents in library. <a href="/app-docs">Upload documents</a> first.</p>
+                        <?php else: ?>
+                          <div class="app-attach-list">
+                            <?php foreach ($library as $doc): ?>
+                              <?php $did = (int) $doc['id']; ?>
+                              <label class="check d-block">
+                                <input type="checkbox" name="document_ids[]" value="<?= $did ?>"<?= in_array($did, $attachedIds, true) ? ' checked' : '' ?>>
+                                <?= App::e((string) $doc['name']) ?>
+                                <span class="text-secondary small">(<?= App::e(\KaamFit\UserDocuments::typeLabel((string) $doc['doc_type'], $pkgLang)) ?>)</span>
+                              </label>
+                            <?php endforeach; ?>
+                          </div>
+                          <button class="btn btn-sm btn-primary mt-2" type="submit"><?= App::e(\KaamFit\UserDocuments::ui('attach', $pkgLang)) ?></button>
+                        <?php endif; ?>
+                      </form>
+                      <form method="post" action="/app-package" class="mt-2">
+                        <input type="hidden" name="application_id" value="<?= (int) $row['id'] ?>">
+                        <input type="hidden" name="action" value="attach_always">
+                        <button class="btn btn-sm btn-outline-secondary" type="submit">Attach “always include” docs</button>
+                      </form>
+                    </details>
+
+                    <div class="d-flex flex-wrap gap-2">
+                      <a class="btn btn-primary" href="/app-package?application=<?= (int) $row['id'] ?>"><?= App::e(\KaamFit\UserDocuments::ui('export_package', $pkgLang)) ?></a>
+                      <a class="btn btn-outline-secondary" href="/app-docs">Document library</a>
+                    </div>
+                    <p class="small text-secondary mt-2 mb-0">ATS PDF stays resume-only. The package export merges resume, cover letter, then supporting PDFs.</p>
+                  </div>
+                </div>
+              </div>
+            <?php endif; ?>
+
             <div class="col-12">
               <label class="form-label" for="jd_snippet">Job text</label>
               <textarea class="form-control" id="jd_snippet" name="jd_snippet" rows="10" placeholder="Paste the job description"><?= App::e((string) $row['jd_snippet']) ?></textarea>
@@ -317,7 +425,16 @@ layout_header('Applications');
             </p>
           </div>
 
-          <?php if ($rid > 0 || $cid > 0): ?>
+          <?php
+            \KaamFit\UserDocuments::ensureSchema();
+            $attCount = 0;
+            try {
+                $attCount = count(\KaamFit\UserDocuments::forApplication($appId));
+            } catch (Throwable) {
+                $attCount = 0;
+            }
+          ?>
+          <?php if ($rid > 0 || $cid > 0 || $attCount > 0): ?>
             <div class="application-docs" aria-label="Job documents">
               <?php if ($rid > 0): ?>
                 <a class="application-doc" href="/resume?version=<?= $rid ?>" title="View job CV">CV</a>
@@ -327,6 +444,10 @@ layout_header('Applications');
                 <a class="application-doc" href="/cover-letter?id=<?= $cid ?>" title="View job cover letter">Cover</a>
                 <a class="application-doc application-doc-ats" href="<?= App::e(PdfExport::downloadHrefAts('cover', ['id' => $cid])) ?>" title="Upload to employer portal">ATS Cover</a>
               <?php endif; ?>
+              <?php if ($attCount > 0): ?>
+                <a class="application-doc" href="/applications?action=edit&amp;id=<?= $appId ?>#package" title="Supporting documents">Docs <?= (int) $attCount ?></a>
+              <?php endif; ?>
+              <a class="application-doc" href="/applications?action=edit&amp;id=<?= $appId ?>#package" title="Application package">Package</a>
             </div>
           <?php endif; ?>
 

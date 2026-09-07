@@ -607,6 +607,11 @@ final class App
         if ($stmt->rowCount() === 0) {
             throw new InvalidArgumentException('Application not found.');
         }
+        try {
+            \KaamFit\UserDocuments::freezeForApplication($applicationId);
+        } catch (Throwable) {
+            // Attachments optional — do not block status update.
+        }
     }
 
     /** Remove a preparing application and its tailored resume/cover copies. */
@@ -1472,6 +1477,7 @@ final class App
             'saved-jobs.php' => 'saved-jobs',
             'companies.php' => 'companies',
             'applications.php', 'history.php' => 'applications',
+            'app-docs.php', 'app-doc-file.php', 'app-package.php' => 'app-docs',
             'documents.php', 'editor.php', 'resume-edit.php', 'design.php' => 'resume',
             'cover.php', 'cover-edit.php', 'cover-design.php' => 'cover',
             'help.php' => 'guide',

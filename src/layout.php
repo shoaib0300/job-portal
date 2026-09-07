@@ -269,6 +269,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'saved-jobs', 'href' => '/saved-jobs', 'label' => 'Saved jobs', 'icon' => 'bookmark'],
         ['key' => 'companies', 'href' => '/companies', 'label' => 'Companies', 'icon' => 'company'],
         ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
+        ['key' => 'app-docs', 'href' => '/app-docs', 'label' => 'Documents', 'icon' => 'doc'],
         ['key' => 'resume', 'href' => '/editor', 'label' => 'Resume', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover', 'label' => 'Cover letter', 'icon' => 'letter'],
         ['key' => 'guide', 'href' => '/help', 'label' => 'How to use', 'icon' => 'spark'],
@@ -299,7 +300,7 @@ function layout_header(string $title, array $opts = []): void
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
-  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260901a">
+  <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260907c">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260907b">
   <style>

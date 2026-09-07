@@ -34,3 +34,5 @@ Thumbs.db
 /public/uploads/photos/*
 !/public/uploads/photos/.gitkeep
 !/public/uploads/photos/.gitignore
+storage/user_docs/*
+!storage/user_docs/.gitkeep

@@ -80,6 +80,7 @@ try {
     SuperAdmin::ensureSchema();
     KaamFit\Jobs\JobAggregator::ensureSchema();
     KaamFit\Jobs\SavedJobs::ensureSchema();
+    KaamFit\UserDocuments::ensureSchema();
     LibreTranslate::ensureSchema();
     TranslationGlossary::ensureSchema();
 } catch (Throwable $e) {
