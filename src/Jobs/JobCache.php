@@ -73,28 +73,64 @@ final class JobCache
         }
 
         // Search result blobs: drop row if every listing is old / strip old listings.
-        self::purgeOldListingsFromSearchRows($days);
+        try {
+            self::purgeOldListingsFromSearchRows($days);
+        } catch (Throwable $e) {
+            // Never let cache hygiene abort a multi-hour ingest finalize.
+            error_log('JobCache::purgeOldListingsFromSearchRows: ' . $e->getMessage());
+        }
     }
 
     private static function purgeOldListingsFromSearchRows(int $days): void
     {
         $cutoff = time() - ($days * 86400);
-        $stmt = Db::pdo()->query(
-            "SELECT query_hash, payload FROM job_search_cache
-             WHERE payload LIKE '%\"listings\"%'"
+        $pdo = Db::pdo();
+
+        // Oversized search blobs blow PHP memory during ingest housekeeping — drop them.
+        $pdo->exec(
+            'DELETE FROM job_search_cache
+             WHERE payload LIKE \'%"listings"%\'
+               AND LENGTH(payload) > 4000000'
         );
-        if ($stmt === false) {
+
+        // Process one row at a time (unbuffered) so a 61-seed ingest cannot OOM here.
+        $hashes = $pdo->query(
+            "SELECT query_hash FROM job_search_cache
+             WHERE payload LIKE '%\"listings\"%'
+             ORDER BY query_hash ASC"
+        );
+        if ($hashes === false) {
             return;
         }
-        $upd = Db::pdo()->prepare(
+        $load = $pdo->prepare('SELECT payload FROM job_search_cache WHERE query_hash = ? LIMIT 1');
+        $upd = $pdo->prepare(
             'UPDATE job_search_cache SET payload = ?, fetched_at = fetched_at WHERE query_hash = ?'
         );
-        $del = Db::pdo()->prepare('DELETE FROM job_search_cache WHERE query_hash = ?');
-        while ($row = $stmt->fetch()) {
-            $data = json_decode((string) $row['payload'], true);
-            if (!is_array($data) || !isset($data['listings']) || !is_array($data['listings'])) {
+        $del = $pdo->prepare('DELETE FROM job_search_cache WHERE query_hash = ?');
+
+        while ($hashRow = $hashes->fetch(\PDO::FETCH_ASSOC)) {
+            $hash = (string) ($hashRow['query_hash'] ?? '');
+            if ($hash === '') {
                 continue;
             }
+            $load->execute([$hash]);
+            $payload = $load->fetchColumn();
+            $load->closeCursor();
+            if (!is_string($payload) || $payload === '') {
+                continue;
+            }
+            // Skip without decoding if still too large (defense in depth).
+            if (strlen($payload) > 4000000) {
+                $del->execute([$hash]);
+                continue;
+            }
+            $data = json_decode($payload, true);
+            unset($payload);
+            if (!is_array($data) || !isset($data['listings']) || !is_array($data['listings'])) {
+                unset($data);
+                continue;
+            }
+            $before = count($data['listings']);
             $kept = [];
             foreach ($data['listings'] as $item) {
                 if (!is_array($item)) {
@@ -110,16 +146,21 @@ final class JobCache
                 $kept[] = $item;
             }
             if ($kept === []) {
-                $del->execute([(string) $row['query_hash']]);
+                $del->execute([$hash]);
+                unset($data, $kept);
                 continue;
             }
-            if (count($kept) !== count($data['listings'])) {
+            if (count($kept) !== $before) {
                 $data['listings'] = $kept;
                 $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-                if (is_string($json)) {
-                    $upd->execute([$json, (string) $row['query_hash']]);
+                if (is_string($json) && strlen($json) <= 4000000) {
+                    $upd->execute([$json, $hash]);
+                } else {
+                    $del->execute([$hash]);
                 }
+                unset($json);
             }
+            unset($data, $kept);
         }
     }
 
