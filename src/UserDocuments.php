@@ -131,28 +131,80 @@ final class UserDocuments
     {
         $isDe = str_starts_with(strtolower($lang), 'de');
         $map = [
-            'library' => ['en' => 'Application documents', 'de' => 'Bewerbungsunterlagen'],
-            'upload' => ['en' => 'Upload document', 'de' => 'Dokument hochladen'],
-            'package' => ['en' => 'Application package', 'de' => 'Bewerbungsmappe'],
-            'export_package' => ['en' => 'Export application package', 'de' => 'Bewerbungsunterlagen exportieren'],
+            'library' => ['en' => 'Application Documents', 'de' => 'Bewerbungsunterlagen'],
+            'upload' => ['en' => 'Upload Document', 'de' => 'Dokument hochladen'],
+            'package' => ['en' => 'Application Documents', 'de' => 'Bewerbungsunterlagen'],
+            'generate' => ['en' => 'Generate PDF', 'de' => 'PDF erzeugen'],
+            'generating' => ['en' => 'Generating application PDF…', 'de' => 'Bewerbungs-PDF wird erzeugt…'],
+            'selected' => ['en' => 'Selected', 'de' => 'Ausgewählt'],
+            'selected_n' => ['en' => '%d documents selected', 'de' => '%d Dokumente ausgewählt'],
+            'reorder_hint' => ['en' => 'Drag to set PDF order', 'de' => 'Reihenfolge per Drag & Drop'],
+            'export_package' => ['en' => 'Generate PDF', 'de' => 'PDF erzeugen'],
             'attach' => ['en' => 'Attach selected', 'de' => 'Ausgewählte anhängen'],
-            'add' => ['en' => 'Add document', 'de' => 'Unterlagen hinzufügen'],
-            'empty' => ['en' => 'No documents yet', 'de' => 'Noch keine Dokumente'],
+            'add' => ['en' => '+ Upload Document', 'de' => '+ Dokument hochladen'],
+            'empty' => ['en' => 'No supporting documents yet', 'de' => 'Noch keine Unterlagen'],
             'empty_hint' => [
-                'en' => 'Upload certificates, degrees, transcripts and other files once, then reuse them across applications.',
-                'de' => 'Laden Sie Zertifikate, Abschlüsse und Transcripts einmal hoch und nutzen Sie sie für mehrere Bewerbungen.',
+                'en' => 'Upload certificates, degrees, transcripts or other documents, then select them when preparing an application.',
+                'de' => 'Laden Sie Zertifikate, Abschlüsse oder Transcripts hoch und wählen Sie sie bei der Bewerbung aus.',
             ],
             'always' => ['en' => 'Always include', 'de' => 'Immer anhängen'],
-            'ready' => ['en' => 'Package ready', 'de' => 'Unterlagen vollständig'],
+            'ready' => ['en' => 'Ready to apply', 'de' => 'Bereit zum Bewerben'],
             'preview' => ['en' => 'Preview', 'de' => 'Vorschau'],
             'download' => ['en' => 'Download', 'de' => 'Download'],
             'replace' => ['en' => 'Replace', 'de' => 'Ersetzen'],
             'delete' => ['en' => 'Delete', 'de' => 'Löschen'],
             'detach' => ['en' => 'Detach', 'de' => 'Entfernen'],
+            'filter_all' => ['en' => 'All', 'de' => 'Alle'],
+            'filter_certs' => ['en' => 'Certificates', 'de' => 'Zertifikate'],
+            'filter_edu' => ['en' => 'Education', 'de' => 'Ausbildung'],
+            'filter_work' => ['en' => 'Work', 'de' => 'Arbeit'],
+            'filter_other' => ['en' => 'Other', 'de' => 'Sonstiges'],
+            'select_hint' => [
+                'en' => 'Select documents → Generate PDF',
+                'de' => 'Dokumente auswählen → PDF erzeugen',
+            ],
+            'cancel' => ['en' => 'Cancel', 'de' => 'Abbrechen'],
         ];
         $row = $map[$key] ?? ['en' => $key, 'de' => $key];
 
         return $isDe ? $row['de'] : $row['en'];
+    }
+
+    /** Master / Main resume version id for the signed-in user. */
+    public static function baseResumeId(): ?int
+    {
+        $stmt = Db::pdo()->prepare(
+            'SELECT id FROM resume_versions WHERE user_id = ? AND is_base = 1 ORDER BY id ASC LIMIT 1'
+        );
+        $stmt->execute([self::uid()]);
+        $id = $stmt->fetchColumn();
+
+        return $id !== false ? (int) $id : null;
+    }
+
+    /** Master / Main cover letter id for the signed-in user. */
+    public static function baseCoverId(): ?int
+    {
+        $stmt = Db::pdo()->prepare(
+            'SELECT id FROM cover_letters WHERE user_id = ? AND is_base = 1 ORDER BY id ASC LIMIT 1'
+        );
+        $stmt->execute([self::uid()]);
+        $id = $stmt->fetchColumn();
+
+        return $id !== false ? (int) $id : null;
+    }
+
+    /**
+     * Filter group for UI chips: certificates | education | work | other
+     */
+    public static function filterGroup(string $docType): string
+    {
+        return match (self::normalizeType($docType)) {
+            'certificate' => 'certificates',
+            'degree', 'transcript' => 'education',
+            'work_certificate' => 'work',
+            default => 'other',
+        };
     }
 
     private static function uid(): int
@@ -637,7 +689,165 @@ final class UserDocuments
     }
 
     /**
-     * Build combined application package PDF. Returns absolute path.
+     * Replace application attachments with the selected library documents (ordered).
+     * Pins current versions for history when the application is later marked applied.
+     *
+     * @param list<int> $documentIdsInOrder
+     */
+    public static function syncApplicationAttachments(int $applicationId, array $documentIdsInOrder): void
+    {
+        self::ensureSchema();
+        $uid = self::uid();
+        $stmt = Db::pdo()->prepare('SELECT id FROM applications WHERE id = ? AND user_id = ? LIMIT 1');
+        $stmt->execute([$applicationId, $uid]);
+        if ($stmt->fetchColumn() === false) {
+            throw new InvalidArgumentException('Application not found.');
+        }
+
+        $wanted = [];
+        foreach ($documentIdsInOrder as $id) {
+            $id = (int) $id;
+            if ($id > 0) {
+                $wanted[$id] = true;
+            }
+        }
+        $wantedIds = array_keys($wanted);
+
+        $existing = self::forApplication($applicationId);
+        foreach ($existing as $row) {
+            $did = (int) $row['document_id'];
+            if (!isset($wanted[$did])) {
+                self::detach($applicationId, $did);
+            }
+        }
+
+        $order = 10;
+        foreach ($wantedIds as $docId) {
+            self::attach($applicationId, $docId, $order);
+            $order += 10;
+        }
+    }
+
+    /**
+     * Build a combined PDF from an explicit selection (order preserved).
+     *
+     * $orderKeys entries: "resume", "cover", or "doc:{id}"
+     *
+     * @param list<string> $orderKeys
+     * @param array{resume_version_id?:int,cover_letter_id?:int,application_id?:int,company?:string} $context
+     */
+    public static function exportSelection(array $orderKeys, array $context = []): string
+    {
+        self::ensureSchema();
+        $uid = self::uid();
+        $resumeId = (int) ($context['resume_version_id'] ?? 0);
+        $coverId = (int) ($context['cover_letter_id'] ?? 0);
+        $applicationId = (int) ($context['application_id'] ?? 0);
+
+        if ($resumeId > 0) {
+            $chk = Db::pdo()->prepare('SELECT id FROM resume_versions WHERE id = ? AND user_id = ? LIMIT 1');
+            $chk->execute([$resumeId, $uid]);
+            if ($chk->fetchColumn() === false) {
+                throw new InvalidArgumentException('Resume not found.');
+            }
+        }
+        if ($coverId > 0) {
+            $chk = Db::pdo()->prepare('SELECT id FROM cover_letters WHERE id = ? AND user_id = ? LIMIT 1');
+            $chk->execute([$coverId, $uid]);
+            if ($chk->fetchColumn() === false) {
+                throw new InvalidArgumentException('Cover letter not found.');
+            }
+        }
+
+        $docIds = [];
+        foreach ($orderKeys as $key) {
+            $key = trim((string) $key);
+            if (preg_match('/^doc:(\d+)$/', $key, $m)) {
+                $docIds[] = (int) $m[1];
+            }
+        }
+        if ($applicationId > 0 && !empty($context['sync_attachments'])) {
+            self::syncApplicationAttachments($applicationId, $docIds);
+        }
+
+        $parts = [];
+        $tmpdir = sys_get_temp_dir() . '/mnk-pkg-' . bin2hex(random_bytes(4));
+        mkdir($tmpdir, 0700, true);
+
+        try {
+            foreach ($orderKeys as $key) {
+                $key = trim((string) $key);
+                if ($key === 'resume') {
+                    if ($resumeId <= 0) {
+                        throw new InvalidArgumentException('Resume was selected but no resume version is linked.');
+                    }
+                    $parts[] = PdfExport::generate('resume', [
+                        'version' => $resumeId,
+                        'theme' => App::resolveTheme(null),
+                        'lang' => App::resolveDocumentLang(),
+                    ]);
+                    continue;
+                }
+                if ($key === 'cover') {
+                    if ($coverId <= 0) {
+                        throw new InvalidArgumentException('Cover letter was selected but none is linked.');
+                    }
+                    $parts[] = PdfExport::generate('cover', [
+                        'id' => $coverId,
+                        'theme' => App::resolveTheme(null),
+                        'lang' => App::resolveDocumentLang(),
+                    ]);
+                    continue;
+                }
+                if (preg_match('/^docver:(\d+)$/', $key, $m)) {
+                    $ver = self::getVersion((int) $m[1]);
+                    if ($ver === null) {
+                        throw new InvalidArgumentException('Document version not found.');
+                    }
+                    $path = self::absolutePath((string) $ver['storage_path']);
+                    $mime = (string) ($ver['mime_type'] ?? '');
+                    if ($mime !== 'application/pdf' && !str_ends_with(strtolower($path), '.pdf')) {
+                        throw new RuntimeException('PDF conversion unavailable for a selected document. Replace with a PDF.');
+                    }
+                    $parts[] = $path;
+                    continue;
+                }
+                if (preg_match('/^doc:(\d+)$/', $key, $m)) {
+                    $doc = self::get((int) $m[1]);
+                    if ($doc === null) {
+                        throw new InvalidArgumentException('Document not found.');
+                    }
+                    $path = self::absolutePath((string) $doc['storage_path']);
+                    $mime = (string) ($doc['mime_type'] ?? '');
+                    if ($mime !== 'application/pdf' && !str_ends_with(strtolower($path), '.pdf')) {
+                        throw new RuntimeException(
+                            'PDF conversion unavailable for “' . (string) $doc['name'] . '”. Replace with a PDF.'
+                        );
+                    }
+                    $parts[] = $path;
+                }
+            }
+
+            if ($parts === []) {
+                throw new InvalidArgumentException('Select at least one document.');
+            }
+
+            $tag = $applicationId > 0 ? (string) $applicationId : 'sel';
+            $out = dirname(__DIR__) . '/storage/pdfs/package-' . $tag . '-' . bin2hex(random_bytes(4)) . '.pdf';
+            self::mergePdfs($parts, $out);
+
+            return $out;
+        } finally {
+            foreach (glob($tmpdir . '/*') ?: [] as $f) {
+                @unlink($f);
+            }
+            @rmdir($tmpdir);
+        }
+    }
+
+    /**
+     * Build combined application package PDF from saved attachments + linked resume/cover.
+     * Prefer exportSelection() for the select → Generate PDF UI.
      */
     public static function exportPackage(int $applicationId): string
     {
@@ -650,54 +860,22 @@ final class UserDocuments
             throw new InvalidArgumentException('Application not found.');
         }
 
-        $parts = [];
-        $tmpdir = sys_get_temp_dir() . '/mnk-pkg-' . bin2hex(random_bytes(4));
-        mkdir($tmpdir, 0700, true);
-
-        try {
-            $resumeId = (int) ($app['resume_version_id'] ?? 0);
-            if ($resumeId > 0) {
-                $parts[] = PdfExport::generate('resume', [
-                    'version' => $resumeId,
-                    'theme' => App::resolveTheme(null),
-                    'lang' => App::resolveDocumentLang(),
-                ]);
-            }
-            $coverId = (int) ($app['cover_letter_id'] ?? 0);
-            if ($coverId > 0) {
-                $parts[] = PdfExport::generate('cover', [
-                    'id' => $coverId,
-                    'theme' => App::resolveTheme(null),
-                    'lang' => App::resolveDocumentLang(),
-                ]);
-            }
-
-            foreach (self::forApplication($applicationId) as $att) {
-                $path = self::absolutePath((string) $att['storage_path']);
-                $mime = (string) ($att['mime_type'] ?? '');
-                if ($mime !== 'application/pdf' && !str_ends_with(strtolower($path), '.pdf')) {
-                    throw new RuntimeException(
-                        'PDF conversion unavailable for “' . (string) $att['name'] . '”. Replace with a PDF.'
-                    );
-                }
-                $parts[] = $path;
-            }
-
-            if ($parts === []) {
-                throw new InvalidArgumentException('No documents to export.');
-            }
-
-            $out = dirname(__DIR__) . '/storage/pdfs/package-' . $applicationId . '-' . bin2hex(random_bytes(4)) . '.pdf';
-            self::mergePdfs($parts, $out);
-
-            return $out;
-        } finally {
-            // Clean only temp copies we created under tmpdir (PdfExport temps deleted by caller usually)
-            foreach (glob($tmpdir . '/*') ?: [] as $f) {
-                @unlink($f);
-            }
-            @rmdir($tmpdir);
+        $order = [];
+        if ((int) ($app['resume_version_id'] ?? 0) > 0) {
+            $order[] = 'resume';
         }
+        if ((int) ($app['cover_letter_id'] ?? 0) > 0) {
+            $order[] = 'cover';
+        }
+        foreach (self::forApplication($applicationId) as $att) {
+            $order[] = 'docver:' . (int) $att['document_version_id'];
+        }
+
+        return self::exportSelection($order, [
+            'resume_version_id' => (int) ($app['resume_version_id'] ?? 0),
+            'cover_letter_id' => (int) ($app['cover_letter_id'] ?? 0),
+            'application_id' => $applicationId,
+        ]);
     }
 
     public static function packageFilename(array $application, string $personName): string
