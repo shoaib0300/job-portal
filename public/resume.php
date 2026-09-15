@@ -19,6 +19,7 @@ $atsMode = !empty($opts['ats']);
 $documentLang = App::resolveDocumentLang();
 $lang = (string) ($opts['lang'] ?? $documentLang);
 $payload = Versions::resumePayloadForView($versionId > 0 ? $versionId : null);
+$payload = AtsExport::cleanResumePayload($payload);
 $translateError = null;
 if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && $opts['target'] !== $documentLang) {
     try {
@@ -132,8 +133,10 @@ if (!$embed):
     <?php
       $key = (string) ($section['section_key'] ?? '');
       $title = (string) ($section['title'] ?? '');
-      if ($title === '' || in_array(strtolower($title), ['summary', 'experience', 'skills', 'education', 'profile'], true)) {
-          $title = ResumeLayout::sectionLabel($key !== '' ? $key : 'summary', $lang);
+      if ($title === '' || in_array(strtolower($title), ['summary', 'experience', 'skills', 'education', 'profile', 'kenntnisse & fähigkeiten'], true)) {
+          $title = ResumeLayout::sectionLabel($key !== '' ? $key : 'summary', $lang, $theme);
+      } elseif ($theme === 'german_qa' && $key === 'skills' && str_starts_with(strtolower($lang), 'de')) {
+          $title = ResumeLayout::sectionLabel('skills', $lang, $theme);
       }
     ?>
     <section class="resume-section" data-section="<?= App::e($key) ?>">

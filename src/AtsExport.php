@@ -16,6 +16,8 @@ final class AtsExport
     public static function sanitizeText(string $text, ?string $employer = null): string
     {
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        // Soft hyphens / zero-width junk that break "Software" → "So ware" in PDFs.
+        $text = str_replace(["\u{00AD}", "\u{200B}", "\u{200C}", "\u{200D}", "\u{FEFF}"], '', $text);
         $text = str_replace(
             ["\u{2014}", "\u{2013}", "\u{00B7}", "\u{2019}", "\u{2018}", '&'],
             ['-', '-', ', ', "'", "'", 'and'],
@@ -26,6 +28,59 @@ final class AtsExport
         }
 
         return trim(preg_replace('/\s{2,}/', ' ', $text) ?? $text);
+    }
+
+    /** Soft-hyphen / zero-width cleanup for all resume exports (preserves newlines). */
+    public static function cleanDocumentText(string $text): string
+    {
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = str_replace(["\u{00AD}", "\u{200B}", "\u{200C}", "\u{200D}", "\u{FEFF}"], '', $text);
+
+        return $text;
+    }
+
+    /**
+     * @param array{profile: array, sections: list<array>, experiences: list<array>, version?: ?array, company?: string, meta?: array} $payload
+     * @return array{profile: array, sections: list<array>, experiences: list<array>, version?: ?array, company?: string, meta?: array}
+     */
+    public static function cleanResumePayload(array $payload): array
+    {
+        if (($payload['profile']['title'] ?? '') !== '') {
+            $payload['profile']['title'] = self::cleanDocumentText((string) $payload['profile']['title']);
+        }
+        if (($payload['profile']['full_name'] ?? '') !== '') {
+            $payload['profile']['full_name'] = self::cleanDocumentText((string) $payload['profile']['full_name']);
+        }
+        if (($payload['profile']['location'] ?? '') !== '') {
+            $payload['profile']['location'] = self::cleanDocumentText((string) $payload['profile']['location']);
+        }
+
+        foreach ($payload['sections'] as &$section) {
+            if (!is_array($section)) {
+                continue;
+            }
+            if (isset($section['title'])) {
+                $section['title'] = self::cleanDocumentText((string) $section['title']);
+            }
+            if (isset($section['body'])) {
+                $section['body'] = self::cleanDocumentText((string) $section['body']);
+            }
+        }
+        unset($section);
+
+        foreach ($payload['experiences'] as &$job) {
+            if (!is_array($job)) {
+                continue;
+            }
+            foreach (['position', 'company', 'location', 'bullets'] as $field) {
+                if (isset($job[$field])) {
+                    $job[$field] = self::cleanDocumentText((string) $job[$field]);
+                }
+            }
+        }
+        unset($job);
+
+        return $payload;
     }
 
     public static function stripEmployer(string $text, string $employer): string

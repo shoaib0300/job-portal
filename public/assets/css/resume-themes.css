@@ -1502,6 +1502,11 @@ body.pdf-mode.is-embed {
     padding: 10mm 11mm !important;
   }
 
+  .resume.theme-german_qa,
+  .cover-letter.theme-german_qa {
+    padding: 16mm 18mm !important;
+  }
+
   .resume.density-tight,
   .cover-letter.density-tight {
     padding: 10mm 11mm !important;
@@ -1683,12 +1688,14 @@ body.pdf-mode.is-embed {
 /* ========== German Lebenslauf templates (modern_de, ats, classic, technical, minimal) ========== */
 
 .resume.theme-modern_de,
+.resume.theme-german_qa,
 .resume.theme-ats,
 .resume.theme-classic,
 .resume.theme-technical,
 .resume.theme-minimal,
 .resume.theme-ivory,
 .cover-letter.theme-modern_de,
+.cover-letter.theme-german_qa,
 .cover-letter.theme-ats,
 .cover-letter.theme-classic,
 .cover-letter.theme-technical,
@@ -2043,6 +2050,242 @@ body.pdf-mode.is-embed {
   }
   .resume-studio-preview iframe {
     height: 70vh;
+  }
+}
+
+/* ========== German QA Professional ========== */
+
+.resume.theme-german_qa,
+.cover-letter.theme-german_qa {
+  --gqa-accent: #17365d;
+  --gqa-ink: #222222;
+  --gqa-muted: #555555;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  padding: 16mm 18mm;
+  font-size: 10.25pt;
+  line-height: 1.38;
+  color: var(--gqa-ink);
+  border: 1px solid #d8dde3;
+}
+
+.resume.theme-german_qa .resume-header {
+  gap: 0.65rem 1rem;
+  margin-bottom: 1.05rem;
+}
+
+.resume.theme-german_qa.has-photo .resume-header {
+  grid-template-columns: 1fr auto;
+}
+
+.resume.theme-german_qa.has-photo .resume-intro {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.resume.theme-german_qa.has-photo .resume-photo {
+  grid-column: 2;
+  grid-row: 1;
+  width: 32mm;
+  height: 32mm;
+  border-radius: 3px;
+  border: 1px solid #c5ccd6;
+}
+
+.resume.theme-german_qa.has-photo .resume-photo img {
+  border-radius: 3px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.resume.theme-german_qa .resume-header h1 {
+  font-size: 22.5pt;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  color: #111;
+  margin: 0;
+}
+
+.resume.theme-german_qa .resume-title {
+  margin: 0.2rem 0 0.45rem;
+  font-size: 11.5pt;
+  font-weight: 600;
+  color: var(--gqa-accent);
+  letter-spacing: 0.01em;
+}
+
+.resume.theme-german_qa .resume-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 9.6pt;
+  color: var(--gqa-muted);
+}
+
+.resume.theme-german_qa .resume-contact li {
+  display: inline;
+}
+
+.resume.theme-german_qa .resume-contact li:not(:last-child)::after {
+  content: " · ";
+  color: #8892a0;
+  margin: 0 0.15rem;
+}
+
+.resume.theme-german_qa .resume-contact a {
+  color: var(--gqa-accent);
+  text-decoration: none;
+}
+
+.resume.theme-german_qa .resume-meta {
+  display: none;
+}
+
+.resume.theme-german_qa .resume-section {
+  margin: 0 0 0.95rem;
+}
+
+.resume.theme-german_qa .resume-section h2 {
+  font-size: 11pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--gqa-accent);
+  border-bottom: 1.25px solid var(--gqa-accent);
+  padding-bottom: 0.18rem;
+  margin: 0 0 0.5rem;
+  font-family: inherit;
+}
+
+.resume.theme-german_qa .resume-body p {
+  margin: 0 0 0.35rem;
+  font-size: 10.25pt;
+  color: var(--gqa-ink);
+}
+
+.resume.theme-german_qa .experience-item {
+  margin: 0 0 0.85rem;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.resume.theme-german_qa .experience-top {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.resume.theme-german_qa .experience-left,
+.resume.theme-german_qa .experience-right {
+  display: block;
+  text-align: left;
+  white-space: normal;
+}
+
+.resume.theme-german_qa .experience-position {
+  font-weight: 700;
+  font-size: 10.5pt;
+  margin: 0;
+  color: #111;
+}
+
+.resume.theme-german_qa .experience-company {
+  margin: 0.08rem 0;
+  font-size: 9.8pt;
+  color: var(--gqa-muted);
+}
+
+.resume.theme-german_qa .experience-dates {
+  margin: 0;
+  font-size: 9.5pt;
+  color: var(--gqa-muted);
+  text-align: left;
+  white-space: normal;
+}
+
+.resume.theme-german_qa .experience-aside {
+  display: none !important;
+}
+
+.resume.theme-german_qa .experience-bullets {
+  margin: 0.25rem 0 0;
+  padding-left: 1.05rem;
+}
+
+.resume.theme-german_qa .experience-bullets li {
+  margin: 0 0 0.22rem;
+  font-size: 10pt;
+  line-height: 1.35;
+  color: var(--gqa-ink);
+}
+
+.resume.theme-german_qa .skills-groups {
+  gap: 0.55rem;
+}
+
+.resume.theme-german_qa .skills-heading {
+  font-size: 9.4pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gqa-accent);
+  margin: 0 0 0.12rem;
+}
+
+.resume.theme-german_qa .skills-items {
+  margin: 0;
+  font-size: 10pt;
+  color: var(--gqa-ink);
+  line-height: 1.4;
+}
+
+.resume.theme-german_qa .education-item {
+  margin: 0 0 0.7rem;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.resume.theme-german_qa .education-degree {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 0.08rem;
+}
+
+.resume.theme-german_qa .education-school {
+  font-size: 9.8pt;
+  color: var(--gqa-muted);
+  margin: 0 0 0.06rem;
+}
+
+.resume.theme-german_qa .education-dates {
+  font-size: 9.5pt;
+  color: var(--gqa-muted);
+  display: block;
+  text-align: left;
+}
+
+.resume.theme-german_qa .lang-row,
+.resume.theme-german_qa .certificate-item,
+.resume.theme-german_qa .project-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin: 0 0 0.4rem;
+}
+
+.resume.theme-german_qa .resume-section h2,
+.resume.theme-german_qa .experience-top,
+.resume.theme-german_qa .education-degree {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+@media print {
+  .resume.theme-german_qa .resume-section h2 {
+    color: #17365d !important;
+    border-bottom-color: #17365d !important;
   }
 }
 

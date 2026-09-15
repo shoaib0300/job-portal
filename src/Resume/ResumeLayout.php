@@ -14,6 +14,10 @@ final class ResumeLayout
             'label' => 'Modern German',
             'blurb' => 'Clean professional Lebenslauf with subtle accent and passport photo.',
         ],
+        'german_qa' => [
+            'label' => 'German QA Professional',
+            'blurb' => 'Conservative German IT CV for Softwaretester, QA Engineer and Werkstudent Testing.',
+        ],
         'ats' => [
             'label' => 'ATS',
             'blurb' => 'Single-column, parser-friendly layout for Workday, SAP, Personio.',
@@ -51,6 +55,7 @@ final class ResumeLayout
         'classic' => 'classic',
         'minimal' => 'minimal',
         'modern_de' => 'modern_de',
+        'german_qa' => 'german_qa',
         'ats' => 'ats',
         'technical' => 'technical',
     ];
@@ -113,15 +118,66 @@ final class ResumeLayout
         ];
     }
 
-    public static function sectionLabel(string $key, string $lang = 'en'): string
+    /**
+     * Template-specific section order (falls back to mode defaults).
+     *
+     * @return list<string>
+     */
+    public static function defaultOrderForTemplate(string $template, string $mode = 'professional'): array
+    {
+        $template = self::resolveTemplate($template);
+        if ($template === 'german_qa') {
+            return [
+                'summary',
+                'experience',
+                'skills',
+                'education',
+                'projects',
+                'certificates',
+                'languages',
+                'internships',
+                'interests',
+                'additional',
+                'signature',
+            ];
+        }
+
+        return self::defaultOrder($mode);
+    }
+
+    public static function sectionLabel(string $key, string $lang = 'en', ?string $template = null): string
     {
         $catalog = self::sectionCatalog();
         if (!isset($catalog[$key])) {
             return ucfirst(str_replace('_', ' ', $key));
         }
         $lang = str_starts_with(strtolower($lang), 'de') ? 'de' : 'en';
+        if ($template !== null && self::resolveTemplate($template) === 'german_qa' && $key === 'skills') {
+            return $lang === 'de' ? 'Kenntnisse' : 'Skills';
+        }
 
         return $catalog[$key][$lang];
+    }
+
+    /**
+     * Apply template/mode sort_order to a user's resume_sections (visibility unchanged).
+     */
+    public static function applySectionOrder(int $userId, string $template, string $mode = 'professional'): void
+    {
+        if ($userId <= 0) {
+            return;
+        }
+        $order = self::defaultOrderForTemplate($template, $mode);
+        $rank = array_flip($order);
+        $pdo = \Db::pdo();
+        $stmt = $pdo->prepare('SELECT id, section_key FROM resume_sections WHERE user_id = ?');
+        $stmt->execute([$userId]);
+        $upd = $pdo->prepare('UPDATE resume_sections SET sort_order = ? WHERE id = ? AND user_id = ?');
+        foreach ($stmt->fetchAll() as $row) {
+            $key = (string) $row['section_key'];
+            $sort = isset($rank[$key]) ? (10 + $rank[$key] * 10) : 900;
+            $upd->execute([$sort, (int) $row['id'], $userId]);
+        }
     }
 
     public static function resolveTemplate(?string $theme): string
@@ -160,16 +216,22 @@ final class ResumeLayout
     public static function defaultMeta(): array
     {
         $mode = self::resolveMode();
+        $template = self::resolveTemplate(null);
+        $sectionOrder = [];
+        // German QA Professional uses a fixed scannable order unless the snapshot overrides it.
+        if ($template === 'german_qa') {
+            $sectionOrder = self::defaultOrderForTemplate('german_qa', $mode);
+        }
 
         return [
-            'template' => self::resolveTemplate(null),
+            'template' => $template,
             'mode' => $mode,
             'photo_mode' => ResumePhotoMode::resolve(null),
             'density' => self::resolveDensity(null),
             'show_personal_extras' => (\App::setting('show_personal_extras', '0') ?: '0') === '1',
             'show_signature' => (\App::setting('show_signature', '0') ?: '0') === '1',
             // Empty = respect resume_sections.sort_order (user drag-reorder).
-            'section_order' => [],
+            'section_order' => $sectionOrder,
         ];
     }
 

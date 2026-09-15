@@ -317,6 +317,27 @@ final class App
         if (preg_match('/^(\d{4})[\/.\-](0?[1-9]|1[0-2])$/', $raw, $m)) {
             return sprintf('%02d/%s', (int) $m[2], $m[1]);
         }
+        // German / English month names or abbreviations + year
+        $months = [
+            'jan' => 1, 'january' => 1, 'januar' => 1,
+            'feb' => 2, 'february' => 2, 'februar' => 2,
+            'mar' => 3, 'mär' => 3, 'maer' => 3, 'march' => 3, 'märz' => 3, 'maerz' => 3,
+            'apr' => 4, 'april' => 4,
+            'may' => 5, 'mai' => 5,
+            'jun' => 6, 'june' => 6, 'juni' => 6,
+            'jul' => 7, 'july' => 7, 'juli' => 7,
+            'aug' => 8, 'august' => 8,
+            'sep' => 9, 'sept' => 9, 'september' => 9,
+            'oct' => 10, 'okt' => 10, 'october' => 10, 'oktober' => 10,
+            'nov' => 11, 'november' => 11,
+            'dec' => 12, 'dez' => 12, 'december' => 12, 'dezember' => 12,
+        ];
+        if (preg_match('/^([A-Za-zÄÖÜäöüß.]+)\s+(\d{4})$/u', $raw, $m)) {
+            $key = mb_strtolower(rtrim($m[1], '.'));
+            if (isset($months[$key])) {
+                return sprintf('%02d/%s', $months[$key], $m[2]);
+            }
+        }
         $ts = strtotime($raw);
         if ($ts !== false && preg_match('/\d{4}/', $raw)) {
             return date('m/Y', $ts);

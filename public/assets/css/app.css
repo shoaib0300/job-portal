@@ -735,6 +735,21 @@ body.page-doc .site-nav {
   border-style: dashed;
 }
 
+.style-thumb.theme-german_qa {
+  background: #f7f9fc;
+  border-left: 3px solid #17365d;
+}
+
+.style-thumb.theme-german_qa .thumb-name {
+  background: #17365d;
+  width: 72%;
+}
+
+.style-thumb.theme-german_qa .thumb-sub {
+  background: #555;
+  width: 48%;
+}
+
 .style-thumb.theme-slate {
   background: #243038;
 }

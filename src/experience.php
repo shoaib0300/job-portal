@@ -271,7 +271,17 @@ function render_projects_body(string $body): void
             echo '<p class="project-tech">' . App::e($lines[2]) . '</p>';
         }
         foreach (array_slice($lines, 3) as $extra) {
-            echo '<p class="project-extra">' . App::e($extra) . '</p>';
+            if (preg_match('#^https?://#i', $extra)) {
+                $host = strtolower((string) (parse_url($extra, PHP_URL_HOST) ?: ''));
+                $label = str_contains($host, 'github.com') ? 'GitHub'
+                    : (str_contains($host, 'linkedin.com') ? 'LinkedIn' : $extra);
+                echo '<p class="project-extra"><a href="' . App::e($extra) . '">' . App::e($label) . '</a></p>';
+            } elseif (strcasecmp($extra, 'GitHub') === 0 || strcasecmp($extra, 'LinkedIn') === 0) {
+                // Label-only line without URL — skip (URL usually follows)
+                continue;
+            } else {
+                echo '<p class="project-extra">' . App::e($extra) . '</p>';
+            }
         }
         echo '</div>';
     }

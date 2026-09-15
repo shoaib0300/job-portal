@@ -42,14 +42,8 @@ function render_profile_details(
     if ($includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
             if (!empty($link['url'])) {
-                $label = (string) ($link['label'] ?? $link['url']);
                 $url = (string) $link['url'];
-                // Prefer host path for display when label looks like a full URL
-                if (str_starts_with($label, 'http')) {
-                    $host = parse_url($url, PHP_URL_HOST) ?: $label;
-                    $path = trim((string) (parse_url($url, PHP_URL_PATH) ?: ''), '/');
-                    $label = $path !== '' ? $host . '/' . $path : (string) $host;
-                }
+                $label = profile_link_display_label((string) ($link['label'] ?? ''), $url);
                 $contact[] = [
                     'text' => $label,
                     'url' => $url,
@@ -61,13 +55,8 @@ function render_profile_details(
     } elseif (!$includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
             if (!empty($link['url'])) {
-                $label = (string) ($link['label'] ?? $link['url']);
                 $url = (string) $link['url'];
-                if (str_starts_with($label, 'http') || $label === $url) {
-                    $host = parse_url($url, PHP_URL_HOST) ?: $url;
-                    $path = trim((string) (parse_url($url, PHP_URL_PATH) ?: ''), '/');
-                    $label = $path !== '' ? $host . '/' . $path : (string) $host;
-                }
+                $label = profile_link_display_label((string) ($link['label'] ?? ''), $url, true);
                 $contact[] = ['text' => $label];
             }
         }
@@ -113,4 +102,31 @@ function render_profile_details(
       <?php endforeach; ?>
     </ul>
     <?php endif;
+}
+
+/**
+ * Clean display label for profile links (LinkedIn / GitHub as short text).
+ */
+function profile_link_display_label(string $label, string $url, bool $atsPlain = false): string
+{
+    $host = strtolower((string) (parse_url($url, PHP_URL_HOST) ?: ''));
+    $host = preg_replace('/^www\./', '', $host) ?? $host;
+    if (str_contains($host, 'linkedin.com')) {
+        return 'LinkedIn';
+    }
+    if (str_contains($host, 'github.com')) {
+        return 'GitHub';
+    }
+
+    $label = trim($label);
+    if ($label === '' || str_starts_with($label, 'http') || $label === $url) {
+        $path = trim((string) (parse_url($url, PHP_URL_PATH) ?: ''), '/');
+        if ($host !== '') {
+            return $path !== '' ? $host . '/' . $path : $host;
+        }
+
+        return $url;
+    }
+
+    return $label;
 }

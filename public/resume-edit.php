@@ -266,6 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $photoMode = \KaamFit\Resume\ResumePhotoMode::resolve((string) ($_POST['photo_mode'] ?? ''));
         $density = \KaamFit\Resume\ResumeLayout::resolveDensity((string) ($_POST['resume_density'] ?? ''));
         $prevMode = \KaamFit\Resume\ResumeLayout::resolveMode(null);
+        $prevTemplate = \KaamFit\Resume\ResumeLayout::resolveTemplate(null);
         App::setSetting('resume_template', $template);
         App::setSetting('theme', $template);
         App::setSetting('resume_mode', $mode);
@@ -275,19 +276,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::setSetting('show_signature', isset($_POST['show_signature']) ? '1' : '0');
         if (!empty($_POST['accent_color'])) {
             App::setSetting('accent_color', App::resolveAccent((string) $_POST['accent_color']));
+        } elseif ($template === 'german_qa') {
+            App::setSetting('accent_color', '#17365D');
         }
-        // Apply mode default section order only when mode actually changes.
-        if ($mode !== $prevMode) {
-            $order = \KaamFit\Resume\ResumeLayout::defaultOrder($mode);
-            $rank = array_flip($order);
-            $stmt = $pdo->prepare('SELECT id, section_key FROM resume_sections WHERE user_id = ?');
-            $stmt->execute([Auth::id()]);
-            $upd = $pdo->prepare('UPDATE resume_sections SET sort_order = ? WHERE id = ? AND user_id = ?');
-            foreach ($stmt->fetchAll() as $row) {
-                $key = (string) $row['section_key'];
-                $sort = isset($rank[$key]) ? (10 + $rank[$key] * 10) : 900;
-                $upd->execute([$sort, (int) $row['id'], Auth::id()]);
-            }
+        // Apply section order when mode changes, or when selecting German QA Professional.
+        if ($mode !== $prevMode || ($template === 'german_qa' && $template !== $prevTemplate)) {
+            \KaamFit\Resume\ResumeLayout::applySectionOrder(Auth::id(), $template, $mode);
+        } elseif ($template === 'german_qa') {
+            // Re-assert QA order whenever this template is saved.
+            \KaamFit\Resume\ResumeLayout::applySectionOrder(Auth::id(), $template, $mode);
         }
         App::flash('Layout saved.');
         App::redirect('/resume-edit#layout');
