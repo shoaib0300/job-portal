@@ -14,6 +14,17 @@ function kaamfit_brand_tagline(): string
     return 'Your German job-hunt cockpit — search, tailor, track.';
 }
 
+/** Favicon / touch-icon link tags for document &lt;head&gt;. */
+function kaamfit_favicon_tags(): string
+{
+    return implode("\n  ", [
+        '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+        '<link rel="icon" href="/favicon.ico" sizes="any">',
+        '<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">',
+        '<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">',
+    ]);
+}
+
 /** @return array<string, string> */
 function kaamfit_brand_tokens(): array
 {

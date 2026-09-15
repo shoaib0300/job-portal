@@ -292,6 +292,7 @@ function layout_header(string $title, array $opts = []): void
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= App::e($htmlTitle) ?></title>
+  <?= kaamfit_favicon_tags() ?>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(kaamfit_portal_fonts_href()) ?>" rel="stylesheet">

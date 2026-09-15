@@ -25,6 +25,7 @@ function site_layout_header(string $title, array $opts = []): void
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= App::e($title) ?> · <?= App::e(kaamfit_brand_name()) ?></title>
+  <?= kaamfit_favicon_tags() ?>
   <meta name="description" content="<?= App::e(kaamfit_brand_name()) ?> — test portal for German job search, tailored resumes, cover letters, and application tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

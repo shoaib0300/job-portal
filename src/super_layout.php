@@ -12,6 +12,7 @@ function super_layout_header(string $title): void
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= App::e($title) ?> · Super Admin</title>
+  <?= kaamfit_favicon_tags() ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/app.css?v=20260826s">
   <style>
