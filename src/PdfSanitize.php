@@ -30,8 +30,9 @@ final class PdfSanitize
      * Returns absolute path (updates file in place when possible).
      *
      * @param array{title?:string,author?:string,subject?:string} $meta
+     * @param array{ghostscript?:bool} $options Set ghostscript=false to keep Chrome hyperlinks (normal PDF).
      */
-    public static function clean(string $infile, array $meta = []): string
+    public static function clean(string $infile, array $meta = [], array $options = []): string
     {
         if (!is_file($infile) || filesize($infile) < 100) {
             return $infile;
@@ -42,10 +43,10 @@ final class PdfSanitize
         $subject = self::safeMetaString($meta['subject'] ?? 'Application Documents');
         $creator = 'PDF';
         $producer = 'PDF';
+        $useGs = ($options['ghostscript'] ?? true) === true;
 
-        // Ghostscript pass: PDF 1.4 + DOCINFO via pdfmark (full Title/Author/Subject).
-        // GS may still inject Producer; binary scrub removes that afterwards.
-        $gs = trim((string) shell_exec('command -v gs 2>/dev/null'));
+        // Ghostscript pdfwrite drops link annotations — only use for ATS / when explicitly wanted.
+        $gs = $useGs ? trim((string) shell_exec('command -v gs 2>/dev/null')) : '';
         $docInfoSet = false;
         if ($gs !== '') {
             $dir = dirname($infile);

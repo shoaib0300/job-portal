@@ -41,24 +41,31 @@ function render_profile_details(
     }
     if ($includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
-            if (!empty($link['url'])) {
-                $url = (string) $link['url'];
-                $label = profile_link_display_label((string) ($link['label'] ?? ''), $url);
-                $contact[] = [
-                    'text' => $label,
-                    'url' => $url,
-                ];
-            } elseif (!empty($link['label'])) {
-                $contact[] = ['text' => (string) $link['label']];
+            $url = trim((string) ($link['url'] ?? ''));
+            if ($url === '') {
+                // No URL → hide LinkedIn/GitHub/etc. (never show label-only fake links).
+                continue;
             }
+            if (!preg_match('#^https?://#i', $url) && !str_starts_with($url, 'mailto:') && !str_starts_with($url, 'tel:')) {
+                $url = 'https://' . ltrim($url, '/');
+            }
+            $label = profile_link_display_label((string) ($link['label'] ?? ''), $url);
+            $contact[] = [
+                'text' => $label,
+                'url' => $url,
+            ];
         }
     } elseif (!$includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
-            if (!empty($link['url'])) {
-                $url = (string) $link['url'];
-                $label = profile_link_display_label((string) ($link['label'] ?? ''), $url, true);
-                $contact[] = ['text' => $label];
+            $url = trim((string) ($link['url'] ?? ''));
+            if ($url === '') {
+                continue;
             }
+            if (!preg_match('#^https?://#i', $url)) {
+                $url = 'https://' . ltrim($url, '/');
+            }
+            $label = profile_link_display_label((string) ($link['label'] ?? ''), $url, true);
+            $contact[] = ['text' => $label];
         }
     }
 
@@ -86,7 +93,7 @@ function render_profile_details(
       <?php foreach ($contact as $item): ?>
         <li>
           <?php if (!empty($item['url'])): ?>
-            <a href="<?= App::e($item['url']) ?>"><?= App::e($item['text']) ?></a>
+            <a href="<?= App::e($item['url']) ?>" target="_blank" rel="noopener noreferrer"><?= App::e($item['text']) ?></a>
           <?php else: ?>
             <?= App::e($item['text']) ?>
           <?php endif; ?>

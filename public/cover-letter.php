@@ -15,6 +15,10 @@ $coverId = (int) ($opts['coverId'] ?? 0);
 $documentLang = App::resolveDocumentLang();
 $lang = (string) ($opts['lang'] ?? $documentLang);
 $letter = $coverId > 0 ? Versions::coverLetterById($coverId) : App::activeCoverLetter();
+$profile = Versions::profileForCoverLetter($profile, is_array($letter) ? $letter : null);
+if (is_array($letter) && isset($letter['body'])) {
+    $letter['body'] = AtsExport::cleanDocumentText((string) $letter['body']);
+}
 $theme = $opts['theme'];
 $accent = $opts['accent'];
 $font = $opts['font'];

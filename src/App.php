@@ -800,6 +800,7 @@ final class App
         }
 
         $snapshot = AtsExport::sanitizeSnapshot($snapshot, $company);
+        $snapshot = self::stripEmployerFromResumeSummary($snapshot, $company, $location);
 
         $resumeTitle = $role . ' — ' . $company;
         $resumeId = Versions::saveResumeVersion(
@@ -911,6 +912,61 @@ final class App
         });
 
         return implode("\n\n", array_map('trim', $blocks));
+    }
+
+    /**
+     * Never put employer name or JD location in the resume Kurzprofil/summary — cover letter only.
+     *
+     * @param array<string, mixed> $snapshot
+     * @return array<string, mixed>
+     */
+    private static function stripEmployerFromResumeSummary(array $snapshot, string $company, string $location): array
+    {
+        if (!isset($snapshot['sections']) || !is_array($snapshot['sections'])) {
+            return $snapshot;
+        }
+        $needles = [];
+        foreach ([$company, $location] as $raw) {
+            $raw = trim($raw);
+            if ($raw === '') {
+                continue;
+            }
+            $needles[] = $raw;
+            foreach (preg_split('/\s*[&|,/]\s*|\s+and\s+/i', $raw) ?: [] as $part) {
+                $part = trim((string) $part);
+                if (mb_strlen($part) >= 4) {
+                    $needles[] = $part;
+                }
+            }
+        }
+        // Common city-only fragments from "Hamburg-Bahrenfeld, Germany"
+        if (preg_match('/^([^,]+)/u', $location, $m)) {
+            $city = trim($m[1]);
+            if (mb_strlen($city) >= 4) {
+                $needles[] = $city;
+            }
+        }
+        $needles = array_values(array_unique($needles));
+
+        foreach ($snapshot['sections'] as &$section) {
+            if (!is_array($section) || ($section['section_key'] ?? '') !== 'summary') {
+                continue;
+            }
+            $body = (string) ($section['body'] ?? '');
+            foreach ($needles as $needle) {
+                $body = preg_replace('/\b' . preg_quote($needle, '/') . '\b/iu', '', $body) ?? $body;
+            }
+            // Clean leftover "bei  in ." / "at  /" phrasing after stripping.
+            $body = preg_replace('/\s{2,}/u', ' ', $body) ?? $body;
+            $body = preg_replace('/\s+([,.;:!?])/u', '$1', $body) ?? $body;
+            $body = preg_replace('/\b(bei|at|für|for|in|im|am)\s*([–—\-|,.]|$)/iu', '$2', $body) ?? $body;
+            $body = preg_replace('/\s*([–—\-])\s*([–—\-])/u', '$1', $body) ?? $body;
+            $body = trim(preg_replace('/\s{2,}/u', ' ', $body) ?? $body);
+            $section['body'] = $body;
+        }
+        unset($section);
+
+        return $snapshot;
     }
 
     /**

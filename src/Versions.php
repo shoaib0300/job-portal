@@ -582,6 +582,75 @@ final class Versions
         return $row === false ? null : $row;
     }
 
+    /**
+     * Overlay job-specific title/location onto the live profile for a cover letter view.
+     * Prevents the last tailored Job CV (e.g. Rostock) from leaking into another company's letter.
+     *
+     * @param array<string, mixed> $profile
+     * @param array<string, mixed>|null $letter
+     * @return array<string, mixed>
+     */
+    public static function profileForCoverLetter(array $profile, ?array $letter): array
+    {
+        if ($letter === null) {
+            return $profile;
+        }
+
+        $coverId = (int) ($letter['id'] ?? 0);
+        $location = '';
+        $title = '';
+
+        if ($coverId > 0) {
+            $stmt = Db::pdo()->prepare(
+                'SELECT resume_version_id FROM applications
+                 WHERE user_id = ? AND cover_letter_id = ?
+                 ORDER BY id DESC LIMIT 1'
+            );
+            $stmt->execute([self::uid(), $coverId]);
+            $resumeId = (int) ($stmt->fetchColumn() ?: 0);
+            if ($resumeId > 0) {
+                $row = self::resumeVersion($resumeId);
+                if ($row !== null) {
+                    $snap = self::decodeSnapshot((string) $row['snapshot']);
+                    $location = trim((string) ($snap['location'] ?? ''));
+                    $title = trim((string) ($snap['profile_title'] ?? ''));
+                }
+            }
+        }
+
+        // Fallback: "Company · Location" stored on the cover row.
+        if ($location === '') {
+            $companyLine = trim((string) ($letter['company'] ?? ''));
+            if (str_contains($companyLine, '·')) {
+                $parts = array_map('trim', explode('·', $companyLine, 2));
+                if (isset($parts[1]) && $parts[1] !== '') {
+                    $location = $parts[1];
+                }
+            }
+        }
+
+        if ($location !== '') {
+            $profile['location'] = $location;
+        }
+        if ($title !== '') {
+            $profile['title'] = $title;
+        }
+
+        if (class_exists('AtsExport', false)) {
+            if (($profile['title'] ?? '') !== '') {
+                $profile['title'] = \AtsExport::cleanDocumentText((string) $profile['title']);
+            }
+            if (($profile['location'] ?? '') !== '') {
+                $profile['location'] = \AtsExport::cleanDocumentText((string) $profile['location']);
+            }
+            if (($profile['full_name'] ?? '') !== '') {
+                $profile['full_name'] = \AtsExport::cleanDocumentText((string) $profile['full_name']);
+            }
+        }
+
+        return $profile;
+    }
+
     public static function baseCoverLetter(): ?array
     {
         return self::masterCoverForUser(self::uid());

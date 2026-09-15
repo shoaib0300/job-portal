@@ -323,7 +323,10 @@ final class PdfExport
             $lang
         );
 
-        return PdfSanitize::clean($outfile, $meta);
+        // Ghostscript drops clickable links — keep them for normal PDFs; ATS still rewrites via optimizeForAts.
+        $preserveLinks = !AtsExport::isEnabled($query);
+
+        return PdfSanitize::clean($outfile, $meta, ['ghostscript' => !$preserveLinks]);
     }
 
     /** Re-save as PDF 1.4 for picky employer ATS uploads (SAP, etc.). */

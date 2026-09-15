@@ -7,8 +7,10 @@ require_once dirname(__DIR__) . '/src/layout.php';
 
 Versions::ensureSchema();
 
-// Resume Studio owns template/layout; keep design POST for legacy AJAX.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// Resume Studio owns resume template/layout; legacy /design GET → studio.
+// /cover-design still uses this page for cover letter styling.
+$scriptName = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' && $scriptName === 'design.php') {
     App::redirect('/resume-edit#layout');
 }
 

@@ -89,14 +89,15 @@
 .resume-contact a,
 .resume a,
 .cover-letter a {
-  color: inherit;
-  text-decoration: none;
+  color: var(--doc-accent, #17365d);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .resume-contact a:hover,
 .resume a:hover,
 .cover-letter a:hover {
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .resume-meta {
