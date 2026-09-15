@@ -836,6 +836,18 @@ final class UserDocuments
             $out = dirname(__DIR__) . '/storage/pdfs/package-' . $tag . '-' . bin2hex(random_bytes(4)) . '.pdf';
             self::mergePdfs($parts, $out);
 
+            $profile = App::profile();
+            $company = (string) ($context['company'] ?? '');
+            if ($company === '' && $applicationId > 0) {
+                $ast = Db::pdo()->prepare('SELECT company FROM applications WHERE id = ? AND user_id = ? LIMIT 1');
+                $ast->execute([$applicationId, $uid]);
+                $company = (string) ($ast->fetchColumn() ?: '');
+            }
+            $out = \PdfSanitize::clean($out, \PdfSanitize::metaForPackage(
+                (string) ($profile['full_name'] ?? 'Candidate'),
+                $company
+            ));
+
             return $out;
         } finally {
             foreach (glob($tmpdir . '/*') ?: [] as $f) {

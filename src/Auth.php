@@ -410,7 +410,7 @@ final class Auth
         $sections = [
             ['summary', 'Kurzprofil', 'Write a short professional profile (3–5 lines).', 10, 1],
             ['experience', 'Berufserfahrung', '', 20, 1],
-            ['education', 'Ausbildung / Studium', '', 30, 1],
+            ['education', 'Studium', '', 30, 1],
             ['skills', 'Kenntnisse & Fähigkeiten', "Programmiersprachen\nPHP · JavaScript\n\nFrameworks\nSymfony · React\n\nTools\nGit · Docker · MySQL", 40, 1],
             ['languages', 'Sprachen', "Deutsch — B1\nEnglisch — C1", 50, 1],
             ['certificates', 'Zertifikate & Weiterbildungen', '', 60, 0],

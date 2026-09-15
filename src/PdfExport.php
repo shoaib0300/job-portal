@@ -183,6 +183,7 @@ final class PdfExport
 
     /**
      * Generate a PDF file; returns absolute path on success.
+     * Always runs privacy sanitization on the final file.
      *
      * @throws RuntimeException
      */
@@ -201,14 +202,14 @@ final class PdfExport
 
         try {
             self::generateViaService($doc, $query, $outfile);
-            return self::finalizeExport($outfile, $query);
+            return self::finalizeExport($outfile, $doc, $query);
         } catch (Throwable $e) {
             $errors[] = 'service: ' . $e->getMessage();
         }
 
         try {
             self::generateViaNode($doc, $query, $outfile);
-            return self::finalizeExport($outfile, $query);
+            return self::finalizeExport($outfile, $doc, $query);
         } catch (Throwable $e) {
             $errors[] = 'node: ' . $e->getMessage();
         }
@@ -308,12 +309,21 @@ final class PdfExport
     /**
      * @param array<string, mixed> $query
      */
-    private static function finalizeExport(string $outfile, array $query): string
+    private static function finalizeExport(string $outfile, string $doc, array $query): string
     {
         if (AtsExport::isEnabled($query)) {
-            return self::optimizeForAts($outfile);
+            $outfile = self::optimizeForAts($outfile);
         }
-        return $outfile;
+
+        $profile = App::profile();
+        $lang = LibreTranslate::normalizeLang((string) ($query['lang'] ?? App::resolveDocumentLang()));
+        $meta = PdfSanitize::metaForDocument(
+            $doc === 'cover' ? 'cover' : 'resume',
+            (string) ($profile['full_name'] ?? 'Candidate'),
+            $lang
+        );
+
+        return PdfSanitize::clean($outfile, $meta);
     }
 
     /** Re-save as PDF 1.4 for picky employer ATS uploads (SAP, etc.). */

@@ -115,7 +115,8 @@ function render_skills_body(string $body): void
 }
 
 /**
- * Render education entries: degree (bold), school · city, dates, optional focus lines.
+ * Render education entries stacked on separate lines:
+ * degree → school → dates. Never put the next degree beside dates.
  */
 function render_education_body(string $body): void
 {
@@ -124,7 +125,25 @@ function render_education_body(string $body): void
         return;
     }
 
+    // Unstick "2022 – heute Bachelor…" before block splitting.
+    $body = preg_replace_callback(
+        '/(\d{4}\s*[–—\-]\s*(?:\d{4}|heute|present|aktuell|now))\s+((?:M\.?\s*Sc\.|B\.?\s*Sc\.|Bachelor|Master|Diplom|Dr\.|Ph\.?D\.)[^\n]*)/iu',
+        static fn(array $m): string => $m[1] . "\n\n" . $m[2],
+        $body
+    ) ?? $body;
+
     $blocks = preg_split("/\n{2,}/", $body) ?: [];
+    // If blank lines were lost, still split before a new degree heading.
+    if (count($blocks) < 2) {
+        $parts = preg_split(
+            '/\R(?=(?:M\.?\s*Sc\.|B\.?\s*Sc\.|Bachelor|Master|Diplom|Dr\.|Ph\.?D\.|Abitur)\b)/iu',
+            $body
+        ) ?: [];
+        if (count($parts) > 1) {
+            $blocks = $parts;
+        }
+    }
+
     echo '<div class="education-groups">';
     foreach ($blocks as $block) {
         $block = trim((string) $block);
@@ -136,13 +155,23 @@ function render_education_body(string $body): void
         if (!$lines) {
             continue;
         }
+
         $degree = array_shift($lines);
-        $school = $lines[0] ?? '';
-        $dates = $lines[1] ?? '';
-        $extra = array_slice($lines, 2);
+        $school = '';
+        $dates = '';
+        $extra = [];
+        foreach ($lines as $line) {
+            if ($dates === '' && preg_match('/^\d{4}\s*[–—\-]\s*(?:\d{4}|heute|present|aktuell|now)\b/iu', $line)) {
+                $dates = $line;
+            } elseif ($school === '' && $dates === '') {
+                $school = $line;
+            } else {
+                $extra[] = $line;
+            }
+        }
         ?>
         <div class="education-item">
-          <p class="education-degree"><?= App::e($degree) ?></p>
+          <p class="education-degree"><?= App::e((string) $degree) ?></p>
           <?php if ($school !== ''): ?>
             <p class="education-school"><?= App::e($school) ?></p>
           <?php endif; ?>

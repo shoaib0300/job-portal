@@ -206,31 +206,47 @@
 
 .education-groups {
   display: grid;
-  gap: 1rem;
+  gap: 0.95rem;
 }
 
 .education-item {
   margin: 0;
+  display: block;
+}
+
+/* Always stack degree / school / dates — never put dates beside the next degree. */
+.education-top {
+  display: block;
+}
+
+.education-main {
+  display: block;
+  min-width: 0;
 }
 
 .education-degree {
-  margin: 0 0 0.15rem;
+  margin: 0 0 0.12rem;
   font-weight: 800;
   font-size: 1rem;
   color: var(--ink);
   line-height: 1.3;
+  display: block;
 }
 
 .education-school {
-  margin: 0 0 0.1rem;
+  margin: 0 0 0.08rem;
   color: color-mix(in srgb, var(--ink) 88%, var(--muted));
   font-size: 0.95rem;
+  display: block;
 }
 
 .education-dates {
   margin: 0;
   color: var(--muted);
   font-size: 0.88rem;
+  display: block;
+  text-align: left;
+  white-space: normal;
 }
 
 .theme-midnight .education-degree {
@@ -1892,12 +1908,14 @@ body.pdf-mode.is-embed {
   font-weight: 700;
   margin: 0;
   font-size: 10pt;
+  display: block;
 }
 .certificate-provider,
 .project-desc,
 .education-school {
-  margin: 0.1rem 0;
+  margin: 0.1rem 0 0;
   font-size: 9.5pt;
+  display: block;
 }
 .certificate-date,
 .project-tech,
@@ -1906,6 +1924,21 @@ body.pdf-mode.is-embed {
   margin: 0.05rem 0;
   font-size: 9pt;
   color: #555;
+}
+
+.resume.theme-modern_de .education-top,
+.resume.theme-classic .education-top,
+.resume.theme-technical .education-top,
+.resume.theme-minimal .education-top,
+.resume.theme-ats .education-top {
+  display: block;
+  margin-bottom: 0;
+}
+
+.resume .education-dates,
+.resume.theme-ats .education-dates {
+  text-align: left;
+  margin-top: 0;
 }
 
 .resume-signature {

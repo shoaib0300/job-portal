@@ -67,7 +67,7 @@ final class ResumeLayout
         return [
             'summary' => ['en' => 'Profile', 'de' => 'Kurzprofil', 'default_visible' => true],
             'experience' => ['en' => 'Work Experience', 'de' => 'Berufserfahrung', 'default_visible' => true],
-            'education' => ['en' => 'Education', 'de' => 'Ausbildung / Studium', 'default_visible' => true],
+            'education' => ['en' => 'Education', 'de' => 'Studium', 'default_visible' => true],
             'skills' => ['en' => 'Skills', 'de' => 'Kenntnisse & Fähigkeiten', 'default_visible' => true],
             'languages' => ['en' => 'Languages', 'de' => 'Sprachen', 'default_visible' => true],
             'certificates' => ['en' => 'Certificates & Training', 'de' => 'Zertifikate & Weiterbildungen', 'default_visible' => false],
