@@ -749,6 +749,7 @@
           flash.textContent = `Style applied: ${json.label} · ${json.font_label || font}. You can print or download PDF now.`;
           studio.prepend(flash);
           window.setTimeout(() => flash.remove(), 3500);
+          if (frame) frame.src = previewUrl();
         }
       } catch (_err) {
         form.submit();

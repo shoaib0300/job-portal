@@ -1044,6 +1044,16 @@ body.page-doc .site-nav {
   line-height: 1.4;
 }
 
+.cover-header-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.cover-header-fields .form-check {
+  margin-bottom: 0.35rem;
+}
+
 .studio-preview {
   min-width: 0;
 }

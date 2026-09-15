@@ -31,6 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::setSetting('font_size', App::resolveFontSize((string) ($_POST['font_size'] ?? '')));
         App::setSetting('section_spacing', App::resolveSectionSpacing((string) ($_POST['section_spacing'] ?? '')));
 
+        $isCoverDesign = basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-design.php';
+        if ($isCoverDesign) {
+            App::saveCoverHeaderVisibility($_POST);
+        }
+
         $wantsJson = isset($_SERVER['HTTP_ACCEPT'])
             && str_contains((string) $_SERVER['HTTP_ACCEPT'], 'application/json');
         if ($wantsJson || isset($_POST['ajax'])) {
@@ -46,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $doc = basename((string) ($_SERVER['SCRIPT_NAME'] ?? '')) === 'cover-design.php' ? 'cover' : 'resume';
+        $doc = $isCoverDesign ? 'cover' : 'resume';
         App::flash('Style saved — ' . App::themeLabel($theme) . ' · ' . App::fontLabel($font) . '.');
         App::redirect($doc === 'cover' ? '/cover-design' : '/design');
     }
@@ -67,6 +72,7 @@ $activeCompany = App::setting('active_company', '') ?: '';
 $nameSize = App::resolveNameSize($_GET['name_size'] ?? null);
 $fontSize = App::resolveFontSize($_GET['font_size'] ?? null);
 $spacing = App::resolveSectionSpacing($_GET['spacing'] ?? null);
+$coverHeader = App::coverHeaderVisibility();
 $previewPath = $doc === 'cover' ? '/cover-letter.php' : '/resume.php';
 $profile = App::profile();
 $q = 'theme=' . urlencode($theme) . '&accent=' . urlencode($accent) . '&font=' . urlencode($font)
@@ -186,6 +192,36 @@ layout_header($doc === 'cover' ? 'Cover style' : 'Resume style', [
         <input type="hidden" name="name_size" data-name-size-input value="md">
         <input type="hidden" name="font_size" data-font-size-input value="<?= App::e($fontSize) ?>">
         <input type="hidden" name="section_spacing" data-spacing-input value="<?= App::e($spacing) ?>">
+        <?php if ($doc === 'cover'): ?>
+          <fieldset class="cover-header-fields mb-3">
+            <legend class="form-label mb-2">Show on letter / PDF</legend>
+            <p class="studio-hint" style="margin-top:0">Choose which personal details appear under your name.</p>
+            <label class="form-check">
+              <input class="form-check-input" type="checkbox" name="cover_show_title" value="1"<?= !empty($coverHeader['title']) ? ' checked' : '' ?>>
+              Professional title
+            </label>
+            <label class="form-check">
+              <input class="form-check-input" type="checkbox" name="cover_show_location" value="1"<?= !empty($coverHeader['location']) ? ' checked' : '' ?>>
+              Location
+            </label>
+            <label class="form-check">
+              <input class="form-check-input" type="checkbox" name="cover_show_phone" value="1"<?= !empty($coverHeader['phone']) ? ' checked' : '' ?>>
+              Phone
+            </label>
+            <label class="form-check">
+              <input class="form-check-input" type="checkbox" name="cover_show_email" value="1"<?= !empty($coverHeader['email']) ? ' checked' : '' ?>>
+              Email
+            </label>
+            <label class="form-check">
+              <input class="form-check-input" type="checkbox" name="cover_show_links" value="1"<?= !empty($coverHeader['links']) ? ' checked' : '' ?>>
+              Links (LinkedIn, GitHub…)
+            </label>
+            <label class="form-check">
+              <input class="form-check-input" type="checkbox" name="cover_show_personal_extras" value="1"<?= !empty($coverHeader['personal_extras']) ? ' checked' : '' ?>>
+              Personal extras (DOB, nationality…)
+            </label>
+          </fieldset>
+        <?php endif; ?>
         <label class="form-label">
           Active company tag
           <input class="form-control" type="text" name="active_company" value="<?= App::e($activeCompany) ?>" placeholder="Optional">

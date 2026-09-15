@@ -1248,6 +1248,43 @@ final class App
         return $value !== null && trim($value) !== '';
     }
 
+    /**
+     * Which header fields appear on cover letter preview / PDF.
+     *
+     * @return array{title:bool,location:bool,phone:bool,email:bool,links:bool,personal_extras:bool}
+     */
+    public static function coverHeaderVisibility(): array
+    {
+        $flag = static function (string $key, string $default = '1'): bool {
+            return (self::setting($key, $default) ?: $default) === '1';
+        };
+
+        return [
+            'title' => $flag('cover_show_title', '1'),
+            'location' => $flag('cover_show_location', '1'),
+            'phone' => $flag('cover_show_phone', '1'),
+            'email' => $flag('cover_show_email', '1'),
+            'links' => $flag('cover_show_links', '1'),
+            'personal_extras' => $flag('cover_show_personal_extras', '0'),
+        ];
+    }
+
+    /** @param array<string,mixed> $post */
+    public static function saveCoverHeaderVisibility(array $post): void
+    {
+        $map = [
+            'cover_show_title' => 'cover_show_title',
+            'cover_show_location' => 'cover_show_location',
+            'cover_show_phone' => 'cover_show_phone',
+            'cover_show_email' => 'cover_show_email',
+            'cover_show_links' => 'cover_show_links',
+            'cover_show_personal_extras' => 'cover_show_personal_extras',
+        ];
+        foreach ($map as $settingKey => $postKey) {
+            self::setSetting($settingKey, isset($post[$postKey]) ? '1' : '0');
+        }
+    }
+
     public static function formatDate(?string $date): string
     {
         if ($date === null || trim($date) === '' || $date === '0000-00-00') {

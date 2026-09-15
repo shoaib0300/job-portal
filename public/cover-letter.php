@@ -82,10 +82,26 @@ if (!$embed):
 <article class="cover-letter theme-<?= App::e($theme) ?><?= $pdfMode ? ' pdf-ready' : '' ?>" data-doc="cover">
   <header class="letter-from">
     <strong><?= App::e($profile['full_name']) ?></strong>
-    <?php if (App::filled($profile['title'] ?? null)): ?>
+    <?php
+    $headerVis = App::coverHeaderVisibility();
+    if (!empty($headerVis['title']) && App::filled($profile['title'] ?? null)):
+    ?>
       <span><?= App::e($profile['title']) ?></span>
     <?php endif; ?>
-    <?php render_profile_details($profile, !$atsMode, !$atsMode); ?>
+    <?php
+    render_profile_details(
+        $profile,
+        !$atsMode,
+        !$atsMode && !empty($headerVis['personal_extras']),
+        $lang,
+        [
+            'location' => !empty($headerVis['location']),
+            'phone' => !empty($headerVis['phone']),
+            'email' => !empty($headerVis['email']),
+            'links' => !empty($headerVis['links']),
+        ]
+    );
+    ?>
   </header>
 
   <?php if ($letter): ?>

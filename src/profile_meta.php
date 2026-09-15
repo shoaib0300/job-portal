@@ -9,20 +9,28 @@ declare(strict_types=1);
  * @param bool $includeLinks
  * @param bool $includeMeta  gender / DOB / country / nationality
  * @param string $uiLang  en|de for meta labels
+ * @param array{location?:bool,phone?:bool,email?:bool,links?:bool}|null $fields  null = show all contact fields
  */
 function render_profile_details(
     array $profile,
     bool $includeLinks = true,
     bool $includeMeta = true,
-    string $uiLang = 'en'
+    string $uiLang = 'en',
+    ?array $fields = null
 ): void {
     $isDe = str_starts_with(strtolower($uiLang), 'de');
     $dob = App::formatDate(isset($profile['date_of_birth']) ? (string) $profile['date_of_birth'] : null);
+    $show = [
+        'location' => $fields === null || ($fields['location'] ?? true),
+        'phone' => $fields === null || ($fields['phone'] ?? true),
+        'email' => $fields === null || ($fields['email'] ?? true),
+        'links' => $fields === null || ($fields['links'] ?? true),
+    ];
     $contact = [];
-    if (App::filled($profile['location'] ?? null)) {
+    if ($show['location'] && App::filled($profile['location'] ?? null)) {
         $contact[] = ['text' => (string) $profile['location']];
     }
-    if (App::filled($profile['phone'] ?? null)) {
+    if ($show['phone'] && App::filled($profile['phone'] ?? null)) {
         $phone = (string) $profile['phone'];
         $item = ['text' => $phone];
         if ($includeLinks) {
@@ -31,7 +39,7 @@ function render_profile_details(
         }
         $contact[] = $item;
     }
-    if (App::filled($profile['email'] ?? null)) {
+    if ($show['email'] && App::filled($profile['email'] ?? null)) {
         $email = (string) $profile['email'];
         $item = ['text' => $email];
         if ($includeLinks) {
@@ -39,7 +47,7 @@ function render_profile_details(
         }
         $contact[] = $item;
     }
-    if ($includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
+    if ($show['links'] && $includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
             $url = trim((string) ($link['url'] ?? ''));
             if ($url === '') {
@@ -55,7 +63,7 @@ function render_profile_details(
                 'url' => $url,
             ];
         }
-    } elseif (!$includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
+    } elseif ($show['links'] && !$includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
             $url = trim((string) ($link['url'] ?? ''));
             if ($url === '') {

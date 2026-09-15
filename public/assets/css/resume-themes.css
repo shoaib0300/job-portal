@@ -358,6 +358,15 @@
   color: var(--muted);
 }
 
+.letter-from .resume-contact,
+.letter-from .resume-meta {
+  color: var(--ink, #1a1a1a);
+}
+
+.letter-from .resume-contact a {
+  color: inherit;
+}
+
 .letter-company {
   font-weight: 600;
   margin: 0 0 1rem;
@@ -1680,6 +1689,15 @@ body.pdf-mode.is-embed {
     margin-bottom: 1rem !important;
   }
 
+  .cover-letter .letter-from .resume-contact,
+  .cover-letter .letter-from .resume-meta {
+    color: #1a1a1a !important;
+  }
+
+  .cover-letter .letter-from .resume-contact a {
+    color: inherit !important;
+  }
+
   .cover-letter .letter-body p {
     margin-bottom: 0.65rem !important;
     line-height: 1.45 !important;
@@ -1766,7 +1784,14 @@ body.pdf-mode.is-embed {
 .resume.theme-classic .resume-contact,
 .resume.theme-technical .resume-contact,
 .resume.theme-minimal .resume-contact,
-.resume.theme-ats .resume-contact {
+.resume.theme-ats .resume-contact,
+.cover-letter.theme-modern_de .resume-contact,
+.cover-letter.theme-classic .resume-contact,
+.cover-letter.theme-technical .resume-contact,
+.cover-letter.theme-minimal .resume-contact,
+.cover-letter.theme-ats .resume-contact,
+.cover-letter.theme-german_qa .resume-contact,
+.cover-letter.theme-ivory .resume-contact {
   display: flex;
   flex-wrap: wrap;
   gap: 0.15rem 0.75rem;
@@ -1780,7 +1805,13 @@ body.pdf-mode.is-embed {
 .resume.theme-modern_de .resume-contact li + li::before,
 .resume.theme-classic .resume-contact li + li::before,
 .resume.theme-technical .resume-contact li + li::before,
-.resume.theme-minimal .resume-contact li + li::before {
+.resume.theme-minimal .resume-contact li + li::before,
+.cover-letter.theme-modern_de .resume-contact li + li::before,
+.cover-letter.theme-classic .resume-contact li + li::before,
+.cover-letter.theme-technical .resume-contact li + li::before,
+.cover-letter.theme-minimal .resume-contact li + li::before,
+.cover-letter.theme-german_qa .resume-contact li + li::before,
+.cover-letter.theme-ivory .resume-contact li + li::before {
   content: "·";
   margin-right: 0.75rem;
   color: #999;
