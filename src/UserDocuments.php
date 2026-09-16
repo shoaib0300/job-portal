@@ -846,7 +846,7 @@ final class UserDocuments
             $out = \PdfSanitize::clean($out, \PdfSanitize::metaForPackage(
                 (string) ($profile['full_name'] ?? 'Candidate'),
                 $company
-            ));
+            ), ['ghostscript' => false]);
 
             return $out;
         } finally {

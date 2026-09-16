@@ -1256,7 +1256,13 @@ final class App
     public static function coverHeaderVisibility(): array
     {
         $flag = static function (string $key, string $default = '1'): bool {
-            return (self::setting($key, $default) ?: $default) === '1';
+            // Do not use ?: — stored "0" is a valid off value and is falsy in PHP.
+            $raw = self::setting($key, $default);
+            if ($raw === null || $raw === '') {
+                $raw = $default;
+            }
+
+            return $raw === '1';
         };
 
         return [

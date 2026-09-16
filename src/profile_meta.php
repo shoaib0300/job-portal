@@ -5,8 +5,11 @@ declare(strict_types=1);
 /**
  * Render profile contact + demographic lines; skips empty values.
  *
+ * Profile links (LinkedIn, GitHub, …) are only shown when a real URL exists,
+ * and are always emitted as clickable <a href> (including ATS / PDF export).
+ *
  * @param array $profile
- * @param bool $includeLinks
+ * @param bool $includeLinks  Kept for callers; hyperlinks are always used when a URL exists
  * @param bool $includeMeta  gender / DOB / country / nationality
  * @param string $uiLang  en|de for meta labels
  * @param array{location?:bool,phone?:bool,email?:bool,links?:bool}|null $fields  null = show all contact fields
@@ -32,22 +35,20 @@ function render_profile_details(
     }
     if ($show['phone'] && App::filled($profile['phone'] ?? null)) {
         $phone = (string) $profile['phone'];
-        $item = ['text' => $phone];
-        if ($includeLinks) {
-            $tel = preg_replace('/[^\d+]/', '', $phone) ?: $phone;
-            $item['url'] = 'tel:' . $tel;
-        }
-        $contact[] = $item;
+        $tel = preg_replace('/[^\d+]/', '', $phone) ?: $phone;
+        $contact[] = [
+            'text' => $phone,
+            'url' => 'tel:' . $tel,
+        ];
     }
     if ($show['email'] && App::filled($profile['email'] ?? null)) {
         $email = (string) $profile['email'];
-        $item = ['text' => $email];
-        if ($includeLinks) {
-            $item['url'] = 'mailto:' . $email;
-        }
-        $contact[] = $item;
+        $contact[] = [
+            'text' => $email,
+            'url' => 'mailto:' . $email,
+        ];
     }
-    if ($show['links'] && $includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
+    if ($show['links'] && !empty($profile['links']) && is_array($profile['links'])) {
         foreach ($profile['links'] as $link) {
             $url = trim((string) ($link['url'] ?? ''));
             if ($url === '') {
@@ -62,18 +63,6 @@ function render_profile_details(
                 'text' => $label,
                 'url' => $url,
             ];
-        }
-    } elseif ($show['links'] && !$includeLinks && !empty($profile['links']) && is_array($profile['links'])) {
-        foreach ($profile['links'] as $link) {
-            $url = trim((string) ($link['url'] ?? ''));
-            if ($url === '') {
-                continue;
-            }
-            if (!preg_match('#^https?://#i', $url)) {
-                $url = 'https://' . ltrim($url, '/');
-            }
-            $label = profile_link_display_label((string) ($link['label'] ?? ''), $url, true);
-            $contact[] = ['text' => $label];
         }
     }
 

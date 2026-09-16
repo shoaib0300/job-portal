@@ -323,33 +323,44 @@ final class PdfExport
             $lang
         );
 
-        // Ghostscript drops clickable links — keep them for normal PDFs; ATS still rewrites via optimizeForAts.
-        $preserveLinks = !AtsExport::isEnabled($query);
-
-        return PdfSanitize::clean($outfile, $meta, ['ghostscript' => !$preserveLinks]);
+        // Never Ghostscript-rewrite exports: pdfwrite drops LinkedIn/GitHub/email URI annotations.
+        // Metadata scrubbing still runs via binary rewrite when ghostscript=false.
+        return PdfSanitize::clean($outfile, $meta, ['ghostscript' => false]);
     }
 
-    /** Re-save as PDF 1.4 for picky employer ATS uploads (SAP, etc.). */
+    /**
+     * Prefer PDF 1.4 for picky employer ATS uploads without destroying clickable links.
+     * Ghostscript pdfwrite is intentionally avoided (it strips Link annotations).
+     */
     private static function optimizeForAts(string $infile): string
     {
-        $gs = trim((string) shell_exec('command -v gs 2>/dev/null'));
-        if ($gs === '' || !is_file($infile)) {
+        if (!is_file($infile)) {
             return $infile;
         }
+
         $outfile = preg_replace('/\.pdf$/i', '', $infile) . '-ats.pdf';
         if ($outfile === $infile) {
             $outfile = $infile . '.ats.pdf';
         }
-        $cmd = escapeshellcmd($gs)
-            . ' -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress'
-            . ' -dNOPAUSE -dQUIET -dBATCH -sOutputFile='
-            . escapeshellarg($outfile) . ' ' . escapeshellarg($infile) . ' 2>/dev/null';
-        exec($cmd, $unused, $code);
-        if ($code === 0 && is_file($outfile) && filesize($outfile) > 100) {
-            @unlink($infile);
-            return $outfile;
+
+        $qpdf = trim((string) shell_exec('command -v qpdf 2>/dev/null'));
+        if ($qpdf !== '') {
+            $cmd = sprintf(
+                '%s --force-version=1.4 --object-streams=disable -- %s %s 2>&1',
+                escapeshellcmd($qpdf),
+                escapeshellarg($infile),
+                escapeshellarg($outfile)
+            );
+            exec($cmd, $unused, $code);
+            if ($code === 0 && is_file($outfile) && filesize($outfile) > 100) {
+                @unlink($infile);
+
+                return $outfile;
+            }
+            @unlink($outfile);
         }
-        @unlink($outfile);
+
+        // Keep Chrome PDF as-is (links intact) when qpdf is unavailable.
         return $infile;
     }
 

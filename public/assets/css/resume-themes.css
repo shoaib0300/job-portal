@@ -1442,6 +1442,17 @@ body.pdf-mode.is-embed {
   box-sizing: border-box;
 }
 
+.pdf-mode .resume-contact a,
+.pdf-mode .resume a,
+.pdf-mode .cover-letter a,
+.resume.pdf-ready .resume-contact a,
+.cover-letter.pdf-ready .resume-contact a,
+.resume.pdf-ready a,
+.cover-letter.pdf-ready a {
+  text-decoration: none !important;
+  text-underline-offset: 0;
+}
+
 @media print {
   .no-print,
   .doc-toolbar,
@@ -1672,10 +1683,16 @@ body.pdf-mode.is-embed {
     page-break-inside: avoid;
   }
 
-  /* Keep link text, never print the raw URL */
+  /* Keep link text, never print the raw URL; no underlines in PDF */
   a,
   a:link,
   a:visited {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .resume-contact a[href],
+  .letter-from .resume-contact a[href] {
     text-decoration: none !important;
     color: inherit !important;
   }

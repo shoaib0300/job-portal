@@ -30,7 +30,7 @@ final class PdfSanitize
      * Returns absolute path (updates file in place when possible).
      *
      * @param array{title?:string,author?:string,subject?:string} $meta
-     * @param array{ghostscript?:bool} $options Set ghostscript=false to keep Chrome hyperlinks (normal PDF).
+     * @param array{ghostscript?:bool} $options Default ghostscript=false so Chrome hyperlinks stay clickable.
      */
     public static function clean(string $infile, array $meta = [], array $options = []): string
     {
@@ -43,7 +43,7 @@ final class PdfSanitize
         $subject = self::safeMetaString($meta['subject'] ?? 'Application Documents');
         $creator = 'PDF';
         $producer = 'PDF';
-        $useGs = ($options['ghostscript'] ?? true) === true;
+        $useGs = ($options['ghostscript'] ?? false) === true;
 
         // Ghostscript pdfwrite drops link annotations — only use for ATS / when explicitly wanted.
         $gs = $useGs ? trim((string) shell_exec('command -v gs 2>/dev/null')) : '';
