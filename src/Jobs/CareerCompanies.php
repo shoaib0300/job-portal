@@ -391,7 +391,7 @@ final class CareerCompanies
             ['name' => 'Celonis', 'type' => 'greenhouse', 'key' => 'celonis', 'url' => 'https://www.celonis.com/careers'],
             ['name' => 'Trade Republic', 'type' => 'greenhouse', 'key' => 'trade-republic', 'url' => 'https://traderepublic.com/careers'],
             ['name' => 'Contentful', 'type' => 'greenhouse', 'key' => 'contentful', 'url' => 'https://www.contentful.com/careers'],
-            ['name' => 'Flix', 'type' => 'greenhouse', 'key' => 'flix', 'url' => 'https://www.flix.com/careers'],
+            ['name' => 'Flix', 'type' => 'greenhouse', 'key' => 'flix', 'url' => 'https://flix.careers/jobs/'],
             ['name' => 'Delivery Hero', 'type' => 'greenhouse', 'key' => 'deliveryhero', 'url' => 'https://careers.deliveryhero.com'],
             ['name' => 'HelloFresh', 'type' => 'greenhouse', 'key' => 'hellofresh', 'url' => 'https://careers.hellofresh.com'],
             ['name' => 'SumUp', 'type' => 'greenhouse', 'key' => 'sumup', 'url' => 'https://www.sumup.com/careers'],

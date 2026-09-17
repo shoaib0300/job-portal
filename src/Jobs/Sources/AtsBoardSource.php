@@ -68,9 +68,10 @@ final class AtsBoardSource
         foreach ($apiBoards as $board) {
             $key = $board['type'] . ':' . $board['slug'];
             if ($board['type'] === 'greenhouse') {
-                $requests[$key] = [
-                    'url' => 'https://boards-api.greenhouse.io/v1/boards/' . rawurlencode($board['slug']) . '/jobs?content=true',
-                ];
+                // Departments = complete inventory by team; jobs?content=true = descriptions.
+                $base = 'https://boards-api.greenhouse.io/v1/boards/' . rawurlencode($board['slug']);
+                $requests[$key . ':deps'] = ['url' => $base . '/departments'];
+                $requests[$key . ':jobs'] = ['url' => $base . '/jobs?content=true'];
             } elseif ($board['type'] === 'personio') {
                 $requests[$key] = [
                     'url' => 'https://' . rawurlencode($board['slug']) . '.jobs.personio.de/xml?language=en',
@@ -84,14 +85,31 @@ final class AtsBoardSource
         $bodies = $requests !== [] ? JobHttp::multiGet($requests, 12) : [];
         foreach ($apiBoards as $board) {
             $key = $board['type'] . ':' . $board['slug'];
+            if ($board['type'] === 'greenhouse') {
+                $depsBody = $bodies[$key . ':deps'] ?? null;
+                $jobsBody = $bodies[$key . ':jobs'] ?? null;
+                if ($depsBody === null && $jobsBody === null) {
+                    continue;
+                }
+                $ok++;
+                $listings = array_merge(
+                    $listings,
+                    self::parseGreenhouseWithDepartments(
+                        $depsBody,
+                        $jobsBody,
+                        $board['slug'],
+                        $board['label'],
+                        (string) ($board['url'] ?? '')
+                    )
+                );
+                continue;
+            }
             $body = $bodies[$key] ?? null;
             if ($body === null) {
                 continue;
             }
             $ok++;
-            if ($board['type'] === 'greenhouse') {
-                $listings = array_merge($listings, self::parseGreenhouse($body, $board['slug'], $board['label']));
-            } elseif ($board['type'] === 'personio') {
+            if ($board['type'] === 'personio') {
                 $listings = array_merge($listings, self::parsePersonio($body, $board['slug'], $board['label']));
             } elseif ($board['type'] === 'smartrecruiters') {
                 $listings = array_merge($listings, self::parseSmartRecruiters($body, $board['slug'], $board['label']));
@@ -999,6 +1017,174 @@ final class AtsBoardSource
         $text = trim(JobText::stripHtml($chunk));
         // Prefer plain text with preserved paragraphs for our display pipeline.
         return $text;
+    }
+
+    /**
+     * Walk every Greenhouse department, attach team name, merge job content, then return listings.
+     * Prefer careers-site absolute URLs (e.g. flix.careers) over boards.greenhouse.io.
+     *
+     * @return list<JobListing>
+     */
+    private static function parseGreenhouseWithDepartments(
+        ?string $depsBody,
+        ?string $jobsBody,
+        string $slug,
+        string $label = '',
+        string $careersUrl = ''
+    ): array {
+        $deptByJobId = [];
+        if (is_string($depsBody) && $depsBody !== '') {
+            $depsData = json_decode($depsBody, true);
+            $departments = is_array($depsData) ? ($depsData['departments'] ?? []) : [];
+            if (is_array($departments)) {
+                foreach ($departments as $dep) {
+                    if (!is_array($dep)) {
+                        continue;
+                    }
+                    $deptName = trim((string) ($dep['name'] ?? ''));
+                    if ($deptName === '' || strcasecmp($deptName, 'Template') === 0) {
+                        continue;
+                    }
+                    $jobs = $dep['jobs'] ?? [];
+                    if (!is_array($jobs)) {
+                        continue;
+                    }
+                    foreach ($jobs as $row) {
+                        if (!is_array($row)) {
+                            continue;
+                        }
+                        $id = (string) ($row['id'] ?? '');
+                        if ($id !== '') {
+                            $deptByJobId[$id] = $deptName;
+                        }
+                    }
+                }
+            }
+        }
+
+        $byId = [];
+        if (is_string($jobsBody) && $jobsBody !== '') {
+            foreach (self::parseGreenhouse($jobsBody, $slug, $label) as $job) {
+                $id = self::greenhouseJobIdFromExternal($job->externalId);
+                if ($id !== '') {
+                    $byId[$id] = $job;
+                }
+            }
+        }
+
+        // Departments inventory is authoritative — add any job missing from jobs?content=true.
+        if ($deptByJobId !== [] && is_string($depsBody) && $depsBody !== '') {
+            $depsData = json_decode($depsBody, true);
+            $departments = is_array($depsData) ? ($depsData['departments'] ?? []) : [];
+            if (is_array($departments)) {
+                foreach ($departments as $dep) {
+                    if (!is_array($dep)) {
+                        continue;
+                    }
+                    $deptName = trim((string) ($dep['name'] ?? ''));
+                    if ($deptName === '' || strcasecmp($deptName, 'Template') === 0) {
+                        continue;
+                    }
+                    foreach (($dep['jobs'] ?? []) as $row) {
+                        if (!is_array($row)) {
+                            continue;
+                        }
+                        $id = (string) ($row['id'] ?? '');
+                        if ($id === '' || isset($byId[$id])) {
+                            continue;
+                        }
+                        $title = (string) ($row['title'] ?? '');
+                        $url = (string) ($row['absolute_url'] ?? '');
+                        if ($title === '') {
+                            continue;
+                        }
+                        $loc = '';
+                        if (isset($row['location']) && is_array($row['location'])) {
+                            $loc = (string) ($row['location']['name'] ?? '');
+                        }
+                        $company = $label !== '' ? $label : $slug;
+                        $job = new JobListing(
+                            'career',
+                            'gh:' . $slug . ':' . $id,
+                            $title,
+                            $company,
+                            self::cityFromLocation($loc),
+                            '',
+                            self::countryFromLocation($loc),
+                            'unknown',
+                            'unknown',
+                            'job',
+                            [],
+                            [],
+                            '',
+                            isset($row['updated_at']) ? substr((string) $row['updated_at'], 0, 10) : null,
+                            $url,
+                            '',
+                        );
+                        $job->applyUrl = $url;
+                        $byId[$id] = JobText::enrich($job);
+                    }
+                }
+            }
+        }
+
+        $careersHost = '';
+        if ($careersUrl !== '') {
+            $careersHost = strtolower((string) (parse_url($careersUrl, PHP_URL_HOST) ?: ''));
+        }
+
+        $out = [];
+        foreach ($byId as $id => $job) {
+            $id = (string) $id;
+            $dept = $deptByJobId[$id] ?? '';
+            if ($dept !== '') {
+                // Prefixed for keyword/profession filters ("IT & Engineering", "Operations", …).
+                $job->description = trim($dept . "\n\n" . $job->description);
+            }
+            $job->url = self::preferCareersJobUrl($job->url, $id, $careersHost, $slug);
+            $job->applyUrl = self::preferCareersJobUrl(
+                $job->applyUrl !== '' ? $job->applyUrl : $job->url,
+                $id,
+                $careersHost,
+                $slug
+            );
+            $out[] = $job;
+        }
+
+        return $out;
+    }
+
+    private static function greenhouseJobIdFromExternal(string $externalId): string
+    {
+        // gh:{slug}:{id}
+        $parts = explode(':', $externalId);
+        return isset($parts[2]) ? (string) $parts[2] : '';
+    }
+
+    /** Prefer flix.careers/job/{id} (or board careers host) over boards.greenhouse.io. */
+    private static function preferCareersJobUrl(string $url, string $jobId, string $careersHost, string $slug): string
+    {
+        $url = trim($url);
+        if ($jobId === '') {
+            return $url;
+        }
+        $host = strtolower((string) (parse_url($url, PHP_URL_HOST) ?: ''));
+        $preferHost = $careersHost !== '' ? $careersHost : '';
+        if ($preferHost === '' && $slug === 'flix') {
+            $preferHost = 'flix.careers';
+        }
+        if ($preferHost === '') {
+            return $url;
+        }
+        if ($host === $preferHost || str_ends_with($host, '.' . $preferHost)) {
+            return $url;
+        }
+        // Rewrite Greenhouse / legacy marketing URLs to the public careers job page.
+        if ($host === '' || str_contains($host, 'greenhouse.io') || str_contains($host, 'flix.com')) {
+            return 'https://' . $preferHost . '/job/' . rawurlencode($jobId) . '?gh_jid=' . rawurlencode($jobId);
+        }
+
+        return $url;
     }
 
     /** @return list<JobListing> */

@@ -64,7 +64,7 @@ final class JobText
     }
 
     /** Foreign cities/countries that must never be rescued by a Berlin/Germany mention in the JD. */
-    private const FOREIGN_LOCATION_RE = '/\b(spain|españa|spanish\s+market|madrid|barcelona|valencia|seville|sevilla|malaga|france|french\s+market|paris|lyon|marseille|italy|italia|italian\s+market|rome|roma|milan|milano|portugal|lisbon|lisboa|netherlands|holland|amsterdam|rotterdam|belgium|brussels|bruxelles|luxembourg|luxemburg|lëtzebuerg|poland|warsaw|warszawa|krakow|austria|österreich|wien|vienna|switzerland|schweiz|zürich|zurich|geneva|uk\b|united kingdom|london|manchester|ireland|dublin|usa|united states|new york|san francisco|toronto|canada|india|bangalore|bengaluru|hyderabad|singapore|dubai|uae|czech|prague|praha|sweden|stockholm|denmark|copenhagen|norway|oslo|finland|helsinki|hungary|budapest|romania|bucharest|greece|athens|turkey|istanbul)\b/u';
+    private const FOREIGN_LOCATION_RE = '/\b(spain|españa|spanish\s+market|madrid|barcelona|valencia|seville|sevilla|malaga|france|french\s+market|paris|lyon|marseille|italy|italia|italian\s+market|rome|roma|milan|milano|portugal|lisbon|lisboa|netherlands|holland|amsterdam|rotterdam|belgium|brussels|bruxelles|luxembourg|luxemburg|lëtzebuerg|poland|warsaw|warszawa|krakow|kraków|wroclaw|wrocław|austria|österreich|wien|vienna|switzerland|schweiz|zürich|zurich|geneva|uk\b|united kingdom|london|manchester|leeds|ireland|dublin|usa|united states|new york|san francisco|dallas|washington|toronto|calgary|canada|india|bangalore|bengaluru|hyderabad|delhi|gurugram|gurgaon|singapore|dubai|uae|czech|prague|praha|sweden|stockholm|denmark|copenhagen|norway|oslo|finland|helsinki|hungary|budapest|romania|bucharest|greece|athens|turkey|istanbul|chile|santiago|mexico|méxico|saltillo|monterrey|guadalajara|brazil|brasil|são paulo|sao paulo|argentina|buenos aires|bulgaria|sofia|croatia|zagreb|peru|lima|la serena|san fernando)\b/u';
 
     private const GERMANY_PLACE_RE = '/\b(germany|deutschland|federal republic of germany|bayern|baden-württemberg|nordrhein-westfalen|nrw|niedersachsen|hessen|sachsen|rheinland-pfalz|schleswig-holstein|thüringen|brandenburg|mecklenburg-vorpommern|saarland|bremen|hamburg|berlin|münchen|munich|garching|köln|cologne|frankfurt|stuttgart|düsseldorf|dortmund|essen|leipzig|dresden|hannover|nürnberg|nuremberg|duisburg|bochum|wuppertal|bielefeld|bonn|münster|karlsruhe|mannheim|augsburg|wiesbaden|braunschweig|chemnitz|kiel|aachen|halle|magdeburg|freiburg|krefeld|lübeck|erfurt|mainz|rostock|kassel|saarbrücken|potsdam|ludwigshafen|oldenburg|osnabrück|leverkusen|heidelberg|darmstadt|regensburg|würzburg|ingolstadt|ulm|heilbronn|paderborn|jena|wolfsburg|göttingen|reutlingen|koblenz|trier|passau|bamberg|bayreuth|konstanz|flensburg|schweinfurt|schwerin|greifswald|wismar|stralsund)\b/u';
 
@@ -144,27 +144,27 @@ final class JobText
         if ($primary !== '' && preg_match(self::GERMANY_PLACE_RE, $primary)) {
             return true;
         }
+        // Bare "DE" country code only on primary location — never on title/body
+        // (Spanish "de" / English "de facto" would false-positive).
         if ($primary !== '' && preg_match('/(^|[\s,\/|(])de([\s,\/)|]|$)/u', $primary)) {
             return true;
         }
-        // Blank / remote / unknown primary: fall back to body text, but still reject foreign signals there
-        // only when no foreign primary was already ruled out above.
-        $hay = self::haystack($city, $bundesland, $country, $extra);
+        // Known primary city/country that is not German → do not keep via JD body (Berlin HQ mentions).
+        if ($primary !== '') {
+            return false;
+        }
+        // Blank / remote / unknown primary: fall back to body text.
+        $hay = self::haystack($extra);
         if ($hay === '') {
             return false;
         }
-        if (preg_match(self::FOREIGN_LOCATION_RE, $hay) && !preg_match(self::GERMANY_PLACE_RE, self::haystack($city, $bundesland, $country))) {
-            // Body mentions Spain/Madrid with no German primary location → not Germany.
-            // Dual locations in body alone (Berlin + Madrid) without a German primary stay false.
+        if (preg_match(self::FOREIGN_LOCATION_RE, $hay)) {
             return false;
         }
         if (preg_match('/\b(germany|deutschland|federal republic of germany)\b/u', $hay)) {
             return true;
         }
         if (preg_match(self::GERMANY_PLACE_RE, $hay)) {
-            return true;
-        }
-        if (preg_match('/(^|[\s,\/|(])de([\s,\/)|]|$)/u', $hay)) {
             return true;
         }
         return false;
