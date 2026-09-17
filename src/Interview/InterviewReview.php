@@ -143,6 +143,7 @@ final class InterviewReview
         InterviewQuestionRepo::upsert($data, [
             'industries' => $overrides['industries'] ?? [],
             'occupations' => $overrides['occupations'] ?? [],
+            'specializations' => $overrides['specializations'] ?? [],
             'skills' => $overrides['skills'] ?? [],
             'stages' => $overrides['stages'] ?? [],
         ], true);
