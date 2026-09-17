@@ -1,0 +1,2404 @@
+{
+    "questions": [
+        {
+            "slug": "legal-1",
+            "language": "en",
+            "question": "How do you manage document filing and retrieval in a busy legal practice?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-2",
+            "language": "en",
+            "question": "What would you do if you discovered a filing deadline was tomorrow and work was incomplete?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-3",
+            "language": "en",
+            "question": "Describe your approach to preparing documents for attorney review.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-4",
+            "language": "en",
+            "question": "How do you prioritize tasks when multiple attorneys need support urgently?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-5",
+            "language": "en",
+            "question": "Explain how you maintain confidentiality of client files.",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-6",
+            "language": "en",
+            "question": "What would you do if a client called requesting case details you cannot share?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-7",
+            "language": "en",
+            "question": "How do you calendar court dates, deadlines, and statute limitations accurately?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-8",
+            "language": "en",
+            "question": "Describe coordinating service of process and tracking confirmations.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-9",
+            "language": "en",
+            "question": "How do you proofread legal documents for formatting and consistency errors?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-10",
+            "language": "en",
+            "question": "What would you do if you noticed a factual error in a draft going to court?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-11",
+            "language": "en",
+            "question": "How do you organize discovery materials for attorney review?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-12",
+            "language": "en",
+            "question": "Explain your approach to billing time and expense tracking.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-13",
+            "language": "en",
+            "question": "How do you communicate professionally with opposing counsel's office?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-14",
+            "language": "en",
+            "question": "What would you do if a client became upset during intake scheduling?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-15",
+            "language": "en",
+            "question": "How do you research basic legal references to support case preparation?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-16",
+            "language": "en",
+            "question": "Describe managing electronic discovery file indexes.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-17",
+            "language": "en",
+            "question": "How do you ensure compliance with data retention policies?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-18",
+            "language": "en",
+            "question": "What would you do if an attorney was unavailable before a critical deadline?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-19",
+            "language": "en",
+            "question": "How do you prepare binders and exhibits for hearings or depositions?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-20",
+            "language": "en",
+            "question": "Explain how you handle conflicts checks during new client intake.",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-21",
+            "language": "en",
+            "question": "How do you coordinate travel and logistics for witnesses or attorneys?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-22",
+            "language": "en",
+            "question": "What would you do if you received a subpoena directed to the firm?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-23",
+            "language": "en",
+            "question": "How do you maintain version control on heavily edited contracts?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-24",
+            "language": "en",
+            "question": "Describe supporting due diligence document collection in a transaction.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-25",
+            "language": "en",
+            "question": "How do you manage incoming mail and route it to the correct matter?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-26",
+            "language": "en",
+            "question": "What would you do if a court clerk rejected a filing for formatting errors?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-27",
+            "language": "en",
+            "question": "How do you assist with client onboarding and engagement letters?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-28",
+            "language": "en",
+            "question": "Explain your approach to redacting sensitive information before disclosure.",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-29",
+            "language": "en",
+            "question": "How do you track follow-up tasks after meetings or court appearances?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-30",
+            "language": "en",
+            "question": "What would you do if you suspected a document had been altered?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-31",
+            "language": "en",
+            "question": "How do you support attorneys during trial preparation?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-32",
+            "language": "en",
+            "question": "Describe using legal research databases effectively.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-33",
+            "language": "en",
+            "question": "How do you ensure ethical walls are maintained between conflicted matters?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-34",
+            "language": "en",
+            "question": "What would you do if a deadline extension request was denied?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-35",
+            "language": "en",
+            "question": "How do you organize physical and digital closing binders for transactions?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-36",
+            "language": "en",
+            "question": "Explain how you handle urgent after-hours requests from attorneys.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-37",
+            "language": "en",
+            "question": "How do you prepare status reports on open matters for partners?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-38",
+            "language": "en",
+            "question": "What would you do if a client asked you for legal advice directly?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-39",
+            "language": "en",
+            "question": "How do you coordinate notarizations and certified copies?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-40",
+            "language": "en",
+            "question": "Describe managing a document production in response to a discovery request.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-41",
+            "language": "en",
+            "question": "How do you stay organized during high-volume intake periods?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-42",
+            "language": "en",
+            "question": "What would you do if billing disputes arose with a long-standing client?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-43",
+            "language": "en",
+            "question": "How do you support compliance training documentation for the firm?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-44",
+            "language": "en",
+            "question": "Explain your approach to quality-checking citations and cross-references.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-45",
+            "language": "en",
+            "question": "How do you assist with immigration or regulatory filings at a high level?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-46",
+            "language": "en",
+            "question": "What would you do if software downtime blocked an e-filing submission?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-47",
+            "language": "en",
+            "question": "How do you communicate case updates to clients under attorney direction?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-48",
+            "language": "en",
+            "question": "Describe improving a workflow that reduced missed deadlines.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-49",
+            "language": "en",
+            "question": "How do you handle sensitive personnel or HR-related legal documents?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        },
+        {
+            "slug": "legal-50",
+            "language": "en",
+            "question": "What would you do if opposing counsel requested documents outside agreed scope?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "legal"
+            ],
+            "occupations": [
+                "legal-assistant"
+            ],
+            "skills": [
+                "compliance",
+                "communication",
+                "analytical-thinking",
+                "time-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "legal"
+        }
+    ]
+}

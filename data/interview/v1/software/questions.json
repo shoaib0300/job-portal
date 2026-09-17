@@ -1,0 +1,3116 @@
+{
+    "questions": [
+        {
+            "slug": "software-1",
+            "language": "en",
+            "question": "How do you design test cases from ambiguous user stories?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"design test cases from ambiguous user stories\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"design test cases from ambiguous user stories\".",
+            "detailed_answer": "## Definition\nExplain \"design test cases from ambiguous user stories\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-2",
+            "language": "en",
+            "question": "What would you do if a critical bug was found hours before release?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a critical bug was found hours before release\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a critical bug was found hours before release\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-3",
+            "language": "en",
+            "question": "Explain your approach to regression testing after a major refactor.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to regression testing after a major refactor\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to regression testing after a major refactor\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to regression testing after a major refactor\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-4",
+            "language": "en",
+            "question": "How do you prioritize bugs when the backlog exceeds sprint capacity?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"prioritize bugs when the backlog exceeds sprint capacity\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"prioritize bugs when the backlog exceeds sprint capacity\".",
+            "detailed_answer": "## Definition\nExplain \"prioritize bugs when the backlog exceeds sprint capacity\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-5",
+            "language": "en",
+            "question": "Describe building a test automation framework with Selenium.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"building a test automation framework with selenium\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"building a test automation framework with selenium\".",
+            "detailed_answer": "## Definition\nExplain \"building a test automation framework with selenium\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-6",
+            "language": "en",
+            "question": "What would you do if automated tests became flaky and unreliable?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if automated tests became flaky and unreliable\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if automated tests became flaky and unreliable\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-7",
+            "language": "en",
+            "question": "How do you test API endpoints using Postman or similar tools?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"test api endpoints using postman or similar tools\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"test api endpoints using postman or similar tools\".",
+            "detailed_answer": "## Definition\nExplain \"test api endpoints using postman or similar tools\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-8",
+            "language": "en",
+            "question": "Explain how you validate data integrity using SQL queries.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"how you validate data integrity using sql queries\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"how you validate data integrity using sql queries\".",
+            "detailed_answer": "## Definition\nExplain \"how you validate data integrity using sql queries\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-9",
+            "language": "en",
+            "question": "How do you write clear bug reports that developers can act on quickly?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"write clear bug reports that developers can act on quickly\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"write clear bug reports that developers can act on quickly\".",
+            "detailed_answer": "## Definition\nExplain \"write clear bug reports that developers can act on quickly\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-10",
+            "language": "en",
+            "question": "What would you do if product insisted on shipping with known open defects?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if product insisted on shipping with known open defects\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if product insisted on shipping with known open defects\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-11",
+            "language": "en",
+            "question": "How do you integrate automated tests into a CI pipeline?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"integrate automated tests into a ci pipeline\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"integrate automated tests into a ci pipeline\".",
+            "detailed_answer": "## Definition\nExplain \"integrate automated tests into a ci pipeline\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-12",
+            "language": "en",
+            "question": "Describe your approach to exploratory testing sessions.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to exploratory testing sessions\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to exploratory testing sessions\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to exploratory testing sessions\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-13",
+            "language": "en",
+            "question": "How do you manage test data for complex database scenarios?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"manage test data for complex database scenarios\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"manage test data for complex database scenarios\".",
+            "detailed_answer": "## Definition\nExplain \"manage test data for complex database scenarios\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-14",
+            "language": "en",
+            "question": "What would you do if requirements changed after test planning was complete?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if requirements changed after test planning was complete\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if requirements changed after test planning was complete\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-15",
+            "language": "en",
+            "question": "How do you track test coverage and communicate gaps to the team?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"track test coverage and communicate gaps to the team\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"track test coverage and communicate gaps to the team\".",
+            "detailed_answer": "## Definition\nExplain \"track test coverage and communicate gaps to the team\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-16",
+            "language": "en",
+            "question": "Explain boundary value and equivalence partitioning with an example.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"boundary value and equivalence partitioning with an example\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"boundary value and equivalence partitioning with an example\".",
+            "detailed_answer": "## Definition\nExplain \"boundary value and equivalence partitioning with an example\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-17",
+            "language": "en",
+            "question": "How do you use Jira to manage test cycles and defect workflows?",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"use jira to manage test cycles and defect workflows\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"use jira to manage test cycles and defect workflows\".",
+            "detailed_answer": "## Definition\nExplain \"use jira to manage test cycles and defect workflows\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-18",
+            "language": "en",
+            "question": "What would you do if production reported a bug your tests missed?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if production reported a bug your tests missed\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if production reported a bug your tests missed\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-19",
+            "language": "en",
+            "question": "How do you test authentication and authorization flows?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"test authentication and authorization flows\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"test authentication and authorization flows\".",
+            "detailed_answer": "## Definition\nExplain \"test authentication and authorization flows\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-20",
+            "language": "en",
+            "question": "Describe coordinating QA sign-off in an agile sprint.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"coordinating qa sign-off in an agile sprint\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"coordinating qa sign-off in an agile sprint\".",
+            "detailed_answer": "## Definition\nExplain \"coordinating qa sign-off in an agile sprint\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-21",
+            "language": "en",
+            "question": "How do you approach performance or load testing at a high level?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"approach performance or load testing at a high level\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"approach performance or load testing at a high level\".",
+            "detailed_answer": "## Definition\nExplain \"approach performance or load testing at a high level\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-22",
+            "language": "en",
+            "question": "What would you do if environment instability blocked test execution?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if environment instability blocked test execution\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if environment instability blocked test execution\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-23",
+            "language": "en",
+            "question": "How do you automate API tests and validate response schemas?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"automate api tests and validate response schemas\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"automate api tests and validate response schemas\".",
+            "detailed_answer": "## Definition\nExplain \"automate api tests and validate response schemas\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-24",
+            "language": "en",
+            "question": "Explain your strategy for testing mobile versus web applications.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your strategy for testing mobile versus web applications\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your strategy for testing mobile versus web applications\".",
+            "detailed_answer": "## Definition\nExplain \"your strategy for testing mobile versus web applications\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-25",
+            "language": "en",
+            "question": "How do you review pull requests from a quality perspective?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"review pull requests from a quality perspective\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"review pull requests from a quality perspective\".",
+            "detailed_answer": "## Definition\nExplain \"review pull requests from a quality perspective\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-26",
+            "language": "en",
+            "question": "What would you do if stakeholders disagreed on severity of a defect?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if stakeholders disagreed on severity of a defect\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if stakeholders disagreed on severity of a defect\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-27",
+            "language": "en",
+            "question": "How do you design smoke and sanity test suites for releases?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"design smoke and sanity test suites for releases\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"design smoke and sanity test suites for releases\".",
+            "detailed_answer": "## Definition\nExplain \"design smoke and sanity test suites for releases\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-28",
+            "language": "en",
+            "question": "Describe testing a payment or checkout flow end to end.",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"testing a payment or checkout flow end to end\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"testing a payment or checkout flow end to end\".",
+            "detailed_answer": "## Definition\nExplain \"testing a payment or checkout flow end to end\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-29",
+            "language": "en",
+            "question": "How do you maintain test scripts when the UI changes frequently?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"maintain test scripts when the ui changes frequently\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"maintain test scripts when the ui changes frequently\".",
+            "detailed_answer": "## Definition\nExplain \"maintain test scripts when the ui changes frequently\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-30",
+            "language": "en",
+            "question": "What would you do if you found a security vulnerability during testing?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if you found a security vulnerability during testing\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if you found a security vulnerability during testing\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-31",
+            "language": "en",
+            "question": "How do you collaborate with developers on testability improvements?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"collaborate with developers on testability improvements\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"collaborate with developers on testability improvements\".",
+            "detailed_answer": "## Definition\nExplain \"collaborate with developers on testability improvements\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-32",
+            "language": "en",
+            "question": "Explain how you test database migrations and rollback scenarios.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"how you test database migrations and rollback scenarios\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"how you test database migrations and rollback scenarios\".",
+            "detailed_answer": "## Definition\nExplain \"how you test database migrations and rollback scenarios\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-33",
+            "language": "en",
+            "question": "How do you measure QA effectiveness beyond bug counts?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"measure qa effectiveness beyond bug counts\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"measure qa effectiveness beyond bug counts\".",
+            "detailed_answer": "## Definition\nExplain \"measure qa effectiveness beyond bug counts\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-34",
+            "language": "en",
+            "question": "What would you do if automation coverage was low but deadlines were tight?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"what would you do if automation coverage was low but deadlines were tight\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"what would you do if automation coverage was low but deadlines were tight\".",
+            "detailed_answer": "## Definition\nExplain \"what would you do if automation coverage was low but deadlines were tight\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-35",
+            "language": "en",
+            "question": "How do you test accessibility requirements in web applications?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"test accessibility requirements in web applications\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"test accessibility requirements in web applications\".",
+            "detailed_answer": "## Definition\nExplain \"test accessibility requirements in web applications\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-36",
+            "language": "en",
+            "question": "Describe creating a test plan for a new microservice.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"creating a test plan for a new microservice\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"creating a test plan for a new microservice\".",
+            "detailed_answer": "## Definition\nExplain \"creating a test plan for a new microservice\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-37",
+            "language": "en",
+            "question": "How do you handle testing in staging when it mirrors production poorly?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"handle testing in staging when it mirrors production poorly\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"handle testing in staging when it mirrors production poorly\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-38",
+            "language": "en",
+            "question": "Explain your approach to cross-browser and cross-device testing.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to cross-browser and cross-device testing\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to cross-browser and cross-device testing\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to cross-browser and cross-device testing\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-39",
+            "language": "en",
+            "question": "How do you coach developers on writing unit tests?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"coach developers on writing unit tests\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"coach developers on writing unit tests\".",
+            "detailed_answer": "## Definition\nExplain \"coach developers on writing unit tests\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-40",
+            "language": "en",
+            "question": "What would you do if a hotfix needed verification outside normal process?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a hotfix needed verification outside normal process\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a hotfix needed verification outside normal process\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-41",
+            "language": "en",
+            "question": "How do you validate logging and monitoring for production readiness?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"validate logging and monitoring for production readiness\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"validate logging and monitoring for production readiness\".",
+            "detailed_answer": "## Definition\nExplain \"validate logging and monitoring for production readiness\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-42",
+            "language": "en",
+            "question": "Describe a time your testing prevented a major customer-facing issue.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"a time your testing prevented a major customer-facing issue\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"a time your testing prevented a major customer-facing issue\".",
+            "detailed_answer": "## Definition\nExplain \"a time your testing prevented a major customer-facing issue\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-43",
+            "language": "en",
+            "question": "How do you test file upload, export, and batch processing features?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"test file upload, export, and batch processing features\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"test file upload, export, and batch processing features\".",
+            "detailed_answer": "## Definition\nExplain \"test file upload, export, and batch processing features\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-44",
+            "language": "en",
+            "question": "What would you do if test environments contained outdated production data?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if test environments contained outdated production data\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if test environments contained outdated production data\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-45",
+            "language": "en",
+            "question": "How do you approach contract testing between services?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"approach contract testing between services\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"approach contract testing between services\".",
+            "detailed_answer": "## Definition\nExplain \"approach contract testing between services\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-46",
+            "language": "en",
+            "question": "Explain how you document test results for audit or compliance needs.",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"how you document test results for audit or compliance needs\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"how you document test results for audit or compliance needs\".",
+            "detailed_answer": "## Definition\nExplain \"how you document test results for audit or compliance needs\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-47",
+            "language": "en",
+            "question": "How do you balance manual testing depth with automation ROI?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"balance manual testing depth with automation roi\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"balance manual testing depth with automation roi\".",
+            "detailed_answer": "## Definition\nExplain \"balance manual testing depth with automation roi\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-48",
+            "language": "en",
+            "question": "What would you do if a third-party integration failed only in production?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a third-party integration failed only in production\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a third-party integration failed only in production\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-49",
+            "language": "en",
+            "question": "How do you stay current with testing tools and industry practices?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"stay current with testing tools and industry practices\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"stay current with testing tools and industry practices\".",
+            "detailed_answer": "## Definition\nExplain \"stay current with testing tools and industry practices\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "software-50",
+            "language": "en",
+            "question": "Describe leading QA efforts during a platform migration project.",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"leading qa efforts during a platform migration project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "it-software"
+            ],
+            "occupations": [
+                "qa-engineer"
+            ],
+            "skills": [
+                "testing",
+                "automation",
+                "problem-solving",
+                "quality-assurance",
+                "databases"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "software",
+            "specializations": [
+                "test-automation"
+            ],
+            "technologies": [
+                "selenium",
+                "postman",
+                "sql",
+                "jira"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"leading qa efforts during a platform migration project\".",
+            "detailed_answer": "## Definition\nExplain \"leading qa efforts during a platform migration project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        }
+    ]
+}

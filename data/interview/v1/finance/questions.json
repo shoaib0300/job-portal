@@ -1,0 +1,2404 @@
+{
+    "questions": [
+        {
+            "slug": "finance-1",
+            "language": "en",
+            "question": "Walk me through a P&L and what you look for first.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-2",
+            "language": "en",
+            "question": "How do you build a simple forecast model?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-3",
+            "language": "en",
+            "question": "What would you do if actuals diverge sharply from budget?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-4",
+            "language": "en",
+            "question": "Explain working capital and why it matters.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-5",
+            "language": "en",
+            "question": "How do you present financial insights to non-finance stakeholders?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-6",
+            "language": "en",
+            "question": "Describe reconciling accounts when numbers do not match.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-7",
+            "language": "en",
+            "question": "What KPIs would you track for a subscription business?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-8",
+            "language": "en",
+            "question": "How do you ensure data quality in financial reports?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-9",
+            "language": "en",
+            "question": "Explain the difference between cash and accrual accounting.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-10",
+            "language": "en",
+            "question": "How do you prioritize month-end closing tasks?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-11",
+            "language": "en",
+            "question": "What is your approach to variance analysis?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-12",
+            "language": "en",
+            "question": "Describe a time you found an error before it reached leadership.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-13",
+            "language": "en",
+            "question": "How do you handle confidential financial information?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-14",
+            "language": "en",
+            "question": "What would you do if a business unit refused to share timely data?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-15",
+            "language": "en",
+            "question": "Explain ROI and when it is misleading.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-16",
+            "language": "en",
+            "question": "How do you support pricing decisions with analysis?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-17",
+            "language": "en",
+            "question": "Describe building a dashboard for management.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-18",
+            "language": "en",
+            "question": "What controls help prevent fraud in processes you know?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-19",
+            "language": "en",
+            "question": "How do you approach auditing a process end-to-end?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-20",
+            "language": "en",
+            "question": "Explain CAPEX vs OPEX with an example.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-21",
+            "language": "en",
+            "question": "How do you stress-test assumptions in a model?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-22",
+            "language": "en",
+            "question": "What would you do if leadership wanted an optimistic forecast only?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-23",
+            "language": "en",
+            "question": "Describe collaborating with accounting during close.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-24",
+            "language": "en",
+            "question": "How do you document model assumptions?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-25",
+            "language": "en",
+            "question": "Explain contribution margin.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-26",
+            "language": "en",
+            "question": "How do you analyze customer profitability?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-27",
+            "language": "en",
+            "question": "What is your experience with Excel for finance work?",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-28",
+            "language": "en",
+            "question": "How do you stay current with accounting standards relevant to your role?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-29",
+            "language": "en",
+            "question": "Describe a financial recommendation you made.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-30",
+            "language": "en",
+            "question": "How do you handle incomplete data for a board pack?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-31",
+            "language": "en",
+            "question": "Explain break-even analysis.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-32",
+            "language": "en",
+            "question": "How do you partner with sales on pipeline quality?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-33",
+            "language": "en",
+            "question": "What risks appear in rapid growth companies?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-34",
+            "language": "en",
+            "question": "Describe improving a reporting process.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-35",
+            "language": "en",
+            "question": "How do you validate third-party financial data?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-36",
+            "language": "en",
+            "question": "What is materiality and how do you apply it?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-37",
+            "language": "en",
+            "question": "How do you prepare for a financial review meeting?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-38",
+            "language": "en",
+            "question": "Describe supporting a due diligence request.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-39",
+            "language": "en",
+            "question": "How do you communicate uncertainty in forecasts?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-40",
+            "language": "en",
+            "question": "What would you do if you spotted an unethical accounting request?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-41",
+            "language": "en",
+            "question": "Explain liquidity vs solvency.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-42",
+            "language": "en",
+            "question": "How do you allocate shared costs fairly?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-43",
+            "language": "en",
+            "question": "Describe using SAP or similar systems in finance.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-44",
+            "language": "en",
+            "question": "How do you prioritize ad-hoc analysis requests?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-45",
+            "language": "en",
+            "question": "What metrics matter for cash flow management?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-46",
+            "language": "en",
+            "question": "How do you train a junior analyst on your team standards?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-47",
+            "language": "en",
+            "question": "Describe a time deadlines and accuracy conflicted.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-48",
+            "language": "en",
+            "question": "How do you approach FX risk at a high level?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-49",
+            "language": "en",
+            "question": "What questions do you ask before building a new report?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        },
+        {
+            "slug": "finance-50",
+            "language": "en",
+            "question": "How do you ensure audit readiness year-round?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "finance"
+            ],
+            "occupations": [
+                "financial-analyst"
+            ],
+            "skills": [
+                "financial-analysis",
+                "accounting",
+                "analytical-thinking",
+                "risk-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "finance"
+        }
+    ]
+}

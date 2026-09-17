@@ -1,0 +1,2326 @@
+{
+    "questions": [
+        {
+            "slug": "de-1",
+            "language": "de",
+            "question": "Warum interessieren Sie sich für diese Stelle?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „interessieren sie sich für diese stelle“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-2",
+            "language": "de",
+            "question": "Erzählen Sie kurz von sich und Ihrem Werdegang.",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „erzählen sie kurz von sich und ihrem werdegang“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-3",
+            "language": "de",
+            "question": "Was sind Ihre größten beruflichen Stärken?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „was sind ihre größten beruflichen stärken“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-4",
+            "language": "de",
+            "question": "An welchem Bereich arbeiten Sie gerade aktiv?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „an welchem bereich arbeiten sie gerade aktiv“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-5",
+            "language": "de",
+            "question": "Wo sehen Sie sich in drei bis fünf Jahren?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „wo sehen sie sich in drei bis fünf jahren“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-6",
+            "language": "de",
+            "question": "Warum möchten Sie in unserem Unternehmen arbeiten?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „möchten sie in unserem unternehmen arbeiten“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-7",
+            "language": "de",
+            "question": "Was motiviert Sie bei der Arbeit am meisten?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „was motiviert sie bei der arbeit am meisten“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-8",
+            "language": "de",
+            "question": "Wie gehen Sie mit stressigen Situationen um?",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „gehen sie mit stressigen situationen um“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „gehen sie mit stressigen situationen um“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-9",
+            "language": "de",
+            "question": "Beschreiben Sie eine Situation, in der Sie ein Teamkonflikt gelöst haben.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie eine situation, in der sie ein teamkonflikt gelöst haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie eine situation, in der sie ein teamkonflikt gelöst haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-10",
+            "language": "de",
+            "question": "Erzählen Sie von einem Misserfolg und was Sie daraus gelernt haben.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einem misserfolg und was sie daraus gelernt haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einem misserfolg und was sie daraus gelernt haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-11",
+            "language": "de",
+            "question": "Beschreiben Sie eine Situation, in der Sie unter Zeitdruck qualitativ gute Arbeit geliefert haben.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie eine situation, in der sie unter zeitdruck qualitativ gute arbeit geliefert haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie eine situation, in der sie unter zeitdruck qualitativ gute arbeit geliefert haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-12",
+            "language": "de",
+            "question": "Wie gehen Sie mit konstruktiver Kritik um?",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „gehen sie mit konstruktiver kritik um“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „gehen sie mit konstruktiver kritik um“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-13",
+            "language": "de",
+            "question": "Erzählen Sie von einer Situation, in der Sie Initiative gezeigt haben.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einer situation, in der sie initiative gezeigt haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einer situation, in der sie initiative gezeigt haben“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-14",
+            "language": "de",
+            "question": "Beschreiben Sie, wie Sie Prioritäten setzen, wenn mehrere Aufgaben dringend sind.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie, wie sie prioritäten setzen, wenn mehrere aufgaben dringend sind“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie, wie sie prioritäten setzen, wenn mehrere aufgaben dringend sind“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-15",
+            "language": "de",
+            "question": "Erzählen Sie von einer Situation, in der Sie jemanden überzeugen mussten.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einer situation, in der sie jemanden überzeugen mussten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einer situation, in der sie jemanden überzeugen mussten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-16",
+            "language": "de",
+            "question": "Wie haben Sie in der Vergangenheit mit schwierigen Kollegen oder Vorgesetzten gearbeitet?",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „haben sie in der vergangenheit mit schwierigen kollegen oder vorgesetzten gearbeitet“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „haben sie in der vergangenheit mit schwierigen kollegen oder vorgesetzten gearbeitet“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-17",
+            "language": "de",
+            "question": "Beschreiben Sie eine Situation, in der Sie schnell etwas Neues lernen mussten.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie eine situation, in der sie schnell etwas neues lernen mussten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie eine situation, in der sie schnell etwas neues lernen mussten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-18",
+            "language": "de",
+            "question": "Erzählen Sie von einem Projekt, das nicht wie geplant verlief.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einem projekt, das nicht wie geplant verlief“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „erzählen sie von einem projekt, das nicht wie geplant verlief“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-19",
+            "language": "de",
+            "question": "Wie gehen Sie mit Unklarheiten in Anforderungen um?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „gehen sie mit unklarheiten in anforderungen um“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „gehen sie mit unklarheiten in anforderungen um“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-20",
+            "language": "de",
+            "question": "Was würden Sie tun, wenn zwei Vorgesetzte widersprüchliche Prioritäten setzen?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn zwei vorgesetzte widersprüchliche prioritäten setzen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn zwei vorgesetzte widersprüchliche prioritäten setzen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-21",
+            "language": "de",
+            "question": "Wie würden Sie reagieren, wenn Sie einen Fehler vor dem Team eingestehen müssten?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie reagieren, wenn sie einen fehler vor dem team eingestehen müssten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie reagieren, wenn sie einen fehler vor dem team eingestehen müssten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-22",
+            "language": "de",
+            "question": "Was würden Sie tun, wenn ein wichtiger Termin kurzfristig verschoben wird?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn ein wichtiger termin kurzfristig verschoben wird“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn ein wichtiger termin kurzfristig verschoben wird“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-23",
+            "language": "de",
+            "question": "Wie würden Sie mit einem unzufriedenen Kunden oder Kollegen umgehen?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie mit einem unzufriedenen kunden oder kollegen umgehen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie mit einem unzufriedenen kunden oder kollegen umgehen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-24",
+            "language": "de",
+            "question": "Was würden Sie tun, wenn Ihnen Ressourcen für eine Aufgabe fehlen?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn ihnen ressourcen für eine aufgabe fehlen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn ihnen ressourcen für eine aufgabe fehlen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-25",
+            "language": "de",
+            "question": "Wie würden Sie vorgehen, wenn Sie merken, dass eine Frist nicht einhaltbar ist?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie vorgehen, wenn sie merken, dass eine frist nicht einhaltbar ist“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie vorgehen, wenn sie merken, dass eine frist nicht einhaltbar ist“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-26",
+            "language": "de",
+            "question": "Was würden Sie tun, wenn ein Teammitglied seine Aufgaben regelmäßig nicht erfüllt?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn ein teammitglied seine aufgaben regelmäßig nicht erfüllt“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn ein teammitglied seine aufgaben regelmäßig nicht erfüllt“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-27",
+            "language": "de",
+            "question": "Wie würden Sie eine schwierige Entscheidung ohne vollständige Informationen treffen?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie eine schwierige entscheidung ohne vollständige informationen treffen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „würden sie eine schwierige entscheidung ohne vollständige informationen treffen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-28",
+            "language": "de",
+            "question": "Was würden Sie tun, wenn Sie ethisch bedenkliche Anweisungen erhalten?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn sie ethisch bedenkliche anweisungen erhalten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „was würden sie tun, wenn sie ethisch bedenkliche anweisungen erhalten“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-29",
+            "language": "de",
+            "question": "Wie strukturieren Sie Ihren Arbeitstag für maximale Produktivität?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „strukturieren sie ihren arbeitstag für maximale produktivität“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „strukturieren sie ihren arbeitstag für maximale produktivität“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „strukturieren sie ihren arbeitstag für maximale produktivität“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-30",
+            "language": "de",
+            "question": "Welche Tools nutzen Sie zur Organisation und Dokumentation Ihrer Arbeit?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „welche tools nutzen sie zur organisation und dokumentation ihrer arbeit“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „welche tools nutzen sie zur organisation und dokumentation ihrer arbeit“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „welche tools nutzen sie zur organisation und dokumentation ihrer arbeit“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-31",
+            "language": "de",
+            "question": "Wie bereiten Sie sich auf wichtige Meetings vor?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „bereiten sie sich auf wichtige meetings vor“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „bereiten sie sich auf wichtige meetings vor“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „bereiten sie sich auf wichtige meetings vor“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-32",
+            "language": "de",
+            "question": "Wie stellen Sie sicher, dass Sie Anforderungen richtig verstanden haben?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „stellen sie sicher, dass sie anforderungen richtig verstanden haben“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „stellen sie sicher, dass sie anforderungen richtig verstanden haben“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „stellen sie sicher, dass sie anforderungen richtig verstanden haben“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-33",
+            "language": "de",
+            "question": "Wie dokumentieren Sie Entscheidungen für Ihr Team?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „dokumentieren sie entscheidungen für ihr team“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „dokumentieren sie entscheidungen für ihr team“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „dokumentieren sie entscheidungen für ihr team“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-34",
+            "language": "de",
+            "question": "Wie gehen Sie bei der Einarbeitung in ein neues Team vor?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „gehen sie bei der einarbeitung in ein neues team vor“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „gehen sie bei der einarbeitung in ein neues team vor“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „gehen sie bei der einarbeitung in ein neues team vor“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-35",
+            "language": "de",
+            "question": "Wie messen Sie den Erfolg Ihrer eigenen Arbeit?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „messen sie den erfolg ihrer eigenen arbeit“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „messen sie den erfolg ihrer eigenen arbeit“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „messen sie den erfolg ihrer eigenen arbeit“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-36",
+            "language": "de",
+            "question": "Wie kommunizieren Sie komplexe Themen verständlich?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „kommunizieren sie komplexe themen verständlich“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „kommunizieren sie komplexe themen verständlich“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „kommunizieren sie komplexe themen verständlich“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-37",
+            "language": "de",
+            "question": "Wie gehen Sie mit Remote- oder hybriden Arbeitsmodellen um?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „gehen sie mit remote- oder hybriden arbeitsmodellen um“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „gehen sie mit remote- oder hybriden arbeitsmodellen um“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „gehen sie mit remote- oder hybriden arbeitsmodellen um“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-38",
+            "language": "de",
+            "question": "Wie halten Sie Ihr Fachwissen aktuell?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „halten sie ihr fachwissen aktuell“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „halten sie ihr fachwissen aktuell“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „halten sie ihr fachwissen aktuell“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-39",
+            "language": "de",
+            "question": "Wie gehen Sie mit vertraulichen Informationen um?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „gehen sie mit vertraulichen informationen um“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „gehen sie mit vertraulichen informationen um“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „gehen sie mit vertraulichen informationen um“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-40",
+            "language": "de",
+            "question": "Wie würden Sie ein neues Projekt in den ersten 30 Tagen angehen?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „würden sie ein neues projekt in den ersten 30 tagen angehen“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „würden sie ein neues projekt in den ersten 30 tagen angehen“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „würden sie ein neues projekt in den ersten 30 tagen angehen“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-41",
+            "language": "de",
+            "question": "Was bedeutet gute Teamarbeit für Sie?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „was bedeutet gute teamarbeit für sie“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-42",
+            "language": "de",
+            "question": "Welche Art von Führungskraft bringt das Beste in Ihnen hervor?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „welche art von führungskraft bringt das beste in ihnen hervor“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-43",
+            "language": "de",
+            "question": "Welche Werte sind Ihnen am Arbeitsplatz am wichtigsten?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „welche werte sind ihnen am arbeitsplatz am wichtigsten“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-44",
+            "language": "de",
+            "question": "Wie würden Sie Ihren Kommunikationsstil beschreiben?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „würden sie ihren kommunikationsstil beschreiben“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-45",
+            "language": "de",
+            "question": "Warum suchen Sie gerade nach einer neuen Stelle?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „suchen sie gerade nach einer neuen stelle“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-46",
+            "language": "de",
+            "question": "Was würden Ihre Kollegen über die Zusammenarbeit mit Ihnen sagen?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „was würden ihre kollegen über die zusammenarbeit mit ihnen sagen“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-47",
+            "language": "de",
+            "question": "Welche Fragen haben Sie an uns?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „welche fragen haben sie an uns“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-48",
+            "language": "de",
+            "question": "Warum sollten wir Sie einstellen?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Kernaussage",
+                "Begründung",
+                "Beispiel",
+                "Rollenbezug"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Klare Position zu „sollten wir sie einstellen“, Begründung, kurzes Beispiel, Bezug zur Stelle.",
+            "detailed_answer": "## Kernaussage\nEine klare Antwort auf die Frage.\n\n## Begründung\n2–3 fachliche oder organisatorische Argumente.\n\n## Beispiel\nKurzer Fall aus Studium, Beruf oder Projekt.\n\n## Bezug zur Rolle\nWarum das für den Arbeitgeber relevant ist.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-49",
+            "language": "de",
+            "question": "Wie gehen Sie mit Routineaufgaben um, ohne die Qualität zu verlieren?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Warum relevant",
+                "Beispiel / Ablauf",
+                "Grenzen / Trade-offs"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Kurzdefinition\nErklären Sie „gehen sie mit routineaufgaben um, ohne die qualität zu verlieren“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Definition in einem Satz, dann warum es wichtig ist, dann ein praxisnahes Beispiel zu „gehen sie mit routineaufgaben um, ohne die qualität zu verlieren“.",
+            "detailed_answer": "## Kurzdefinition\nErklären Sie „gehen sie mit routineaufgaben um, ohne die qualität zu verlieren“ so, dass auch ein fachfremder Stakeholder folgt.\n\n## Warum es zählt\n- Risiko oder Kosten, die es reduziert\n- Qualität / Sicherheit / Lieferfähigkeit\n\n## Praxisbeispiel\nSchildern Sie einen konkreten Ablauf (Input → Schritte → Output → Kontrolle).\n\n## Abgrenzung\nNennen Sie 1–2 verwandte Begriffe und den Unterschied.",
+            "visibility": "universal"
+        },
+        {
+            "slug": "de-50",
+            "language": "de",
+            "question": "Beschreiben Sie, wie Sie Vertrauen bei neuen Kollegen aufbauen.",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Personalverantwortliche nutzen diese Frage, um Ihre Motivation, Arbeitsweise und Passung zur Rolle einzuschätzen.",
+            "strong_answer_covers": [
+                "Klare Struktur",
+                "Konkretes Beispiel oder Vorgehen",
+                "Ergebnis oder Lernerfolg",
+                "Bezug zur ausgeschriebenen Stelle"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Aufgabe",
+                "Handlung",
+                "Ergebnis",
+                "Transfer zur Rolle"
+            ],
+            "common_mistakes": "Unklare Antworten, Schuldzuweisungen oder fehlender Bezug zur Rolle.",
+            "example_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie, wie sie vertrauen bei neuen kollegen aufbauen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "is_universal": true,
+            "category": "german_hr",
+            "skills": [
+                "communication",
+                "adaptability"
+            ],
+            "stages": [
+                "hr_screen",
+                "hiring_manager"
+            ],
+            "levels": [
+                "internship",
+                "working_student",
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "short_answer": "Kurz mit STAR: Situation, Aufgabe, Handlung, Ergebnis — und was Sie daraus für diese Rolle mitnehmen.",
+            "detailed_answer": "## Struktur (STAR)\n1. **Situation** — Kontext in 1–2 Sätzen\n2. **Aufgabe** — Ihre Verantwortung\n3. **Handlung** — konkrete Schritte, Tools, Stakeholder\n4. **Ergebnis** — messbarer Effekt + Lernen\n\n## Beispielrichtung\nWählen Sie ein reales Beispiel zu „beschreiben sie, wie sie vertrauen bei neuen kollegen aufbauen“. Nennen Sie Zahlen wo möglich (Zeit, Fehlerquote, Kosten, Zufriedenheit). Schließen Sie mit: „Deshalb würde ich in dieser Rolle …“",
+            "visibility": "universal"
+        }
+    ]
+}

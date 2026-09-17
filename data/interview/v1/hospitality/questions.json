@@ -1,0 +1,2404 @@
+{
+    "questions": [
+        {
+            "slug": "hospitality-1",
+            "language": "en",
+            "question": "How do you ensure consistent guest service standards across all shifts?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-2",
+            "language": "en",
+            "question": "What would you do if a VIP guest complained about room cleanliness on arrival?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-3",
+            "language": "en",
+            "question": "Describe your approach to daily pre-shift briefings with front desk and housekeeping.",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-4",
+            "language": "en",
+            "question": "How do you handle overbooking when the hotel is at full capacity?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-5",
+            "language": "en",
+            "question": "Explain how you monitor guest satisfaction scores and act on trends.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-6",
+            "language": "en",
+            "question": "What would you do if a staff member was rude to a guest in the lobby?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-7",
+            "language": "en",
+            "question": "How do you coordinate housekeeping turnaround during peak checkout hours?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-8",
+            "language": "en",
+            "question": "Describe managing a large group check-in during a conference.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-9",
+            "language": "en",
+            "question": "How do you train new front desk staff on upselling and guest relations?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-10",
+            "language": "en",
+            "question": "What would you do if a guest reported a safety concern in their room?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-11",
+            "language": "en",
+            "question": "How do you balance cost control with maintaining service quality?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-12",
+            "language": "en",
+            "question": "Explain your approach to resolving billing disputes at checkout.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-13",
+            "language": "en",
+            "question": "How do you prepare the team for a sudden surge in occupancy?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-14",
+            "language": "en",
+            "question": "Describe handling a guest with special accessibility needs.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-15",
+            "language": "en",
+            "question": "What would you do if kitchen delays caused restaurant complaints?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-16",
+            "language": "en",
+            "question": "How do you conduct performance reviews for hospitality staff?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-17",
+            "language": "en",
+            "question": "Explain how you manage inventory for linens, amenities, and minibar stock.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-18",
+            "language": "en",
+            "question": "How do you ensure food safety and hygiene standards are followed?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-19",
+            "language": "en",
+            "question": "Describe creating a welcoming experience for international guests.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-20",
+            "language": "en",
+            "question": "What would you do if a guest requested compensation beyond your authority?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-21",
+            "language": "en",
+            "question": "How do you coordinate with maintenance for urgent room repairs?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-22",
+            "language": "en",
+            "question": "Explain your approach to revenue management at a high level.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-23",
+            "language": "en",
+            "question": "How do you handle confidential guest information and privacy requests?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-24",
+            "language": "en",
+            "question": "Describe managing staff scheduling during holiday peak periods.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-25",
+            "language": "en",
+            "question": "What would you do if two guests disputed room assignment priority?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-26",
+            "language": "en",
+            "question": "How do you foster a culture where staff proactively solve guest problems?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-27",
+            "language": "en",
+            "question": "Explain how you inspect rooms before VIP arrivals.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-28",
+            "language": "en",
+            "question": "How do you partner with local businesses for guest experiences?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-29",
+            "language": "en",
+            "question": "Describe recovering service after a power outage affected guest stays.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-30",
+            "language": "en",
+            "question": "What would you do if online reviews suddenly turned negative?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-31",
+            "language": "en",
+            "question": "How do you manage conflict between front desk and housekeeping teams?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-32",
+            "language": "en",
+            "question": "Explain your approach to loyalty program benefits and guest recognition.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-33",
+            "language": "en",
+            "question": "How do you ensure fire safety and evacuation procedures are current?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-34",
+            "language": "en",
+            "question": "Describe onboarding seasonal staff quickly without quality drops.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-35",
+            "language": "en",
+            "question": "What would you do if a guest reported theft from their room?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-36",
+            "language": "en",
+            "question": "How do you set service recovery standards for your team?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-37",
+            "language": "en",
+            "question": "Explain how you analyze occupancy and ADR trends for management reports.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-38",
+            "language": "en",
+            "question": "How do you handle a wedding party with complex logistics and timing?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-39",
+            "language": "en",
+            "question": "Describe managing noise complaints between guests on the same floor.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-40",
+            "language": "en",
+            "question": "What would you do if health inspectors arrived unannounced?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-41",
+            "language": "en",
+            "question": "How do you maintain morale during long high-season weeks?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-42",
+            "language": "en",
+            "question": "Explain your approach to sustainable practices in hotel operations.",
+            "question_type": "industry_specific",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-43",
+            "language": "en",
+            "question": "How do you coordinate banquet setup with event clients and kitchen staff?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-44",
+            "language": "en",
+            "question": "Describe a time you improved guest feedback through a process change.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-45",
+            "language": "en",
+            "question": "What would you do if a key department head resigned during peak season?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-46",
+            "language": "en",
+            "question": "How do you ensure consistent brand standards across property areas?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-47",
+            "language": "en",
+            "question": "Explain how you handle guest requests that push policy boundaries.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-48",
+            "language": "en",
+            "question": "How do you prepare monthly operational reviews for ownership?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-49",
+            "language": "en",
+            "question": "Describe leading the team through a major renovation while staying open.",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        },
+        {
+            "slug": "hospitality-50",
+            "language": "en",
+            "question": "What would you do if a supplier delivery failure affected guest amenities?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "hospitality"
+            ],
+            "occupations": [
+                "hotel-manager"
+            ],
+            "skills": [
+                "hospitality-service",
+                "customer-service",
+                "communication",
+                "leadership"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "hospitality"
+        }
+    ]
+}

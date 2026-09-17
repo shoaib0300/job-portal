@@ -1,0 +1,2404 @@
+{
+    "questions": [
+        {
+            "slug": "engineering-1",
+            "language": "en",
+            "question": "Walk me through how you approach diagnosing an unexpected equipment failure.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-2",
+            "language": "en",
+            "question": "How do you validate a design before releasing drawings to manufacturing?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-3",
+            "language": "en",
+            "question": "What would you do if test results contradicted your theoretical model?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-4",
+            "language": "en",
+            "question": "Explain how you perform a root-cause analysis on a production defect.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-5",
+            "language": "en",
+            "question": "How do you balance design optimization with manufacturing constraints?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-6",
+            "language": "en",
+            "question": "Describe your process for reviewing tolerance stack-ups in an assembly.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-7",
+            "language": "en",
+            "question": "What would you do if a client changed specifications late in development?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-8",
+            "language": "en",
+            "question": "How do you document design decisions for future maintenance teams?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-9",
+            "language": "en",
+            "question": "Explain how you select materials for a high-temperature application.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-10",
+            "language": "en",
+            "question": "How do you coordinate with suppliers on prototype lead times?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-11",
+            "language": "en",
+            "question": "What would you do if a safety-critical component failed validation testing?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-12",
+            "language": "en",
+            "question": "Describe using FEA or simulation tools in your design workflow.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-13",
+            "language": "en",
+            "question": "How do you manage engineering change orders without disrupting production?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-14",
+            "language": "en",
+            "question": "Explain your approach to design for manufacturability reviews.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-15",
+            "language": "en",
+            "question": "What would you do if production reported recurring assembly fit issues?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-16",
+            "language": "en",
+            "question": "How do you estimate project timelines for a new product development cycle?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-17",
+            "language": "en",
+            "question": "Describe conducting a design review with cross-functional stakeholders.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-18",
+            "language": "en",
+            "question": "How do you ensure compliance with relevant industry standards?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-19",
+            "language": "en",
+            "question": "What would you do if cost targets required redesigning a proven solution?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-20",
+            "language": "en",
+            "question": "Explain how you prioritize reliability versus weight in mechanical design.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-21",
+            "language": "en",
+            "question": "How do you hand over technical documentation to the operations team?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-22",
+            "language": "en",
+            "question": "Describe troubleshooting vibration issues in rotating machinery.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-23",
+            "language": "en",
+            "question": "What would you do if a vendor delivered non-conforming parts?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-24",
+            "language": "en",
+            "question": "How do you plan and track milestones in an engineering project?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-25",
+            "language": "en",
+            "question": "Explain your approach to failure mode and effects analysis.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-26",
+            "language": "en",
+            "question": "How do you communicate technical trade-offs to non-engineering managers?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-27",
+            "language": "en",
+            "question": "What would you do if field service reported a pattern of early wear failures?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-28",
+            "language": "en",
+            "question": "Describe improving a legacy design without a full product redesign.",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-29",
+            "language": "en",
+            "question": "How do you verify that prototypes meet performance requirements?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-30",
+            "language": "en",
+            "question": "Explain how you manage version control for CAD files and specifications.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-31",
+            "language": "en",
+            "question": "What would you do if two design alternatives had equal merit on paper?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-32",
+            "language": "en",
+            "question": "How do you support production ramp-up after design release?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-33",
+            "language": "en",
+            "question": "Describe applying lean principles to reduce engineering rework.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-34",
+            "language": "en",
+            "question": "How do you assess risk when introducing a new manufacturing process?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-35",
+            "language": "en",
+            "question": "What would you do if an audit found gaps in your technical documentation?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-36",
+            "language": "en",
+            "question": "Explain how you calculate safety factors for structural components.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-37",
+            "language": "en",
+            "question": "How do you mentor junior engineers on drawing standards and review quality?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-38",
+            "language": "en",
+            "question": "Describe coordinating with electrical or software teams on an integrated product.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-39",
+            "language": "en",
+            "question": "What would you do if accelerated testing revealed unexpected fatigue issues?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-40",
+            "language": "en",
+            "question": "How do you prepare technical reports for management decision-making?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-41",
+            "language": "en",
+            "question": "Explain your approach to cost estimation for machined versus cast parts.",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-42",
+            "language": "en",
+            "question": "How do you ensure maintainability is designed into equipment from the start?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-43",
+            "language": "en",
+            "question": "Describe managing a corrective action after a customer quality complaint.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-44",
+            "language": "en",
+            "question": "What would you do if shop floor feedback challenged your design assumptions?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-45",
+            "language": "en",
+            "question": "How do you stay current with advances in materials and manufacturing?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-46",
+            "language": "en",
+            "question": "Explain how you define acceptance criteria for incoming inspection.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-47",
+            "language": "en",
+            "question": "How do you lead a value engineering workshop?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-48",
+            "language": "en",
+            "question": "Describe presenting design options with clear pros and cons to stakeholders.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-49",
+            "language": "en",
+            "question": "What would you do if project scope expanded without additional resources?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        },
+        {
+            "slug": "engineering-50",
+            "language": "en",
+            "question": "How do you close an engineering project and capture lessons learned?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "engineering"
+            ],
+            "occupations": [
+                "mechanical-engineer"
+            ],
+            "skills": [
+                "problem-solving",
+                "analytical-thinking",
+                "quality-assurance",
+                "project-management"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "engineering"
+        }
+    ]
+}

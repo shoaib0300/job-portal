@@ -38,6 +38,10 @@ function super_layout_header(string $title): void
       <a href="/super-admin/users.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'user') ? 'active' : '' ?>">Users</a>
       <a href="/super-admin/companies.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'companies') ? 'active' : '' ?>">Companies</a>
       <a href="/super-admin/jobs.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'jobs') ? 'active' : '' ?>">Jobs</a>
+      <div class="small text-uppercase mt-3 mb-1" style="color:#8b919a;letter-spacing:.04em">Interview Prep</div>
+      <a href="/super-admin/interview-questions.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'interview-questions') ? 'active' : '' ?>">Questions</a>
+      <a href="/super-admin/interview-review.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'interview-review') ? 'active' : '' ?>">Review queue</a>
+      <a href="/super-admin/interview-taxonomy.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'interview-taxonomy') ? 'active' : '' ?>">Taxonomy</a>
       <a href="/super-admin/settings.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'settings') ? 'active' : '' ?>">Settings</a>
       <a href="/super-admin/logout.php">Log out</a>
       <?php if ($admin): ?>

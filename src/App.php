@@ -1597,6 +1597,8 @@ final class App
             'saved-jobs.php' => 'saved-jobs',
             'companies.php' => 'companies',
             'applications.php', 'history.php' => 'applications',
+            'interview-prep.php', 'interview-prep-question.php', 'interview-prep-match.php',
+            'interview-prep-import.php', 'interview-prep-mine.php', 'interview-prep-taxonomy.php' => 'interview',
             'app-docs.php', 'app-doc-file.php', 'app-package.php' => 'app-docs',
             'documents.php', 'editor.php', 'resume-edit.php', 'design.php' => 'resume',
             'cover.php', 'cover-edit.php', 'cover-design.php' => 'cover',

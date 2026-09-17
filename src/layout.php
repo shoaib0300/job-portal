@@ -269,6 +269,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'saved-jobs', 'href' => '/saved-jobs', 'label' => 'Saved jobs', 'icon' => 'bookmark'],
         ['key' => 'companies', 'href' => '/companies', 'label' => 'Companies', 'icon' => 'company'],
         ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
+        ['key' => 'interview', 'href' => '/interview-prep', 'label' => 'Interview prep', 'icon' => 'spark'],
         ['key' => 'app-docs', 'href' => '/app-docs', 'label' => 'Documents', 'icon' => 'doc'],
         ['key' => 'resume', 'href' => '/documents', 'label' => 'My Resumes', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover', 'label' => 'My Covers', 'icon' => 'letter'],

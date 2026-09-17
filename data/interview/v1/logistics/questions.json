@@ -1,0 +1,2454 @@
+{
+    "questions": [
+        {
+            "slug": "logistics-1",
+            "language": "en",
+            "question": "How do you prioritize outbound shipments on a busy day?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-2",
+            "language": "en",
+            "question": "What would you do if a carrier missed a pickup window?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-3",
+            "language": "en",
+            "question": "Explain safety stock and when you increase it.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-4",
+            "language": "en",
+            "question": "How do you track OTIF and act on it?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-5",
+            "language": "en",
+            "question": "Describe coordinating inbound and outbound to avoid congestion.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-6",
+            "language": "en",
+            "question": "What would you do if inventory counts do not match the system?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-7",
+            "language": "en",
+            "question": "How do you choose between air and ocean freight?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-8",
+            "language": "en",
+            "question": "Describe communicating a delay to a customer.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-9",
+            "language": "en",
+            "question": "How do you plan warehouse slotting for fast movers?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-10",
+            "language": "en",
+            "question": "What KPIs matter in warehouse operations?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-11",
+            "language": "en",
+            "question": "How do you handle a damaged shipment claim?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-12",
+            "language": "en",
+            "question": "Describe improving a picking process.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-13",
+            "language": "en",
+            "question": "What would you do if two urgent orders competed for the same stock?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-14",
+            "language": "en",
+            "question": "How do you collaborate with procurement on lead times?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-15",
+            "language": "en",
+            "question": "Explain Incoterms at a high level and why they matter.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-16",
+            "language": "en",
+            "question": "How do you prepare for peak season?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-17",
+            "language": "en",
+            "question": "Describe using WMS or TMS in your work.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-18",
+            "language": "en",
+            "question": "How do you reduce transport costs without harming service?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-19",
+            "language": "en",
+            "question": "What safety practices do you enforce in a warehouse?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-20",
+            "language": "en",
+            "question": "How do you manage reverse logistics?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-21",
+            "language": "en",
+            "question": "Describe resolving a customs documentation issue.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-22",
+            "language": "en",
+            "question": "How do you escalate chronic supplier delays?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-23",
+            "language": "en",
+            "question": "What is your approach to route planning?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-24",
+            "language": "en",
+            "question": "How do you ensure cold-chain integrity when relevant?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-25",
+            "language": "en",
+            "question": "Describe cross-docking and when it helps.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-26",
+            "language": "en",
+            "question": "How do you onboard a new carrier?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-27",
+            "language": "en",
+            "question": "What would you do if a system outage hit during dispatch?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-28",
+            "language": "en",
+            "question": "How do you balance inventory cost and availability?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-29",
+            "language": "en",
+            "question": "Describe root-cause analysis after a misshipment.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-30",
+            "language": "en",
+            "question": "How do you communicate SLAs internally?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-31",
+            "language": "en",
+            "question": "What data do you need before promising a delivery date?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-32",
+            "language": "en",
+            "question": "How do you handle hazardous materials compliance at a high level?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-33",
+            "language": "en",
+            "question": "Describe coordinating with production planning.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-34",
+            "language": "en",
+            "question": "How do you measure picking accuracy?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-35",
+            "language": "en",
+            "question": "What would you do if a key warehouse employee called in sick on peak day?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-36",
+            "language": "en",
+            "question": "How do you document SOPs so new staff can follow them?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-37",
+            "language": "en",
+            "question": "Describe a cost-saving initiative in logistics.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-38",
+            "language": "en",
+            "question": "How do you manage multi-stop deliveries?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-39",
+            "language": "en",
+            "question": "What risks appear in single-sourcing a carrier?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-40",
+            "language": "en",
+            "question": "How do you prepare for an audit of warehouse processes?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-41",
+            "language": "en",
+            "question": "Describe using Excel or dashboards for logistics KPIs.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-42",
+            "language": "en",
+            "question": "How do you handle last-minute order changes?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-43",
+            "language": "en",
+            "question": "What is your approach to continuous improvement in operations?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-44",
+            "language": "en",
+            "question": "How do you coordinate returns with customer service?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-45",
+            "language": "en",
+            "question": "Describe capacity planning for a distribution center.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-46",
+            "language": "en",
+            "question": "How do you ensure accurate labeling and packaging?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-47",
+            "language": "en",
+            "question": "What would you do if fuel surcharges suddenly rose?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-48",
+            "language": "en",
+            "question": "How do you align logistics goals with sales promotions?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-49",
+            "language": "en",
+            "question": "Describe mentoring a junior coordinator.",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        },
+        {
+            "slug": "logistics-50",
+            "language": "en",
+            "question": "How do you stay calm when multiple exceptions hit at once?",
+            "question_type": "behavioral",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "logistics"
+            ],
+            "occupations": [
+                "logistics-coordinator"
+            ],
+            "skills": [
+                "logistics",
+                "supply-chain",
+                "warehousing",
+                "procurement",
+                "scheduling"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "logistics"
+        }
+    ]
+}

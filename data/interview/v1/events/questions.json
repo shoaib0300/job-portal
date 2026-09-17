@@ -1,0 +1,2654 @@
+{
+    "questions": [
+        {
+            "slug": "events-1",
+            "language": "en",
+            "question": "How do you build an event budget from a brief with limited detail?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-2",
+            "language": "en",
+            "question": "What would you do if a key vendor cancelled two weeks before the event?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-3",
+            "language": "en",
+            "question": "Describe your process for selecting and contracting caterers.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-4",
+            "language": "en",
+            "question": "How do you handle a client request that would exceed the approved budget?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-5",
+            "language": "en",
+            "question": "Explain how you create a run-of-show for a corporate conference.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-6",
+            "language": "en",
+            "question": "What would you do if severe weather threatened an outdoor event?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-7",
+            "language": "en",
+            "question": "How do you negotiate vendor pricing without compromising quality?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-8",
+            "language": "en",
+            "question": "Describe managing RSVPs and attendance forecasting.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-9",
+            "language": "en",
+            "question": "How do you track budget variance throughout event planning?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-10",
+            "language": "en",
+            "question": "What would you do if a speaker cancelled on the day of the event?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-11",
+            "language": "en",
+            "question": "How do you coordinate AV, staging, and venue logistics on one timeline?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-12",
+            "language": "en",
+            "question": "Explain your approach to contingency planning for high-profile events.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-13",
+            "language": "en",
+            "question": "How do you manage client expectations when scope expands mid-project?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-14",
+            "language": "en",
+            "question": "Describe sourcing and vetting florists, decorators, and production teams.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-15",
+            "language": "en",
+            "question": "What would you do if the venue double-booked your event date?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-16",
+            "language": "en",
+            "question": "How do you allocate budget across venue, catering, and entertainment?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-17",
+            "language": "en",
+            "question": "Explain how you handle last-minute guest count changes.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-18",
+            "language": "en",
+            "question": "How do you ensure vendor insurance and compliance requirements are met?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-19",
+            "language": "en",
+            "question": "Describe recovering from a catering failure during a live event.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-20",
+            "language": "en",
+            "question": "What KPIs do you use to measure event success for corporate clients?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-21",
+            "language": "en",
+            "question": "How do you manage multiple vendors with overlapping setup windows?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-22",
+            "language": "en",
+            "question": "What would you do if a client insisted on an unsafe setup configuration?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-23",
+            "language": "en",
+            "question": "How do you build a cancellation and refund policy into vendor contracts?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-24",
+            "language": "en",
+            "question": "Describe planning a hybrid event with in-person and virtual attendees.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-25",
+            "language": "en",
+            "question": "How do you handle a budget freeze after deposits are already paid?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-26",
+            "language": "en",
+            "question": "Explain your approach to site visits and venue risk assessment.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-27",
+            "language": "en",
+            "question": "What would you do if a sponsor pulled funding days before the event?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-28",
+            "language": "en",
+            "question": "How do you create detailed BEOs that vendors can execute reliably?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-29",
+            "language": "en",
+            "question": "Describe managing VIP arrivals and security coordination.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-30",
+            "language": "en",
+            "question": "How do you negotiate payment terms and cancellation clauses with venues?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-31",
+            "language": "en",
+            "question": "What would you do if registration systems failed on opening morning?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-32",
+            "language": "en",
+            "question": "How do you source backup vendors before they are needed?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-33",
+            "language": "en",
+            "question": "Explain how you reconcile final invoices against the original budget.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-34",
+            "language": "en",
+            "question": "How do you communicate a necessary event cancellation to stakeholders?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-35",
+            "language": "en",
+            "question": "Describe coordinating travel and accommodation for international delegates.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-36",
+            "language": "en",
+            "question": "What would you do if a vendor delivered substandard work on setup day?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-37",
+            "language": "en",
+            "question": "How do you plan catering quantities to minimize waste and cost?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-38",
+            "language": "en",
+            "question": "Explain your approach to post-event debriefs with clients and vendors.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-39",
+            "language": "en",
+            "question": "How do you manage timelines when a client delays approvals repeatedly?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-40",
+            "language": "en",
+            "question": "Describe building an emergency kit and backup plan for outdoor events.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-41",
+            "language": "en",
+            "question": "What would you do if liquor licensing requirements were not met in time?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-42",
+            "language": "en",
+            "question": "How do you evaluate ROI for a corporate product launch event?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-43",
+            "language": "en",
+            "question": "Explain how you handle force majeure clauses in vendor agreements.",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-44",
+            "language": "en",
+            "question": "How do you coordinate branding and signage across multiple vendors?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-45",
+            "language": "en",
+            "question": "What would you do if attendance fell far below forecast on event day?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-46",
+            "language": "en",
+            "question": "Describe managing a multi-day conference with rotating vendor crews.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-47",
+            "language": "en",
+            "question": "How do you coach a junior planner on budget tracking discipline?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-48",
+            "language": "en",
+            "question": "Explain your process for collecting and acting on attendee feedback.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-49",
+            "language": "en",
+            "question": "What would you do if a client requested major changes after final sign-off?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        },
+        {
+            "slug": "events-50",
+            "language": "en",
+            "question": "How do you balance creative vision with strict budget constraints?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Context",
+                "Approach",
+                "Trade-offs",
+                "Outcome"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "Share a concise, role-relevant example with a clear outcome and what you would do next.",
+            "industries": [
+                "events"
+            ],
+            "occupations": [
+                "event-planner"
+            ],
+            "skills": [
+                "event-planning",
+                "budget-management",
+                "vendor-management",
+                "logistics",
+                "client-management",
+                "contingency-planning"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "events",
+            "specializations": [
+                "corporate-events"
+            ]
+        }
+    ]
+}

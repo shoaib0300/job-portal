@@ -472,6 +472,11 @@ layout_header('Applications');
                 <a class="application-doc" href="/applications?action=edit&amp;id=<?= $appId ?>#package" title="Supporting documents">Docs <?= (int) $attCount ?></a>
               <?php endif; ?>
               <a class="application-doc" href="/applications?action=edit&amp;id=<?= $appId ?>#package" title="Application package">Package</a>
+              <a class="application-doc" href="/interview-prep-match?application=<?= $appId ?><?= $rid > 0 ? '&amp;resume=' . $rid : '' ?>" title="Prepare for interview">Interview</a>
+            </div>
+          <?php else: ?>
+            <div class="application-docs" aria-label="Interview prep">
+              <a class="application-doc" href="/interview-prep-match?application=<?= $appId ?>" title="Prepare for interview">Interview</a>
             </div>
           <?php endif; ?>
 

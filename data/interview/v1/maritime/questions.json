@@ -1,0 +1,2864 @@
+{
+    "questions": [
+        {
+            "slug": "maritime-1",
+            "language": "en",
+            "question": "How do you coordinate vessel arrival with berth availability and pilot services?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"coordinate vessel arrival with berth availability and pilot services\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"coordinate vessel arrival with berth availability and pilot services\".",
+            "detailed_answer": "## Definition\nExplain \"coordinate vessel arrival with berth availability and pilot services\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-2",
+            "language": "en",
+            "question": "What would you do if a vessel reported a safety incident while still at sea?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a vessel reported a safety incident while still at sea\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a vessel reported a safety incident while still at sea\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-3",
+            "language": "en",
+            "question": "Explain how you prioritize cargo discharge when multiple vessels queue at the port.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"how you prioritize cargo discharge when multiple vessels queue at the port\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"how you prioritize cargo discharge when multiple vessels queue at the port\".",
+            "detailed_answer": "## Definition\nExplain \"how you prioritize cargo discharge when multiple vessels queue at the port\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-4",
+            "language": "en",
+            "question": "How do you ensure compliance with ISM and ISPS requirements in daily operations?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"ensure compliance with ism and isps requirements in daily operations\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-5",
+            "language": "en",
+            "question": "Describe your approach to berth planning during peak shipping season.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to berth planning during peak shipping season\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to berth planning during peak shipping season\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to berth planning during peak shipping season\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-6",
+            "language": "en",
+            "question": "What would you do if a port crane failed during a critical vessel turnaround?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a port crane failed during a critical vessel turnaround\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a port crane failed during a critical vessel turnaround\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-7",
+            "language": "en",
+            "question": "How do you communicate schedule changes to ship agents and terminal operators?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"communicate schedule changes to ship agents and terminal operators\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"communicate schedule changes to ship agents and terminal operators\".",
+            "detailed_answer": "## Definition\nExplain \"communicate schedule changes to ship agents and terminal operators\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-8",
+            "language": "en",
+            "question": "Explain the key steps in a safe vessel mooring operation.",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"the key steps in a safe vessel mooring operation\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-9",
+            "language": "en",
+            "question": "How do you manage documentation for customs and port authority clearance?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"manage documentation for customs and port authority clearance\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-10",
+            "language": "en",
+            "question": "Describe coordinating bunkering alongside cargo operations.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"coordinating bunkering alongside cargo operations\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"coordinating bunkering alongside cargo operations\".",
+            "detailed_answer": "## Definition\nExplain \"coordinating bunkering alongside cargo operations\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-11",
+            "language": "en",
+            "question": "What would you do if weather conditions delayed pilot boarding?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if weather conditions delayed pilot boarding\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if weather conditions delayed pilot boarding\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-12",
+            "language": "en",
+            "question": "How do you monitor vessel performance against voyage schedules?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"monitor vessel performance against voyage schedules\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"monitor vessel performance against voyage schedules\".",
+            "detailed_answer": "## Definition\nExplain \"monitor vessel performance against voyage schedules\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-13",
+            "language": "en",
+            "question": "Explain how you handle hazardous cargo segregation requirements.",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"how you handle hazardous cargo segregation requirements\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-14",
+            "language": "en",
+            "question": "How do you resolve conflicts between vessel masters and shore-side teams?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"resolve conflicts between vessel masters and shore-side teams\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"resolve conflicts between vessel masters and shore-side teams\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-15",
+            "language": "en",
+            "question": "Describe your process for investigating a near-miss on the quay.",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"your process for investigating a near-miss on the quay\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-16",
+            "language": "en",
+            "question": "What KPIs do you track for port throughput and vessel turnaround?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"what kpis do you track for port throughput and vessel turnaround\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"what kpis do you track for port throughput and vessel turnaround\".",
+            "detailed_answer": "## Definition\nExplain \"what kpis do you track for port throughput and vessel turnaround\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-17",
+            "language": "en",
+            "question": "How do you plan maintenance windows without disrupting shipping schedules?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"plan maintenance windows without disrupting shipping schedules\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"plan maintenance windows without disrupting shipping schedules\".",
+            "detailed_answer": "## Definition\nExplain \"plan maintenance windows without disrupting shipping schedules\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-18",
+            "language": "en",
+            "question": "What would you do if a stowaway was discovered during vessel inspection?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a stowaway was discovered during vessel inspection\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a stowaway was discovered during vessel inspection\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-19",
+            "language": "en",
+            "question": "How do you ensure tug and pilot services are booked efficiently?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"ensure tug and pilot services are booked efficiently\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"ensure tug and pilot services are booked efficiently\".",
+            "detailed_answer": "## Definition\nExplain \"ensure tug and pilot services are booked efficiently\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-20",
+            "language": "en",
+            "question": "Describe coordinating container yard moves with vessel loading sequences.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"coordinating container yard moves with vessel loading sequences\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"coordinating container yard moves with vessel loading sequences\".",
+            "detailed_answer": "## Definition\nExplain \"coordinating container yard moves with vessel loading sequences\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-21",
+            "language": "en",
+            "question": "How do you handle a vessel detention due to safety deficiencies?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"handle a vessel detention due to safety deficiencies\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-22",
+            "language": "en",
+            "question": "Explain ballast water management requirements you enforce at port.",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"ballast water management requirements you enforce at port\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-23",
+            "language": "en",
+            "question": "What would you do if two vessels competed for the same berth slot?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if two vessels competed for the same berth slot\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if two vessels competed for the same berth slot\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-24",
+            "language": "en",
+            "question": "How do you conduct a pre-arrival risk assessment for a new vessel type?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"conduct a pre-arrival risk assessment for a new vessel type\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-25",
+            "language": "en",
+            "question": "Describe improving communication between the control room and stevedores.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"improving communication between the control room and stevedores\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"improving communication between the control room and stevedores\".",
+            "detailed_answer": "## Definition\nExplain \"improving communication between the control room and stevedores\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-26",
+            "language": "en",
+            "question": "How do you manage crew change logistics at a busy terminal?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"manage crew change logistics at a busy terminal\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"manage crew change logistics at a busy terminal\".",
+            "detailed_answer": "## Definition\nExplain \"manage crew change logistics at a busy terminal\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-27",
+            "language": "en",
+            "question": "What is your approach to reducing idle time at anchorage?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"your approach to reducing idle time at anchorage\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-28",
+            "language": "en",
+            "question": "How do you verify that lashing and securing meet safety standards?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"verify that lashing and securing meet safety standards\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-29",
+            "language": "en",
+            "question": "Describe handling a pollution incident in the port area.",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"handling a pollution incident in the port area\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-30",
+            "language": "en",
+            "question": "What would you do if a charter party deadline conflicted with port congestion?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a charter party deadline conflicted with port congestion\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a charter party deadline conflicted with port congestion\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-31",
+            "language": "en",
+            "question": "How do you coordinate with coast guard and maritime authorities during inspections?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"coordinate with coast guard and maritime authorities during inspections\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-32",
+            "language": "en",
+            "question": "Explain how you use AIS and port systems to track vessel movements.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"how you use ais and port systems to track vessel movements\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"how you use ais and port systems to track vessel movements\".",
+            "detailed_answer": "## Definition\nExplain \"how you use ais and port systems to track vessel movements\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-33",
+            "language": "en",
+            "question": "How do you train terminal staff on emergency muster procedures?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"train terminal staff on emergency muster procedures\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-34",
+            "language": "en",
+            "question": "Describe managing laytime and demurrage disputes at a high level.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"managing laytime and demurrage disputes at a high level\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"managing laytime and demurrage disputes at a high level\".",
+            "detailed_answer": "## Definition\nExplain \"managing laytime and demurrage disputes at a high level\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-35",
+            "language": "en",
+            "question": "What would you do if cargo damage was reported during discharge?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if cargo damage was reported during discharge\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if cargo damage was reported during discharge\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-36",
+            "language": "en",
+            "question": "How do you ensure safe working practices during night operations?",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"ensure safe working practices during night operations\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-37",
+            "language": "en",
+            "question": "Explain your approach to winter navigation and ice-class vessel handling.",
+            "question_type": "industry_specific",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"your approach to winter navigation and ice-class vessel handling\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-38",
+            "language": "en",
+            "question": "How do you balance cost efficiency with safety margins in scheduling?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"balance cost efficiency with safety margins in scheduling\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-39",
+            "language": "en",
+            "question": "Describe coordinating multi-modal handover from vessel to rail or truck.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"coordinating multi-modal handover from vessel to rail or truck\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"coordinating multi-modal handover from vessel to rail or truck\".",
+            "detailed_answer": "## Definition\nExplain \"coordinating multi-modal handover from vessel to rail or truck\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-40",
+            "language": "en",
+            "question": "What would you do if a vessel master refused to follow port safety directives?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a vessel master refused to follow port safety directives\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a vessel master refused to follow port safety directives\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-41",
+            "language": "en",
+            "question": "How do you prepare for a port state control inspection?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"prepare for a port state control inspection\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-42",
+            "language": "en",
+            "question": "Explain how you manage stakeholder updates during a prolonged vessel delay.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"how you manage stakeholder updates during a prolonged vessel delay\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"how you manage stakeholder updates during a prolonged vessel delay\".",
+            "detailed_answer": "## Definition\nExplain \"how you manage stakeholder updates during a prolonged vessel delay\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-43",
+            "language": "en",
+            "question": "How do you assess contractor performance for stevedoring services?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"assess contractor performance for stevedoring services\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"assess contractor performance for stevedoring services\".",
+            "detailed_answer": "## Definition\nExplain \"assess contractor performance for stevedoring services\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-44",
+            "language": "en",
+            "question": "Describe implementing a safety observation program on the quay.",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"implementing a safety observation program on the quay\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-45",
+            "language": "en",
+            "question": "What would you do if manifest data did not match physical cargo on board?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if manifest data did not match physical cargo on board\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if manifest data did not match physical cargo on board\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-46",
+            "language": "en",
+            "question": "How do you optimize berth allocation for mixed cargo and container vessels?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"optimize berth allocation for mixed cargo and container vessels\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"optimize berth allocation for mixed cargo and container vessels\".",
+            "detailed_answer": "## Definition\nExplain \"optimize berth allocation for mixed cargo and container vessels\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-47",
+            "language": "en",
+            "question": "Explain your role in emergency response drills with vessel crews.",
+            "question_type": "safety",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"your role in emergency response drills with vessel crews\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-48",
+            "language": "en",
+            "question": "How do you document lessons learned after a complex port call?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"document lessons learned after a complex port call\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"document lessons learned after a complex port call\".",
+            "detailed_answer": "## Definition\nExplain \"document lessons learned after a complex port call\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-49",
+            "language": "en",
+            "question": "Describe leading a cross-functional team during a major port expansion project.",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"leading a cross-functional team during a major port expansion project\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "maritime-50",
+            "language": "en",
+            "question": "What would you do if sanctions screening flagged a cargo consignment?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Safety/compliance",
+                "Operational steps",
+                "Risks",
+                "Evidence"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "industries": [
+                "maritime"
+            ],
+            "occupations": [
+                "maritime-manager"
+            ],
+            "skills": [
+                "vessel-operations",
+                "port-operations",
+                "maritime-safety",
+                "shipping",
+                "scheduling",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "maritime",
+            "specializations": [
+                "port-operations"
+            ],
+            "short_answer": "Lead with safety/compliance context, then the operational flow for \"what would you do if sanctions screening flagged a cargo consignment\".",
+            "detailed_answer": "## Safety & rules\nWhich regulations, checklists, or ISM/port rules apply?\n\n## Operational flow\nRoles onboard/ashore, communication, escalation.\n\n## Risks\nCommon failure modes and how you prevent them.\n\n## Evidence\nDocumentation, handover, lessons learned.",
+            "is_universal": true,
+            "visibility": "universal"
+        }
+    ]
+}

@@ -85,6 +85,7 @@ try {
     KaamFit\UserDocuments::ensureSchema();
     LibreTranslate::ensureSchema();
     TranslationGlossary::ensureSchema();
+    KaamFit\Interview\InterviewSchema::ensureSchema();
 } catch (Throwable $e) {
     // Pages that need the DB will surface the error; CLI without DATABASE_URL still loads classes.
 }

@@ -1,0 +1,2564 @@
+{
+    "questions": [
+        {
+            "slug": "business-1",
+            "language": "en",
+            "question": "How do you kick off a new project with unclear requirements?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"kick off a new project with unclear requirements\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"kick off a new project with unclear requirements\".",
+            "detailed_answer": "## Definition\nExplain \"kick off a new project with unclear requirements\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-2",
+            "language": "en",
+            "question": "How do you track progress without micromanaging?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"track progress without micromanaging\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"track progress without micromanaging\".",
+            "detailed_answer": "## Definition\nExplain \"track progress without micromanaging\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-3",
+            "language": "en",
+            "question": "What would you do if two stakeholders disagreed on scope?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if two stakeholders disagreed on scope\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if two stakeholders disagreed on scope\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-4",
+            "language": "en",
+            "question": "How do you run an effective status meeting?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"run an effective status meeting\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"run an effective status meeting\".",
+            "detailed_answer": "## Definition\nExplain \"run an effective status meeting\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-5",
+            "language": "en",
+            "question": "Describe how you manage project risks.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"how you manage project risks\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"how you manage project risks\".",
+            "detailed_answer": "## Definition\nExplain \"how you manage project risks\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-6",
+            "language": "en",
+            "question": "How do you prioritize backlog items with limited capacity?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"prioritize backlog items with limited capacity\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"prioritize backlog items with limited capacity\".",
+            "detailed_answer": "## Definition\nExplain \"prioritize backlog items with limited capacity\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-7",
+            "language": "en",
+            "question": "What metrics do you use to report project health?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"what metrics do you use to report project health\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"what metrics do you use to report project health\".",
+            "detailed_answer": "## Definition\nExplain \"what metrics do you use to report project health\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-8",
+            "language": "en",
+            "question": "How do you handle a delayed dependency from another team?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"handle a delayed dependency from another team\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"handle a delayed dependency from another team\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-9",
+            "language": "en",
+            "question": "Describe your approach to change requests mid-project.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to change requests mid-project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to change requests mid-project\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to change requests mid-project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-10",
+            "language": "en",
+            "question": "How do you document decisions for auditability?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"document decisions for auditability\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"document decisions for auditability\".",
+            "detailed_answer": "## Definition\nExplain \"document decisions for auditability\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-11",
+            "language": "en",
+            "question": "What makes a RACI useful in your experience?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"what makes a raci useful in your experience\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"what makes a raci useful in your experience\".",
+            "detailed_answer": "## Definition\nExplain \"what makes a raci useful in your experience\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-12",
+            "language": "en",
+            "question": "How do you onboard a new team member mid-project?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"onboard a new team member mid-project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"onboard a new team member mid-project\".",
+            "detailed_answer": "## Definition\nExplain \"onboard a new team member mid-project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-13",
+            "language": "en",
+            "question": "Describe closing a project and capturing lessons learned.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"closing a project and capturing lessons learned\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"closing a project and capturing lessons learned\".",
+            "detailed_answer": "## Definition\nExplain \"closing a project and capturing lessons learned\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-14",
+            "language": "en",
+            "question": "How do you communicate bad news to executives?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"communicate bad news to executives\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"communicate bad news to executives\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-15",
+            "language": "en",
+            "question": "What is your approach to stakeholder mapping?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to stakeholder mapping\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to stakeholder mapping\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to stakeholder mapping\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-16",
+            "language": "en",
+            "question": "How do you balance waterfall expectations with agile delivery?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"balance waterfall expectations with agile delivery\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"balance waterfall expectations with agile delivery\".",
+            "detailed_answer": "## Definition\nExplain \"balance waterfall expectations with agile delivery\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-17",
+            "language": "en",
+            "question": "Describe managing a vendor as part of a project.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"managing a vendor as part of a project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"managing a vendor as part of a project\".",
+            "detailed_answer": "## Definition\nExplain \"managing a vendor as part of a project\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-18",
+            "language": "en",
+            "question": "How do you ensure quality gates are respected?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"ensure quality gates are respected\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"ensure quality gates are respected\".",
+            "detailed_answer": "## Definition\nExplain \"ensure quality gates are respected\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-19",
+            "language": "en",
+            "question": "What would you do if the sponsor changed priorities weekly?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if the sponsor changed priorities weekly\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if the sponsor changed priorities weekly\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-20",
+            "language": "en",
+            "question": "How do you facilitate conflict in a project team?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"facilitate conflict in a project team\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"facilitate conflict in a project team\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-21",
+            "language": "en",
+            "question": "Describe estimating effort with incomplete information.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"estimating effort with incomplete information\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"estimating effort with incomplete information\".",
+            "detailed_answer": "## Definition\nExplain \"estimating effort with incomplete information\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-22",
+            "language": "en",
+            "question": "How do you protect the team from constant interruptions?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"protect the team from constant interruptions\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-23",
+            "language": "en",
+            "question": "What tools have you used for planning and why?",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"what tools have you used for planning and why\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-24",
+            "language": "en",
+            "question": "How do you align OKRs with project outcomes?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"align okrs with project outcomes\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"align okrs with project outcomes\".",
+            "detailed_answer": "## Definition\nExplain \"align okrs with project outcomes\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-25",
+            "language": "en",
+            "question": "Describe a project post-mortem you led.",
+            "question_type": "portfolio",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"a project post-mortem you led\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-26",
+            "language": "en",
+            "question": "How do you handle scope creep from a powerful stakeholder?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"handle scope creep from a powerful stakeholder\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"handle scope creep from a powerful stakeholder\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-27",
+            "language": "en",
+            "question": "What is your approach to resource leveling?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to resource leveling\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to resource leveling\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to resource leveling\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-28",
+            "language": "en",
+            "question": "How do you ensure handover to operations?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"ensure handover to operations\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"ensure handover to operations\".",
+            "detailed_answer": "## Definition\nExplain \"ensure handover to operations\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-29",
+            "language": "en",
+            "question": "Describe coordinating multiple workstreams.",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"coordinating multiple workstreams\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"coordinating multiple workstreams\".",
+            "detailed_answer": "## Definition\nExplain \"coordinating multiple workstreams\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-30",
+            "language": "en",
+            "question": "How do you set expectations with a new client?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"set expectations with a new client\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"set expectations with a new client\".",
+            "detailed_answer": "## Definition\nExplain \"set expectations with a new client\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-31",
+            "language": "en",
+            "question": "What would you do if a key person left mid-project?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a key person left mid-project\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if a key person left mid-project\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-32",
+            "language": "en",
+            "question": "How do you measure team velocity meaningfully?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"measure team velocity meaningfully\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"measure team velocity meaningfully\".",
+            "detailed_answer": "## Definition\nExplain \"measure team velocity meaningfully\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-33",
+            "language": "en",
+            "question": "Describe negotiating a deadline extension.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"negotiating a deadline extension\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"negotiating a deadline extension\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-34",
+            "language": "en",
+            "question": "How do you keep remote and on-site members aligned?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"keep remote and on-site members aligned\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"keep remote and on-site members aligned\".",
+            "detailed_answer": "## Definition\nExplain \"keep remote and on-site members aligned\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-35",
+            "language": "en",
+            "question": "What is your definition of project success?",
+            "question_type": "general",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"your definition of project success\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-36",
+            "language": "en",
+            "question": "How do you prepare a steering committee pack?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"prepare a steering committee pack\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"prepare a steering committee pack\".",
+            "detailed_answer": "## Definition\nExplain \"prepare a steering committee pack\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-37",
+            "language": "en",
+            "question": "Describe managing budget variance.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"managing budget variance\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"managing budget variance\".",
+            "detailed_answer": "## Definition\nExplain \"managing budget variance\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-38",
+            "language": "en",
+            "question": "How do you introduce a new process without resistance?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"introduce a new process without resistance\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-39",
+            "language": "en",
+            "question": "What would you do if quality issues appeared late?",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if quality issues appeared late\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"what would you do if quality issues appeared late\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-40",
+            "language": "en",
+            "question": "How do you coach a junior PM?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"coach a junior pm\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-41",
+            "language": "en",
+            "question": "Describe using a RAID log effectively.",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"using a raid log effectively\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"using a raid log effectively\".",
+            "detailed_answer": "## Definition\nExplain \"using a raid log effectively\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-42",
+            "language": "en",
+            "question": "How do you decide between build vs buy?",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"decide between build vs buy\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-43",
+            "language": "en",
+            "question": "What is your approach to dependency management?",
+            "question_type": "technical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"your approach to dependency management\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"your approach to dependency management\".",
+            "detailed_answer": "## Definition\nExplain \"your approach to dependency management\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-44",
+            "language": "en",
+            "question": "How do you keep stakeholders engaged between milestones?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"keep stakeholders engaged between milestones\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"keep stakeholders engaged between milestones\".",
+            "detailed_answer": "## Definition\nExplain \"keep stakeholders engaged between milestones\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-45",
+            "language": "en",
+            "question": "Describe recovering a red project.",
+            "question_type": "case_study",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"recovering a red project\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-46",
+            "language": "en",
+            "question": "How do you handle underperformance on your team?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"handle underperformance on your team\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-47",
+            "language": "en",
+            "question": "What questions do you ask in discovery workshops?",
+            "question_type": "practical",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Definition",
+                "Why it matters",
+                "Example / workflow",
+                "Trade-offs"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Definition\nExplain \"what questions do you ask in discovery workshops\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Define it in one sentence, why it matters, then a practical example for \"what questions do you ask in discovery workshops\".",
+            "detailed_answer": "## Definition\nExplain \"what questions do you ask in discovery workshops\" so a non-specialist stakeholder can follow.\n\n## Why it matters\n- Risk or cost it reduces\n- Quality / safety / delivery impact\n\n## Practical example\nWalk through a concrete flow (input → steps → output → verification).\n\n## Boundaries\nName 1–2 related concepts and how they differ.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-48",
+            "language": "en",
+            "question": "How do you ensure compliance requirements are tracked?",
+            "question_type": "regulatory",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"ensure compliance requirements are tracked\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-49",
+            "language": "en",
+            "question": "Describe aligning sales promises with delivery capacity.",
+            "question_type": "situational",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Situation",
+                "Task",
+                "Action",
+                "Result",
+                "Transfer to this role"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"aligning sales promises with delivery capacity\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Answer with STAR: Situation, Task, Action, Result — then connect the learning to this role.",
+            "detailed_answer": "## STAR structure\n1. **Situation** — 1–2 sentences of context\n2. **Task** — your ownership\n3. **Action** — concrete steps, tools, stakeholders\n4. **Result** — measurable outcome + learning\n\n## Direction for this question\nPick a real example about \"aligning sales promises with delivery capacity\". Quantify where you can (time, defect rate, cost, satisfaction). Close with how you would apply that approach in this role.",
+            "is_universal": true,
+            "visibility": "universal"
+        },
+        {
+            "slug": "business-50",
+            "language": "en",
+            "question": "How do you celebrate delivery without losing focus on next work?",
+            "question_type": "leadership",
+            "difficulty": "medium",
+            "source_type": "kaamfit_original",
+            "source_name": "KaamFit",
+            "license": "proprietary",
+            "status": "published",
+            "why_asked": "Interviewers use this to understand how you think and how you would perform in the role.",
+            "strong_answer_covers": [
+                "Clear structure",
+                "Concrete example or method",
+                "Outcome or learning",
+                "Relevance to the role"
+            ],
+            "answer_framework": [
+                "Core answer",
+                "Rationale",
+                "Example",
+                "Role fit"
+            ],
+            "common_mistakes": "Being vague, blaming others, or ignoring the role context.",
+            "example_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "industries": [
+                "business"
+            ],
+            "occupations": [
+                "project-manager"
+            ],
+            "skills": [
+                "project-management",
+                "stakeholder-management",
+                "communication"
+            ],
+            "stages": [
+                "hiring_manager",
+                "technical"
+            ],
+            "levels": [
+                "junior",
+                "mid",
+                "senior"
+            ],
+            "category": "business",
+            "short_answer": "Clear stance on \"celebrate delivery without losing focus on next work\", rationale, brief example, link to the role.",
+            "detailed_answer": "## Core answer\nState the answer directly.\n\n## Rationale\n2–3 professional or organisational reasons.\n\n## Example\nA short case from study, work, or a project.\n\n## Role fit\nWhy this matters for the employer.",
+            "is_universal": true,
+            "visibility": "universal"
+        }
+    ]
+}

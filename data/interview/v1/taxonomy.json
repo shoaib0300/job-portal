@@ -1,0 +1,192 @@
+{
+  "industries": [
+    {"slug": "administration", "name_en": "Administration", "name_de": "Verwaltung", "sort_order": 10, "occupations": [
+      {"slug": "office-administrator", "name_en": "Office Administrator", "name_de": "Büroadministrator/in"},
+      {"slug": "executive-assistant", "name_en": "Executive Assistant", "name_de": "Executive Assistant"},
+      {"slug": "business-administrator", "name_en": "Business Administrator", "name_de": "Kaufmännische Verwaltung"}
+    ]},
+    {"slug": "agriculture", "name_en": "Agriculture", "name_de": "Landwirtschaft", "sort_order": 20},
+    {"slug": "architecture", "name_en": "Architecture", "name_de": "Architektur", "sort_order": 30},
+    {"slug": "automotive", "name_en": "Automotive", "name_de": "Automobil", "sort_order": 40},
+    {"slug": "banking", "name_en": "Banking", "name_de": "Bankwesen", "sort_order": 50},
+    {"slug": "biotechnology", "name_en": "Biotechnology", "name_de": "Biotechnologie", "sort_order": 60},
+    {"slug": "construction", "name_en": "Construction", "name_de": "Bauwesen", "sort_order": 70, "occupations": [
+      {"slug": "construction-manager", "name_en": "Construction Manager", "name_de": "Bauleiter/in"},
+      {"slug": "facility-manager", "name_en": "Facility Manager", "name_de": "Facility Manager/in"}
+    ]},
+    {"slug": "consulting", "name_en": "Consulting", "name_de": "Beratung", "sort_order": 80},
+    {"slug": "education", "name_en": "Education", "name_de": "Bildung", "sort_order": 90, "occupations": [
+      {"slug": "teacher", "name_en": "Teacher", "name_de": "Lehrer/in"},
+      {"slug": "trainer", "name_en": "Trainer", "name_de": "Trainer/in"},
+      {"slug": "education-manager", "name_en": "Education Manager", "name_de": "Bildungsmanager/in"}
+    ]},
+    {"slug": "energy", "name_en": "Energy", "name_de": "Energie", "sort_order": 100},
+    {"slug": "engineering", "name_en": "Engineering", "name_de": "Ingenieurwesen", "sort_order": 110, "occupations": [
+      {"slug": "mechanical-engineer", "name_en": "Mechanical Engineer", "name_de": "Maschinenbauingenieur/in"},
+      {"slug": "electrical-engineer", "name_en": "Electrical Engineer", "name_de": "Elektroingenieur/in"},
+      {"slug": "quality-engineer", "name_en": "Quality Engineer", "name_de": "Qualitätsingenieur/in"},
+      {"slug": "industrial-engineer", "name_en": "Industrial Engineer", "name_de": "Wirtschaftsingenieur/in"}
+    ]},
+    {"slug": "entertainment", "name_en": "Entertainment", "name_de": "Unterhaltung", "sort_order": 120},
+    {"slug": "events", "name_en": "Events", "name_de": "Events", "sort_order": 130, "occupations": [
+      {"slug": "event-planner", "name_en": "Event Planner", "name_de": "Eventplaner/in", "specializations": [
+        {"slug": "corporate-events", "name_en": "Corporate Events", "name_de": "Firmenveranstaltungen"}
+      ]},
+      {"slug": "event-manager", "name_en": "Event Manager", "name_de": "Eventmanager/in"},
+      {"slug": "conference-manager", "name_en": "Conference Manager", "name_de": "Tagungsmanager/in"},
+      {"slug": "wedding-planner", "name_en": "Wedding Planner", "name_de": "Hochzeitsplaner/in"},
+      {"slug": "exhibition-manager", "name_en": "Exhibition Manager", "name_de": "Messeleiter/in"},
+      {"slug": "venue-manager", "name_en": "Venue Manager", "name_de": "Location Manager/in"},
+      {"slug": "event-coordinator", "name_en": "Event Coordinator", "name_de": "Eventkoordinator/in"}
+    ]},
+    {"slug": "finance", "name_en": "Finance", "name_de": "Finanzen", "sort_order": 140, "occupations": [
+      {"slug": "accountant", "name_en": "Accountant", "name_de": "Buchhalter/in"},
+      {"slug": "financial-analyst", "name_en": "Financial Analyst", "name_de": "Finanzanalyst/in"},
+      {"slug": "controller", "name_en": "Controller", "name_de": "Controller/in"},
+      {"slug": "auditor", "name_en": "Auditor", "name_de": "Wirtschaftsprüfer/in"}
+    ]},
+    {"slug": "food-beverage", "name_en": "Food & Beverage", "name_de": "Lebensmittel & Getränke", "sort_order": 150},
+    {"slug": "government", "name_en": "Government", "name_de": "Öffentlicher Dienst", "sort_order": 160},
+    {"slug": "healthcare", "name_en": "Healthcare", "name_de": "Gesundheitswesen", "sort_order": 170, "occupations": [
+      {"slug": "nurse", "name_en": "Nurse", "name_de": "Pflegekraft"},
+      {"slug": "healthcare-manager", "name_en": "Healthcare Manager", "name_de": "Gesundheitsmanager/in"},
+      {"slug": "medical-administrator", "name_en": "Medical Administrator", "name_de": "Medizinische Verwaltung"}
+    ]},
+    {"slug": "hospitality", "name_en": "Hospitality", "name_de": "Hotellerie", "sort_order": 180, "occupations": [
+      {"slug": "hotel-manager", "name_en": "Hotel Manager", "name_de": "Hotelmanager/in"},
+      {"slug": "front-office-agent", "name_en": "Front Office Agent", "name_de": "Rezeptionist/in"},
+      {"slug": "guest-relations", "name_en": "Guest Relations", "name_de": "Guest Relations"}
+    ]},
+    {"slug": "insurance", "name_en": "Insurance", "name_de": "Versicherung", "sort_order": 190},
+    {"slug": "it-software", "name_en": "IT & Software", "name_de": "IT & Software", "sort_order": 200, "occupations": [
+      {"slug": "software-developer", "name_en": "Software Developer", "name_de": "Softwareentwickler/in"},
+      {"slug": "qa-engineer", "name_en": "QA Engineer", "name_de": "QA Engineer", "specializations": [
+        {"slug": "test-automation", "name_en": "Test Automation", "name_de": "Testautomatisierung"}
+      ]},
+      {"slug": "devops-engineer", "name_en": "DevOps Engineer", "name_de": "DevOps Engineer"},
+      {"slug": "data-analyst", "name_en": "Data Analyst", "name_de": "Data Analyst"},
+      {"slug": "data-scientist", "name_en": "Data Scientist", "name_de": "Data Scientist"},
+      {"slug": "cybersecurity-engineer", "name_en": "Cybersecurity Engineer", "name_de": "Cybersecurity Engineer"},
+      {"slug": "product-manager", "name_en": "Product Manager", "name_de": "Product Manager"},
+      {"slug": "it-support-specialist", "name_en": "IT Support Specialist", "name_de": "IT-Support"}
+    ]},
+    {"slug": "legal", "name_en": "Legal", "name_de": "Recht", "sort_order": 210, "occupations": [
+      {"slug": "legal-assistant", "name_en": "Legal Assistant", "name_de": "Rechtsanwaltsfachangestellte/r"},
+      {"slug": "compliance-officer", "name_en": "Compliance Officer", "name_de": "Compliance Officer"},
+      {"slug": "contract-manager", "name_en": "Contract Manager", "name_de": "Vertragsmanager/in"}
+    ]},
+    {"slug": "logistics", "name_en": "Logistics", "name_de": "Logistik", "sort_order": 220, "occupations": [
+      {"slug": "logistics-coordinator", "name_en": "Logistics Coordinator", "name_de": "Logistikkoordinator/in"},
+      {"slug": "supply-chain-manager", "name_en": "Supply Chain Manager", "name_de": "Supply-Chain-Manager/in"},
+      {"slug": "warehouse-manager", "name_en": "Warehouse Manager", "name_de": "Lagerleiter/in"},
+      {"slug": "transport-manager", "name_en": "Transport Manager", "name_de": "Verkehrsleiter/in"},
+      {"slug": "procurement-specialist", "name_en": "Procurement Specialist", "name_de": "Einkäufer/in"},
+      {"slug": "freight-forwarder", "name_en": "Freight Forwarder", "name_de": "Speditionskaufmann/-frau"}
+    ]},
+    {"slug": "manufacturing", "name_en": "Manufacturing", "name_de": "Produktion", "sort_order": 230},
+    {"slug": "maritime", "name_en": "Maritime", "name_de": "Maritime Wirtschaft", "sort_order": 240, "occupations": [
+      {"slug": "maritime-manager", "name_en": "Maritime Manager", "name_de": "Maritime Manager/in", "specializations": [
+        {"slug": "port-operations", "name_en": "Port Operations", "name_de": "Hafenbetrieb"}
+      ]},
+      {"slug": "port-manager", "name_en": "Port Manager", "name_de": "Hafenmanager/in"},
+      {"slug": "marine-operations-manager", "name_en": "Marine Operations Manager", "name_de": "Marine Operations Manager"},
+      {"slug": "ship-manager", "name_en": "Ship Manager", "name_de": "Schiffsmanager/in"},
+      {"slug": "vessel-coordinator", "name_en": "Vessel Coordinator", "name_de": "Schiffskoordinator/in"},
+      {"slug": "chartering-manager", "name_en": "Chartering Manager", "name_de": "Chartering Manager"},
+      {"slug": "maritime-logistics-manager", "name_en": "Maritime Logistics Manager", "name_de": "Maritime Logistik"},
+      {"slug": "marine-engineer", "name_en": "Marine Engineer", "name_de": "Schiffsmaschinenbauingenieur/in"},
+      {"slug": "port-operations-coordinator", "name_en": "Port Operations Coordinator", "name_de": "Hafenbetriebskoordinator/in"}
+    ]},
+    {"slug": "marketing", "name_en": "Marketing", "name_de": "Marketing", "sort_order": 250, "occupations": [
+      {"slug": "marketing-manager", "name_en": "Marketing Manager", "name_de": "Marketingmanager/in"},
+      {"slug": "digital-marketer", "name_en": "Digital Marketer", "name_de": "Digital Marketing Manager/in"},
+      {"slug": "content-manager", "name_en": "Content Manager", "name_de": "Content Manager/in"},
+      {"slug": "brand-manager", "name_en": "Brand Manager", "name_de": "Brand Manager/in"}
+    ]},
+    {"slug": "media", "name_en": "Media", "name_de": "Medien", "sort_order": 260},
+    {"slug": "nonprofit", "name_en": "Nonprofit", "name_de": "Gemeinnützig", "sort_order": 270},
+    {"slug": "pharmaceutical", "name_en": "Pharmaceutical", "name_de": "Pharma", "sort_order": 280},
+    {"slug": "real-estate", "name_en": "Real Estate", "name_de": "Immobilien", "sort_order": 290},
+    {"slug": "retail", "name_en": "Retail", "name_de": "Einzelhandel", "sort_order": 300, "occupations": [
+      {"slug": "store-manager", "name_en": "Store Manager", "name_de": "Filialleiter/in"},
+      {"slug": "merchandiser", "name_en": "Merchandiser", "name_de": "Merchandiser/in"},
+      {"slug": "ecommerce-specialist", "name_en": "E-commerce Specialist", "name_de": "E-Commerce Spezialist/in"}
+    ]},
+    {"slug": "science", "name_en": "Science", "name_de": "Wissenschaft", "sort_order": 310},
+    {"slug": "security", "name_en": "Security", "name_de": "Sicherheit", "sort_order": 320},
+    {"slug": "sports", "name_en": "Sports", "name_de": "Sport", "sort_order": 330},
+    {"slug": "telecommunications", "name_en": "Telecommunications", "name_de": "Telekommunikation", "sort_order": 340},
+    {"slug": "tourism", "name_en": "Tourism", "name_de": "Tourismus", "sort_order": 350},
+    {"slug": "transportation", "name_en": "Transportation", "name_de": "Verkehr", "sort_order": 360},
+    {"slug": "travel", "name_en": "Travel", "name_de": "Reise", "sort_order": 370},
+    {"slug": "utilities", "name_en": "Utilities", "name_de": "Versorgung", "sort_order": 380},
+    {"slug": "business", "name_en": "Business", "name_de": "Wirtschaft", "sort_order": 15, "occupations": [
+      {"slug": "project-manager", "name_en": "Project Manager", "name_de": "Projektmanager/in"},
+      {"slug": "operations-manager", "name_en": "Operations Manager", "name_de": "Operations Manager"},
+      {"slug": "hr-specialist", "name_en": "HR Specialist", "name_de": "HR-Spezialist/in"},
+      {"slug": "recruiter", "name_en": "Recruiter", "name_de": "Recruiter/in"},
+      {"slug": "sales-representative", "name_en": "Sales Representative", "name_de": "Vertriebsmitarbeiter/in"},
+      {"slug": "customer-success-manager", "name_en": "Customer Success Manager", "name_de": "Customer Success Manager"}
+    ]}
+  ],
+  "skills": [
+    {"slug": "communication", "name_en": "Communication", "name_de": "Kommunikation", "kind": "universal"},
+    {"slug": "leadership", "name_en": "Leadership", "name_de": "Führung", "kind": "universal"},
+    {"slug": "teamwork", "name_en": "Teamwork", "name_de": "Teamarbeit", "kind": "universal"},
+    {"slug": "negotiation", "name_en": "Negotiation", "name_de": "Verhandlung", "kind": "universal"},
+    {"slug": "problem-solving", "name_en": "Problem solving", "name_de": "Problemlösung", "kind": "universal"},
+    {"slug": "time-management", "name_en": "Time management", "name_de": "Zeitmanagement", "kind": "universal"},
+    {"slug": "project-management", "name_en": "Project management", "name_de": "Projektmanagement", "kind": "universal"},
+    {"slug": "stakeholder-management", "name_en": "Stakeholder management", "name_de": "Stakeholder-Management", "kind": "universal"},
+    {"slug": "customer-service", "name_en": "Customer service", "name_de": "Kundenservice", "kind": "universal"},
+    {"slug": "analytical-thinking", "name_en": "Analytical thinking", "name_de": "Analytisches Denken", "kind": "universal"},
+    {"slug": "adaptability", "name_en": "Adaptability", "name_de": "Anpassungsfähigkeit", "kind": "universal"},
+    {"slug": "conflict-resolution", "name_en": "Conflict resolution", "name_de": "Konfliktlösung", "kind": "universal"},
+    {"slug": "vessel-operations", "name_en": "Vessel operations", "name_de": "Schiffsbetrieb", "kind": "domain"},
+    {"slug": "port-operations", "name_en": "Port operations", "name_de": "Hafenbetrieb", "kind": "domain"},
+    {"slug": "maritime-safety", "name_en": "Maritime safety", "name_de": "Maritime Sicherheit", "kind": "domain"},
+    {"slug": "cargo-management", "name_en": "Cargo management", "name_de": "Ladungsmanagement", "kind": "domain"},
+    {"slug": "crew-management", "name_en": "Crew management", "name_de": "Crew-Management", "kind": "domain"},
+    {"slug": "shipping", "name_en": "Shipping", "name_de": "Schifffahrt", "kind": "domain"},
+    {"slug": "chartering", "name_en": "Chartering", "name_de": "Chartering", "kind": "domain"},
+    {"slug": "event-planning", "name_en": "Event planning", "name_de": "Eventplanung", "kind": "domain"},
+    {"slug": "budget-management", "name_en": "Budget management", "name_de": "Budgetmanagement", "kind": "domain"},
+    {"slug": "vendor-management", "name_en": "Vendor management", "name_de": "Lieferantenmanagement", "kind": "domain"},
+    {"slug": "logistics", "name_en": "Logistics", "name_de": "Logistik", "kind": "domain"},
+    {"slug": "event-marketing", "name_en": "Event marketing", "name_de": "Eventmarketing", "kind": "domain"},
+    {"slug": "client-management", "name_en": "Client management", "name_de": "Kundenmanagement", "kind": "domain"},
+    {"slug": "contingency-planning", "name_en": "Contingency planning", "name_de": "Notfallplanung", "kind": "domain"},
+    {"slug": "patient-care", "name_en": "Patient care", "name_de": "Patientenversorgung", "kind": "domain"},
+    {"slug": "clinical-communication", "name_en": "Clinical communication", "name_de": "Klinische Kommunikation", "kind": "domain"},
+    {"slug": "healthcare-administration", "name_en": "Healthcare administration", "name_de": "Gesundheitsverwaltung", "kind": "domain"},
+    {"slug": "medical-documentation", "name_en": "Medical documentation", "name_de": "Medizinische Dokumentation", "kind": "domain"},
+    {"slug": "financial-analysis", "name_en": "Financial analysis", "name_de": "Finanzanalyse", "kind": "domain"},
+    {"slug": "accounting", "name_en": "Accounting", "name_de": "Buchhaltung", "kind": "domain"},
+    {"slug": "risk-management", "name_en": "Risk management", "name_de": "Risikomanagement", "kind": "domain"},
+    {"slug": "compliance", "name_en": "Compliance", "name_de": "Compliance", "kind": "domain"},
+    {"slug": "programming", "name_en": "Programming", "name_de": "Programmierung", "kind": "domain"},
+    {"slug": "testing", "name_en": "Testing", "name_de": "Testen", "kind": "domain"},
+    {"slug": "automation", "name_en": "Automation", "name_de": "Automatisierung", "kind": "domain"},
+    {"slug": "databases", "name_en": "Databases", "name_de": "Datenbanken", "kind": "domain"},
+    {"slug": "cloud", "name_en": "Cloud", "name_de": "Cloud", "kind": "domain"},
+    {"slug": "cybersecurity", "name_en": "Cybersecurity", "name_de": "Cybersecurity", "kind": "domain"},
+    {"slug": "supply-chain", "name_en": "Supply chain", "name_de": "Lieferkette", "kind": "domain"},
+    {"slug": "warehousing", "name_en": "Warehousing", "name_de": "Lagerhaltung", "kind": "domain"},
+    {"slug": "procurement", "name_en": "Procurement", "name_de": "Beschaffung", "kind": "domain"},
+    {"slug": "scheduling", "name_en": "Scheduling", "name_de": "Terminplanung", "kind": "domain"},
+    {"slug": "sales", "name_en": "Sales", "name_de": "Vertrieb", "kind": "domain"},
+    {"slug": "digital-marketing", "name_en": "Digital marketing", "name_de": "Digitales Marketing", "kind": "domain"},
+    {"slug": "seo", "name_en": "SEO", "name_de": "SEO", "kind": "domain"},
+    {"slug": "hospitality-service", "name_en": "Hospitality service", "name_de": "Gastgewerbe-Service", "kind": "domain"},
+    {"slug": "teaching", "name_en": "Teaching", "name_de": "Unterricht", "kind": "domain"},
+    {"slug": "quality-assurance", "name_en": "Quality assurance", "name_de": "Qualitätssicherung", "kind": "domain"}
+  ],
+  "technologies": [
+    {"slug": "selenium", "name_en": "Selenium", "name_de": "Selenium"},
+    {"slug": "postman", "name_en": "Postman", "name_de": "Postman"},
+    {"slug": "sql", "name_en": "SQL", "name_de": "SQL"},
+    {"slug": "sap", "name_en": "SAP", "name_de": "SAP"},
+    {"slug": "excel", "name_en": "Excel", "name_de": "Excel"},
+    {"slug": "jira", "name_en": "Jira", "name_de": "Jira"}
+  ]
+}
