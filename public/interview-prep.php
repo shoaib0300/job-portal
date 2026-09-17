@@ -13,6 +13,43 @@ use KaamFit\Interview\InterviewTaxonomy;
 InterviewSchema::ensureSchema();
 
 $uid = Auth::id();
+$filterKeys = [
+    'q', 'industry', 'occupation', 'specialization', 'skill', 'technology',
+    'type', 'level', 'stage', 'language', 'difficulty', 'favorite', 'practiced',
+];
+
+// Clear saved filters (survives logout via user_settings)
+if (isset($_GET['reset']) && (string) $_GET['reset'] !== '' && $uid > 0) {
+    App::setSetting('interview_prep_filters', '{}');
+    App::redirect('/interview-prep');
+}
+
+$hasUrlFilters = false;
+foreach ($filterKeys as $k) {
+    if (array_key_exists($k, $_GET)) {
+        $hasUrlFilters = true;
+        break;
+    }
+}
+
+// Restore last Apply from account when opening bare /interview-prep
+if (!$hasUrlFilters && $uid > 0 && (string) ($_GET['format'] ?? '') !== 'json') {
+    $raw = App::setting('interview_prep_filters', '{}') ?: '{}';
+    $saved = json_decode($raw, true);
+    if (is_array($saved) && $saved !== []) {
+        $qs = [];
+        foreach ($filterKeys as $k) {
+            $v = trim((string) ($saved[$k] ?? ''));
+            if ($v !== '') {
+                $qs[$k] = $v;
+            }
+        }
+        if ($qs !== []) {
+            App::redirect('/interview-prep?' . http_build_query($qs));
+        }
+    }
+}
+
 $filters = [
     'q' => trim((string) ($_GET['q'] ?? '')),
     'industry' => trim((string) ($_GET['industry'] ?? '')),
@@ -38,7 +75,7 @@ $cascade = InterviewTaxonomy::cascadePayload(
     $filters['occupation'] !== '' ? $filters['occupation'] : null,
     $filters['specialization'] !== '' ? $filters['specialization'] : null
 );
-$filters['industry'] = (string) ($cascade['industry'] ?? $filters['industry'] ?? '');
+$filters['industry'] = (string) ($cascade['industry'] ?? '');
 $filters['occupation'] = (string) ($cascade['occupation'] ?? '');
 $filters['specialization'] = (string) ($cascade['specialization'] ?? '');
 
@@ -49,6 +86,19 @@ if (!$skillOk) {
 $techOk = $filters['technology'] === '' || in_array($filters['technology'], array_column($cascade['technologies'], 'slug'), true);
 if (!$techOk) {
     $filters['technology'] = '';
+}
+
+// Persist validated filters for this user (Apply / AJAX) so they survive logout.
+// JSON requests with empty filters clear the saved prefs (user chose "all").
+if ($uid > 0 && ($hasUrlFilters || (string) ($_GET['format'] ?? '') === 'json')) {
+    $toSave = [];
+    foreach ($filterKeys as $k) {
+        $v = trim((string) ($filters[$k] ?? ''));
+        if ($v !== '') {
+            $toSave[$k] = $v;
+        }
+    }
+    App::setSetting('interview_prep_filters', json_encode($toSave, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '{}');
 }
 
 $searchFilters = $filters;
@@ -269,8 +319,8 @@ layout_header('Interview preparation');
       </div>
     <?php endif; ?>
     <div class="col-md-2 d-flex gap-1">
-      <button class="btn btn-primary w-100" type="submit">Apply</button>
-      <a class="btn btn-outline-secondary" href="/interview-prep">Reset</a>
+      <button class="btn btn-primary w-100" type="submit" title="Apply and save filters to your account">Apply</button>
+      <a class="btn btn-outline-secondary" href="/interview-prep?reset=1" title="Clear saved filters">Reset</a>
     </div>
   </form>
 

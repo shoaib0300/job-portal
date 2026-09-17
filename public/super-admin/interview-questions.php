@@ -241,6 +241,18 @@ super_layout_header($creating || $edit ? ($creating ? 'Create question' : 'Edit 
         <li>Language: <?= App::e((string) $view['language']) ?> · Visibility: <?= App::e((string) ($view['visibility'] ?? '')) ?> · Status: <?= App::e((string) $view['status']) ?></li>
         <li>Source: <?= App::e((string) $view['source_type']) ?> / <?= App::e((string) $view['source_name']) ?></li>
         <li>Review: <?= App::e((string) ($view['review_status'] ?? 'none')) ?></li>
+        <li>Created by: <?= App::e(SuperAdmin::adminLabel(isset($view['created_by']) ? (int) $view['created_by'] : null)) ?>
+          · Updated by: <?= App::e(SuperAdmin::adminLabel(isset($view['updated_by']) ? (int) $view['updated_by'] : null)) ?></li>
+        <li>Reviewed / approved by: <?= App::e(SuperAdmin::adminLabel(isset($view['approved_by']) ? (int) $view['approved_by'] : null)) ?>
+          <?php if (!empty($view['approved_at'])): ?>
+            · <?= App::e(substr((string) $view['approved_at'], 0, 16)) ?>
+          <?php endif; ?>
+        </li>
+        <?php if (!empty($view['archived_by'])): ?>
+          <li>Archived by: <?= App::e(SuperAdmin::adminLabel((int) $view['archived_by'])) ?>
+            <?php if (!empty($view['archived_at'])): ?> · <?= App::e(substr((string) $view['archived_at'], 0, 16)) ?><?php endif; ?>
+          </li>
+        <?php endif; ?>
       </ul>
       <?php if ($usage): ?>
         <h3 class="h6">Usage</h3>
@@ -366,7 +378,7 @@ $to = min($result['total'], $result['page'] * $result['per_page']);
     <table class="table table-sm table-hover mb-0 align-middle">
       <thead><tr>
         <th><input type="checkbox" onclick="document.querySelectorAll('.qcb').forEach(c=>c.checked=this.checked)"></th>
-        <th>ID</th><th>Question</th><th>Type</th><th>Lang</th><th>Visibility</th><th>Status</th><th>Review</th><th>Updated</th><th></th>
+        <th>ID</th><th>Question</th><th>Type</th><th>Lang</th><th>Visibility</th><th>Status</th><th>Review</th><th>Approved by</th><th>Updated</th><th></th>
       </tr></thead>
       <tbody>
       <?php foreach ($result['items'] as $item): ?>
@@ -377,9 +389,10 @@ $to = min($result['total'], $result['page'] * $result['per_page']);
           <td class="small"><?= App::e((string)$item['question_type']) ?></td>
           <td class="small"><?= App::e((string)$item['language']) ?></td>
           <td class="small"><?= App::e((string)($item['visibility'] ?? '')) ?></td>
-          <td><span class="badge text-bg-light"><?= App::e((string)$item['status']) ?></span></td>
-          <td class="small"><?= App::e((string)($item['review_status'] ?? '')) ?></td>
-          <td class="small"><?= App::e(substr((string)($item['updated_at'] ?? ''), 0, 10)) ?></td>
+          <td class="small"><?= App::e((string)$item['status']) ?></td>
+          <td class="small"><?= App::e((string)($item['review_status'] ?? 'none')) ?></td>
+          <td class="small"><?= App::e(SuperAdmin::adminLabel(isset($item['approved_by']) ? (int) $item['approved_by'] : null)) ?></td>
+          <td class="small text-nowrap"><?= App::e(substr((string)($item['updated_at'] ?? ''), 0, 16)) ?></td>
           <td class="text-nowrap">
             <a class="btn btn-sm btn-link py-0" href="?view=<?= (int)$item['id'] ?>&amp;<?= App::e($qsKeep()) ?>">View</a>
             <a class="btn btn-sm btn-link py-0" href="?edit=<?= (int)$item['id'] ?>">Edit</a>

@@ -6,6 +6,7 @@ namespace KaamFit\Jobs;
 
 use App;
 use Db;
+use KaamFit\Cache\RedisClient;
 
 
 final class JobCache
@@ -78,6 +79,56 @@ final class JobCache
         } catch (Throwable $e) {
             // Never let cache hygiene abort a multi-hour ingest finalize.
             error_log('JobCache::purgeOldListingsFromSearchRows: ' . $e->getMessage());
+        }
+
+        // Invalidate Redis L1 without SCAN — old keys expire via TTL.
+        try {
+            RedisClient::instance()->bumpJobsGeneration();
+        } catch (Throwable) {
+        }
+    }
+
+    /** Redis logical key including generation for invalidation. */
+    private static function redisKey(string $logicalKey): string
+    {
+        $redis = RedisClient::instance();
+        $gen = $redis->enabled() ? $redis->jobsGeneration() : 0;
+        return 'jobs:g' . $gen . ':' . $logicalKey;
+    }
+
+    private static function redisGet(string $logicalKey): ?array
+    {
+        $redis = RedisClient::instance();
+        if (!$redis->enabled()) {
+            return null;
+        }
+        $raw = $redis->get(self::redisKey($logicalKey));
+        if ($raw === null || $raw === '') {
+            return null;
+        }
+        $data = json_decode($raw, true);
+        return is_array($data) ? $data : null;
+    }
+
+    /** @param array<string, mixed> $payload */
+    private static function redisPut(string $logicalKey, array $payload, int $ttl): void
+    {
+        $redis = RedisClient::instance();
+        if (!$redis->enabled()) {
+            return;
+        }
+        $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if (!is_string($json) || strlen($json) > 4000000) {
+            return;
+        }
+        $redis->set(self::redisKey($logicalKey), $json, max(1, $ttl));
+    }
+
+    private static function redisDelete(string $logicalKey): void
+    {
+        $redis = RedisClient::instance();
+        if ($redis->enabled()) {
+            $redis->del(self::redisKey($logicalKey));
         }
     }
 
@@ -193,6 +244,7 @@ final class JobCache
 
     private static function deleteKey(string $key): void
     {
+        self::redisDelete($key);
         $stmt = Db::pdo()->prepare('DELETE FROM job_search_cache WHERE query_hash = ?');
         $stmt->execute([self::storageKey($key)]);
     }
@@ -201,6 +253,12 @@ final class JobCache
     public static function get(string $key, int $ttl): ?array
     {
         self::ensureSchema();
+
+        $fromRedis = self::redisGet($key);
+        if (is_array($fromRedis)) {
+            return self::filterCachedPayload($key, $fromRedis);
+        }
+
         $stmt = Db::pdo()->prepare(
             'SELECT payload, fetched_at FROM job_search_cache WHERE query_hash = ? LIMIT 1'
         );
@@ -218,12 +276,24 @@ final class JobCache
         if (!is_array($data)) {
             return null;
         }
-        // Single job payload
+        $data = self::filterCachedPayload($key, $data);
+        if ($data === null) {
+            return null;
+        }
+        self::redisPut($key, $data, max(1, $ttl - max(0, $age)));
+        return $data;
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>|null
+     */
+    private static function filterCachedPayload(string $key, array $data): ?array
+    {
         if (isset($data['posted_at']) && self::isPostedTooOld(is_string($data['posted_at']) ? $data['posted_at'] : null)) {
             self::deleteKey($key);
             return null;
         }
-        // Search payload
         if (isset($data['listings']) && is_array($data['listings'])) {
             $before = count($data['listings']);
             $kept = [];
@@ -307,6 +377,8 @@ final class JobCache
         if (!is_string($json)) {
             return;
         }
+        $ttl = isset($payload['listings']) ? self::SEARCH_TTL : self::JOB_TTL;
+        self::redisPut($key, $payload, $ttl);
         try {
             $stmt = Db::pdo()->prepare(
                 'INSERT INTO job_search_cache (query_hash, payload) VALUES (?, ?)

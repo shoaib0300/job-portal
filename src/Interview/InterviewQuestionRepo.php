@@ -536,6 +536,11 @@ final class InterviewQuestionRepo
             if ($col === 'visibility' && $fields[$col] === 'universal') {
                 $sets[] = 'is_universal = 1';
             }
+            if ($col === 'review_status' && $fields[$col] === 'approved') {
+                $sets[] = 'approved_by = ?';
+                $params[] = $adminId;
+                $sets[] = 'approved_at = NOW()';
+            }
             if ($col === 'status' && $fields[$col] === 'archived') {
                 $sets[] = 'archived_by = ?';
                 $params[] = $adminId;

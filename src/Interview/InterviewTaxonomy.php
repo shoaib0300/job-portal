@@ -302,8 +302,19 @@ final class InterviewTaxonomy
     {
         InterviewSchema::ensureSchema();
         $indId = $industrySlug ? self::idBySlug('interview_industries', $industrySlug) : 0;
+        if ($industrySlug && $indId < 1) {
+            $industrySlug = null;
+        }
         $occId = $occupationSlug ? self::idBySlug('interview_occupations', $occupationSlug) : 0;
+        if ($occupationSlug && $occId < 1) {
+            $occupationSlug = null;
+            $occId = 0;
+        }
         $specId = $specializationSlug ? self::idBySlug('interview_specializations', $specializationSlug) : 0;
+        if ($specializationSlug && $specId < 1) {
+            $specializationSlug = null;
+            $specId = 0;
+        }
 
         $occupations = $indId > 0 ? self::occupations($indId) : self::occupations();
         // If occupation not under selected industry, clear it

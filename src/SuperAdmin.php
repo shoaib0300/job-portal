@@ -133,6 +133,31 @@ final class SuperAdmin
         return self::$admin;
     }
 
+    /** Human label for audit fields (e.g. "Shoaib <email>"). */
+    public static function adminLabel(?int $adminId): string
+    {
+        if ($adminId === null || $adminId < 1) {
+            return '—';
+        }
+        static $cache = [];
+        if (isset($cache[$adminId])) {
+            return $cache[$adminId];
+        }
+        try {
+            $stmt = Db::pdo()->prepare('SELECT email FROM super_admins WHERE id = ? LIMIT 1');
+            $stmt->execute([$adminId]);
+            $email = (string) ($stmt->fetchColumn() ?: '');
+        } catch (Throwable) {
+            $email = '';
+        }
+        if ($email === '') {
+            return $cache[$adminId] = 'Admin #' . $adminId;
+        }
+        $local = strtolower((string) (explode('@', $email)[0] ?? ''));
+        $name = str_contains($local, 'shoaib') ? 'Shoaib' : ucfirst(preg_replace('/[0-9._-]+/', ' ', $local) ?: 'Admin');
+        return $cache[$adminId] = trim($name) . ' · ' . $email;
+    }
+
     public static function login(string $email, string $password): bool
     {
         $email = strtolower(trim($email));

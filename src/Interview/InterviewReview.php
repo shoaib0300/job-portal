@@ -35,13 +35,23 @@ final class InterviewReview
     /** @return array{items:list<array<string,mixed>>,total:int,page:int,per_page:int} */
     public static function pending(int $page = 1, int $perPage = 30): array
     {
+        return self::listByStatus('pending', $page, $perPage);
+    }
+
+    /** @return array{items:list<array<string,mixed>>,total:int,page:int,per_page:int} */
+    public static function listByStatus(string $status, int $page = 1, int $perPage = 30): array
+    {
         InterviewSchema::ensureSchema();
         $page = max(1, $page);
         $perPage = min(100, max(1, $perPage));
         $offset = ($page - 1) * $perPage;
-        $total = (int) Db::pdo()->query(
-            "SELECT COUNT(*) FROM interview_content_reviews WHERE status = 'pending'"
-        )->fetchColumn();
+        $allowed = ['pending', 'approved', 'rejected', 'merged'];
+        if (!in_array($status, $allowed, true)) {
+            $status = 'pending';
+        }
+        $c = Db::pdo()->prepare('SELECT COUNT(*) FROM interview_content_reviews WHERE status = ?');
+        $c->execute([$status]);
+        $total = (int) $c->fetchColumn();
         $stmt = Db::pdo()->prepare(
             "SELECT r.*, q.question_text, q.language, q.question_type, q.difficulty, q.status AS q_status,
                     q.visibility, q.example_answer, q.source_type, q.source_name,
@@ -49,11 +59,11 @@ final class InterviewReview
              FROM interview_content_reviews r
              INNER JOIN interview_questions q ON q.id = r.question_id
              LEFT JOIN interview_questions m ON m.id = r.possible_match_id
-             WHERE r.status = 'pending'
-             ORDER BY r.id ASC
+             WHERE r.status = ?
+             ORDER BY r.id " . ($status === 'pending' ? 'ASC' : 'DESC') . "
              LIMIT {$perPage} OFFSET {$offset}"
         );
-        $stmt->execute();
+        $stmt->execute([$status]);
         return [
             'items' => $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [],
             'total' => $total,
