@@ -48,6 +48,7 @@ if (SuperAdmin::id() > 0) {
   </div>
   <p class="mb-0"><a class="btn btn-primary btn-sm" href="/super-admin/users">Manage users</a>
     <a class="btn btn-outline-secondary btn-sm" href="/super-admin/companies">Companies</a>
+    <a class="btn btn-outline-secondary btn-sm" href="/super-admin/docs">Docs</a>
     <a class="btn btn-outline-secondary btn-sm" href="/super-admin/settings">Settings</a></p>
     <?php
     super_layout_footer();

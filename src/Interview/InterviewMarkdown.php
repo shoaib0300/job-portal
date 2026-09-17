@@ -149,24 +149,52 @@ final class InterviewMarkdown
             return true;
         }
         $t = trim($text);
-        if ($t === '' || mb_strlen($t) < 40) {
+        if ($t === '') {
             return true;
         }
-        $weak = [
-            'provide a relevant',
-            'share a concise',
-            'antworten sie',
-            'give a clear example',
-            'describe your approach briefly',
-            'role-relevant example with a clear outcome',
-        ];
+        // Very short answers with no code/table are usually placeholders
+        if (mb_strlen($t) < 40 && !preg_match('/```|^\|/m', $t)) {
+            return true;
+        }
         $lower = mb_strtolower($t);
-        foreach ($weak as $w) {
-            if (str_contains($lower, $w)) {
+        $weakExactOrDominant = [
+            'provide a relevant example from your experience.',
+            'share a concise, role-relevant example with a clear outcome and what you would do next.',
+            'share a concise, role-relevant example with a clear outcome.',
+            'give a clear example.',
+            'describe your approach briefly.',
+            'use star.',
+            'use the star method.',
+            'connect your answer to the role.',
+            'connect it to the role.',
+            'explain how you handled the situation.',
+            'quantify the result where possible.',
+            'talk about a project you are proud of.',
+            'antworten sie mit einem konkreten beispiel.',
+        ];
+        foreach ($weakExactOrDominant as $w) {
+            if ($lower === $w || ($lower === rtrim($w, '.'))) {
                 return true;
             }
         }
-        return false;
+        // Short coaching-only blobs
+        $weakSnippets = [
+            'provide a relevant',
+            'share a concise, role-relevant',
+            'give a relevant example from your experience',
+            'interviewers use this to understand',
+            'interviewers ask this to understand your skills',
+            'use the star method',
+            'use star',
+        ];
+        if (mb_strlen($t) < 180) {
+            foreach ($weakSnippets as $w) {
+                if (str_contains($lower, $w)) {
+                    return true;
+                }
+            }
+        }
+        return InterviewAnswerPresentation::isGenericCoachingBlob($t);
     }
 
     private static function inline(string $text): string

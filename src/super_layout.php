@@ -42,6 +42,7 @@ function super_layout_header(string $title): void
       <a href="/super-admin/interview-questions.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'interview-questions') ? 'active' : '' ?>">Questions</a>
       <a href="/super-admin/interview-review.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'interview-review') ? 'active' : '' ?>">Review queue</a>
       <a href="/super-admin/interview-taxonomy.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'interview-taxonomy') ? 'active' : '' ?>">Taxonomy</a>
+      <a href="/super-admin/docs.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'docs') ? 'active' : '' ?>">Docs</a>
       <a href="/super-admin/settings.php" class="<?= str_contains((string) ($_SERVER['SCRIPT_NAME'] ?? ''), 'settings') ? 'active' : '' ?>">Settings</a>
       <a href="/super-admin/logout.php">Log out</a>
       <?php if ($admin): ?>

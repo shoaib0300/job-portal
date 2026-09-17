@@ -114,16 +114,30 @@ final class InterviewReview
             'approved_by' => $adminId,
         ], array_filter($overrides, static fn($v) => $v !== null && $v !== ''));
 
-        // Promote imported answer into example if admin left empty and library has one
-        if (trim((string) ($data['example_answer'] ?? '')) === '') {
+        // Promote imported answer into detailed answer if admin left empty and library has one
+        if (trim((string) ($data['detailed_answer'] ?? '')) === '' && trim((string) ($data['example_answer'] ?? '')) === '') {
             $lib = Db::pdo()->prepare(
                 'SELECT imported_answer FROM user_interview_questions WHERE question_id = ? AND imported_answer IS NOT NULL AND imported_answer != \'\' LIMIT 1'
             );
             $lib->execute([$qid]);
             $imp = $lib->fetchColumn();
             if (is_string($imp) && trim($imp) !== '') {
-                $data['example_answer'] = $imp;
+                $data['detailed_answer'] = $imp;
             }
+        }
+
+        $data['short_answer'] = InterviewAnswerPresentation::normalizeAnswer(
+            is_string($data['short_answer'] ?? null) ? (string) $data['short_answer'] : null
+        );
+        $data['detailed_answer'] = InterviewAnswerPresentation::normalizeAnswer(
+            is_string($data['detailed_answer'] ?? null) ? (string) $data['detailed_answer'] : null
+        );
+        $data['example_answer'] = InterviewAnswerPresentation::normalizeAnswer(
+            is_string($data['example_answer'] ?? null) ? (string) $data['example_answer'] : null
+        );
+        // Prefer detailed_answer as canonical body
+        if ($data['detailed_answer'] === '' && $data['example_answer'] !== '') {
+            $data['detailed_answer'] = $data['example_answer'];
         }
 
         InterviewQuestionRepo::upsert($data, [

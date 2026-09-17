@@ -5,6 +5,8 @@ declare(strict_types=1);
 require_once dirname(__DIR__, 2) . '/src/bootstrap.php';
 require_once dirname(__DIR__, 2) . '/src/super_layout.php';
 
+use KaamFit\Interview\InterviewAnswerPresentation;
+use KaamFit\Interview\InterviewContentImport;
 use KaamFit\Interview\InterviewMarkdown;
 use KaamFit\Interview\InterviewQuestionRepo;
 use KaamFit\Interview\InterviewSchema;
@@ -18,6 +20,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         Csrf::requireValid();
         $action = (string) ($_POST['action'] ?? '');
+        if ($action === 'import') {
+            $industry = trim((string) ($_POST['import_industry'] ?? ''));
+            $occupation = trim((string) ($_POST['import_occupation'] ?? ''));
+            $paste = trim((string) ($_POST['import_paste'] ?? ''));
+            $input = [
+                'language' => trim((string) ($_POST['import_language'] ?? 'en')) ?: 'en',
+                'industry' => $industry,
+                'occupation' => $occupation,
+                'specialization' => trim((string) ($_POST['import_specialization'] ?? '')),
+                'skill' => trim((string) ($_POST['import_skill'] ?? '')),
+                'technology' => trim((string) ($_POST['import_technology'] ?? '')),
+                'question_type' => trim((string) ($_POST['import_type'] ?? '')),
+                'difficulty' => trim((string) ($_POST['import_difficulty'] ?? 'medium')),
+                'career_level' => trim((string) ($_POST['import_level'] ?? '')),
+                'stage' => trim((string) ($_POST['import_stage'] ?? '')),
+                'category' => trim((string) ($_POST['import_category'] ?? '')),
+                'source_type' => trim((string) ($_POST['import_source_type'] ?? 'user_upload')) ?: 'user_upload',
+            ];
+            if ($paste !== '') {
+                $input['text'] = $paste;
+                $input['source_type'] = $input['source_type'] === 'user_upload' ? 'user_paste' : $input['source_type'];
+            } elseif (!empty($_FILES['import_file']['tmp_name'])) {
+                $input['file'] = $_FILES['import_file'];
+            } else {
+                throw new InvalidArgumentException('Upload a file or paste content.');
+            }
+            $importResult = InterviewContentImport::importForSuperAdmin($adminId, $input);
+            $s = $importResult['summary'];
+            App::flash(
+                'Import completed — Found: ' . (int) $s['found']
+                . ', Imported: ' . (int) $s['imported']
+                . ', Already existing: ' . (int) $s['already_existing']
+                . ', Skipped: ' . (int) $s['skipped']
+                . ', Errors: ' . (int) $s['errors']
+                . '. Approved by ' . SuperAdmin::adminLabel($adminId) . '.'
+            );
+            $redir = '/super-admin/interview-questions.php?industry=' . rawurlencode($industry)
+                . '&occupation=' . rawurlencode($occupation)
+                . '&import_batch=1';
+            if (!empty($importResult['question_ids'])) {
+                $_SESSION['interview_import_ids'] = array_slice($importResult['question_ids'], 0, 100);
+            }
+            App::redirect($redir);
+        }
         if ($action === 'save') {
             $id = (int) ($_POST['id'] ?? 0);
             $data = [
@@ -27,13 +73,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'question' => (string) ($_POST['question_text'] ?? ''),
                 'why_asked' => (string) ($_POST['why_asked'] ?? ''),
                 'strong_answer_covers' => array_values(array_filter(array_map('trim', preg_split('/\r\n|\n/', (string) ($_POST['strong_answer_covers'] ?? '')) ?: []))),
-                'short_answer' => (string) ($_POST['short_answer'] ?? ''),
-                'detailed_answer' => (string) ($_POST['detailed_answer'] ?? ''),
-                'example_answer' => (string) ($_POST['example_answer'] ?? ''),
-                'answer_framework' => array_values(array_filter(array_map('trim', preg_split('/\r\n|\n/', (string) ($_POST['answer_framework'] ?? '')) ?: []))),
+                'short_answer' => InterviewAnswerPresentation::normalizeAnswer((string) ($_POST['short_answer'] ?? '')),
+                'detailed_answer' => InterviewAnswerPresentation::normalizeAnswer((string) ($_POST['detailed_answer'] ?? '')),
+                'example_answer' => InterviewAnswerPresentation::normalizeAnswer((string) ($_POST['example_answer'] ?? '')),
+                'answer_framework' => array_values(array_filter(
+                    array_map('trim', preg_split('/\r\n|\n/', (string) ($_POST['answer_framework'] ?? '')) ?: []),
+                    static fn(string $s): bool => $s !== '' && !InterviewAnswerPresentation::isGenericListItem($s)
+                )),
                 'common_mistakes' => (string) ($_POST['common_mistakes'] ?? ''),
-                'follow_ups' => array_values(array_filter(array_map('trim', preg_split('/\r\n|\n/', (string) ($_POST['follow_ups'] ?? '')) ?: []))),
-                'related_concepts' => array_values(array_filter(array_map('trim', preg_split('/\r\n|\n/', (string) ($_POST['related_concepts'] ?? '')) ?: []))),
+                'follow_ups' => array_values(array_filter(
+                    array_map('trim', preg_split('/\r\n|\n/', (string) ($_POST['follow_ups'] ?? '')) ?: []),
+                    static fn(string $s): bool => $s !== '' && !InterviewAnswerPresentation::isGenericListItem($s)
+                )),
+                'related_concepts' => array_values(array_filter(
+                    array_map('trim', preg_split('/\r\n|\n/', (string) ($_POST['related_concepts'] ?? '')) ?: []),
+                    static fn(string $s): bool => $s !== '' && !InterviewAnswerPresentation::isGenericListItem($s)
+                )),
                 'question_type' => (string) ($_POST['question_type'] ?? 'general'),
                 'difficulty' => (string) ($_POST['difficulty'] ?? 'medium'),
                 'career_level' => (string) ($_POST['career_level'] ?? ''),
@@ -140,11 +195,17 @@ $filters = [
     'review_status' => trim((string) ($_GET['review_status'] ?? 'any')),
     'has_answer' => trim((string) ($_GET['has_answer'] ?? '')),
     'skill' => trim((string) ($_GET['skill'] ?? '')),
+    'technology' => trim((string) ($_GET['technology'] ?? '')),
     'admin' => true,
     'page' => max(1, (int) ($_GET['page'] ?? 1)),
     'per_page' => 40,
 ];
+$importBatch = !empty($_GET['import_batch']);
+if ($importBatch && !empty($_SESSION['interview_import_ids']) && is_array($_SESSION['interview_import_ids'])) {
+    $filters['ids'] = array_values(array_filter(array_map('intval', $_SESSION['interview_import_ids'])));
+}
 $result = InterviewQuestionRepo::search($filters);
+$listTags = InterviewQuestionRepo::summaryTagsForIds(array_map(static fn($r) => (int) ($r['id'] ?? 0), $result['items']));
 $viewId = (int) ($_GET['view'] ?? 0);
 $editId = (int) ($_GET['edit'] ?? 0);
 $creating = isset($_GET['create']);
@@ -183,6 +244,7 @@ $qsKeep = static function (array $extra = []) use ($filters): string {
         'review_status' => $filters['review_status'] !== 'any' ? $filters['review_status'] : null,
         'has_answer' => $filters['has_answer'] ?: null,
         'skill' => $filters['skill'] ?: null,
+        'technology' => $filters['technology'] ?: null,
     ], static fn($v) => $v !== null && $v !== '');
     return http_build_query(array_merge($base, $extra));
 };
@@ -198,9 +260,131 @@ super_layout_header($creating || $edit ? ($creating ? 'Create question' : 'Edit 
 ?>
 <p class="mb-3">
   <a class="btn btn-sm btn-primary" href="?create=1">+ Create Question</a>
+  <a class="btn btn-sm btn-outline-primary" href="#import-questions">Import Questions</a>
   <a class="btn btn-sm btn-outline-secondary" href="/super-admin/interview-review.php">Review queue</a>
   <a class="btn btn-sm btn-outline-secondary" href="/super-admin/interview-taxonomy.php">Taxonomy</a>
 </p>
+
+<?php if (!$edit && !$view): ?>
+<div class="card shadow-sm mb-4" id="import-questions">
+  <div class="card-body">
+    <h2 class="h5 mb-1">Import Interview Questions</h2>
+    <p class="small text-secondary mb-3">
+      Same parser as <a href="/interview-prep-import">Interview Prep import</a>.
+      New questions are saved as <strong>universal + approved</strong> immediately (no review queue).
+    </p>
+    <form method="post" enctype="multipart/form-data" class="row g-2" id="sa-import-form">
+      <?= Csrf::field() ?>
+      <input type="hidden" name="action" value="import">
+      <div class="col-md-4">
+        <label class="form-label small mb-0">Field / Industry <span class="text-danger">*</span></label>
+        <select class="form-select form-select-sm" name="import_industry" id="imp-industry" required>
+          <option value="">Select field…</option>
+          <?php foreach ($industries as $ind): ?>
+            <option value="<?= App::e((string) $ind['slug']) ?>"><?= App::e((string) $ind['name_en']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small mb-0">Department / Occupation <span class="text-danger">*</span></label>
+        <select class="form-select form-select-sm" name="import_occupation" id="imp-occupation" required>
+          <option value="">Select department…</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label small mb-0">Specialization</label>
+        <select class="form-select form-select-sm" name="import_specialization" id="imp-specialization">
+          <option value="">Optional</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small mb-0">Skill</label>
+        <select class="form-select form-select-sm" name="import_skill" id="imp-skill">
+          <option value="">Optional</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small mb-0">Technology</label>
+        <select class="form-select form-select-sm" name="import_technology" id="imp-technology">
+          <option value="">Optional</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small mb-0">Question type</label>
+        <select class="form-select form-select-sm" name="import_type">
+          <option value="">Auto-detect</option>
+          <?php foreach (InterviewSchema::questionTypes() as $t): ?>
+            <option value="<?= $t ?>"><?= $t ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small mb-0">Difficulty</label>
+        <select class="form-select form-select-sm" name="import_difficulty">
+          <?php foreach (InterviewSchema::difficulties() as $d): ?>
+            <option value="<?= $d ?>"<?= $d === 'medium' ? ' selected' : '' ?>><?= $d ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small mb-0">Career level</label>
+        <select class="form-select form-select-sm" name="import_level">
+          <option value="">Optional</option>
+          <?php foreach (InterviewSchema::careerLevels() as $lv): ?>
+            <option value="<?= $lv ?>"><?= $lv ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small mb-0">Interview stage</label>
+        <select class="form-select form-select-sm" name="import_stage">
+          <option value="">Optional</option>
+          <?php foreach (InterviewTaxonomy::stages(false) as $st): ?>
+            <option value="<?= App::e((string) $st['slug']) ?>"><?= App::e((string) $st['name_en']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-0">Language</label>
+        <select class="form-select form-select-sm" name="import_language">
+          <option value="en">en</option>
+          <option value="de">de</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-0">Category</label>
+        <input class="form-control form-control-sm" name="import_category" placeholder="optional">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small mb-0">Source type</label>
+        <select class="form-select form-select-sm" name="import_source_type">
+          <?php foreach (InterviewSchema::sourceTypes() as $st): ?>
+            <option value="<?= $st ?>"<?= $st === 'user_upload' ? ' selected' : '' ?>><?= $st ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label small mb-0">Upload file (PDF, DOCX, TXT, Markdown)</label>
+        <input class="form-control form-control-sm" type="file" name="import_file" accept=".pdf,.docx,.txt,.md,.markdown,text/plain,application/pdf">
+      </div>
+      <div class="col-12">
+        <label class="form-label small mb-0">Or paste content</label>
+        <textarea class="form-control form-control-sm" name="import_paste" rows="6" placeholder="1. What is regression testing?&#10;Answer: …&#10;&#10;2. Tell me about a time you…"></textarea>
+      </div>
+      <div class="col-12">
+        <button class="btn btn-primary btn-sm" type="submit">Import Questions</button>
+      </div>
+    </form>
+  </div>
+</div>
+<?php endif; ?>
+
+<?php if ($importBatch && !empty($filters['ids'])): ?>
+  <div class="alert alert-info py-2 small">
+    Showing <?= count($filters['ids']) ?> question(s) from the latest import.
+    <a href="?<?= App::e($qsKeep()) ?>">Clear import filter</a>
+  </div>
+<?php endif; ?>
 
 <?php if ($view && !$edit): ?>
   <?php $tags = $view['tags'] ?? []; ?>
@@ -219,19 +403,26 @@ super_layout_header($creating || $edit ? ($creating ? 'Create question' : 'Edit 
         </div>
       </div>
       <p class="mt-3 fw-semibold"><?= App::e((string) $view['question_text']) ?></p>
-      <?php if (!InterviewMarkdown::isWeakFiller($view['short_answer'] ?? null)): ?>
-        <h3 class="h6">Short answer</h3>
-        <div class="mb-2"><?= InterviewMarkdown::render((string) $view['short_answer']) ?></div>
-      <?php endif; ?>
       <?php
-        $detail = (string) ($view['detailed_answer'] ?? '');
-        if ($detail === '') {
-            $detail = (string) ($view['example_answer'] ?? '');
-        }
+        $preview = InterviewAnswerPresentation::forQuestion($view);
       ?>
-      <?php if (!InterviewMarkdown::isWeakFiller($detail)): ?>
-        <h3 class="h6">Detailed answer</h3>
-        <div class="mb-2"><?= InterviewMarkdown::render($detail) ?></div>
+      <?php if ($preview['has_answer']): ?>
+        <h3 class="h6">Answer (user-facing)</h3>
+        <div class="mb-2 border rounded p-3 bg-light interview-answer"><?= InterviewMarkdown::render($preview['answer_markdown']) ?></div>
+      <?php else: ?>
+        <p class="text-secondary small">No meaningful user-facing answer yet (generic/coaching fields are hidden from users).</p>
+      <?php endif; ?>
+      <?php if ($preview['common_mistakes'] !== []): ?>
+        <h3 class="h6">Common mistakes (shown)</h3>
+        <ul class="small"><?php foreach ($preview['common_mistakes'] as $m): ?><li><?= App::e($m) ?></li><?php endforeach; ?></ul>
+      <?php endif; ?>
+      <?php if ($preview['follow_ups'] !== []): ?>
+        <h3 class="h6">Related questions (shown)</h3>
+        <ul class="small"><?php foreach ($preview['follow_ups'] as $m): ?><li><?= App::e($m) ?></li><?php endforeach; ?></ul>
+      <?php endif; ?>
+      <?php if ($preview['related_concepts'] !== []): ?>
+        <h3 class="h6">Related concepts (shown)</h3>
+        <ul class="small"><?php foreach ($preview['related_concepts'] as $m): ?><li><?= App::e($m) ?></li><?php endforeach; ?></ul>
       <?php endif; ?>
       <h3 class="h6 mt-3">Classification</h3>
       <ul class="small">
@@ -277,15 +468,15 @@ super_layout_header($creating || $edit ? ($creating ? 'Create question' : 'Edit 
           <select class="form-select form-select-sm mb-1" name="visibility"><?php foreach (InterviewSchema::visibilities() as $v): ?><option value="<?= $v ?>"<?= (($edit['visibility'] ?? 'universal') === $v) ? ' selected' : '' ?>><?= $v ?></option><?php endforeach; ?></select>
           <select class="form-select form-select-sm" name="status"><?php foreach (InterviewSchema::statuses() as $s): ?><option value="<?= $s ?>"<?= (($edit['status'] ?? 'published') === $s) ? ' selected' : '' ?>><?= $s ?></option><?php endforeach; ?></select>
         </div>
-        <div class="col-md-6"><label class="form-label small">Why asked</label><textarea class="form-control form-control-sm" name="why_asked" rows="2"><?= App::e((string) ($edit['why_asked'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Key points (one per line)</label><textarea class="form-control form-control-sm" name="strong_answer_covers" rows="2"><?= App::e($lines($edit['strong_answer_covers'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Short answer</label><textarea class="form-control form-control-sm" name="short_answer" rows="3"><?= App::e((string) ($edit['short_answer'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Detailed answer (Markdown)</label><textarea class="form-control form-control-sm" name="detailed_answer" rows="3" id="detailed_answer"><?= App::e((string) ($edit['detailed_answer'] ?? $edit['example_answer'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Example answer (legacy)</label><textarea class="form-control form-control-sm" name="example_answer" rows="2"><?= App::e((string) ($edit['example_answer'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Answer framework (one per line)</label><textarea class="form-control form-control-sm" name="answer_framework" rows="2"><?= App::e($lines($edit['answer_framework'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Common mistakes</label><textarea class="form-control form-control-sm" name="common_mistakes" rows="2"><?= App::e($lines($edit['common_mistakes'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Follow-ups (one per line)</label><textarea class="form-control form-control-sm" name="follow_ups" rows="2"><?= App::e($lines($edit['follow_ups'] ?? '')) ?></textarea></div>
-        <div class="col-md-6"><label class="form-label small">Related concepts (one per line)</label><textarea class="form-control form-control-sm" name="related_concepts" rows="2"><?= App::e($lines($edit['related_concepts'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Why asked <span class="text-secondary">(admin only — hidden from users)</span></label><textarea class="form-control form-control-sm" name="why_asked" rows="2"><?= App::e((string) ($edit['why_asked'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Key points <span class="text-secondary">(admin only)</span></label><textarea class="form-control form-control-sm" name="strong_answer_covers" rows="2"><?= App::e($lines($edit['strong_answer_covers'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Short answer <span class="text-secondary">(optional; merged into Answer)</span></label><textarea class="form-control form-control-sm" name="short_answer" rows="3"><?= App::e((string) ($edit['short_answer'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Detailed answer (Markdown) <span class="text-danger">*</span> <span class="text-secondary">— primary user-facing Answer</span></label><textarea class="form-control form-control-sm" name="detailed_answer" rows="6" id="detailed_answer"><?= App::e((string) ($edit['detailed_answer'] ?? $edit['example_answer'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Example answer (legacy; merged if detailed empty)</label><textarea class="form-control form-control-sm" name="example_answer" rows="2"><?= App::e((string) ($edit['example_answer'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Answer framework <span class="text-secondary">(admin only — hidden from users)</span></label><textarea class="form-control form-control-sm" name="answer_framework" rows="2"><?= App::e($lines($edit['answer_framework'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Common mistakes <span class="text-secondary">(shown only if useful)</span></label><textarea class="form-control form-control-sm" name="common_mistakes" rows="2"><?= App::e($lines($edit['common_mistakes'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Related questions / follow-ups <span class="text-secondary">(shown only if useful)</span></label><textarea class="form-control form-control-sm" name="follow_ups" rows="2"><?= App::e($lines($edit['follow_ups'] ?? '')) ?></textarea></div>
+        <div class="col-md-6"><label class="form-label small">Related concepts <span class="text-secondary">(shown only if useful)</span></label><textarea class="form-control form-control-sm" name="related_concepts" rows="2"><?= App::e($lines($edit['related_concepts'] ?? '')) ?></textarea></div>
         <div class="col-md-3"><select class="form-select form-select-sm" name="question_type"><?php foreach (InterviewSchema::questionTypes() as $t): ?><option value="<?= $t ?>"<?= (($edit['question_type'] ?? '') === $t) ? ' selected' : '' ?>><?= $t ?></option><?php endforeach; ?></select></div>
         <div class="col-md-3"><select class="form-select form-select-sm" name="difficulty"><?php foreach (InterviewSchema::difficulties() as $d): ?><option value="<?= $d ?>"<?= (($edit['difficulty'] ?? 'medium') === $d) ? ' selected' : '' ?>><?= $d ?></option><?php endforeach; ?></select></div>
         <div class="col-md-3"><select class="form-select form-select-sm" name="career_level"><option value="">Career level</option><?php foreach (InterviewSchema::careerLevels() as $lv): ?><option value="<?= $lv ?>"<?= (($edit['career_level'] ?? '') === $lv) ? ' selected' : '' ?>><?= $lv ?></option><?php endforeach; ?></select></div>
@@ -337,6 +528,7 @@ super_layout_header($creating || $edit ? ($creating ? 'Create question' : 'Edit 
   <div class="col-md-3"><select class="form-select form-select-sm" name="occupation" id="f-occupation"><option value="">Occupation: All</option><?php foreach ($cascade['occupations'] as $o): ?><option value="<?= App::e($o['slug']) ?>"<?= $filters['occupation']===$o['slug']?' selected':'' ?>><?= App::e($o['name_en']) ?></option><?php endforeach; ?></select></div>
   <div class="col-md-3"><select class="form-select form-select-sm" name="specialization" id="f-specialization"><option value="">Specialization: All</option><?php foreach ($cascade['specializations'] as $s): ?><option value="<?= App::e($s['slug']) ?>"<?= $filters['specialization']===$s['slug']?' selected':'' ?>><?= App::e($s['name_en']) ?></option><?php endforeach; ?></select></div>
   <div class="col-md-2"><select class="form-select form-select-sm" name="skill" id="f-skill"><option value="">Skill: All</option><?php foreach ($cascade['skills'] as $sk): ?><option value="<?= App::e($sk['slug']) ?>"<?= $filters['skill']===$sk['slug']?' selected':'' ?>><?= App::e($sk['name_en']) ?></option><?php endforeach; ?></select></div>
+  <div class="col-md-2"><select class="form-select form-select-sm" name="technology" id="f-technology"><option value="">Technology: All</option><?php foreach ($cascade['technologies'] ?? [] as $tech): ?><option value="<?= App::e($tech['slug']) ?>"<?= $filters['technology']===$tech['slug']?' selected':'' ?>><?= App::e($tech['name_en']) ?></option><?php endforeach; ?></select></div>
   <div class="col-md-2"><select class="form-select form-select-sm" name="type"><option value="">Type</option><?php foreach (InterviewSchema::questionTypes() as $t): ?><option value="<?= $t ?>"<?= $filters['type']===$t?' selected':'' ?>><?= $t ?></option><?php endforeach; ?></select></div>
   <div class="col-md-2"><select class="form-select form-select-sm" name="difficulty"><option value="">Difficulty</option><?php foreach (InterviewSchema::difficulties() as $d): ?><option value="<?= $d ?>"<?= $filters['difficulty']===$d?' selected':'' ?>><?= $d ?></option><?php endforeach; ?></select></div>
   <div class="col-md-2"><select class="form-select form-select-sm" name="level"><option value="">Level</option><?php foreach (InterviewSchema::careerLevels() as $lv): ?><option value="<?= $lv ?>"<?= $filters['level']===$lv?' selected':'' ?>><?= $lv ?></option><?php endforeach; ?></select></div>
@@ -378,21 +570,24 @@ $to = min($result['total'], $result['page'] * $result['per_page']);
     <table class="table table-sm table-hover mb-0 align-middle">
       <thead><tr>
         <th><input type="checkbox" onclick="document.querySelectorAll('.qcb').forEach(c=>c.checked=this.checked)"></th>
-        <th>ID</th><th>Question</th><th>Type</th><th>Lang</th><th>Visibility</th><th>Status</th><th>Review</th><th>Approved by</th><th>Updated</th><th></th>
+        <th>ID</th><th>Question</th><th>Field</th><th>Department</th><th>Specialization</th>
+        <th>Type</th><th>Diff</th><th>Lang</th><th>Status</th><th>Review</th><th></th>
       </tr></thead>
       <tbody>
       <?php foreach ($result['items'] as $item): ?>
+        <?php $tg = $listTags[(int) $item['id']] ?? ['industry' => '', 'occupation' => '', 'specialization' => '']; ?>
         <tr>
           <td><input class="qcb" type="checkbox" name="ids[]" value="<?= (int)$item['id'] ?>"></td>
           <td class="small"><?= (int)$item['id'] ?></td>
-          <td class="small" style="max-width:28rem"><?= App::e(mb_substr((string)$item['question_text'], 0, 120)) ?></td>
+          <td class="small" style="max-width:22rem"><?= App::e(mb_substr((string)$item['question_text'], 0, 100)) ?></td>
+          <td class="small"><?= App::e($tg['industry'] !== '' ? $tg['industry'] : '—') ?></td>
+          <td class="small"><?= App::e($tg['occupation'] !== '' ? $tg['occupation'] : '—') ?></td>
+          <td class="small"><?= App::e($tg['specialization'] !== '' ? $tg['specialization'] : '—') ?></td>
           <td class="small"><?= App::e((string)$item['question_type']) ?></td>
+          <td class="small"><?= App::e((string)$item['difficulty']) ?></td>
           <td class="small"><?= App::e((string)$item['language']) ?></td>
-          <td class="small"><?= App::e((string)($item['visibility'] ?? '')) ?></td>
           <td class="small"><?= App::e((string)$item['status']) ?></td>
           <td class="small"><?= App::e((string)($item['review_status'] ?? 'none')) ?></td>
-          <td class="small"><?= App::e(SuperAdmin::adminLabel(isset($item['approved_by']) ? (int) $item['approved_by'] : null)) ?></td>
-          <td class="small text-nowrap"><?= App::e(substr((string)($item['updated_at'] ?? ''), 0, 16)) ?></td>
           <td class="text-nowrap">
             <a class="btn btn-sm btn-link py-0" href="?view=<?= (int)$item['id'] ?>&amp;<?= App::e($qsKeep()) ?>">View</a>
             <a class="btn btn-sm btn-link py-0" href="?edit=<?= (int)$item['id'] ?>">Edit</a>
@@ -412,6 +607,15 @@ $to = min($result['total'], $result['page'] * $result['per_page']);
 <?php endif; ?>
 
 <script src="/assets/js/interview-cascade.js?v=1"></script>
-<script>window.InterviewCascade?.bind({industry:'#f-industry',occupation:'#f-occupation',specialization:'#f-specialization',skill:'#f-skill',endpoint:'/interview-prep-taxonomy.php'});</script>
+<script>
+window.InterviewCascade?.bind({
+  industry:'#f-industry',occupation:'#f-occupation',specialization:'#f-specialization',
+  skill:'#f-skill',technology:'#f-technology',endpoint:'/interview-prep-taxonomy.php'
+});
+window.InterviewCascade?.bind({
+  industry:'#imp-industry',occupation:'#imp-occupation',specialization:'#imp-specialization',
+  skill:'#imp-skill',technology:'#imp-technology',endpoint:'/interview-prep-taxonomy.php'
+});
+</script>
 <?php
 super_layout_footer();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 
+use KaamFit\Interview\InterviewAnswerPresentation;
 use KaamFit\Interview\InterviewLibrary;
 use KaamFit\Interview\InterviewMarkdown;
 use KaamFit\Interview\InterviewProgress;
@@ -47,87 +48,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 InterviewProgress::markViewed($id);
 $progress = $uid > 0 ? InterviewProgress::forUserQuestion($uid, $id) : null;
 $library = $uid > 0 ? InterviewLibrary::entry($uid, $id) : null;
-$tags = $question['tags'] ?? [];
 $type = (string) ($question['question_type'] ?? 'general');
-
-$short = trim((string) ($question['short_answer'] ?? ''));
-$detailed = trim((string) ($question['detailed_answer'] ?? ''));
-$example = trim((string) ($question['example_answer'] ?? ''));
-$why = trim((string) ($question['why_asked'] ?? ''));
-$keyPoints = $question['strong_answer_covers'] ?? null;
-$framework = $question['answer_framework'] ?? null;
-$mistakes = $question['common_mistakes'] ?? null;
-$followUps = $question['follow_ups'] ?? null;
-$related = $question['related_concepts'] ?? null;
-
-if ($detailed === '' && !InterviewMarkdown::isWeakFiller($example)) {
-    $detailed = $example;
-    $example = '';
-} elseif (InterviewMarkdown::isWeakFiller($example)) {
-    $example = '';
-}
-if (InterviewMarkdown::isWeakFiller($short)) {
-    $short = '';
-}
-if (InterviewMarkdown::isWeakFiller($detailed)) {
-    $detailed = '';
-}
-if (InterviewMarkdown::isWeakFiller($why)) {
-    $why = '';
-}
-
-$isBehavioral = in_array($type, ['behavioral', 'portfolio'], true);
-$isSituational = in_array($type, ['situational', 'leadership'], true);
-$isCase = in_array($type, ['case_study'], true);
-$isTechnical = in_array($type, ['technical', 'practical', 'regulatory', 'safety', 'industry_specific', 'role_specific'], true);
-
-$section = static function (string $title, string $html): void {
-    if (trim(strip_tags($html)) === '') {
-        return;
-    }
-    echo '<h2 class="h6 mt-4">' . App::e($title) . '</h2>';
-    echo '<div class="interview-answer">' . $html . '</div>';
-};
-
-$listSection = static function (string $title, mixed $items): void {
-    if ($items === null || $items === '' || $items === []) {
-        return;
-    }
-    if (is_string($items)) {
-        $decoded = json_decode($items, true);
-        if (is_array($decoded)) {
-            $items = $decoded;
-        } else {
-            echo '<h2 class="h6 mt-4">' . App::e($title) . '</h2>';
-            echo '<div class="interview-answer">' . InterviewMarkdown::render($items) . '</div>';
-            return;
-        }
-    }
-    if (!is_array($items) || $items === []) {
-        return;
-    }
-    echo '<h2 class="h6 mt-4">' . App::e($title) . '</h2><ul>';
-    foreach ($items as $line) {
-        $text = is_string($line) ? $line : (string) json_encode($line);
-        if (trim($text) === '') {
-            continue;
-        }
-        echo '<li>' . App::e($text) . '</li>';
-    }
-    echo '</ul>';
-};
+$content = InterviewAnswerPresentation::forQuestion($question);
 
 layout_header('Interview question');
 ?>
 <main class="container-fluid px-3 px-lg-4 py-3">
   <?php require dirname(__DIR__) . '/src/interview_prep_nav.php'; ?>
   <p class="mb-2"><a href="/interview-prep">&larr; All questions</a></p>
-  <article class="card shadow-sm">
+  <article class="card shadow-sm interview-q-article">
     <div class="card-body">
-      <div class="d-flex flex-wrap gap-2 small text-secondary mb-2">
-        <span class="badge text-bg-light border"><?= App::e($type) ?></span>
+      <div class="d-flex flex-wrap gap-2 small text-secondary mb-2 align-items-center">
+        <span class="badge text-bg-light border"><?= App::e(ucfirst(str_replace('_', ' ', $type))) ?></span>
         <span><?= App::e((string) $question['language']) ?></span>
-        <span><?= App::e((string) $question['difficulty']) ?></span>
+        <span><?= App::e(ucfirst((string) $question['difficulty'])) ?></span>
         <?php if (!empty($question['career_level'])): ?>
           <span><?= App::e((string) $question['career_level']) ?></span>
         <?php endif; ?>
@@ -135,69 +69,48 @@ layout_header('Interview question');
           <span class="badge text-bg-secondary">Personal</span>
         <?php endif; ?>
       </div>
-      <h1 class="h3"><?= App::e((string) $question['question_text']) ?></h1>
 
-      <?php
-      // Type-adaptive order — only non-empty sections render
-      if ($isBehavioral || $isSituational) {
-          $section($isSituational ? 'What interviewers assess' : 'Why interviewers ask this', InterviewMarkdown::render($why));
-          $listSection('What a strong answer should demonstrate', $keyPoints);
-          $listSection($isBehavioral ? 'Recommended structure (STAR)' : 'Recommended approach', $framework);
-          if ($short !== '') {
-              $section('Short answer', InterviewMarkdown::render($short));
-          }
-          $section('Example answer', InterviewMarkdown::render($detailed));
-          if ($example !== '' && $example !== $detailed) {
-              $section('Additional example', InterviewMarkdown::render($example));
-          }
-          $listSection('Common mistakes', $mistakes);
-          $listSection('Likely follow-ups', $followUps);
-          $listSection('Related concepts', $related);
-      } elseif ($isCase) {
-          $section('Problem framing', InterviewMarkdown::render($why));
-          $listSection('Assumptions & analysis points', $keyPoints);
-          $listSection('Approach', $framework);
-          if ($short !== '') {
-              $section('Short recommendation', InterviewMarkdown::render($short));
-          }
-          $section('Example reasoning', InterviewMarkdown::render($detailed));
-          $listSection('Common mistakes', $mistakes);
-          $listSection('Follow-up questions', $followUps);
-          $listSection('Related concepts', $related);
-      } else {
-          // Technical / practical / general / regulatory
-          if ($short !== '') {
-              $section('Short answer', InterviewMarkdown::render($short));
-          }
-          $section($isTechnical ? 'Detailed explanation' : 'Answer', InterviewMarkdown::render($detailed));
-          if ($example !== '' && $example !== $detailed) {
-              $section('Example', InterviewMarkdown::render($example));
-          }
-          $section('Why interviewers ask this', InterviewMarkdown::render($why));
-          $listSection('Key points', $keyPoints);
-          $listSection('Answer framework', $framework);
-          $listSection('Common mistakes', $mistakes);
-          $listSection('Related concepts', $related);
-          $listSection('Likely follow-ups', $followUps);
-      }
-      ?>
+      <h1 class="h3 mb-3"><?= App::e((string) $question['question_text']) ?></h1>
 
-      <?php if (!empty($library['imported_answer'])): ?>
+      <?php if ($content['has_answer']): ?>
+        <h2 class="h5 mb-3">Answer</h2>
+        <div class="interview-answer">
+          <?= InterviewMarkdown::render($content['answer_markdown']) ?>
+        </div>
+      <?php else: ?>
+        <p class="text-secondary mb-0">No answer is available for this question yet.</p>
+      <?php endif; ?>
+
+      <?php if ($content['common_mistakes'] !== []): ?>
+        <h2 class="h6 mt-4">Common mistakes</h2>
+        <ul class="interview-answer-extra">
+          <?php foreach ($content['common_mistakes'] as $line): ?>
+            <li><?= App::e($line) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+
+      <?php if ($content['follow_ups'] !== []): ?>
+        <h2 class="h6 mt-4">Related questions</h2>
+        <ul class="interview-answer-extra">
+          <?php foreach ($content['follow_ups'] as $line): ?>
+            <li><?= App::e($line) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+
+      <?php if ($content['related_concepts'] !== []): ?>
+        <h2 class="h6 mt-4">Related concepts</h2>
+        <ul class="interview-answer-extra">
+          <?php foreach ($content['related_concepts'] as $line): ?>
+            <li><?= App::e($line) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+
+      <?php if (!empty($library['imported_answer']) && !InterviewMarkdown::isWeakFiller((string) $library['imported_answer'])): ?>
         <h2 class="h6 mt-4">Your imported answer</h2>
         <div class="border rounded p-3 bg-body-secondary interview-answer"><?= InterviewMarkdown::render((string) $library['imported_answer']) ?></div>
-      <?php endif; ?>
-
-      <?php if (!empty($tags['skills'])): ?>
-        <h2 class="h6 mt-4">Skills</h2>
-        <p class="small mb-0"><?= App::e(implode(' · ', array_column($tags['skills'], 'name_en'))) ?></p>
-      <?php endif; ?>
-      <?php if (!empty($tags['technologies'])): ?>
-        <h2 class="h6 mt-3">Technologies</h2>
-        <p class="small mb-0"><?= App::e(implode(' · ', array_column($tags['technologies'], 'name_en'))) ?></p>
-      <?php endif; ?>
-      <?php if (!empty($tags['occupations'])): ?>
-        <h2 class="h6 mt-3">Occupations</h2>
-        <p class="small mb-0"><?= App::e(implode(' · ', array_column($tags['occupations'], 'name_en'))) ?></p>
       <?php endif; ?>
     </div>
   </article>
@@ -240,6 +153,13 @@ layout_header('Interview question');
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 .interview-answer table { margin-bottom: 1rem; }
+.interview-answer h3, .interview-answer h4, .interview-answer h5 {
+  margin-top: 1.15rem;
+  margin-bottom: .5rem;
+  font-size: 1.05rem;
+}
+.interview-answer p:last-child { margin-bottom: 0; }
+.interview-answer-extra { margin-bottom: 0; }
 [data-bs-theme="dark"] .interview-answer pre.interview-code {
   background: var(--bs-tertiary-bg, #2b3035);
 }

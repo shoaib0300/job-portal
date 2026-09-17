@@ -220,11 +220,39 @@ final class InterviewQuestionRepo
                 OR q.category LIKE ?
                 OR q.source_name LIKE ?
                 OR q.related_concepts LIKE ?
-                OR q.strong_answer_covers LIKE ?)';
+                OR q.strong_answer_covers LIKE ?
+                OR EXISTS (
+                    SELECT 1 FROM interview_question_industries _qi
+                    INNER JOIN interview_industries _i ON _i.id = _qi.industry_id
+                    WHERE _qi.question_id = q.id AND (_i.name_en LIKE ? OR _i.slug LIKE ?)
+                )
+                OR EXISTS (
+                    SELECT 1 FROM interview_question_occupations _qo
+                    INNER JOIN interview_occupations _o ON _o.id = _qo.occupation_id
+                    WHERE _qo.question_id = q.id AND (_o.name_en LIKE ? OR _o.slug LIKE ?)
+                )
+                OR EXISTS (
+                    SELECT 1 FROM interview_question_specializations _qsp
+                    INNER JOIN interview_specializations _sp ON _sp.id = _qsp.specialization_id
+                    WHERE _qsp.question_id = q.id AND (_sp.name_en LIKE ? OR _sp.slug LIKE ?)
+                )
+                OR EXISTS (
+                    SELECT 1 FROM interview_question_skills _qsk
+                    INNER JOIN interview_skills _sk ON _sk.id = _qsk.skill_id
+                    WHERE _qsk.question_id = q.id AND (_sk.name_en LIKE ? OR _sk.slug LIKE ?)
+                )
+                OR EXISTS (
+                    SELECT 1 FROM interview_question_technologies _qt
+                    INNER JOIN interview_technologies _t ON _t.id = _qt.technology_id
+                    WHERE _qt.question_id = q.id AND (_t.name_en LIKE ? OR _t.slug LIKE ?)
+                ))';
             $words = preg_split('/\s+/u', $q) ?: [];
             $bool = '+' . implode('* +', array_filter($words)) . '*';
             $params[] = $bool;
             for ($i = 0; $i < 9; $i++) {
+                $params[] = $like;
+            }
+            for ($i = 0; $i < 10; $i++) {
                 $params[] = $like;
             }
         }
@@ -252,6 +280,50 @@ final class InterviewQuestionRepo
             'page' => $page,
             'per_page' => $perPage,
         ];
+    }
+
+    /**
+     * Lightweight Field / Department / Specialization labels for list rows.
+     *
+     * @param list<int> $ids
+     * @return array<int, array{industry:string,occupation:string,specialization:string}>
+     */
+    public static function summaryTagsForIds(array $ids): array
+    {
+        $ids = array_values(array_filter(array_map('intval', $ids), static fn(int $i): bool => $i > 0));
+        $out = [];
+        foreach ($ids as $id) {
+            $out[$id] = ['industry' => '', 'occupation' => '', 'specialization' => ''];
+        }
+        if ($ids === []) {
+            return $out;
+        }
+        $ph = implode(',', array_fill(0, count($ids), '?'));
+        $pdo = Db::pdo();
+        $maps = [
+            'industry' => "SELECT j.question_id, i.name_en AS n FROM interview_question_industries j
+                INNER JOIN interview_industries i ON i.id = j.industry_id WHERE j.question_id IN ({$ph})",
+            'occupation' => "SELECT j.question_id, o.name_en AS n FROM interview_question_occupations j
+                INNER JOIN interview_occupations o ON o.id = j.occupation_id WHERE j.question_id IN ({$ph})",
+            'specialization' => "SELECT j.question_id, s.name_en AS n FROM interview_question_specializations j
+                INNER JOIN interview_specializations s ON s.id = j.specialization_id WHERE j.question_id IN ({$ph})",
+        ];
+        foreach ($maps as $key => $sql) {
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($ids);
+            while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                $qid = (int) $row['question_id'];
+                if (!isset($out[$qid])) {
+                    continue;
+                }
+                $name = trim((string) ($row['n'] ?? ''));
+                if ($name === '') {
+                    continue;
+                }
+                $out[$qid][$key] = $out[$qid][$key] === '' ? $name : ($out[$qid][$key] . ', ' . $name);
+            }
+        }
+        return $out;
     }
 
     /** @return array<string, mixed>|null */
