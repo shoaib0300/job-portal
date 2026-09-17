@@ -12,10 +12,11 @@ final class InterviewQuestionRepo
      * @param array{
      *   q?:string, language?:string, industry?:string, occupation?:string,
      *   specialization?:string, type?:string, difficulty?:string, level?:string,
-     *   skill?:string, stage?:string, status?:string, universal?:bool,
+     *   skill?:string, technology?:string, stage?:string, status?:string, universal?:bool,
      *   visibility?:string, review_status?:string, source_type?:string,
      *   has_answer?:string, owner_user_id?:int, user_library?:int,
-     *   for_user?:int, ids?:list<int>, page?:int, per_page?:int,
+     *   for_user?:int, favorite?:bool|int|string, practiced?:bool|int|string,
+     *   ids?:list<int>, page?:int, per_page?:int,
      *   category?:string, admin?:bool
      * } $filters
      * @return array{items: list<array<string, mixed>>, total: int, page: int, per_page: int}
@@ -159,6 +160,14 @@ final class InterviewQuestionRepo
             $params[] = $skill;
         }
 
+        $technology = trim((string) ($filters['technology'] ?? ''));
+        if ($technology !== '') {
+            $joins['qtech'] = 'INNER JOIN interview_question_technologies qtech ON qtech.question_id = q.id
+                INNER JOIN interview_technologies tech ON tech.id = qtech.technology_id';
+            $where[] = 'tech.slug = ?';
+            $params[] = $technology;
+        }
+
         $stage = trim((string) ($filters['stage'] ?? ''));
         if ($stage !== '') {
             $joins['qst'] = 'INNER JOIN interview_question_stages qst ON qst.question_id = q.id
@@ -172,6 +181,19 @@ final class InterviewQuestionRepo
             $joins['uiq2'] = 'INNER JOIN user_interview_questions uiq2 ON uiq2.question_id = q.id';
             $where[] = 'uiq2.user_id = ?';
             $params[] = $libraryUser;
+        }
+
+        $progressUser = $forUser > 0 ? $forUser : (int) ($filters['progress_user'] ?? 0);
+        $wantFavorite = self::truthyFilter($filters['favorite'] ?? null);
+        $wantPracticed = self::truthyFilter($filters['practiced'] ?? null);
+        if (($wantFavorite || $wantPracticed) && $progressUser > 0) {
+            $joins['prog'] = 'INNER JOIN interview_user_progress prog ON prog.question_id = q.id AND prog.user_id = ' . $progressUser;
+            if ($wantFavorite) {
+                $where[] = 'prog.favorite = 1';
+            }
+            if ($wantPracticed) {
+                $where[] = 'prog.practiced = 1';
+            }
         }
 
         $ids = $filters['ids'] ?? null;
@@ -193,6 +215,8 @@ final class InterviewQuestionRepo
                 OR q.question_text LIKE ?
                 OR q.why_asked LIKE ?
                 OR q.example_answer LIKE ?
+                OR q.short_answer LIKE ?
+                OR q.detailed_answer LIKE ?
                 OR q.category LIKE ?
                 OR q.source_name LIKE ?
                 OR q.related_concepts LIKE ?
@@ -200,7 +224,7 @@ final class InterviewQuestionRepo
             $words = preg_split('/\s+/u', $q) ?: [];
             $bool = '+' . implode('* +', array_filter($words)) . '*';
             $params[] = $bool;
-            for ($i = 0; $i < 7; $i++) {
+            for ($i = 0; $i < 9; $i++) {
                 $params[] = $like;
             }
         }
@@ -610,6 +634,14 @@ final class InterviewQuestionRepo
                 'levels' => $tags['levels'],
             ]);
         }
+    }
+
+    private static function truthyFilter(mixed $v): bool
+    {
+        if ($v === true || $v === 1 || $v === '1' || $v === 'yes' || $v === 'true') {
+            return true;
+        }
+        return false;
     }
 
     /** @param array<string, mixed> $row */
