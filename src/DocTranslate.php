@@ -84,7 +84,12 @@ final class DocTranslate
         }
         if ($letter !== null) {
             if (!empty($letter['body'])) {
-                $letter['body'] = LibreTranslate::translateMultiline((string) $letter['body'], $targetLang, $sourceLang, 'deepl');
+                $letter['body'] = \KaamFit\Cover\CoverBody::mapStrings(
+                    (string) $letter['body'],
+                    static function (string $t) use ($targetLang, $sourceLang): string {
+                        return LibreTranslate::translateMultiline($t, $targetLang, $sourceLang, 'deepl');
+                    }
+                );
             }
         }
         return ['letter' => $letter, 'profile' => $profile];

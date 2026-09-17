@@ -271,7 +271,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
         ['key' => 'app-docs', 'href' => '/app-docs', 'label' => 'Documents', 'icon' => 'doc'],
         ['key' => 'resume', 'href' => '/documents', 'label' => 'My Resumes', 'icon' => 'edit'],
-        ['key' => 'cover', 'href' => '/cover', 'label' => 'Cover letter', 'icon' => 'letter'],
+        ['key' => 'cover', 'href' => '/cover', 'label' => 'My Covers', 'icon' => 'letter'],
         ['key' => 'guide', 'href' => '/help', 'label' => 'How to use', 'icon' => 'spark'],
     ];
     $chrome = $opts['chrome'] ?? $navKey;
@@ -411,8 +411,8 @@ function layout_header(string $title, array $opts = []): void
             <a class="btn btn-sm btn-outline-secondary" href="/design">Style</a>
             <?php layout_pdf_buttons('resume'); ?>
           <?php elseif ($chrome === 'cover' && $activeCover): ?>
-            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit" title="Edit cover letter">
-              <?= App::e(Versions::coverDisplayLabel($activeCover)) ?>
+            <a class="badge rounded-pill text-bg-light border text-decoration-none fw-semibold" href="/cover-edit?id=<?= (int) $activeCover['id'] ?>" title="Edit cover letter">
+              <?= App::e(Versions::coverUiLabel($activeCover)) ?>
             </a>
             <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Style</a>
             <?php layout_pdf_buttons('cover'); ?>

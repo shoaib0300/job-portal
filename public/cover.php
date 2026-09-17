@@ -5,46 +5,54 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 
-$pdo = Db::pdo();
 Versions::ensureSchema();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? '';
+    try {
+        Csrf::requireValid();
+    } catch (Throwable $e) {
+        App::flash($e->getMessage(), 'error');
+        App::redirect('/cover');
+    }
+    $action = (string) ($_POST['action'] ?? '');
 
     if ($action === 'activate_cover') {
         $id = (int) ($_POST['id'] ?? 0);
-        Versions::activateCover($id);
-        App::flash('Now editing this cover letter.');
-        App::redirect('/cover-edit');
-    }
-
-    if ($action === 'new_job_cover') {
-        $company = trim((string) ($_POST['company'] ?? ''));
-        $title = trim((string) ($_POST['title'] ?? ''));
-        $location = trim((string) ($_POST['location'] ?? ''));
-        if ($company === '') {
-            App::flash('Enter a company name first.', 'error');
+        try {
+            Versions::activateCover($id);
+            App::flash('Now editing: ' . Versions::coverUiLabel(Versions::coverLetterById($id)));
+            App::redirect('/cover-edit?id=' . $id);
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
             App::redirect('/cover');
         }
-        $base = Versions::baseCoverLetter();
-        if ($base === null) {
-            App::flash('No Master cover letter to copy from.', 'error');
-            App::redirect('/cover');
-        }
-        if ($title === '') {
-            $title = 'Cover letter — ' . $company;
-        }
-        $companyLine = $location !== '' ? ($company . ' · ' . $location) : $company;
-        $newId = Versions::duplicateCover((int) $base['id'], $title);
-        $pdo->prepare('UPDATE cover_letters SET company = ? WHERE id = ? AND user_id = ?')->execute([$companyLine, $newId, Auth::id()]);
-        App::flash('Created cover letter #' . $newId . ' (copy of Main' . ($location !== '' ? ', ' . $location : '') . ').');
-        App::redirect('/cover-edit');
     }
 
-    if ($action === 'mark_cover_base') {
+    if ($action === 'duplicate_cover') {
         $id = (int) ($_POST['id'] ?? 0);
-        Versions::markCoverBase($id);
-        App::flash('Marked as Master cover letter.');
+        $title = trim((string) ($_POST['title'] ?? ''));
+        try {
+            $newId = \KaamFit\Cover\CoverEditorService::duplicate($id, $title, [
+                'copy_content' => isset($_POST['copy_content']),
+                'make_active' => true,
+            ]);
+            App::flash('Cover letter duplicated.');
+            App::redirect('/cover-edit?id=' . (int) ($newId['cover_id'] ?? 0));
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+            App::redirect('/cover');
+        }
+    }
+
+    if ($action === 'rename_cover') {
+        $id = (int) ($_POST['id'] ?? 0);
+        $title = trim((string) ($_POST['title'] ?? ''));
+        try {
+            \KaamFit\Cover\CoverEditorService::rename($id, $title);
+            App::flash('Cover letter renamed.');
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+        }
         App::redirect('/cover');
     }
 
@@ -59,160 +67,194 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         App::redirect('/cover');
     }
 
-    App::flash('Unknown action.', 'error');
-    App::redirect('/cover');
-}
-
-if (isset($_GET['cover']) && (int) $_GET['cover'] > 0) {
-    App::redirect('/cover-edit?cover=' . (int) $_GET['cover']);
-}
-
-$letter = App::activeCoverLetter();
-$coverLetters = App::coverLetters();
-$master = Versions::baseCoverLetter();
-$jobLetters = [];
-foreach ($coverLetters as $cl) {
-    if (!Versions::isMasterCover($cl)) {
-        $jobLetters[] = $cl;
+    if ($action === 'new_job_cover') {
+        $base = Versions::baseCoverLetter();
+        if ($base === null) {
+            App::flash('Create a Main Cover Letter first.', 'error');
+            App::redirect('/cover');
+        }
+        $company = trim((string) ($_POST['company'] ?? ''));
+        $location = trim((string) ($_POST['location'] ?? ''));
+        $name = trim((string) ($_POST['title'] ?? ''));
+        $title = $name !== '' ? $name : ($company !== '' ? $company . ' cover letter' : 'Job cover letter');
+        try {
+            $newId = Versions::duplicateCover((int) $base['id'], $title);
+            $companyLine = $company;
+            if ($location !== '') {
+                $companyLine = $company !== '' ? ($company . ' · ' . $location) : $location;
+            }
+            if ($companyLine !== '') {
+                Db::pdo()->prepare(
+                    'UPDATE cover_letters SET company = ? WHERE id = ? AND user_id = ?'
+                )->execute([$companyLine, $newId, Auth::id()]);
+            }
+            App::flash('Job cover letter created.');
+            App::redirect('/cover-edit?id=' . $newId);
+        } catch (Throwable $e) {
+            App::flash($e->getMessage(), 'error');
+            App::redirect('/cover');
+        }
     }
 }
-$editingCoverName = Versions::MASTER_COVER_LABEL;
-if ($letter) {
-    $editingCoverName = Versions::coverDisplayLabel($letter);
-} elseif ($master) {
-    $editingCoverName = Versions::MASTER_COVER_LABEL;
-}
 
-/**
- * @param array<string, mixed> $cl
- */
-function cover_letter_card(array $cl, ?array $activeLetter): void
-{
-    $cid = (int) $cl['id'];
-    $isMaster = Versions::isMasterCover($cl);
-    $isOpen = $activeLetter !== null && (int) $activeLetter['id'] === $cid;
-    $label = Versions::coverDisplayLabel($cl);
-    ?>
-    <li class="version-list-item doc-card<?= $isOpen ? ' is-open' : '' ?>">
-      <div class="doc-card-main">
-        <span class="doc-id" title="Cover letter ID #<?= $cid ?>">#<?= $cid ?></span>
-        <div class="doc-card-text">
-          <strong>
-            <?php if ($isMaster): ?>
-              <span class="badge-main"><?= App::e(Versions::MASTER_COVER_LABEL) ?></span>
-            <?php else: ?>
-              <span class="badge-job">Job letter</span>
-            <?php endif; ?>
-            <?php if ($isOpen): ?><span class="badge-active">Selected</span> <?php endif; ?>
-            <?= App::e($label) ?>
-          </strong>
-          <?php if (!$isMaster && $cl['company'] !== ''): ?>
-            <span class="muted"><?= App::e((string) $cl['company']) ?></span>
-          <?php endif; ?>
-        </div>
-      </div>
-      <div class="version-list-actions doc-card-actions">
-        <?php if ($isOpen): ?>
-          <a class="btn btn-sm btn-primary" href="/cover-edit">Edit</a>
-        <?php else: ?>
-          <form method="post">
-            <input type="hidden" name="action" value="activate_cover">
-            <input type="hidden" name="id" value="<?= $cid ?>">
-            <button type="submit" class="btn btn-sm btn-primary">Edit</button>
-          </form>
-        <?php endif; ?>
-        <?php layout_pdf_buttons('cover', ['id' => $cid]); ?>
-        <a class="btn btn-sm btn-outline-secondary" href="/cover-letter?id=<?= $cid ?>" target="_blank" rel="noopener">View</a>
-        <?php if (!$isMaster): ?>
-          <form method="post" onsubmit="return confirm('Delete cover letter #<?= $cid ?>?');">
-            <input type="hidden" name="action" value="delete_cover">
-            <input type="hidden" name="id" value="<?= $cid ?>">
-            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-          </form>
-        <?php endif; ?>
-      </div>
-    </li>
-    <?php
-}
+$letters = App::coverLetters();
+$theme = \KaamFit\Resume\ResumeLayout::resolveTemplate(null);
+$docLang = App::resolveDocumentLang();
 
-layout_header('Cover letter');
+layout_header('My Cover Letters', ['body_class' => 'page-my-covers', 'chrome' => 'cover']);
 ?>
-<main class="editor">
-  <header class="page-head">
-    <h1>Cover letter</h1>
-    <p>Your Master cover letter is the safe template. Each application gets its own copy.</p>
+<main class="page-wide my-resumes">
+  <header class="page-head d-flex flex-wrap justify-content-between align-items-start gap-3">
+    <div>
+      <h1>My Cover Letters</h1>
+      <p class="mb-0 text-secondary">Main Cover Letter stays stable. Job copies are tailored for applications.</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#newCoverModal">New job letter</button>
+      <a class="btn btn-outline-secondary" href="/tailor">Tailor for a job</a>
+      <a class="btn btn-primary" href="/cover-edit">Open editor</a>
+    </div>
   </header>
 
-  <section class="editor-block" id="letters">
-    <?php onboarding_render_banner('cover'); ?>
-    <ol class="simple-steps">
-      <li><strong>Master cover letter</strong> = your normal letter — never overwritten by New job.</li>
-      <li>For an application: <a href="/tailor">New job</a> copies Master into a <strong>job letter</strong>.</li>
-      <li>Edit the job letter body, then export PDF. Style stays on <a href="/cover-design">Cover style</a>.</li>
-    </ol>
+  <section class="my-resumes-list">
+    <?php if (!$letters): ?>
+      <p class="text-secondary mb-0">No cover letters yet.</p>
+    <?php else: ?>
+      <?php foreach ($letters as $letter): ?>
+        <?php
+        $cid = (int) $letter['id'];
+        $isMain = Versions::isMasterCover($letter);
+        $isOpen = (int) ($letter['is_active'] ?? 0) === 1;
+        $label = Versions::coverUiLabel($letter);
+        $updated = (string) ($letter['updated_at'] ?? '');
+        $updatedLabel = $updated !== '' ? date('j M Y', strtotime($updated)) : '';
+        $company = trim((string) ($letter['company'] ?? ''));
+        ?>
+        <article class="my-resume-card<?= $isMain ? ' is-main' : '' ?><?= $isOpen ? ' is-open' : '' ?>">
+          <div class="my-resume-card__main">
+            <div class="my-resume-card__badges">
+              <?php if ($isMain): ?><span class="badge badge-main">MAIN</span><?php endif; ?>
+              <?php if (!$isMain): ?><span class="badge text-bg-light border">Job</span><?php endif; ?>
+              <?php if ($isOpen): ?><span class="badge text-bg-primary">Editing</span><?php endif; ?>
+              <span class="doc-id text-secondary">#<?= $cid ?></span>
+              <span class="badge text-bg-light border text-uppercase"><?= App::e($docLang) ?></span>
+            </div>
+            <h2 class="my-resume-card__title"><?= App::e($label) ?></h2>
+            <?php if ($company !== ''): ?>
+              <p class="my-resume-card__meta text-secondary mb-0"><?= App::e($company) ?></p>
+            <?php endif; ?>
+            <p class="my-resume-card__updated text-secondary small mb-0">
+              Template: <?= App::e($theme) ?>
+              <?php if ($updatedLabel !== ''): ?> · Last updated: <?= App::e($updatedLabel) ?><?php endif; ?>
+            </p>
+          </div>
+          <div class="my-resume-card__actions">
+            <?php if ($isOpen): ?>
+              <a class="btn btn-sm btn-primary" href="/cover-edit?id=<?= $cid ?>">Edit</a>
+            <?php else: ?>
+              <form method="post" action="/cover" class="d-inline">
+                <?= Csrf::field() ?>
+                <input type="hidden" name="action" value="activate_cover">
+                <input type="hidden" name="id" value="<?= $cid ?>">
+                <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+              </form>
+            <?php endif; ?>
+            <a class="btn btn-sm btn-outline-secondary" href="/cover-letter?id=<?= $cid ?>" target="_blank" rel="noopener">Preview</a>
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#dupCover<?= $cid ?>">Duplicate</button>
+            <?php if (!$isMain): ?>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#renameCover<?= $cid ?>">Rename</button>
+            <?php endif; ?>
+            <?php layout_pdf_buttons('cover', ['id' => $cid]); ?>
+            <a class="btn btn-sm btn-outline-secondary" href="/tailor">Tailor for Job</a>
+            <?php if (!$isMain): ?>
+              <form method="post" action="/cover" class="d-inline" onsubmit="return confirm('Delete this job cover letter? Main is never deleted this way.');">
+                <?= Csrf::field() ?>
+                <input type="hidden" name="action" value="delete_cover">
+                <input type="hidden" name="id" value="<?= $cid ?>">
+                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            <?php endif; ?>
+          </div>
+        </article>
 
-    <div class="now-editing">
-      <p>
-        Selected: <strong><?= App::e($editingCoverName) ?></strong>
-        <?php if ($letter): ?>
-          <span class="doc-id muted" title="Cover letter ID">#<?= (int) $letter['id'] ?></span>
+        <div class="modal fade" id="dupCover<?= $cid ?>" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog">
+            <form method="post" action="/cover" class="modal-content">
+              <?= Csrf::field() ?>
+              <input type="hidden" name="action" value="duplicate_cover">
+              <input type="hidden" name="id" value="<?= $cid ?>">
+              <div class="modal-header">
+                <h3 class="modal-title fs-5">Duplicate Cover Letter</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <label class="form-label" for="dupCoverTitle<?= $cid ?>">Name</label>
+                <input class="form-control" id="dupCoverTitle<?= $cid ?>" name="title" value="<?= App::e($label . ' (copy)') ?>" required>
+                <div class="form-check mt-3">
+                  <input class="form-check-input" type="checkbox" name="copy_content" id="dupCoverContent<?= $cid ?>" checked>
+                  <label class="form-check-label" for="dupCoverContent<?= $cid ?>">Copy content</label>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create copy</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <?php if (!$isMain): ?>
+          <div class="modal fade" id="renameCover<?= $cid ?>" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <form method="post" action="/cover" class="modal-content">
+                <?= Csrf::field() ?>
+                <input type="hidden" name="action" value="rename_cover">
+                <input type="hidden" name="id" value="<?= $cid ?>">
+                <div class="modal-header">
+                  <h3 class="modal-title fs-5">Rename</h3>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <label class="form-label" for="renameCoverTitle<?= $cid ?>">Name</label>
+                  <input class="form-control" id="renameCoverTitle<?= $cid ?>" name="title" value="<?= App::e((string) $letter['title']) ?>" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
         <?php endif; ?>
-      </p>
-      <a class="btn btn-primary" href="/cover-edit">Edit selected</a>
-    </div>
-
-    <div class="editor-master-card">
-      <h2 class="d-flex align-items-center gap-2"><?= kaamfit_icon('letter', 'sm') ?> Master cover letter</h2>
-      <p class="muted">Your safe template. New jobs always copy from here.</p>
-      <?php if ($master === null): ?>
-        <p class="empty">No Master cover letter yet. <a href="/cover-edit">Create your Master cover letter</a> first.</p>
-      <?php else: ?>
-        <ul class="version-list doc-card-list">
-          <?php cover_letter_card($master, $letter); ?>
-        </ul>
-      <?php endif; ?>
-    </div>
-
-    <div class="editor-job-list">
-      <div class="editor-job-list-head">
-        <h2 class="d-flex align-items-center gap-2"><?= kaamfit_icon('track', 'sm') ?> Job cover letters</h2>
-        <a class="btn btn-primary btn-sm" href="/tailor">New job</a>
-      </div>
-      <p class="muted">One copy per company or application. Master cover letter stays unchanged.</p>
-      <?php if ($jobLetters === []): ?>
-        <p class="empty">No job letters yet. <a href="/tailor">New job</a> or use <a href="#add-cover">Add cover letter</a> below.</p>
-      <?php else: ?>
-        <ul class="version-list doc-card-list">
-          <?php foreach ($jobLetters as $cl): ?>
-            <?php cover_letter_card($cl, $letter); ?>
-          <?php endforeach; ?>
-        </ul>
-      <?php endif; ?>
-    </div>
-
-    <form method="post" class="form new-job-form" id="add-cover">
-      <h3>Add cover letter</h3>
-      <p class="empty" style="margin:0 0 0.75rem">Always a copy of your Master cover letter.</p>
-      <input type="hidden" name="action" value="new_job_cover">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label" for="add-company">Company</label>
-          <input class="form-control" type="text" id="add-company" name="company" required placeholder="e.g. SAP">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label" for="add-location">Job location</label>
-          <input class="form-control" type="text" id="add-location" name="location" placeholder="e.g. München, Germany" required>
-        </div>
-        <div class="col-12">
-          <label class="form-label" for="add-title">Name</label>
-          <input class="form-control" type="text" id="add-title" name="title" placeholder="e.g. QA Engineer — SAP">
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">Add cover letter</button>
-        </div>
-      </div>
-    </form>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </section>
 </main>
+
+<div class="modal fade" id="newCoverModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" action="/cover" class="modal-content">
+      <?= Csrf::field() ?>
+      <input type="hidden" name="action" value="new_job_cover">
+      <div class="modal-header">
+        <h3 class="modal-title fs-5">New job cover letter</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-secondary small">Copies Main Cover Letter into a job-specific version.</p>
+        <label class="form-label" for="newCoverCompany">Company</label>
+        <input class="form-control mb-2" id="newCoverCompany" name="company">
+        <label class="form-label" for="newCoverLocation">Location</label>
+        <input class="form-control mb-2" id="newCoverLocation" name="location" placeholder="e.g. Berlin, Germany">
+        <label class="form-label" for="newCoverTitle">Name (optional)</label>
+        <input class="form-control" id="newCoverTitle" name="title" placeholder="Defaults from company">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
 <?php
 layout_footer();

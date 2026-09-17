@@ -1778,3 +1778,15 @@ body.page-doc .site-nav {
   }
   .rb-toolbar__right .btn { font-size: 0.8rem; }
 }
+
+/* Cover letter structured body */
+.letter-structured .letter-date { margin-bottom: 0.75rem; }
+.letter-structured .letter-recipient { margin-bottom: 1rem; }
+.letter-structured .letter-recipient p { margin: 0; }
+.letter-structured .letter-subject { margin: 1rem 0; }
+.letter-structured .letter-greeting { margin-bottom: 1rem; }
+.letter-structured .letter-paragraph { margin-bottom: 0.85rem; }
+.letter-structured .letter-closing { margin: 1rem 0; }
+.letter-structured .letter-signoff-block { margin-top: 1.25rem; }
+.letter-structured .letter-signoff { margin-bottom: 0.35rem; }
+.page-cover-studio .dash-content { padding: 0; max-width: none; }

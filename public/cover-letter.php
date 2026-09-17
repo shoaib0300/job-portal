@@ -6,6 +6,7 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 require_once dirname(__DIR__) . '/src/layout.php';
 require_once dirname(__DIR__) . '/src/doc.php';
 require_once dirname(__DIR__) . '/src/profile_meta.php';
+require_once dirname(__DIR__) . '/src/cover_render.php';
 
 Versions::ensureSchema();
 
@@ -17,7 +18,10 @@ $lang = (string) ($opts['lang'] ?? $documentLang);
 $letter = $coverId > 0 ? Versions::coverLetterById($coverId) : App::activeCoverLetter();
 $profile = Versions::profileForCoverLetter($profile, is_array($letter) ? $letter : null);
 if (is_array($letter) && isset($letter['body'])) {
-    $letter['body'] = AtsExport::cleanDocumentText((string) $letter['body']);
+    $letter['body'] = \KaamFit\Cover\CoverBody::mapStrings(
+        (string) $letter['body'],
+        static fn(string $t): string => AtsExport::cleanDocumentText($t)
+    );
 }
 $theme = $opts['theme'];
 $accent = $opts['accent'];
@@ -63,7 +67,7 @@ if (!$embed):
       <?php if ($letter): ?>
         <span class="badge rounded-pill text-bg-light border"><span class="doc-id">#<?= (int) $letter['id'] ?></span> <?= App::e(Versions::coverDisplayLabel($letter)) ?></span>
       <?php endif; ?>
-      <a class="btn btn-sm btn-outline-secondary" href="/cover-edit">Edit content</a>
+      <a class="btn btn-sm btn-outline-secondary" href="/cover-edit<?= $coverId > 0 ? ('?id=' . $coverId) : '' ?>">Edit content</a>
       <a class="btn btn-sm btn-outline-secondary" href="/cover-design">Change style</a>
       <button type="button" class="btn btn-sm btn-primary" data-print data-doc="cover"
               data-export-options="<?= App::e(json_encode($exportOptions, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]') ?>">Print</button>
@@ -112,7 +116,7 @@ if (!$embed):
     <?php if ($companyLine !== ''): ?>
       <p class="letter-company"><?= App::e($companyLine) ?></p>
     <?php endif; ?>
-    <div class="letter-body"><?= App::nl2p($letter['body']) ?></div>
+    <div class="letter-body" data-cover-body><?php render_cover_letter_body((string) ($letter['body'] ?? '')); ?></div>
   <?php else: ?>
     <p class="empty">No active cover letter. <a href="/cover">Create one</a>.</p>
   <?php endif; ?>

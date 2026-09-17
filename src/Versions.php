@@ -751,6 +751,19 @@ final class Versions
         $pdo->prepare('UPDATE cover_letters SET is_active = 1 WHERE id = ? AND user_id = ?')->execute([$id, $uid]);
     }
 
+    /** UI badge / list label: Main Cover Letter for is_base. */
+    public static function coverUiLabel(?array $row): string
+    {
+        if ($row === null) {
+            return 'Cover letter';
+        }
+        if (self::isMasterCover($row)) {
+            return 'Main Cover Letter';
+        }
+
+        return self::coverDisplayLabel($row);
+    }
+
     public static function duplicateCover(int $id, string $title = ''): int
     {
         $src = self::coverLetterById($id);
