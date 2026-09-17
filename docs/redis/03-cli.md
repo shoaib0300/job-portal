@@ -1,12 +1,22 @@
 # 03 — Redis CLI
 
-Open a CLI:
+`redis-cli` is **not** installed in the web container. Use the Redis service container.
+
+From the project root on your host:
 
 ```bash
-ddev exec redis-cli -h redis
+ddev exec -s redis redis-cli
+```
+
+Or a single command:
+
+```bash
+ddev exec -s redis redis-cli PING
 ```
 
 ## Essential commands
+
+Once you are in the interactive CLI (prompt looks like `127.0.0.1:6379>`), type Redis commands **without** a shell prefix.
 
 ### `PING`
 
@@ -33,6 +43,13 @@ Expected idea:
 3. `EXISTS` → `(integer) 1`
 4. `DEL` removes it
 5. `EXISTS` → `(integer) 0`
+
+One-shot from the host (no interactive session):
+
+```bash
+ddev exec -s redis redis-cli SET kaamfit:test "hello"
+ddev exec -s redis redis-cli GET kaamfit:test
+```
 
 ### `TTL` / `EXPIRE` / `PTTL`
 
@@ -71,7 +88,11 @@ Prefer:
 SCAN 0 MATCH kaamfit:dev:* COUNT 20
 ```
 
-Repeat with the returned cursor until it is `0`.
+Or from the host:
+
+```bash
+ddev exec -s redis redis-cli --scan --pattern 'kaamfit:dev:*'
+```
 
 ### Dangerous commands
 
@@ -81,6 +102,14 @@ Repeat with the returned cursor until it is `0`.
 | `FLUSHALL` | Deletes **all keys in all DBs** |
 
 Never run these on production unless you fully intend to wipe the cache.
+
+## Common mistakes
+
+| Wrong | Why it fails | Correct |
+|-------|--------------|---------|
+| `ddev exec redis-cli -h redis PING` | `redis-cli` is not on **web** | `ddev exec -s redis redis-cli PING` |
+| `PING` in the host bash | `PING` is a Redis command, not a Linux command | Run it inside `redis-cli` |
+| `ddev exec …` inside `ddev ssh` | Nested DDEV CLI is confusing | Exit to host, or run `redis-cli` via `-s redis` from host |
 
 ## Exercise
 

@@ -154,6 +154,14 @@ final class InterviewReview
         )->execute([$adminId, $qid]);
 
         self::close($reviewId, 'approved', $adminId, (string) ($overrides['admin_notes'] ?? ''));
+
+        // Clear duplicate library copy once it has been promoted into the universal answer
+        if (trim((string) ($data['detailed_answer'] ?? '')) !== '') {
+            Db::pdo()->prepare(
+                'UPDATE user_interview_questions SET imported_answer = NULL
+                 WHERE question_id = ? AND imported_answer IS NOT NULL AND imported_answer != \'\''
+            )->execute([$qid]);
+        }
     }
 
     public static function reject(int $reviewId, int $adminId, string $notes = ''): void

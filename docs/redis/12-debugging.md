@@ -3,7 +3,7 @@
 ## Is Redis reachable?
 
 ```bash
-ddev exec redis-cli -h redis PING
+ddev exec -s redis redis-cli PING
 ```
 
 ## Is PHP connected?
@@ -17,10 +17,10 @@ echo ($r->enabled() ? "yes" : "no") . " gen=" . $r->jobsGeneration() . "\n";'
 ## Inspect keys (safe)
 
 ```bash
-ddev exec redis-cli -h redis --scan --pattern 'kaamfit:dev:jobs:*'
+ddev exec -s redis redis-cli --scan --pattern 'kaamfit:dev:jobs:*'
 ```
 
-Or interactively:
+Or interactively (`ddev exec -s redis redis-cli`):
 
 ```text
 SCAN 0 MATCH kaamfit:dev:jobs:* COUNT 50

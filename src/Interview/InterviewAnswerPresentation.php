@@ -107,6 +107,9 @@ final class InterviewAnswerPresentation
         }
         // Strip coaching sections first so a real answer with a leftover template heading survives
         $t = self::stripLeadingAnswerHeading(self::stripCoachingSections($t));
+        // Drop common scrape footers
+        $t = preg_replace('/\s*Powered By\s*$/iu', '', $t) ?? $t;
+        $t = trim($t);
         if ($t === '' || InterviewMarkdown::isWeakFiller($t) || self::isGenericCoachingBlob($t)) {
             return '';
         }

@@ -54,10 +54,10 @@ Anything that talks to the server:
 
 ### Redis CLI
 
-Interactive tool:
+Interactive tool — in KaamFit DDEV use the **redis** service (not the web container):
 
 ```bash
-redis-cli
+ddev exec -s redis redis-cli
 ```
 
 Example session:
@@ -78,7 +78,7 @@ OK
 ## Exercise
 
 1. Start Redis (see [02-installation.md](02-installation.md)).
-2. Run `PING` — expect `PONG`.
-3. `SET learn:redis "hello"` then `GET learn:redis`.
+2. Run `ddev exec -s redis redis-cli PING` — expect `PONG`.
+3. `SET learn:redis "hello"` then `GET learn:redis` inside the CLI.
 
 Next: [02-installation.md](02-installation.md).

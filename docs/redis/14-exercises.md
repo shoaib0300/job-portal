@@ -3,7 +3,7 @@
 ## A. CLI warm-up
 
 1. `ddev start`
-2. `ddev exec redis-cli -h redis PING`
+2. `ddev exec -s redis redis-cli PING`
 3. Set a key with 30s TTL; watch `TTL` decrease; confirm deletion.
 
 ## B. Prefix awareness

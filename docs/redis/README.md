@@ -42,7 +42,7 @@ Read these in order:
 
 1. [01 — Basics](01-basics.md) — what Redis is
 2. [02 — Installation (DDEV)](02-installation.md) — how KaamFit runs Redis
-3. [03 — CLI](03-cli.md) — `PING`, `SET`, `GET`, …
+3. [03 — CLI](03-cli.md) — `ddev exec -s redis redis-cli`, then `PING` / `SET` / `GET`
 4. [04 — Keys and values](04-keys-values.md) — namespacing
 5. [05 — Data types](05-data-types.md) — string, hash, list, set, zset
 6. [06 — TTL / expiration](06-ttl-expiration.md) — why caches die on purpose

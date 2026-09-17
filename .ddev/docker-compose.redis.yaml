@@ -13,9 +13,4 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
-
-  web:
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - REDIS_PREFIX=kaamfit:dev:
+    restart: "no"

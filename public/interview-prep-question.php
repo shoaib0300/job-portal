@@ -108,9 +108,25 @@ layout_header('Interview question');
         </ul>
       <?php endif; ?>
 
-      <?php if (!empty($library['imported_answer']) && !InterviewMarkdown::isWeakFiller((string) $library['imported_answer'])): ?>
+      <?php
+        $importedRaw = trim((string) ($library['imported_answer'] ?? ''));
+        $showImported = false;
+        if ($importedRaw !== '' && !InterviewMarkdown::isWeakFiller($importedRaw)) {
+            $importedNorm = InterviewAnswerPresentation::normalizeAnswer($importedRaw);
+            $canonicalNorm = trim((string) ($content['answer_markdown'] ?? ''));
+            // Hide when import was promoted into the published answer (same text twice)
+            if ($importedNorm !== '' && $canonicalNorm !== '') {
+                $a = preg_replace('/\s+/u', ' ', mb_strtolower($importedNorm)) ?? '';
+                $b = preg_replace('/\s+/u', ' ', mb_strtolower($canonicalNorm)) ?? '';
+                $showImported = $a !== $b && !str_contains($b, $a) && !str_contains($a, $b);
+            } elseif ($importedNorm !== '' && $canonicalNorm === '') {
+                $showImported = true;
+            }
+        }
+      ?>
+      <?php if ($showImported): ?>
         <h2 class="h6 mt-4">Your imported answer</h2>
-        <div class="border rounded p-3 bg-body-secondary interview-answer"><?= InterviewMarkdown::render((string) $library['imported_answer']) ?></div>
+        <div class="border rounded p-3 bg-body-secondary interview-answer"><?= InterviewMarkdown::render($importedRaw) ?></div>
       <?php endif; ?>
     </div>
   </article>
