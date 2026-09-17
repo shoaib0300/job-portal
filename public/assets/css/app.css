@@ -1468,3 +1468,313 @@ body.page-doc .site-nav {
     display: contents;
   }
 }
+
+/* —— Resume builder studio —— */
+.page-resume-studio .dash-content {
+  padding: 0;
+  max-width: none;
+}
+.rb-studio {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 3.5rem);
+  background: #f4f5f7;
+  color: #1a1a1a;
+}
+.rb-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.65rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid #e2e4e8;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.rb-toolbar__left,
+.rb-toolbar__right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+.rb-back {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.rb-back:hover { color: #111; }
+.rb-title-block {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.rb-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.rb-save-state {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+.rb-save-state.is-saving { color: #b45309; }
+.rb-save-state.is-saved { color: #047857; }
+.rb-save-state.is-error { color: #b91c1c; }
+.rb-mobile-tabs {
+  display: flex;
+  border-bottom: 1px solid #e2e4e8;
+  background: #fff;
+}
+.rb-mobile-tab {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  padding: 0.65rem;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+}
+.rb-mobile-tab.is-active {
+  color: #111;
+  border-bottom-color: var(--kf-accent, #1a5f4a);
+}
+.rb-panels {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr) minmax(240px, 300px);
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+}
+.rb-panel {
+  overflow: auto;
+  background: #fff;
+  border-right: 1px solid #e2e4e8;
+  padding: 0.85rem;
+}
+.rb-panel--preview {
+  background: #e8eaed;
+  border-right: 1px solid #e2e4e8;
+  display: flex;
+  flex-direction: column;
+}
+.rb-panel--design { border-right: 0; }
+.rb-panel-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin: 0 0 0.5rem;
+}
+.rb-section-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.rb-section-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 6px;
+  margin-bottom: 0.2rem;
+}
+.rb-section-item.is-active {
+  background: color-mix(in srgb, var(--kf-accent, #1a5f4a) 12%, #fff);
+}
+.rb-section-item__btn {
+  flex: 1;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 0.45rem 0.4rem;
+  font-size: 0.92rem;
+}
+.rb-drag, .rb-icon-btn {
+  border: 0;
+  background: transparent;
+  color: #9ca3af;
+  cursor: grab;
+  padding: 0.25rem;
+  line-height: 1;
+}
+.rb-icon-btn { cursor: pointer; }
+.rb-editor-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.75rem;
+}
+.rb-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+.rb-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+}
+.rb-link-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.rb-exp-card, .rb-entry-card, .rb-skill-cat {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.65rem;
+  margin-bottom: 0.65rem;
+  background: #fafafa;
+}
+.rb-exp-card summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.rb-preview-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background: #fff;
+  border-bottom: 1px solid #e2e4e8;
+}
+.rb-preview-stage {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.rb-preview-frame {
+  width: 210mm;
+  min-height: 297mm;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  transform-origin: top center;
+}
+.rb-template-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+.rb-template-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.4rem;
+  text-align: left;
+  cursor: pointer;
+}
+.rb-template-card.is-active {
+  border-color: var(--kf-accent, #1a5f4a);
+  box-shadow: 0 0 0 1px var(--kf-accent, #1a5f4a);
+}
+.rb-template-thumb {
+  display: block;
+  height: 48px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  margin-bottom: 0.35rem;
+}
+.rb-template-thumb.theme-ats { background: #fff; border: 1px solid #ddd; }
+.rb-template-thumb.theme-modern_de { background: linear-gradient(90deg, #17365D 12px, #f8fafc 12px); }
+.rb-template-thumb.theme-classic { background: linear-gradient(180deg, #111 20%, #f5f5f5 20%); }
+.rb-template-thumb.theme-minimal { background: #fafafa; }
+.rb-template-thumb.theme-technical { background: linear-gradient(135deg, #0f766e 0%, #ecfdf5 40%); }
+.rb-template-thumb.theme-german_qa { background: linear-gradient(90deg, #17365D 8px, #fff 8px); }
+.rb-template-name { font-size: 0.78rem; font-weight: 600; }
+.rb-accent-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+.rb-accent-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #d1d5db;
+  background: var(--swatch);
+  padding: 0;
+  cursor: pointer;
+}
+.rb-accent-swatch.is-active { box-shadow: 0 0 0 2px var(--kf-accent, #1a5f4a); }
+.rb-accent-custom input {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.my-resumes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.my-resume-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+.my-resume-card.is-main {
+  border-color: color-mix(in srgb, var(--kf-accent, #1a5f4a) 45%, #e5e7eb);
+}
+.my-resume-card__title {
+  font-size: 1.15rem;
+  margin: 0.35rem 0 0.15rem;
+}
+.my-resume-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: flex-start;
+}
+@media (max-width: 1100px) {
+  .rb-panels {
+    grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  }
+  .rb-panel--design {
+    display: none;
+  }
+  .rb-panel--design.is-active {
+    display: block;
+    position: fixed;
+    inset: 3.5rem 0 0 auto;
+    width: min(320px, 100%);
+    z-index: 30;
+    box-shadow: -8px 0 24px rgba(0,0,0,0.12);
+  }
+}
+@media (max-width: 768px) {
+  .rb-panels {
+    grid-template-columns: 1fr;
+  }
+  .rb-panel {
+    display: none;
+    min-height: 60vh;
+  }
+  .rb-panel.is-active {
+    display: block;
+  }
+  .rb-panel--preview.is-active {
+    display: flex;
+  }
+  .rb-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .rb-toolbar__right .btn { font-size: 0.8rem; }
+}

@@ -13,6 +13,12 @@ if (isset($_GET['cover']) || (isset($_GET['new']) && (string) $_GET['new'] === '
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        Csrf::requireValid();
+    } catch (Throwable $e) {
+        App::flash($e->getMessage(), 'error');
+        App::redirect('/editor');
+    }
     $action = $_POST['action'] ?? '';
 
     if ($action === 'save_resume_version') {
@@ -144,6 +150,7 @@ function editor_resume_card(array $ver, ?array $activeResume): void
           <a class="btn btn-sm btn-primary" href="/resume-edit">Edit</a>
         <?php else: ?>
           <form method="post">
+            <?= Csrf::field() ?>
             <input type="hidden" name="action" value="load_resume_version">
             <input type="hidden" name="id" value="<?= $rid ?>">
             <button type="submit" class="btn btn-sm btn-primary">Edit</button>
@@ -153,6 +160,7 @@ function editor_resume_card(array $ver, ?array $activeResume): void
         <a class="btn btn-sm btn-outline-secondary" href="/resume?version=<?= $rid ?>" target="_blank" rel="noopener">View</a>
         <?php if (!$isMaster): ?>
           <form method="post" onsubmit="return confirm('Delete this Job CV?');">
+            <?= Csrf::field() ?>
             <input type="hidden" name="action" value="delete_resume_version">
             <input type="hidden" name="id" value="<?= $rid ?>">
             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -166,9 +174,12 @@ function editor_resume_card(array $ver, ?array $activeResume): void
 layout_header('Resume');
 ?>
 <main class="editor">
-  <header class="page-head">
-    <h1>Resume</h1>
-    <p>Your Master CV is the safe template. Each application gets its own Job CV copy.</p>
+  <header class="page-head d-flex flex-wrap justify-content-between align-items-start gap-3">
+    <div>
+      <h1>Resume</h1>
+      <p>Your Main Resume is the safe template. Each application gets its own Job CV copy.</p>
+    </div>
+    <a class="btn btn-outline-secondary" href="/documents">My Resumes</a>
   </header>
 
   <section class="editor-block" id="versions">

@@ -413,6 +413,70 @@ final class Versions
         Db::pdo()->prepare('DELETE FROM resume_versions WHERE id = ? AND user_id = ?')->execute([$id, self::uid()]);
     }
 
+    /**
+     * Duplicate a resume version into a new Job CV (never Main).
+     *
+     * @param array{copy_content?: bool, copy_section_order?: bool, copy_design?: bool, make_active?: bool} $opts
+     */
+    public static function duplicateResume(int $id, string $title = '', array $opts = []): int
+    {
+        $src = self::resumeVersion($id);
+        if ($src === null) {
+            throw new RuntimeException('Resume version not found');
+        }
+
+        $copyContent = ($opts['copy_content'] ?? true) !== false;
+        $copyOrder = ($opts['copy_section_order'] ?? true) !== false;
+        $copyDesign = ($opts['copy_design'] ?? true) !== false;
+        $makeActive = ($opts['make_active'] ?? true) !== false;
+
+        $snapshot = self::decodeSnapshot((string) $src['snapshot']);
+        if (!$copyContent) {
+            $snapshot['sections'] = [];
+            $snapshot['experiences'] = [];
+            $snapshot['profile_title'] = '';
+        }
+        $meta = is_array($snapshot['meta'] ?? null) ? $snapshot['meta'] : [];
+        if (!$copyOrder) {
+            unset($meta['section_order']);
+        }
+        if (!$copyDesign) {
+            foreach (['template', 'mode', 'photo_mode', 'density', 'page_format', 'margin', 'date_format', 'font_family', 'accent_color', 'font_size', 'show_personal_extras', 'show_signature'] as $key) {
+                unset($meta[$key]);
+            }
+        }
+        $snapshot['meta'] = $meta;
+
+        $newTitle = trim($title);
+        if ($newTitle === '') {
+            $baseLabel = self::resumeDisplayLabel($src);
+            $newTitle = $baseLabel . ' (copy)';
+        }
+
+        return self::saveResumeVersion(
+            $newTitle,
+            $snapshot,
+            (string) ($src['company'] ?? ''),
+            'Duplicated from #' . $id,
+            false,
+            null,
+            $makeActive
+        );
+    }
+
+    /** UI badge / list label: Main Resume for is_base, else title. */
+    public static function resumeUiLabel(?array $row): string
+    {
+        if ($row === null) {
+            return 'Resume';
+        }
+        if (self::isMasterResume($row)) {
+            return 'Main Resume';
+        }
+
+        return self::resumeDisplayLabel($row);
+    }
+
     public static function resumePayloadForView(?int $versionId): array
     {
         $profile = App::profile();

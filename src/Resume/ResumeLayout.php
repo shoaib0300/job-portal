@@ -78,9 +78,37 @@ final class ResumeLayout
             'certificates' => ['en' => 'Certificates & Training', 'de' => 'Zertifikate & Weiterbildungen', 'default_visible' => false],
             'projects' => ['en' => 'Projects', 'de' => 'Projekte', 'default_visible' => false],
             'internships' => ['en' => 'Internships', 'de' => 'Praktika', 'default_visible' => false],
+            'awards' => ['en' => 'Awards', 'de' => 'Auszeichnungen', 'default_visible' => false],
+            'achievements' => ['en' => 'Achievements', 'de' => 'Erfolge', 'default_visible' => false],
+            'volunteering' => ['en' => 'Volunteering', 'de' => 'Ehrenamt', 'default_visible' => false],
+            'publications' => ['en' => 'Publications', 'de' => 'Publikationen', 'default_visible' => false],
+            'hobbies' => ['en' => 'Hobbies', 'de' => 'Hobbys', 'default_visible' => false],
+            'references' => ['en' => 'References', 'de' => 'Referenzen', 'default_visible' => false],
             'interests' => ['en' => 'Interests', 'de' => 'Interessen', 'default_visible' => false],
             'additional' => ['en' => 'Additional Information', 'de' => 'Weitere Informationen', 'default_visible' => false],
             'signature' => ['en' => 'Place / Date', 'de' => 'Ort / Datum', 'default_visible' => false],
+        ];
+    }
+
+    /** Keys offered in “+ Add Section” (excludes experience — use experience editor). */
+    public static function addableSectionKeys(): array
+    {
+        return [
+            'education',
+            'skills',
+            'languages',
+            'projects',
+            'certificates',
+            'awards',
+            'achievements',
+            'volunteering',
+            'publications',
+            'hobbies',
+            'references',
+            'internships',
+            'interests',
+            'additional',
+            'custom',
         ];
     }
 
@@ -97,6 +125,12 @@ final class ResumeLayout
                 'skills',
                 'languages',
                 'certificates',
+                'awards',
+                'achievements',
+                'volunteering',
+                'publications',
+                'hobbies',
+                'references',
                 'interests',
                 'additional',
                 'signature',
@@ -112,6 +146,12 @@ final class ResumeLayout
             'certificates',
             'projects',
             'internships',
+            'awards',
+            'achievements',
+            'volunteering',
+            'publications',
+            'hobbies',
+            'references',
             'interests',
             'additional',
             'signature',
@@ -232,7 +272,35 @@ final class ResumeLayout
             'show_signature' => (\App::setting('show_signature', '0') ?: '0') === '1',
             // Empty = respect resume_sections.sort_order (user drag-reorder).
             'section_order' => $sectionOrder,
+            'page_format' => self::resolvePageFormat(null),
+            'margin' => self::resolveMargin(null),
+            'date_format' => self::resolveDateFormat(null),
+            'font_family' => (string) (\App::setting('font_family', 'Inter') ?: 'Inter'),
+            'accent_color' => \App::resolveAccent(null),
+            'font_size' => (string) (\App::setting('font_size', 'md') ?: 'md'),
         ];
+    }
+
+    public static function resolvePageFormat(?string $format = null): string
+    {
+        $format = $format ?? (\App::setting('page_format', 'A4') ?: 'A4');
+        $format = strtoupper(trim($format));
+
+        return in_array($format, ['A4', 'LETTER'], true) ? $format : 'A4';
+    }
+
+    public static function resolveMargin(?string $margin = null): string
+    {
+        $margin = $margin ?? (\App::setting('page_margin', 'normal') ?: 'normal');
+
+        return in_array($margin, ['narrow', 'normal', 'wide'], true) ? $margin : 'normal';
+    }
+
+    public static function resolveDateFormat(?string $format = null): string
+    {
+        $format = $format ?? (\App::setting('date_format', 'MMM YYYY') ?: 'MMM YYYY');
+
+        return in_array($format, ['MM/YYYY', 'MMM YYYY', 'YYYY'], true) ? $format : 'MMM YYYY';
     }
 
     /**
@@ -277,6 +345,24 @@ final class ResumeLayout
                 $base['section_order'] = $order;
             }
         }
+        if (!empty($snapshotMeta['page_format'])) {
+            $base['page_format'] = self::resolvePageFormat((string) $snapshotMeta['page_format']);
+        }
+        if (!empty($snapshotMeta['margin'])) {
+            $base['margin'] = self::resolveMargin((string) $snapshotMeta['margin']);
+        }
+        if (!empty($snapshotMeta['date_format'])) {
+            $base['date_format'] = self::resolveDateFormat((string) $snapshotMeta['date_format']);
+        }
+        if (!empty($snapshotMeta['font_family'])) {
+            $base['font_family'] = (string) $snapshotMeta['font_family'];
+        }
+        if (!empty($snapshotMeta['accent_color'])) {
+            $base['accent_color'] = \App::resolveAccent((string) $snapshotMeta['accent_color']);
+        }
+        if (!empty($snapshotMeta['font_size'])) {
+            $base['font_size'] = (string) $snapshotMeta['font_size'];
+        }
 
         return $base;
     }
@@ -310,8 +396,8 @@ final class ResumeLayout
             if ($key === 'signature' && empty($meta['show_signature'])) {
                 // Still allow if body filled and visible — signature content is the body.
             }
-            $body = trim((string) ($section['body'] ?? ''));
-            if ($body === '' && $key !== 'experience') {
+            $body = (string) ($section['body'] ?? '');
+            if ($key !== 'experience' && !SectionBody::hasContent($body)) {
                 continue;
             }
             $visible[] = $section;

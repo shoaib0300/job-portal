@@ -63,7 +63,10 @@ final class AtsExport
                 $section['title'] = self::cleanDocumentText((string) $section['title']);
             }
             if (isset($section['body'])) {
-                $section['body'] = self::cleanDocumentText((string) $section['body']);
+                $section['body'] = \KaamFit\Resume\SectionBody::mapStrings(
+                    (string) $section['body'],
+                    static fn(string $t): string => self::cleanDocumentText($t)
+                );
             }
         }
         unset($section);
@@ -132,7 +135,10 @@ final class AtsExport
             if (!is_array($section) || !isset($section['body'])) {
                 continue;
             }
-            $section['body'] = self::sanitizeText((string) $section['body'], $employer);
+            $section['body'] = \KaamFit\Resume\SectionBody::mapStrings(
+                (string) $section['body'],
+                static fn(string $t): string => self::sanitizeText($t, $employer)
+            );
         }
         unset($section);
 
@@ -161,7 +167,10 @@ final class AtsExport
             if (!is_array($section) || !isset($section['body'])) {
                 continue;
             }
-            $section['body'] = self::sanitizeText((string) $section['body'], $employer);
+            $section['body'] = \KaamFit\Resume\SectionBody::mapStrings(
+                (string) $section['body'],
+                static fn(string $t): string => self::sanitizeText($t, $employer)
+            );
         }
         unset($section);
 

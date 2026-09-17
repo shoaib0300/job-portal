@@ -270,7 +270,7 @@ function layout_header(string $title, array $opts = []): void
         ['key' => 'companies', 'href' => '/companies', 'label' => 'Companies', 'icon' => 'company'],
         ['key' => 'applications', 'href' => '/applications', 'label' => 'Applications', 'icon' => 'apps'],
         ['key' => 'app-docs', 'href' => '/app-docs', 'label' => 'Documents', 'icon' => 'doc'],
-        ['key' => 'resume', 'href' => '/editor', 'label' => 'Resume', 'icon' => 'edit'],
+        ['key' => 'resume', 'href' => '/documents', 'label' => 'My Resumes', 'icon' => 'edit'],
         ['key' => 'cover', 'href' => '/cover', 'label' => 'Cover letter', 'icon' => 'letter'],
         ['key' => 'guide', 'href' => '/help', 'label' => 'How to use', 'icon' => 'spark'],
     ];
@@ -293,6 +293,7 @@ function layout_header(string $title, array $opts = []): void
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= App::e($htmlTitle) ?></title>
   <?= kaamfit_favicon_tags() ?>
+  <?= Csrf::meta() ?>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="<?= App::e(kaamfit_portal_fonts_href()) ?>" rel="stylesheet">
@@ -300,7 +301,7 @@ function layout_header(string $title, array $opts = []): void
   <link href="<?= App::e(App::googleFontsHref($font)) ?>" rel="stylesheet">
   <?php endif; ?>
   <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/app.css?v=20260828l">
+  <link rel="stylesheet" href="/assets/css/app.css?v=20260917a">
   <link rel="stylesheet" href="/assets/css/dashboard.css?v=20260907d">
   <link rel="stylesheet" href="/assets/css/onboarding.css?v=20260828q">
   <link rel="stylesheet" href="/assets/css/resume-themes.css?v=20260915d">

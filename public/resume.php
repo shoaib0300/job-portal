@@ -139,7 +139,7 @@ if (!$embed):
           $title = ResumeLayout::sectionLabel('skills', $lang, $theme);
       }
     ?>
-    <section class="resume-section" data-section="<?= App::e($key) ?>">
+    <section class="resume-section" data-section="<?= App::e($key) ?>" data-section-key="<?= App::e($key) ?>">
       <h2><?= App::e($title) ?></h2>
       <?php render_resume_section_body($key, (string) ($section['body'] ?? ''), $experiences, $profile); ?>
     </section>

@@ -871,7 +871,7 @@ final class App
      * Reorder skill lines/categories so JD-matching tokens appear first.
      * Never invents skills — only reorders existing text.
      */
-    private static function reorderSkillsForJd(string $skillsBody, string $jd): string
+    public static function reorderSkillsForJd(string $skillsBody, string $jd): string
     {
         $skillsBody = trim($skillsBody);
         $jd = mb_strtolower(trim($jd));
