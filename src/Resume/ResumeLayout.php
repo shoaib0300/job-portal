@@ -200,6 +200,51 @@ final class ResumeLayout
     }
 
     /**
+     * Set known section titles to the given language (en|de). Leaves custom titles alone
+     * when they are not a catalog label in either language.
+     *
+     * @param array<string, mixed> $snapshot
+     * @return array<string, mixed>
+     */
+    public static function applySectionTitles(array $snapshot, string $lang = 'en'): array
+    {
+        $lang = str_starts_with(strtolower($lang), 'de') ? 'de' : 'en';
+        $other = $lang === 'de' ? 'en' : 'de';
+        $catalog = self::sectionCatalog();
+        if (!isset($snapshot['sections']) || !is_array($snapshot['sections'])) {
+            return $snapshot;
+        }
+        foreach ($snapshot['sections'] as &$section) {
+            if (!is_array($section)) {
+                continue;
+            }
+            $key = (string) ($section['section_key'] ?? '');
+            if ($key === '' || !isset($catalog[$key])) {
+                continue;
+            }
+            $current = trim((string) ($section['title'] ?? ''));
+            $wanted = $catalog[$key][$lang];
+            $alt = $catalog[$key][$other];
+            // Also treat short / alternate catalog spellings as labels
+            $isCatalogLabel = $current === ''
+                || strcasecmp($current, $wanted) === 0
+                || strcasecmp($current, $alt) === 0
+                || ($key === 'skills' && preg_match('/^kenntnisse(\s|&|$)/iu', $current) === 1)
+                || ($key === 'summary' && preg_match('/^(kurzprofil|profile)$/iu', $current) === 1)
+                || ($key === 'experience' && preg_match('/^(berufserfahrung|work experience|experience)$/iu', $current) === 1)
+                || ($key === 'education' && preg_match('/^(studium|education|ausbildung)$/iu', $current) === 1)
+                || ($key === 'languages' && preg_match('/^(sprachen|languages)$/iu', $current) === 1)
+                || ($key === 'projects' && preg_match('/^(projekte|projects)$/iu', $current) === 1)
+                || ($key === 'certificates' && preg_match('/^(zertifikate|certificates)/iu', $current) === 1);
+            if ($isCatalogLabel) {
+                $section['title'] = $wanted;
+            }
+        }
+        unset($section);
+        return $snapshot;
+    }
+
+    /**
      * Apply template/mode sort_order to a user's resume_sections (visibility unchanged).
      */
     public static function applySectionOrder(int $userId, string $template, string $mode = 'professional'): void

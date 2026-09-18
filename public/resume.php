@@ -17,13 +17,28 @@ $opts = doc_view_options();
 $versionId = (int) ($opts['versionId'] ?? 0);
 $atsMode = !empty($opts['ats']);
 $documentLang = App::resolveDocumentLang();
-$lang = (string) ($opts['lang'] ?? $documentLang);
 $payload = Versions::resumePayloadForView($versionId > 0 ? $versionId : null);
 $payload = AtsExport::cleanResumePayload($payload);
+
+$meta = is_array($payload['meta'] ?? null)
+    ? ResumeLayout::mergeMeta($payload['meta'])
+    : ResumeLayout::defaultMeta();
+
+// Prefer this version's language (tailored CVs are English) over Settings → document_lang.
+$snapLang = (string) ($meta['document_lang'] ?? '');
+$sourceLang = $snapLang !== '' ? App::resolveDocumentLang($snapLang) : $documentLang;
+$lang = !empty($opts['translate']) && ($opts['target'] ?? '') !== ''
+    ? (string) $opts['target']
+    : $sourceLang;
+
 $translateError = null;
-if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && $opts['target'] !== $documentLang) {
+if (!empty($opts['translate']) && ($opts['target'] ?? '') !== '' && (string) $opts['target'] !== $sourceLang) {
     try {
-        $payload = DocTranslate::resume($payload, (string) $opts['target'], $documentLang);
+        $payload = DocTranslate::resume($payload, (string) $opts['target'], $sourceLang);
+        // Translation may update sections/meta — refresh meta after translate
+        $meta = is_array($payload['meta'] ?? null)
+            ? ResumeLayout::mergeMeta($payload['meta'])
+            : $meta;
     } catch (Throwable $e) {
         $translateError = $e->getMessage();
         if (!empty($opts['pdfMode']) || !empty($opts['embed'])) {
@@ -38,9 +53,6 @@ if ($atsMode) {
     $payload = AtsExport::sanitizeResumePayload($payload);
 }
 
-$meta = is_array($payload['meta'] ?? null)
-    ? ResumeLayout::mergeMeta($payload['meta'])
-    : ResumeLayout::defaultMeta();
 $theme = $atsMode ? 'ats' : ResumeLayout::resolveTemplate($opts['theme'] ?: ($meta['template'] ?? null));
 $density = ResumeLayout::resolveDensity($_GET['density'] ?? ($meta['density'] ?? null));
 $photoMode = ResumePhotoMode::effective($meta['photo_mode'] ?? null, $atsMode);
@@ -133,8 +145,16 @@ if (!$embed):
     <?php
       $key = (string) ($section['section_key'] ?? '');
       $title = (string) ($section['title'] ?? '');
-      if ($title === '' || in_array(strtolower($title), ['summary', 'experience', 'skills', 'education', 'profile', 'kenntnisse & fähigkeiten'], true)) {
-          $title = ResumeLayout::sectionLabel($key !== '' ? $key : 'summary', $lang, $theme);
+      $catalogTitle = ResumeLayout::sectionLabel($key !== '' ? $key : 'summary', $lang, $theme);
+      $otherLang = str_starts_with(strtolower($lang), 'de') ? 'en' : 'de';
+      $otherTitle = $key !== '' ? ResumeLayout::sectionLabel($key, $otherLang, $theme) : '';
+      // Align catalog section headlines with the document language (never mix DE heads + EN body).
+      if ($title === ''
+          || strcasecmp($title, $otherTitle) === 0
+          || strcasecmp($title, $catalogTitle) === 0
+          || ($key === 'skills' && preg_match('/^kenntnisse(\s|&|$)/iu', $title) === 1)
+      ) {
+          $title = $catalogTitle;
       } elseif ($theme === 'german_qa' && $key === 'skills' && str_starts_with(strtolower($lang), 'de')) {
           $title = ResumeLayout::sectionLabel('skills', $lang, $theme);
       }

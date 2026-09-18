@@ -790,9 +790,14 @@ final class App
         }
         unset($section);
 
+        // Tailored JD copies are written in English (Translate PDF for German).
+        // Sync section headlines to English so we never ship DE headings + EN body.
+        $snapshot = \KaamFit\Resume\ResumeLayout::applySectionTitles($snapshot, 'en');
+
         $meta = is_array($snapshot['meta'] ?? null)
             ? \KaamFit\Resume\ResumeLayout::mergeMeta($snapshot['meta'])
             : \KaamFit\Resume\ResumeLayout::defaultMeta();
+        $meta['document_lang'] = 'en';
         $snapshot['meta'] = $meta;
 
         if ($experienceOverrides !== null && $experienceOverrides !== []) {

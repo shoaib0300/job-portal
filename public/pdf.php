@@ -16,7 +16,24 @@ $coverId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $documentLang = App::resolveDocumentLang();
 $translate = isset($_GET['translate']) && (string) $_GET['translate'] === '1';
 $target = $translate ? TranslateLanguages::normalize((string) ($_GET['target'] ?? '')) : '';
-$lang = $translate && $target !== '' ? $target : $documentLang;
+// Prefer the resume version's stored language so tailored EN CVs are not rendered with DE settings.
+$lang = $documentLang;
+if ($doc === 'resume' && $version > 0 && !($translate && $target !== '')) {
+    try {
+        $payload = Versions::resumePayloadForView($version);
+        $snapLang = is_array($payload['meta'] ?? null)
+            ? (string) ($payload['meta']['document_lang'] ?? '')
+            : '';
+        if ($snapLang !== '') {
+            $lang = App::resolveDocumentLang($snapLang);
+        }
+    } catch (Throwable) {
+        // keep settings language
+    }
+}
+if ($translate && $target !== '') {
+    $lang = $target;
+}
 
 $profile = App::profile();
 $atsExport = isset($_GET['ats']) && (string) $_GET['ats'] === '1';
