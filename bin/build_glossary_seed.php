@@ -123,7 +123,7 @@ foreach ([
 }
 
 foreach ([
-    ['Dear Hiring Team', 'Sehr geehrtes Recruiting-Team'], ['Dear Hiring Manager', 'Sehr geehrte Damen und Herren'],
+    ['Dear Hiring Team', 'Sehr geehrte Damen und Herren'], ['Dear Hiring Manager', 'Sehr geehrte Damen und Herren'],
     ['Dear Sir or Madam', 'Sehr geehrte Damen und Herren'], ['Kind regards', 'Mit freundlichen Grüßen'],
     ['Best regards', 'Mit freundlichen Grüßen'], ['Sincerely', 'Mit freundlichen Grüßen'],
     ['Yours faithfully', 'Mit freundlichen Grüßen'], ['I am writing to apply', 'hiermit bewerbe ich mich'],
@@ -351,7 +351,7 @@ foreach ([
 
 // Cover letter & application phrases
 foreach ([
-    ['Dear Hiring Team', 'Sehr geehrtes Recruiting-Team'],
+    ['Dear Hiring Team', 'Sehr geehrte Damen und Herren'],
     ['Dear Hiring Manager', 'Sehr geehrte Damen und Herren'],
     ['Dear Sir or Madam', 'Sehr geehrte Damen und Herren'],
     ['To Whom It May Concern', 'Sehr geehrte Damen und Herren'],

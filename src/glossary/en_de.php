@@ -1273,7 +1273,7 @@ return array (
   211 => 
   array (
     'en' => 'Dear Hiring Team',
-    'de' => 'Sehr geehrtes Recruiting-Team',
+    'de' => 'Sehr geehrte Damen und Herren',
     'category' => 'cover',
   ),
   212 => 

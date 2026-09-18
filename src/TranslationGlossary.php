@@ -45,7 +45,10 @@ final class TranslationGlossary
 
     public static function normalizeKey(string $text): string
     {
-        return strtolower(preg_replace('/\s+/u', ' ', trim($text)) ?? trim($text));
+        $text = preg_replace('/\s+/u', ' ', trim($text)) ?? trim($text);
+        // Cover lines are often "Dear Hiring Team," — strip trailing punctuation for exact glossary hits.
+        $text = preg_replace('/[\s]*[,:;.…]+$/u', '', $text) ?? $text;
+        return strtolower(trim($text));
     }
 
     public static function lookup(string $text, string $source, string $target): ?string
