@@ -407,6 +407,7 @@ final class CareerCompanies
             ['name' => 'Wunder Mobility', 'type' => 'greenhouse', 'key' => 'wundermobility', 'url' => 'https://www.wundermobility.com/careers'],
             ['name' => 'Forto', 'type' => 'greenhouse', 'key' => 'forto', 'url' => 'https://forto.com/en/careers'],
             ['name' => 'Contentful Berlin', 'type' => 'greenhouse', 'key' => 'contentful', 'url' => 'https://www.contentful.com/careers'],
+            ['name' => 'EOS IT Solutions', 'type' => 'greenhouse', 'key' => 'eositsolutions', 'url' => 'https://eosits.com/about/careers/'],
 
             // SuccessFactors (public career site HTML — no Bright Data)
             ['name' => 'Nordex SE', 'type' => 'successfactors', 'key' => 'jobs.nordex-online.com', 'url' => 'https://jobs.nordex-online.com/search'],
